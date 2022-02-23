@@ -1,14 +1,17 @@
 import init_django_orm  # noqa: F401
 
-from db.models import User
+from db.models import (
+    Race,
+    Skill,
+    Player,
+    Guild
+)
 
 
 def main():
-    User.objects.create(name='Dan')
-    User.objects.create(name='Robert')
-
-    return User.objects.all()
+    # Feel free to test your models here
+    pass
 
 
 if __name__ == '__main__':
-    print(main())
+    main()

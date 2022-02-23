@@ -1,5 +1,44 @@
-# Django ORM boilerplate for GitHub tasks
+# Game models
 
-- Warning: Use `pytest app` for testing - not simple `pytest`
 - Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before start
-- Implement the task described [here](app/main.py)
+
+Imagine you want to create a game using Django. 
+You should create models for it first. 
+
+In `db/models.py` create the following models:
+#### 1. Race
+Each player should choose a race to play, such as Elf, Dwarf, Human, or Ork.
+`Race` has the following fields:
+- `name` - a char field with the maximum length of 255 characters.
+- `description` - a text field, can be blank
+
+#### 2. Skill
+Each race has unique skills. Create a model `Skill` for them.
+Each skill has:
+- `name` - a char field with a maximum length of 255 characters
+- `bonus` - a char field with a maximum length of 255 characters. 
+This field describes what kind of bonus players can get from it. 
+- `race` - a foreign key that points to the `Race` model. It shows which race has the corresponding skill.
+
+#### 3. Guild
+The player has an opportunity to become a member of a guild. 
+It has:
+- `name` - a char field with the maximum length of 255 characters.
+- `description` - a text field, can be blank
+
+
+#### 4. Player model
+And finally, a `Player` model.
+It should have the following fields:
+- `nickname` - a char field with a maximum length of 255 characters.
+- `email` - a char field with a maximum length of 255 characters.
+- `bio` - a char field with a maximum length of 255 characters. 
+It stores a short description provided by a user about himself/herself.
+- `race` - a foreign key that points to the `Race` model and shows 
+the race of the player.
+- `guild` - a foreign key that points to the `Guild` model and stores
+an id of the guild the player is a member of.
+- `created_at` - a DateTime field, that is set with the current time by default
+
+
+Note: Test your models in the `main.py`, it's fun!
