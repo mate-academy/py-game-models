@@ -41,4 +41,6 @@ an id of the guild the player is a member of.
 - `created_at` - a DateTime field, that is set with the current time by default
 
 
-Note: Test your models in the `main.py`, it's fun!
+Read data about players from `players.json` and add the corresponding entries to the database.
+Note, that some guilds and races are used for different players. Create only one
+instance for each guild and race, do not copy them.
