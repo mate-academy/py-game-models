@@ -5,6 +5,8 @@
 Imagine you want to create a game using Django. 
 You should create models for it first. 
 
+
+## First task:
 In `db/models.py` create the following models:
 #### 1. Race
 Each player should choose a race to play, such as Elf, Dwarf, Human, or Ork.
@@ -41,4 +43,13 @@ an id of the guild the player is a member of.
 - `created_at` - a DateTime field, that is set with the current time by default
 
 
-Note: Test your models in the `main.py`, it's fun!
+## Second Task:
+
+Implement function `main()` in `main.py`:
+
+Read data about players from `players.json` and add the corresponding entries to the database.
+Note, that some guilds, races and skills are used for different players. Create only one
+instance for each guild, race and skill, do not copy them.
+
+**Note**: You can check, if some record already exists using 
+`Model.objects.filter(some_field='data').exists()` (returns `True` or `False`)
