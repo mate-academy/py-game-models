@@ -41,6 +41,3 @@ class Player(models.Model):
         null=True
     )
     created_at = models.DateField(auto_now=True)
-
-
-
