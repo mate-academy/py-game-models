@@ -32,12 +32,12 @@ def main():
         data = json.load(source_file)
     for person in data:
         Player.objects.create(
-               nickname=person,
-               email=data[person]["email"],
-               bio=data[person]["bio"],
-               race=fill_race(data[person]),
-               guild=fill_guild(data[person]),
-               )
+            nickname=person,
+            email=data[person]["email"],
+            bio=data[person]["bio"],
+            race=fill_race(data[person]),
+            guild=fill_guild(data[person]),
+        )
         for skill in data[person]["race"]["skills"]:
             fill_skill(skill, data[person])
 
