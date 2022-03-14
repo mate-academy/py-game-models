@@ -16,6 +16,8 @@ def main():
 
     races = [players_data[element]["race"] for element in list(players_data)]
     guilds = [players_data[element]["guild"] for element in list(players_data)]
+    skills = [players_data[element]["race"]["skills"]
+              for element in list(players_data)]
 
     for race in races:
         if not Race.objects.filter(name=race["name"]).exists():
@@ -32,21 +34,13 @@ def main():
                 description=guild["description"]
             )
 
-    Skill.objects.create(
-        name="Teleportation",
-        bonus="The ability to move so fast they look like "
-              "they're teleporting. "
-              "Could be considered to technically be Teleportation.",
-        race=Race.objects.get(name="elf")
-    )
-    Skill.objects.create(
-        name="Reality Warping",
-        bonus="The ability to Warp Reality. "
-              "Make the impossible become possible but can't "
-              "warp anything containing the structure "
-              "that holds everything together (Which are many creatures.)",
-        race=Race.objects.get(name="elf")
-    )
+    for i in range(2):
+        Skill.objects.create(
+            name=skills[0][i]["name"],
+            bonus=skills[0][i]["bonus"],
+            race=Race.objects.get(
+                name=players_data[list(players_data)[0]]["race"]["name"])
+        )
 
     for element in list(players_data):
         if players_data[element]["guild"] is not None:
@@ -67,6 +61,7 @@ def main():
                 race=Race.objects.get(
                     name=players_data[element]["race"]["name"]),
             )
+    print(list(players_data))
 
 
 if __name__ == "__main__":
