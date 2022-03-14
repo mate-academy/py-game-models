@@ -35,7 +35,7 @@ def main():
         guild = None
         if guild_data is not None:
             guild = create_guild(guild_data)
-        player = Player.objects.create(
+        Player.objects.create(
             nickname=raw_player,
             email=player_data['email'],
             bio=player_data['bio'],
