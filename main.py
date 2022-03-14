@@ -11,6 +11,7 @@ def create_guild(data: dict):
         description=data.get('description', None),
     )[0]
 
+
 def main():
     with open('players.json', 'r') as fin:
         raw_players = json.load(fin)
