@@ -24,7 +24,7 @@ def main():
             name=race_data['name'],
             description=race_data['description']
         )[0]
-        race.save()
+
         skills = [
             Skill.objects.get_or_create(
                 name=skill['name'],
@@ -33,12 +33,9 @@ def main():
             )[0]
             for skill in skills_data
         ]
-        for skill in skills:
-            skill.save()
         guild = None
         if guild_data is not None:
             guild = create_guild(guild_data)
-            guild.save()
         player = Player.objects.create(
             nickname=raw_player,
             email=player_data['email'],
