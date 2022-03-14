@@ -25,14 +25,12 @@ def main():
             description=race_data['description']
         )[0]
 
-        skills = [
+        for skill in skills_data:
             Skill.objects.get_or_create(
                 name=skill['name'],
                 bonus=skill['bonus'],
                 race=race,
-            )[0]
-            for skill in skills_data
-        ]
+            )
         guild = None
         if guild_data is not None:
             guild = create_guild(guild_data)
