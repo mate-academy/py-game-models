@@ -6,17 +6,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def create_guild(data: dict):
-    if 'description' in data :
-        print(data['name'])
-        return Guild.objects.get_or_create(
-            name=data['name'],
-            description=data['description'],
-        )[0]
-    else:
-        return Guild.objects.get_or_create(
-            name=data['name'],
-        )[0]
-
+    return Guild.objects.get_or_create(
+        name=data['name'],
+        description=data.get('description', None),
+    )[0]
 
 def main():
     with open('players.json', 'r') as fin:
