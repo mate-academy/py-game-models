@@ -42,7 +42,6 @@ def main():
             race=race,
             guild=guild,
         )
-        player.save()
 
 
 if __name__ == "__main__":
