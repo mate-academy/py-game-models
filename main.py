@@ -6,8 +6,6 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main():
-    global guild_name
-
     Player.objects.all().delete()
     Race.objects.all().delete()
     Skill.objects.all().delete()
@@ -29,14 +27,14 @@ def main():
                 description=race_data["description"]
             )
 
-        race_name = Race.objects.get(name=race_data["name"])
+        race = Race.objects.get(name=race_data["name"])
 
         for skill in race_data["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=race_name
+                    race=race
                 )
 
         if guild_data:
@@ -45,16 +43,16 @@ def main():
                     name=guild_data["name"],
                     description=guild_data["description"]
                 )
-                guild_name = Guild.objects.get(name=guild_data["name"])
+            guild = Guild.objects.get(name=guild_data["name"])
         else:
-            guild_name = None
+            guild = None
 
         if not Player.objects.filter(nickname=nickname).exists():
             Player.objects.create(nickname=nickname,
                                   email=email,
                                   bio=bio,
-                                  race=race_name,
-                                  guild=guild_name)
+                                  race=race,
+                                  guild=guild)
 
 
 if __name__ == "__main__":
