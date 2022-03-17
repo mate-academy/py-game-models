@@ -28,8 +28,8 @@ class Player(models.Model):
                            "user about himself/herself",
                            max_length=255)
     race = models.ForeignKey(Race,
-                             on_delete=models.CASCADE)
+                             on_delete=models.SET_NULL)
     guild = models.ForeignKey(Guild,
-                              on_delete=models.CASCADE,
-                              null=True)  # TODO null?
+                              on_delete=models.SET_NULL,
+                              null=True)
     created_at = models.DateField(auto_now_add=True)

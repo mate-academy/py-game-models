@@ -19,7 +19,7 @@ def main():
                 Guild.objects.create(
                     name=players_data["guild"]["name"],
                     description=players_data["guild"]["description"])
-                players_guild = Guild.objects.get(
+            players_guild = Guild.objects.get(
                     name=players_data["guild"]["name"])
         else:
             players_guild = None
