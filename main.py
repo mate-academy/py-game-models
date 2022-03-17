@@ -20,7 +20,7 @@ def main():
                     name=players_data["guild"]["name"],
                     description=players_data["guild"]["description"])
             players_guild = Guild.objects.get(
-                    name=players_data["guild"]["name"])
+                name=players_data["guild"]["name"])
         else:
             players_guild = None
 
