@@ -11,13 +11,13 @@ In `db/models.py` create the following models:
 #### 1. Race
 Each player should choose a race to play, such as Elf, Dwarf, Human, or Ork.
 `Race` has the following fields:
-- `name` - a char field with the maximum length of 255 characters.
+- `name` - a *unique* char field with the maximum length of 255 characters.
 - `description` - a text field, can be blank
 
 #### 2. Skill
 Each race has unique skills. Create a model `Skill` for them.
 Each skill has:
-- `name` - a char field with a maximum length of 255 characters
+- `name` - a *unique* char field with a maximum length of 255 characters
 - `bonus` - a char field with a maximum length of 255 characters. 
 This field describes what kind of bonus players can get from it. 
 - `race` - a foreign key that points to the `Race` model. It shows which race has the corresponding skill.
@@ -32,8 +32,8 @@ It has:
 #### 4. Player model
 And finally, a `Player` model.
 It should have the following fields:
-- `nickname` - a char field with a maximum length of 255 characters.
-- `email` - a char field with a maximum length of 255 characters.
+- `nickname` - a *unique* char field with a maximum length of 255 characters.
+- `email` - an email field with a maximum length of 255 characters.
 - `bio` - a char field with a maximum length of 255 characters. 
 It stores a short description provided by a user about himself/herself.
 - `race` - a foreign key that points to the `Race` model and shows 
