@@ -29,7 +29,7 @@ def main():
         if players[player]["guild"] is not None:
             if not Guild.objects.filter(
                     name=players[player]["guild"]["name"]
-            ).exists() and players[player]["guild"] is not None:
+            ).exists():
                 Guild.objects.create(
                     name=players[player]["guild"]["name"],
                     description=players[player]["guild"]["description"]
