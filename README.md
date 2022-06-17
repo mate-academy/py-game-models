@@ -5,7 +5,6 @@
 Imagine you want to create a game using Django. 
 You should create models for it first. 
 
-
 ## First task:
 In `db/models.py` create the following models:
 #### 1. Race
