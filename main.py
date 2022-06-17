@@ -55,7 +55,6 @@ def main():
     players_info = read_json(file_name)
 
     for name, info in players_info.items():
-
         race = create_race(info)
 
         create_skill(info, race)
@@ -69,7 +68,6 @@ def main():
             race=race,
             guild=guild
         )
-
 
 
 if __name__ == "__main__":
