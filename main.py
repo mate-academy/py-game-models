@@ -4,48 +4,47 @@ from db.models import Race, Skill, Player, Guild
 
 import json
 
-FILE_NAME = "players.json"
-
 
 def main():
-    with open(FILE_NAME, "r") as players:
-        players_info = json.load(players)
-        print(players_info)
+    with open("players.json") as file:
+        p_info = json.load(file)
 
-    for info in players_info.values():
+    for name in p_info:
 
-        if not Race.objects.filter(name=info["race"]["name"]).exists():
-            race = Race.objects.create(name=info["race"]["name"],
-                                       description=info["race"]["description"])
+        if Race.objects.filter(name=p_info[name]["race"]["name"]).exists():
+            race = Race.objects.get(name=p_info[name]["race"]["name"])
         else:
-            race = Race.objects.get(name=info["race"]["name"])
+            Race.objects.create(name=p_info[name]["race"]["name"],
+                                description=p_info[name]["race"][
+                                    "description"])
+            race = Race.objects.get(name=p_info[name]["race"]["name"])
 
-        for skill in info["race"]["skills"]:
+        for skill in p_info[name]["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
-                skill = Skill.objects.create(name=skill["name"],
-                                             bonus=skill["bonus"],
-                                             race=race)
+                Skill.objects.create(name=skill["name"],
+                                     bonus=skill["bonus"],
+                                     race=race)
 
-        if info["guild"] is None:
+        if p_info[name]["guild"]:
+            if Guild.objects.filter(
+                    name=p_info[name]["guild"]["name"]
+            ).exists():
+                guild = Guild.objects.get(name=p_info[name]["guild"]["name"])
+            else:
+                Guild.objects.create(
+                    name=p_info[name]["guild"]["name"],
+                    description=p_info[name]["guild"]["description"]
+                )
+                guild = Guild.objects.get(name=p_info[name]["guild"]["name"])
+        else:
             guild = None
 
-        elif not Guild.objects.filter(name=info["guild"]["name"]).exists():
-            guild = Guild.objects.create(
-                name=info["guild"]["name"],
-                description=info["guild"]["description"]
-            )
-        else:
-            guild = Guild.objects.get(name=info["guild"]["name"])
-
-    for player_name, info in players_info.items():
-        Player.objects.create(
-            nickname=player_name,
-            email=info["email"],
-            bio=info["bio"],
-            race=race,
-            guild=guild
-        )
+        Player.objects.create(nickname=name,
+                              email=p_info[name]["email"],
+                              bio=p_info[name]["bio"],
+                              race=race,
+                              guild=guild)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
