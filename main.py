@@ -29,7 +29,8 @@ def create_race_and_skill_model():
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(name=skill['name'],
                                      bonus=skill['bonus'],
-                                     race=Race.objects.get(name=f"{race['name']}"))
+                                     race=Race.objects.get(
+                                         name=f"{race['name']}"))
 
 
 def create_guild_model():
@@ -58,13 +59,16 @@ def create_player_model():
                 Player.objects.create(nickname=key,
                                       email=value["email"],
                                       bio=value["bio"],
-                                      race=Race.objects.get(name=value["race"]["name"]),
-                                      guild=Guild.objects.get(name=value["guild"]["name"]))
+                                      race=Race.objects.get(
+                                          name=value["race"]["name"]),
+                                      guild=Guild.objects.get(
+                                          name=value["guild"]["name"]))
             else:
                 Player.objects.create(nickname=key,
                                       email=value["email"],
                                       bio=value["bio"],
-                                      race=Race.objects.get(name=value["race"]["name"]),
+                                      race=Race.objects.get(
+                                          name=value["race"]["name"]),
                                       guild=None)
 
 
