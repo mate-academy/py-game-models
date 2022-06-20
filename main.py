@@ -9,42 +9,36 @@ def main():
     with open("players.json") as f:
         data = json.load(f)
 
-    for name in data:
+    for name, description in data.items():
 
         # check if race exists
-        if Race.objects.filter(name=data[name]["race"]["name"]).exists():
-            race = Race.objects.get(name=data[name]["race"]["name"]).id
-        else:
-            Race.objects.create(name=data[name]["race"]["name"],
-                                description=data[name]["race"]["description"])
-            race = Race.objects.get(name=data[name]["race"]["name"]).id
+        race, _ = Race.objects.get_or_create(
+            name=description["race"]["name"],
+            description=description["race"]["description"]
+        )
 
         # check_the_skills_exists
-        for skill in data[name]["race"]["skills"]:
+        for skill in description["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(name=skill["name"],
                                      bonus=skill["bonus"],
-                                     race_id=race)
+                                     race=race)
 
         # check the guild exists
-        if data[name]["guild"]:
-            if Guild.objects.filter(name=data[name]["guild"]["name"]).exists():
-                guild = Guild.objects.get(name=data[name]["guild"]["name"]).id
-            else:
-                Guild.objects.create(
-                    name=data[name]["guild"]["name"],
-                    description=data[name]["guild"]["description"]
-                )
-                guild = Guild.objects.get(name=data[name]["guild"]["name"]).id
+        if description["guild"]:
+            guild, _ = Guild.objects.get_or_create(
+                name=description["guild"]["name"],
+                description=description["guild"]["description"]
+            )
         else:
             guild = None
 
         # make a player
         Player.objects.create(nickname=name,
-                              email=data[name]["email"],
-                              bio=data[name]["bio"],
-                              race_id=race,
-                              guild_id=guild)
+                              email=description["email"],
+                              bio=description["bio"],
+                              race=race,
+                              guild=guild)
 
 
 if __name__ == "__main__":
