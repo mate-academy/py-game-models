@@ -48,8 +48,7 @@ def main():
                 nickname=name,
                 email=information["email"],
                 bio=information["bio"],
-                race=Race.objects.get(name=race_name),
-                guild=None
+                race=Race.objects.get(name=race_name)
             )
 
 
