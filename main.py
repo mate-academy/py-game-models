@@ -15,8 +15,7 @@ def main():
                     name=content[row]["race"]["name"],
                     description=content[row]["race"]["description"]
                 )
-            if isinstance(
-                    content[row]["guild"], dict):
+            if isinstance(content[row]["guild"], dict):
                 if not Guild.objects.filter(
                         name=content[row]["guild"]["name"]).exists():
                     Guild.objects.create(
@@ -24,8 +23,7 @@ def main():
                         description=content[row]["guild"]["description"]
                     )
 
-            for i in range(
-                    len(content[row]["race"]["skills"])):
+            for i in range(len(content[row]["race"]["skills"])):
                 if len(content[row]["race"]["skills"]):
                     skill = content[row]["race"]["skills"][i]["name"]
                     if not Skill.objects.filter(name=skill).exists():
