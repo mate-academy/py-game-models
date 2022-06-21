@@ -17,7 +17,8 @@ def main():
             )
         else:
             new_race = Race.objects.get(
-                name=player_race["name"], description=player_race["description"]
+                name=player_race["name"],
+                description=player_race["description"]
             )
 
         for player_skill in player_race["skills"]:
@@ -40,7 +41,10 @@ def main():
                     description=player_guild["description"]
                 )
             else:
-                new_guild = Guild.objects.get(name=player_guild["name"], description=player_guild["description"])
+                new_guild = Guild.objects.get(
+                    name=player_guild["name"],
+                    description=player_guild["description"]
+                )
         else:
             new_guild = None
 
