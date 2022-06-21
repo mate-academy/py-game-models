@@ -8,8 +8,8 @@ def main():
         players = json.load(json_input)
     guilds = {}
     # Guild Creation
-    for player in players:
-        player_dict = players[player]
+    for guild in players:
+        player_dict = players[guild]
         if player_dict["guild"]:
             if player_dict["guild"]["description"]:
                 description = player_dict["guild"]["description"]
@@ -22,21 +22,21 @@ def main():
                 guilds[name] = creation.id
     races = {}
     # Race creation
-    for player in players:
-        player_dict = players[player]
+    for race in players:
+        player_dict = players[race]
         name = player_dict["race"]["name"]
         description = player_dict["race"]["description"]
         if Race.objects.filter(name=name).exists() is False:
             creation = Race.objects.create(name=name, description=description)
             races[name] = creation.id
     # Skills creation
-    for player in players:
-        player_dict = players[player]
+    for skill in players:
+        player_dict = players[skill]
         skills = player_dict["race"]["skills"]
         race_name = player_dict["race"]["name"]
-        for skill in skills:
-            skill_name = skill["name"]
-            bonus = skill["bonus"]
+        for single_skill in skills:
+            skill_name = single_skill["name"]
+            bonus = single_skill["bonus"]
             if Skill.objects.filter(name=skill_name).exists() is False:
                 Skill.objects.create(name=skill_name,
                                      bonus=bonus, race_id=races[race_name])
