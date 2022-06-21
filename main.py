@@ -16,12 +16,14 @@ def parse_file():
 def create_race(race_name: str, race_description: str):
     if not Race.objects.filter(name=race_name).exists():
         if race_description:
-            Race.objects.create(
+            return Race.objects.create(
                 name=race_name,
                 description=race_description
             )
         else:
-            Race.objects.create(name=race_name)
+            return Race.objects.create(name=race_name)
+
+    return Race.objects.get(name=race_name)
 
 
 def create_skills(skills: dict, race):
@@ -38,12 +40,14 @@ def create_skills(skills: dict, race):
 def create_guild(guild_name: str, guild_description: str):
     if not Guild.objects.filter(name=guild_name).exists():
         if guild_description:
-            Guild.objects.create(
+            return Guild.objects.create(
                 name=guild_name,
                 description=guild_description
             )
         else:
-            Guild.objects.create(name=guild_name)
+            return Guild.objects.create(name=guild_name)
+
+    return Guild.objects.get(name=guild_name)
 
 
 def create_player(
@@ -77,9 +81,8 @@ def main():
 
         race_name = data["race"]["name"]
         race_description = data["race"]["description"]
-        create_race(race_name, race_description)
+        race = create_race(race_name, race_description)
 
-        race = Race.objects.get(name=race_name)
         skills = data["race"]["skills"]
         create_skills(skills, race)
 
@@ -87,15 +90,14 @@ def main():
         if data["guild"]:
             guild_name = data["guild"]["name"]
             guild_description = data["guild"]["description"]
-            create_guild(guild_name, guild_description)
-            guild = Guild.objects.get(name=guild_name)
+            guild = create_guild(guild_name, guild_description)
 
         email = data["email"]
         bio = data["bio"]
 
         create_player(nickname, email, bio, race, guild)
 
-    print("done")
+    print("Successful!")
 
 
 if __name__ == "__main__":
