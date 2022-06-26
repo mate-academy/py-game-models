@@ -73,11 +73,6 @@ def create_player_model():
 
 
 def main():
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Guild.objects.all().delete()
-    Player.objects.all().delete()
-
     create_race_and_skill_model()
     create_guild_model()
     create_player_model()
