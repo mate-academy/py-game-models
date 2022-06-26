@@ -44,10 +44,7 @@ def main():
             pass
         else:
             guild_description = guild["description"]
-            if guild_description is None:
-                guild = Guild.objects.create(name=guild_name)
-            else:
-                guild = Guild.objects.create(
+            guild = Guild.objects.create(
                     name=guild_name,
                     description=guild_description)
         finally:
