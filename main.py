@@ -55,21 +55,15 @@ def create_player_model():
     data = load_data_json()
     for key, value in data.items():
         if not Player.objects.filter(nickname=key).exists():
+            guild = None
             if value["guild"] is not None:
-                Player.objects.create(nickname=key,
-                                      email=value["email"],
-                                      bio=value["bio"],
-                                      race=Race.objects.get(
-                                          name=value["race"]["name"]),
-                                      guild=Guild.objects.get(
-                                          name=value["guild"]["name"]))
-            else:
-                Player.objects.create(nickname=key,
-                                      email=value["email"],
-                                      bio=value["bio"],
-                                      race=Race.objects.get(
-                                          name=value["race"]["name"]),
-                                      guild=None)
+                guild = Guild.objects.get(name=value["guild"]["name"])
+            Player.objects.create(nickname=key,
+                                  email=value["email"],
+                                  bio=value["bio"],
+                                  race=Race.objects.get(
+                                      name=value["race"]["name"]),
+                                  guild=guild)
 
 
 def main():
