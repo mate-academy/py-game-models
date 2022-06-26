@@ -40,13 +40,17 @@ def main():
         guild = player["guild"]
         try:
             guild_name = guild["name"]
-        except TypeError:
-            pass
-        else:
             guild_description = guild["description"]
-            guild = Guild.objects.create(
+            guild_list = [i[0] for i in
+                          list(Guild.objects.values_list("name"))]
+            if guild_name in guild_list:
+                guild = Guild.objects.get(name=guild_name)
+            else:
+                guild = Guild.objects.create(
                     name=guild_name,
                     description=guild_description)
+        except TypeError:
+            guild = None
         finally:
             Player.objects.create(
                 nickname=nickname,
