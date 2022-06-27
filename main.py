@@ -4,10 +4,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main():
-    with open('players.json', 'r') as f:
-        data = json.load(f)
+    with open('players.json', 'r') as player_data_file:
+        data = json.load(player_data_file)
     for player in data:
-        player_list = [i[0] for i in
+        player_list = [player_[0] for player_ in
                        list(Player.objects.values_list("nickname"))]
         if player in player_list:
             continue
@@ -27,12 +27,10 @@ def main():
                 name=race_name,
                 description=race_description)
         for skill in race_skills:
-            ls = [i[0] for i in list(Skill.objects.values_list("name"))]
+            skill_list = [skill_[0] for skill_ in list(Skill.objects.values_list("name"))]
             skill_name = skill["name"]
             skill_bonus = skill["bonus"]
-            if skill_name in ls:
-                pass
-            else:
+            if skill_name not in skill_list:
                 Skill.objects.create(
                     name=skill_name,
                     bonus=skill_bonus,
