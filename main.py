@@ -19,7 +19,7 @@ def main():
         race_name = race["name"]
         race_description = race["description"]
         race_skills = race["skills"]
-        race_list = [i[0] for i in list(Race.objects.values_list("name"))]
+        race_list = [race_[0] for race_ in list(Race.objects.values_list("name"))]
         if race_name in race_list:
             race = Race.objects.get(name=f"{race_name}")
         else:
@@ -40,7 +40,7 @@ def main():
         try:
             guild_name = guild["name"]
             guild_description = guild["description"]
-            guild_list = [i[0] for i in
+            guild_list = [guild_[0] for guild_ in
                           list(Guild.objects.values_list("name"))]
             if guild_name in guild_list:
                 guild = Guild.objects.get(name=guild_name)
