@@ -19,7 +19,8 @@ def main():
         race_name = race["name"]
         race_description = race["description"]
         race_skills = race["skills"]
-        race_list = [race_[0] for race_ in list(Race.objects.values_list("name"))]
+        race_list = [race_[0] for race_ in
+                     list(Race.objects.values_list("name"))]
         if race_name in race_list:
             race = Race.objects.get(name=f"{race_name}")
         else:
