@@ -27,7 +27,8 @@ def main():
                 name=race_name,
                 description=race_description)
         for skill in race_skills:
-            skill_list = [skill_[0] for skill_ in list(Skill.objects.values_list("name"))]
+            skill_list = [skill_[0] for skill_ in
+                          list(Skill.objects.values_list("name"))]
             skill_name = skill["name"]
             skill_bonus = skill["bonus"]
             if skill_name not in skill_list:
