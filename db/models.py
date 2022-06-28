@@ -2,13 +2,8 @@ from django.db import models
 
 
 class Race(models.Model):
-    races = [
-        ("e", "elf"),
-        ("d", "dwarf"),
-        ("h", "human"),
-        ("o", "ork")
-    ]
-    name = models.CharField(unique=True, max_length=255, choices=races)
+
+    name = models.CharField(unique=True, max_length=255)
     description = models.TextField(blank=True)
 
 
@@ -23,7 +18,7 @@ class Skill(models.Model):
 
 class Guild(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(null=True)
 
 
 class Player(models.Model):
@@ -36,8 +31,7 @@ class Player(models.Model):
     )
     guild = models.ForeignKey(
         Guild,
-        on_delete=models.CASCADE,
-        blank=True,
+        on_delete=models.SET_NULL,
         null=True
     )
     created_at = models.DateTimeField(auto_now=True)
