@@ -1,13 +1,11 @@
 from json import load
-from os import path
 
 import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Guild, Player
 
 
 def main():
-    main_path = path.dirname(path.abspath(__file__))
-    with open(main_path + path.sep + "players.json") as f:
+    with open("players.json") as f:
         players = load(f)
 
     for player, settings in players.items():
@@ -17,9 +15,9 @@ def main():
             try:
                 race = Race.objects.get(name=character["race"]["name"])
             except Race.DoesNotExist:
-                race = Race.objects.create(name=character["race"]["name"],
-                                           description=character["race"][
-                                               "description"])
+                race = Race.objects.create(
+                    name=character["race"]["name"],
+                    description=character["race"]["description"])
 
             # Create Skills
             for skill in character["race"]["skills"]:
