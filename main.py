@@ -17,7 +17,8 @@ def main():
             except Race.DoesNotExist:
                 race = Race.objects.create(
                     name=character["race"]["name"],
-                    description=character["race"]["description"])
+                    description=character["race"]["description"]
+                )
 
             # Create Skills
             for skill in character["race"]["skills"]:
