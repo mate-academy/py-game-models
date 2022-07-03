@@ -26,11 +26,7 @@ def main():
                 Skill.objects.create(
                     name=player_skill["name"],
                     bonus=player_skill["bonus"],
-                    race=Race.objects.get(name=player_race["name"])
-                )
-            else:
-                Skill.objects.get(
-                    name=player_skill["name"], bonus=player_skill["bonus"]
+                    race=new_race
                 )
 
         if data["guild"]:
