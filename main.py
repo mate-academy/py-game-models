@@ -8,8 +8,7 @@ def race(player_info):
     if not Race.objects.filter(name=race_name).exists():
         Race.objects.create(
             name=race_name,
-            description=player_info["race"]["description"]
-        )
+            description=player_info["race"]["description"])
     return Race.objects.get(name=race_name)
 
 
