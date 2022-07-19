@@ -19,7 +19,7 @@ Each race has unique skills. Create a model `Skill` for them.
 Each skill has:
 - `name` - a char field with a maximum length of 255 characters
 - `bonus` - a char field with a maximum length of 255 characters. 
-This field describes what kind of bonus players can get from it. 
+дThis field describes what kind of bonus players can get from it. 
 - `race` - a foreign key that points to the `Race` model. It shows which race has the corresponding skill.
 
 #### 3. Guild
