@@ -9,7 +9,6 @@ def main():
     with open("players.json") as file:
         players = json.load(file)
 
-    Player.objects.all().delete()
 
     for user_name, user_description in players.items():
         about_race = user_description["race"]
