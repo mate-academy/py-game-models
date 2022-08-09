@@ -8,8 +8,6 @@ from db.models import Race, Skill, Player, Guild
 def main():
     with open("players.json") as file:
         players = json.load(file)
-
-
     for user_name, user_description in players.items():
         about_race = user_description["race"]
         if not Race.objects.filter(name=about_race["name"]).exists():
@@ -50,7 +48,6 @@ def main():
                 bio=user_description["bio"],
                 race=Race.objects.get(name=about_race["name"])
             )
-
 
 if __name__ == "__main__":
     main()
