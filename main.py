@@ -49,5 +49,6 @@ def main():
                 race=Race.objects.get(name=about_race["name"])
             )
 
+
 if __name__ == "__main__":
     main()
