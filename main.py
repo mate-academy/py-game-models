@@ -12,7 +12,8 @@ def main():
         for player_guild in ls_of_players:
             if player_guild["guild"] is None:
                 continue
-            if not Guild.objects.filter(name=player_guild["guild"]["name"]).exists():
+            if not Guild.objects.filter(
+                    name=player_guild["guild"]["name"]).exists():
                 Guild.objects.create(
                     name=player_guild["guild"]["name"],
                     description=player_guild["guild"]["description"]
