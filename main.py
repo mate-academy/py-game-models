@@ -49,7 +49,13 @@ def main():
                     )
 
             if info[player]["guild"] is None:
-                continue
+                Player.objects.create(
+                    nickname=player,
+                    email=info[player]["email"],
+                    bio=info[player]["bio"],
+                    race=Race.objects.get(name=info[player]["race"]["name"]),
+                    guild=None
+                )
             else:
                 Player.objects.create(
                     nickname=player,
