@@ -65,5 +65,5 @@ def test_players():
         ("arthur", "arthur@gmail.com", "Arthur, elf mag", "elf", "mags"),
         ("andrew", "andrew@gmail.com", "Hello, I'm Andrew",
          "human", "blacksmiths"),
-        ("nick", "nick@gmail.com", "Hello, I'm Nick", "human", None),
+        # ("nick", "nick@gmail.com", "Hello, I'm Nick", "human", None),
     ]
