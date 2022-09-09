@@ -3,47 +3,39 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
+def race_and_guild(info, class_name):
+    if info is None:
+        return None
+    elif not class_name.objects.filter(name=info["name"]).exists():
+        guild = class_name.objects.create(
+            name=info["name"],
+            description=info["description"]
+        )
+        guild.save()
+    else:
+        guild = class_name.objects.get(name=info["name"])
+        guild.save()
+    return guild
+
+
 def main():
     with open("players.json") as json_players:
         players = json.load(json_players)
     for players_name, players_data in players.items():
-        if not Race.objects.filter(name=players_data["race"]["name"]).exists():
-            race_ = Race.objects.create(
-                name=players_data["race"]["name"],
-                description=players_data["race"]["description"]
-            )
-            race_.save()
-        else:
-            race_ = Race.objects.get(name=players_data["race"]["name"])
-            race_.save()
-
-        if players_data["guild"] is None:
-            guild_ = None
-        elif not Guild.objects.filter(
-                name=players_data["guild"]["name"]).exists():
-            guild_ = Guild.objects.create(
-                name=players_data["guild"]["name"],
-                description=players_data["guild"]["description"]
-            )
-            guild_.save()
-        else:
-            guild_ = Guild.objects.get(name=players_data["guild"]["name"])
-            guild_.save()
-
+        race = race_and_guild(players_data["race"], Race)
         for skill in players_data["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=race_
+                    race=race
                 )
-
         Player.objects.create(
             nickname=players_name,
             email=players_data["email"],
             bio=players_data["bio"],
-            race=race_,
-            guild=guild_
+            race=race,
+            guild=race_and_guild(players_data["guild"], Guild)
         )
 
 
