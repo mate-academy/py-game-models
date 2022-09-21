@@ -55,7 +55,6 @@ def main():
                 bio=players[player]["bio"],
                 race=Race.objects.get(name=players[player]["race"]["name"]),
                 guild=Guild.objects.get(name=players[player]["guild"]["name"]))
-
             player.save()
 
 
