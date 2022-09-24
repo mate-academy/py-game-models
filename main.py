@@ -44,24 +44,29 @@ def main():
             if players[player]["guild"] is not None:
                 Guild.objects.create(
                     name=f'{players[player]["guild"]["name"]}',
-                    description=f'{players[player]["guild"]["description"]}'
+                    description=players[player]["guild"]["description"]
+                    if players[player]["guild"] is not None
+                    else None
                 )
         except django.db.utils.IntegrityError:
             continue
 
     # Filling in the Player table
-    global guild
     for player in players:
+
         if players[player]["guild"] is not None:
             guild = Guild.objects.get(
                 name=f'{players[player]["guild"]["name"]}')
-        race = Race.objects.get(name=f'{players[player]["race"]["name"]}')
+        else:
+            guild = None
+
         Player.objects.create(
             nickname=f'{player}',
             email=f'{players[player]["email"]}',
             bio=f'{players[player]["bio"]}',
-            race=race,
-            guild=guild if players[player]["guild"] is not None else None)
+            race=Race.objects.get(name=f'{players[player]["race"]["name"]}'),
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
