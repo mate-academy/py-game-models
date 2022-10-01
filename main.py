@@ -1,5 +1,3 @@
-import django.db
-
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
@@ -9,48 +7,40 @@ import json
 
 def main():
     with open("players.json", "r") as file_json:
-        players = json.load(file_json)
-    for player in players:
-        # Race
-        try:
-            rc = Race.objects.create(
-                name=players[player]["race"]["name"],
-                description=players[player]["race"]["description"]
+        data_json = json.load(file_json)
+    for player, data in data_json.items():
+        if not Race.objects.filter(name=data["race"]["name"]).exists():
+            race = Race.objects.create(
+                name=data["race"]["name"],
+                description=data["race"]["description"]
             )
-        except django.db.IntegrityError:
-            rc = Race.objects.get(name=players[player]["race"]["name"])
-        # Guild
-        if players[player]["guild"] is None:
-            gld = None
         else:
-            try:
-                gld = Guild.objects.create(
-                    name=players[player]["guild"]["name"],
-                    description=players[player]["guild"]["description"]
-                )
-            except django.db.IntegrityError:
-                gld = Guild.objects.get(name=players[player]["guild"]["name"])
-        # Skill
-        for skill in players[player]["race"]["skills"]:
-            try:
+            race = Race.objects.get(name=data["race"]["name"])
+        for skill in data["race"]["skills"]:
+            if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=rc
+                    race=race
                 )
-            except django.db.IntegrityError:
-                Skill.objects.get(name=skill["name"])
-        # Player
-        try:
+        if data["guild"] is None:
+            guild = None
+        else:
+            if not Guild.objects.filter(name=data["guild"]["name"]).exists():
+                guild = Guild.objects.create(
+                    name=data["guild"]["name"],
+                    description=data["guild"]["description"]
+                )
+            else:
+                guild = Guild.objects.get(name=data["guild"]["name"])
+        if not Player.objects.filter(nickname=player).exists():
             Player.objects.create(
                 nickname=player,
-                email=players[player]["email"],
-                bio=players[player]["bio"],
-                race=rc,
-                guild=gld
+                email=data["email"],
+                bio=data["bio"],
+                race=race,
+                guild=guild
             )
-        except django.db.IntegrityError:
-            Player.objects.get(nickname=player)
 
 
 if __name__ == "__main__":
