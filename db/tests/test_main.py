@@ -1,4 +1,5 @@
 import pytest
+from django.db.models import EmailField
 
 from main import main, Race, Skill, Player, Guild
 
@@ -67,3 +68,7 @@ def test_players():
          "human", "blacksmiths"),
         ("nick", "nick@gmail.com", "Hello, I'm Nick", "human", None),
     ]
+
+
+def test_email_field():
+    assert isinstance(Player._meta.get_field("email"), EmailField)
