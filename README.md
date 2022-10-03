@@ -25,7 +25,7 @@ This field describes what kind of bonus players can get from it.
 #### 3. Guild
 The player has an opportunity to become a member of a guild. 
 It has:
-- `name` - a char field with the maximum length of 255 characters.
+- `name` - a *unique* char field with the maximum length of 255 characters.
 - `description` - a text field, can be blank
 
 
