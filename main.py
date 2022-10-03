@@ -7,14 +7,14 @@ from db.models import Race, Skill, Player, Guild
 def main():
     with open("players.json", "r") as all_info:
         info_about_player = json.load(all_info)
-    for key, value in info_about_player.items():
-        if not Race.objects.filter(name=value["race"]["name"]).exists():
+    for nickname, player in info_about_player.items():
+        if not Race.objects.filter(name=player["race"]["name"]).exists():
             Race.objects.create(
-                name=value["race"]["name"],
-                description=value["race"]["description"]
+                name=player["race"]["name"],
+                description=player["race"]["description"]
             )
-        race = Race.objects.get(name=value["race"]["name"])
-        for skill in value["race"]["skills"]:
+        race = Race.objects.get(name=player["race"]["name"])
+        for skill in player["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
@@ -22,19 +22,19 @@ def main():
                     race=race
                 )
         guild = None
-        if value["guild"]:
-            if not Guild.objects.filter(name=value["guild"]["name"]). \
+        if player["guild"]:
+            if not Guild.objects.filter(name=player["guild"]["name"]). \
                     exists():
                 Guild.objects.create(
-                    name=value["guild"]["name"],
-                    description=value["guild"]["description"]
+                    name=player["guild"]["name"],
+                    description=player["guild"]["description"]
 
                 )
-            guild = Guild.objects.get(name=value["guild"]["name"])
+            guild = Guild.objects.get(name=player["guild"]["name"])
         Player.objects.create(
-            nickname=key,
-            email=value["email"],
-            bio=value["bio"],
+            nickname=nickname,
+            email=player["email"],
+            bio=player["bio"],
             race=race,
             guild=guild
         )
