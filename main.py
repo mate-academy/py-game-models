@@ -1,25 +1,23 @@
 import json
 
 import init_django_orm  # noqa: F401
-import db.models
 
 from db.models import Race, Skill, Player, Guild
 
 
 def main():
     # read data from file
-    with open("players.json") as f:
-        players = json.load(f)
+    with open("players.json") as file:
+        players = json.load(file)
 
     for player, info in players.items():
-        race = None
         guild = None
 
         # Check for Guild and create if not exist
         if info["guild"]:
-            try:
+            if Guild.objects.filter(name=info["guild"]["name"]).exists():
                 guild = Guild.objects.get(name=info["guild"]["name"])
-            except db.models.Guild.DoesNotExist:
+            else:
                 guild_description = info["guild"]["description"]
                 if not guild_description:
                     guild_description = None
@@ -30,9 +28,9 @@ def main():
                 )
 
         # Check for Race and create if not exist
-        try:
+        if Race.objects.filter(name=info["race"]["name"]).exists():
             race = Race.objects.get(name=info["race"]["name"])
-        except db.models.Race.DoesNotExist:
+        else:
             race = Race.objects.create(
                 name=info["race"]["name"],
                 description=info["race"]["description"],
