@@ -26,7 +26,9 @@ def main():
             if info["guild"] is None:
                 guild = None
             else:
-                if not Guild.objects.filter(name=info["guild"]["name"]).exists():
+                if not Guild.objects.filter(
+                        name=info["guild"]["name"]
+                ).exists():
                     guild = Guild.objects.create(
                         name=info["guild"]["name"],
                         description=info["guild"]["description"]
