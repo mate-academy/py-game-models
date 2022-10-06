@@ -15,9 +15,8 @@ def main() -> None:
         race = create_race(player_data["race"])
         create_skill_from_list(player_data["race"]["skills"], race)
 
-        if player_data["guild"] is None:
-            guild = None
-        else:
+        guild = None
+        if player_data["guild"] is not None:
             guild = create_guild(player_data["guild"])
 
         create_player(
