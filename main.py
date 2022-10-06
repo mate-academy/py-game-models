@@ -9,19 +9,18 @@ def main() -> None:
     with open("players.json", "r") as file:
         players = json.load(file)
 
-    for player_name in players:
-        player_data = players[player_name]
+    for name, data in players.items():
 
-        race = create_race(player_data["race"])
-        create_skill_from_list(player_data["race"]["skills"], race)
+        race = create_race(data["race"])
+        create_skill_from_list(data["race"]["skills"], race)
 
         guild = None
-        if player_data["guild"] is not None:
-            guild = create_guild(player_data["guild"])
+        if data["guild"] is not None:
+            guild = create_guild(data["guild"])
 
         create_player(
-            player_name,
-            player_data,
+            name,
+            data,
             race,
             guild
         )
