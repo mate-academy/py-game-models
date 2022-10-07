@@ -9,19 +9,19 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
-        for player_nickname, player_data in data.items():
-            race = create_race(player_data)
-            guild = create_guild(player_data)
-            create_skills(player_data)
 
-            if not Player.objects.filter(nickname=player_nickname).exists():
-                Player.objects.create(
-                    nickname=player_nickname,
-                    email=player_data["email"],
-                    bio=player_data["bio"],
-                    race=race,
-                    guild=guild
-                )
+    for player_nickname, player_data in data.items():
+        race = create_race(player_data)
+        guild = create_guild(player_data)
+        create_skills(player_data)
+
+        Player.objects.create(
+            nickname=player_nickname,
+            email=player_data["email"],
+            bio=player_data["bio"],
+            race=race,
+            guild=guild
+        )
 
 
 def create_race(player_data: dict) -> Race:
