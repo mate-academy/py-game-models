@@ -26,8 +26,9 @@ def main() -> None:
                     if value["description"] is None:
                         Guild.objects.create(
                             name=value["name"],
-                            description="",
+                            description=None,
                         )
+                        continue
                     Guild.objects.create(
                         name=value["name"],
                         description=value["description"],
