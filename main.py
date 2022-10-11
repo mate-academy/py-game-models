@@ -6,8 +6,8 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("db/tests/players.json", "r") as f:
-        players_dict = json.load(f)
+    with open("db/tests/players.json", "r") as file:
+        players_dict = json.load(file)
 
     for nickname, fields in players_dict.items():
         bio = fields["bio"]
