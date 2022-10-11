@@ -18,12 +18,7 @@ def main() -> None:
         if data["guild"] is not None:
             guild = create_guild(data["guild"])
 
-        create_player(
-            name,
-            data,
-            race,
-            guild
-        )
+        create_player(name, data, race, guild)
 
 
 def create_player(
@@ -32,7 +27,7 @@ def create_player(
         race: int,
         guild: int,
 ) -> None:
-    if len(Player.objects.filter(nickname=player_name)) == 0:
+    if not Player.objects.filter(nickname=player_name).exists():
         Player.objects.create(
             nickname=player_name,
             email=player["email"],
@@ -43,7 +38,7 @@ def create_player(
 
 
 def create_guild(guild: dict) -> int:
-    if len(Guild.objects.filter(name=guild["name"])) == 0:
+    if not Guild.objects.filter(name=guild["name"]).exists():
         Guild.objects.create(
             name=guild["name"],
             description=guild["description"]
@@ -53,7 +48,7 @@ def create_guild(guild: dict) -> int:
 
 
 def create_race(race: dict) -> int:
-    if len(Race.objects.filter(name=race["name"])) == 0:
+    if not Race.objects.filter(name=race["name"]).exists():
         Race.objects.create(
             name=race["name"],
             description=race["description"]
@@ -64,7 +59,7 @@ def create_race(race: dict) -> int:
 
 def create_skill_from_list(skills: list, race: int) -> None:
     for skill in skills:
-        if len(Skill.objects.filter(name=skill["name"])) == 0:
+        if not Skill.objects.filter(name=skill["name"]).exists():
             Skill.objects.create(
                 name=skill["name"],
                 bonus=skill["bonus"],
