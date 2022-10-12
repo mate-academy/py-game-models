@@ -5,39 +5,31 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json", "r") as file_json:
-        info_players = json.load(file_json)
-        for player_name in info_players:
+        info = json.load(file_json)
+        for nickname in info:
 
             if Race.objects.filter(
-                    name=
-                    info_players[player_name]["race"]["name"],
-                    description=
-                    info_players[player_name]["race"]["description"]
+                    name=info[nickname]["race"]["name"],
+                    description=info[nickname]["race"]["description"]
             ).exists() is False:
                 Race.objects.create(
-                    name=
-                    info_players[player_name]["race"]["name"],
-                    description=
-                    info_players[player_name]["race"]["description"]
+                    name=info[nickname]["race"]["name"],
+                    description=info[nickname]["race"]["description"]
                 )
 
-            if not info_players[player_name]["guild"]:
+            if not info[nickname]["guild"]:
                 guild_name = None
             else:
                 if Guild.objects.filter(
-                    name=
-                    info_players[player_name]["guild"]["name"],
-                    description=
-                    info_players[player_name]["guild"]["description"]
+                    name=info[nickname]["guild"]["name"],
+                    description=info[nickname]["guild"]["description"]
                 ).exists() is False:
                     guild_name = Guild.objects.create(
-                        name=
-                        info_players[player_name]["guild"]["name"],
-                        description=
-                        info_players[player_name]["guild"]["description"]
+                        name=info[nickname]["guild"]["name"],
+                        description=info[nickname]["guild"]["description"]
                     )
 
-            for single_skill in info_players[player_name]["race"]["skills"]:
+            for single_skill in info[nickname]["race"]["skills"]:
                 if Skill.objects.filter(
                     name=single_skill["name"],
                         bonus=single_skill["bonus"]
@@ -46,35 +38,31 @@ def main() -> None:
                         name=single_skill["name"],
                         bonus=single_skill["bonus"],
                         race=Race.objects.get(
-                            name=
-                            info_players[player_name]["race"]["name"]
+                            name=info[nickname]["race"]["name"]
                         )
                     )
 
             if not guild_name:
                 Player.objects.create(
-                    nickname=player_name,
-                    email=info_players[player_name]["email"],
-                    bio=info_players[player_name]["bio"],
+                    nickname=nickname,
+                    email=info[nickname]["email"],
+                    bio=info[nickname]["bio"],
                     race=Race.objects.get(
-                        name=
-                        info_players[player_name]["race"]["name"]
+                        name=info[nickname]["race"]["name"]
                     ),
                     guild=None
                 )
 
             else:
                 Player.objects.create(
-                    nickname=player_name,
-                    email=info_players[player_name]["email"],
-                    bio=info_players[player_name]["bio"],
+                    nickname=nickname,
+                    email=info[nickname]["email"],
+                    bio=info[nickname]["bio"],
                     race=Race.objects.get(
-                        name=
-                        info_players[player_name]["race"]["name"]
+                        name=info[nickname]["race"]["name"]
                     ),
                     guild=Guild.objects.get(
-                            name=
-                            info_players[player_name]["guild"]["name"]
+                        name=info[nickname]["guild"]["name"]
                     )
                 )
 
