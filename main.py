@@ -8,7 +8,6 @@ def main() -> None:
         info_players = json.load(file_json)
         for player_name in info_players:
 
-            #Race
             if Race.objects.filter(
                     name=info_players[player_name]["race"]["name"],
                     description=info_players[player_name]["race"]["description"]
@@ -18,28 +17,17 @@ def main() -> None:
                     description=info_players[player_name]["race"]["description"]
                 )
 
-            #Guild
-            # if Guild.objects.get(name=info_players[player_name]["guild"]) is None:
-            #     Guild.objects.create(
-            #         name=None,
-            #         description=info_players[player_name]["guild"]["description"]
-            #     )
             if not info_players[player_name]["guild"]:
                 guild_name = None
-                # guild_name = Guild.objects.get(name=info_players[player_name]["guild"]["name"])
             else:
                 if Guild.objects.filter(
                     name=info_players[player_name]["guild"]["name"],
                     description=info_players[player_name]["guild"]["description"]
                 ).exists() is False:
-                    # guild_name = Guild.objects.get(name=info_players[player_name]["guild"]["name"])
-
-                    Guild.objects.create(
+                    guild_name = Guild.objects.create(
                         name=info_players[player_name]["guild"]["name"],
                         description=info_players[player_name]["guild"]["description"]
                     )
-
-            #Skills
 
             for single_skill in info_players[player_name]["race"]["skills"]:
                 if Skill.objects.filter(
@@ -53,7 +41,7 @@ def main() -> None:
                         )
                     )
 
-            if guild_name:
+            if not guild_name:
                 Player.objects.create(
                     nickname=player_name,
                     email=info_players[player_name]["email"],
@@ -76,8 +64,6 @@ def main() -> None:
                             name=info_players[player_name]["guild"]["name"]
                     )
                 )
-
-
 
 
 if __name__ == "__main__":
