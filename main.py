@@ -17,8 +17,9 @@ def main() -> None:
                     )
                 if value["skills"] is not None:
                     for skill in value["skills"]:
-                        i_ = Skill.objects.filter(name=skill["name"]).exists()
-                        if not i_:
+                        check_skill = Skill.objects.filter(
+                            name=skill["name"]).exists()
+                        if not check_skill:
                             Skill.objects.create(name=skill["name"],
                                                  bonus=skill["bonus"])
             if key == "guild" and value is not None:
