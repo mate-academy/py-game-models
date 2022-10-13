@@ -41,6 +41,7 @@ def main() -> None:
                             name=info[nickname]["race"]["name"]
                         )
                     )
+
             Player.objects.create(
                     nickname=nickname,
                     email=info[nickname]["email"],
