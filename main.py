@@ -41,27 +41,14 @@ def main() -> None:
                             name=info[nickname]["race"]["name"]
                         )
                     )
-
-            if not guild_name:
-                Player.objects.create(
+            Player.objects.create(
                     nickname=nickname,
                     email=info[nickname]["email"],
                     bio=info[nickname]["bio"],
                     race=Race.objects.get(
                         name=info[nickname]["race"]["name"]
                     ),
-                    guild=None
-                )
-
-            else:
-                Player.objects.create(
-                    nickname=nickname,
-                    email=info[nickname]["email"],
-                    bio=info[nickname]["bio"],
-                    race=Race.objects.get(
-                        name=info[nickname]["race"]["name"]
-                    ),
-                    guild=Guild.objects.get(
+                    guild=None if not guild_name else Guild.objects.get(
                         name=info[nickname]["guild"]["name"]
                     )
                 )
