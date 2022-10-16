@@ -9,11 +9,6 @@ def main() -> None:
     with open("players.json", "r") as players:
         data = json.load(players)
 
-    Race.objects.filter().delete()
-    Player.objects.filter().delete()
-    Skill.objects.filter().delete()
-    Guild.objects.filter().delete()
-
     for player in data:
         race = data[player]["race"]
         skills = race["skills"]
