@@ -36,8 +36,6 @@ def main() -> None:
                     description=guild["description"]
                 )
             guild = Guild.objects.get(name=guild["name"])
-        else:
-            guild = None
 
         if not Player.objects.filter(nickname=player).exists():
             Player.objects.create(
