@@ -38,14 +38,9 @@ def main() -> None:
             email=player["email"],
             bio=player["bio"],
             race_id=Race.objects.get(name=player["race"]["name"]).id,
-            guild_id=None,
-        ) if player["guild"] is None else Player.objects.create(
-            nickname=name,
-            email=player["email"],
-            bio=player["bio"],
-            race_id=Race.objects.get(name=player["race"]["name"]).id,
-            guild_id=Guild.objects.get(name=player["guild"]["name"]).id,
-        )
+            guild_id=Guild.objects.get(
+                name=player["guild"]["name"]
+            ).id if player["guild"] is not None else None)
 
 
 if __name__ == "__main__":
