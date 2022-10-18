@@ -9,7 +9,34 @@ Make sure you don't push db files (files with `.sqlite`, `.db3`, etc. extension)
 
 This is a required for the tests to pass.
 
-## 3. Improve your Code
+## 3. Don't duplicate yourself
+
+Good example:
+```python
+additional_data = data["info"] if data["info"] else None
+Model.objects.create(
+    field=additional_data
+)
+```
+
+Normal example:
+```python
+Model.objects.create(
+    field=(data["info"] if data["info"] else None)
+)
+```
+
+
+Bad example:
+```python
+Model.objects.create(
+    field=None
+) if data["info"] is None else Model.objects.create(
+    field=data["info"]
+)
+```
+
+## 4. Improve your Code
 
 ### 1) Do not overload the context manager.
 
