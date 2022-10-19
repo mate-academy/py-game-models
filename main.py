@@ -22,9 +22,9 @@ def main() -> None:
         race_ = Race.objects.get(name=races["name"])
 
         for skill in skills:
-            if not Skill.objects.filter(name=skill['name']).exists():
+            if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
-                    name=skill['name'],
+                    name=skill["name"],
                     bonus=skill["bonus"],
                     race=race_
 
