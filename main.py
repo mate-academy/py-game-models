@@ -10,7 +10,9 @@ def main() -> None:
         data = json.load(f)
 
         for user, user_data in data.items():
-            if not Race.objects.filter(name=user_data["race"]["name"]).exists():
+            if not Race.objects.filter(
+                    name=user_data["race"]["name"]
+            ).exists():
                 Race.objects.create(
                     name=user_data["race"]["name"],
                     description=user_data["race"]["description"]
@@ -27,7 +29,9 @@ def main() -> None:
                     )
 
             if user_data["guild"]:
-                if not Guild.objects.filter(name=user_data["guild"]["name"]).exists():
+                if not Guild.objects.filter(
+                        name=user_data["guild"]["name"]
+                ).exists():
                     Guild.objects.create(
                         name=user_data["guild"]["name"],
                         description=user_data["guild"]["description"]
