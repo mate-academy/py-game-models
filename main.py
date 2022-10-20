@@ -22,8 +22,11 @@ def main() -> None:
                 )
 
         if (
-                value["guild"] and not
-                Guild.objects.filter(name=value["guild"]["name"]).exists()):
+            value["guild"]
+            and not Guild.objects.filter(
+                name=value["guild"]["name"]
+            ).exists()
+        ):
             Guild.objects.create(
                 name=value["guild"]["name"],
                 description=value["guild"]["description"]
