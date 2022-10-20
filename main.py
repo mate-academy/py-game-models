@@ -43,7 +43,7 @@ def create_skills(data: dict) -> None:
             )
 
 
-def create_guild(data) -> Guild | None:
+def create_guild(data: dict) -> Guild | None:
     if data["guild"]:
         if not Guild.objects.filter(name=data["guild"]["name"]).exists():
             return Guild.objects.create(
