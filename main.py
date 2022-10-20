@@ -6,12 +6,12 @@ from db.models import Race, Skill, Player, Guild
 
 
 def get_race(dict_race: dict) -> Race:
-    race = Race.objects.update_or_create(
+    race = Race.objects.get_or_create(
         name=dict_race["name"],
         description=dict_race["description"]
     )[0]
     for skill in dict_race["skills"]:
-        Skill.objects.update_or_create(
+        Skill.objects.get_or_create(
             name=skill["name"],
             bonus=skill["bonus"],
             race=race
@@ -20,7 +20,7 @@ def get_race(dict_race: dict) -> Race:
 
 
 def get_guild(dict_guild: dict) -> Guild:
-    return Guild.objects.update_or_create(
+    return Guild.objects.get_or_create(
         name=dict_guild["name"],
         description=dict_guild["description"]
     )[0]
@@ -30,7 +30,7 @@ def main() -> None:
     with open("players.json") as file:
         data = json.load(file)
     for nickname, params in data.items():
-        Player.objects.update_or_create(
+        Player.objects.get_or_create(
             nickname=nickname,
             email=params["email"],
             bio=params["bio"],
