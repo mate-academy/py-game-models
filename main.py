@@ -10,13 +10,17 @@ def main() -> None:
         players = json.load(file)
 
     for player_name, player_data in players.items():
+
+        player_race_name = player_data["race"]["name"]
+        player_race_description = player_data["race"]["description"]
+
         for skill in player_data["race"]["skills"]:
             Skill.skill_import(
                 skill_name=skill["name"],
                 skill_bonus=skill["bonus"],
                 skill_race=Race.race_import(
-                    race_name=player_data["race"]["name"],
-                    race_description=player_data["race"]["description"]
+                    race_name=player_race_name,
+                    race_description=player_race_description
                 )
             )
 
@@ -33,8 +37,8 @@ def main() -> None:
             email=player_data["email"],
             bio=player_data["bio"],
             race=Race.race_import(
-                race_name=player_data["race"]["name"],
-                race_description=player_data["race"]["description"]
+                race_name=player_race_name,
+                race_description=player_race_description
             ),
             guild=player_guild
         )
