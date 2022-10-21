@@ -9,23 +9,22 @@ def main() -> None:
         players_data = json.load(json_file)
 
     for nickname, player_data in players_data.items():
-        if player_data["race"]:
-            if not Race.objects.filter(
-                name=player_data["race"]["name"]
-            ).exists():
-                Race.objects.create(
-                    name=player_data["race"]["name"],
-                    description=player_data["race"]["description"],
-                )
-            race = Race.objects.get(name=player_data["race"]["name"])
-            if player_data["race"]["skills"]:
-                for skill in player_data["race"]["skills"]:
-                    if not Skill.objects.filter(name=skill["name"]).exists():
-                        Skill.objects.create(
-                            name=skill["name"],
-                            bonus=skill["bonus"],
-                            race=race
-                        )
+        if not Race.objects.filter(
+            name=player_data["race"]["name"]
+        ).exists():
+            Race.objects.create(
+                name=player_data["race"]["name"],
+                description=player_data["race"]["description"],
+            )
+        race = Race.objects.get(name=player_data["race"]["name"])
+        if player_data["race"]["skills"]:
+            for skill in player_data["race"]["skills"]:
+                if not Skill.objects.filter(name=skill["name"]).exists():
+                    Skill.objects.create(
+                        name=skill["name"],
+                        bonus=skill["bonus"],
+                        race=race
+                    )
         if player_data["guild"]:
             if not Guild.objects.filter(
                 name=player_data["guild"]["name"]
@@ -45,7 +44,6 @@ def main() -> None:
                 bio=player_data["bio"],
                 race=race,
                 guild=guild,
-                created_at=datetime.now()
             )
 
 

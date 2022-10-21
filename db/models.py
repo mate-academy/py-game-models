@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import SET_NULL
 
 
 class Race(models.Model):
@@ -12,7 +13,7 @@ class Race(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE, null=True)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> None:
         return "%s %s %s" % (self.name, self.bonus, self.race)
@@ -30,6 +31,6 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE, null=True)
-    guild = models.ForeignKey(Guild, on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(auto_now=True)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    guild = models.ForeignKey(Guild, on_delete=SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
