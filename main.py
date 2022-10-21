@@ -7,39 +7,40 @@ def main() -> None:
     with open("players.json") as f:
         players = json.load(f)
 
-    for key, value in players.items():
-        if not Race.objects.filter(name=value["race"]["name"]).exists():
-            Race.objects.create(
-                name=value["race"]["name"],
-                description=value["race"]["description"]
+    for nickname, info in players.items():
+        race = None
+        if not Race.objects.filter(name=info["race"]["name"]).exists():
+            race = Race.objects.create(
+                name=info["race"]["name"],
+                description=info["race"]["description"]
             )
 
-            for skill in value["race"]["skills"]:
+            for skill in info["race"]["skills"]:
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=Race.objects.get(name=value["race"]["name"])
+                    race=race
                 )
 
         if (
-            value["guild"]
+            info["guild"]
             and not Guild.objects.filter(
-                name=value["guild"]["name"]
+                name=info["guild"]["name"]
             ).exists()
         ):
             Guild.objects.create(
-                name=value["guild"]["name"],
-                description=value["guild"]["description"]
+                name=info["guild"]["name"],
+                description=info["guild"]["description"]
             )
 
         Player.objects.create(
-            nickname=key,
-            email=value["email"],
-            bio=value["bio"],
-            race=Race.objects.get(name=value["race"]["name"]),
+            nickname=nickname,
+            email=info["email"],
+            bio=info["bio"],
+            race=race if race else Race.objects.get(name=info["race"]["name"]),
             guild=(
-                Guild.objects.get(name=value["guild"]["name"])
-                if value["guild"]
+                Guild.objects.get(name=info["guild"]["name"])
+                if info["guild"]
                 else None
             )
         )
