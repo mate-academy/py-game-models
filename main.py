@@ -24,16 +24,16 @@ def main() -> None:
 def create_player(
         player_name: str,
         player: dict,
-        race: int,
-        guild: int,
+        race_id: int,
+        guild_id: int,
 ) -> None:
     if not Player.objects.filter(nickname=player_name).exists():
         Player.objects.create(
             nickname=player_name,
             email=player["email"],
             bio=player["bio"],
-            race_id=race,
-            guild_id=guild
+            race_id=race_id,
+            guild_id=guild_id
         )
 
 
@@ -49,10 +49,7 @@ def create_guild(guild: dict) -> int:
 
 def create_race(race: dict) -> int:
     if not Race.objects.filter(name=race["name"]).exists():
-        Race.objects.create(
-            name=race["name"],
-            description=race["description"]
-        )
+        Race.objects.create(name=race["name"], description=race["description"])
 
     return Race.objects.get(name=race["name"]).id
 
