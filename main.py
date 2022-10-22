@@ -1,14 +1,13 @@
 import init_django_orm  # noqa: F401
 import json
 from db.models import Race, Skill, Player, Guild
-from django.db.models import QuerySet
 
 
-def create_guild(guild_info: None | dict) -> None | QuerySet:
+def create_guild(guild_info: None | dict) -> Guild | None:
     if guild_info:
         guild_name = guild_info["name"]
         if not Guild.objects.filter(name=guild_name).exists():
-            Guild.objects.create(
+            return Guild.objects.create(
                 name=guild_name,
                 description=guild_info["description"]
             )
@@ -16,17 +15,17 @@ def create_guild(guild_info: None | dict) -> None | QuerySet:
     return None
 
 
-def create_race(race_info: dict) -> QuerySet:
+def create_race(race_info: dict) -> Race:
     race_name = race_info["name"]
     if not Race.objects.filter(name=race_name).exists():
-        Race.objects.create(
+        return Race.objects.create(
             name=race_info["name"],
             description=race_info["description"]
         )
     return Race.objects.get(name=race_name)
 
 
-def create_skills(skills: list[dict], race: QuerySet) -> None:
+def create_skills(skills: list[dict], race: Race) -> None:
     for skill in skills:
         if not Skill.objects.filter(name=skill["name"]).exists():
             Skill.objects.create(
