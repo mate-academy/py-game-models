@@ -44,7 +44,8 @@ def main() -> None:
                     )
                 else:
                     player_guild = Guild.objects.get(
-                        name=player_data["guild"]["name"])
+                        name=player_data["guild"]["name"]
+                    )
             else:
                 player_guild = None
 
