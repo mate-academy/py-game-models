@@ -24,7 +24,8 @@ def main() -> None:
             race = Race.objects.get(name=race_dict["name"])
 
         guild_dict = player_info["guild"]
-        if guild_dict is not None:
+
+        if guild_dict:
             if not Guild.objects.filter(name=guild_dict["name"]).exists():
                 guild = Guild.objects.create(
                     name=guild_dict["name"],
