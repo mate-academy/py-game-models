@@ -19,6 +19,7 @@ def main() -> None:
                     name=user_race["name"],
                     description=user_race["description"]
                 )
+                race_id = Race.objects.get(name=user_race["name"])
 
             if user_guild:
                 if not Guild.objects.filter(name=user_guild["name"]).exists():
@@ -35,7 +36,7 @@ def main() -> None:
                     Skill.objects.create(
                         name=skill["name"],
                         bonus=skill["bonus"],
-                        race=Race.objects.get(name=user_race["name"])
+                        race=race_id
                     )
 
             Player.objects.create(
@@ -43,7 +44,7 @@ def main() -> None:
                 email=information["email"],
                 bio=information["bio"],
                 guild=guild_id,
-                race=Race.objects.get(name=user_race["name"])
+                race=race_id
             )
 
 
