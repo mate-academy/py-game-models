@@ -20,12 +20,12 @@ def main() -> None:
             )
 
             if user_guild:
-                guild_id, _ = Guild.objects.get_or_create(
+                guild_of_user, _ = Guild.objects.get_or_create(
                     name=user_guild["name"],
                     description=user_guild["description"]
                 )
             else:
-                guild_id = None
+                guild_of_user = None
 
             for skill in user_skills:
                 if not Skill.objects.filter(name=skill["name"]).exists():
@@ -39,7 +39,7 @@ def main() -> None:
                 nickname=user_name,
                 email=information["email"],
                 bio=information["bio"],
-                guild=guild_id,
+                guild=guild_of_user,
                 race=race_of_user
             )
 
