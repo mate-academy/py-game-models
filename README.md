@@ -40,7 +40,8 @@ It stores a short description provided by a user about himself/herself.
 - `race` - a foreign key that points to the `Race` model and shows 
 the race of the player.
 - `guild` - a foreign key that points to the `Guild` model and stores
-an id of the guild the player is a member of.
+an id of the guild the player is a member of. 
+**Please note:** player should not be deleted when the guild is deleted.
 - `created_at` - a DateTime field, that is set with the current time by default.
 
 
