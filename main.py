@@ -14,12 +14,11 @@ def main() -> None:
         if info.get("guild"):
 
             if not Guild.objects.filter(name=info["guild"]["name"]).exists():
-                guild = Guild.objects.create(
+                Guild.objects.create(
                     name=info["guild"]["name"],
                     description=info["guild"]["description"]
                 )
-            else:
-                guild = Guild.objects.get(name=info["guild"].get("name"))
+            guild = Guild.objects.get(name=info["guild"].get("name"))
         else:
             guild = None
 
