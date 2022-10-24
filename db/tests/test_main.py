@@ -75,5 +75,9 @@ def test_email_field():
     assert isinstance(Player._meta.get_field("email"), EmailField)
 
 
+@pytest.mark.django_db
 def test_guild_on_delete():
-    assert Player._meta.get_field("guild").remote_field.on_delete == models.SET_NULL
+    main()
+    players_quantity = len(Player.objects.all())
+    Guild.objects.all().delete()
+    assert players_quantity == len(Player.objects.all())
