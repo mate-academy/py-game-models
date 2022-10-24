@@ -14,12 +14,11 @@ def main() -> None:
         race = player_info["race"]
         skills = player_info["race"]["skills"]
 
-        if guild:
-            if not Guild.objects.filter(name=guild["name"]).exists():
-                Guild.objects.create(
-                    name=guild["name"],
-                    description=guild["description"]
-                )
+        if guild and not Guild.objects.filter(name=guild["name"]).exists():
+            Guild.objects.create(
+                name=guild["name"],
+                description=guild["description"]
+            )
         guild_in_db = Guild.objects.get(name=guild["name"]) if guild else None
 
         if not Race.objects.filter(name=race["name"]).exists():
