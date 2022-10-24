@@ -42,7 +42,8 @@ def main() -> None:
                 guild=guild
             )
         except IntegrityError:
-            print(f'A player with name {player_name} already exists! Choose another nickname.')
+            print(f"A player with name {player_name} already exists!"
+                  f" Choose another nickname.")
 
 
 if __name__ == "__main__":
