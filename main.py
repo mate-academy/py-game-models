@@ -24,11 +24,11 @@ def main() -> None:
 
         if not Race.objects.filter(name=info["race"]["name"]).exists():
 
-            race = Race.objects.create(
+            Race.objects.create(
                 name=info["race"]["name"],
                 description=info["race"]["description"]
             )
-        else:
+
             race = Race.objects.get(name=info["race"]["name"])
 
         for skill in info["race"].get("skills"):
