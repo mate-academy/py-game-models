@@ -26,14 +26,12 @@ def main() -> None:
 
 def create_race(player_info: dict) -> Race:
     if not Race.objects.filter(name=player_info["race"]["name"]).exists():
-        Race.objects.create(
+        return Race.objects.create(
             name=player_info["race"]["name"],
             description=player_info["race"]["description"]
         )
 
-    race = Race.objects.get(name=player_info["race"]["name"])
-
-    return race
+    return Race.objects.get(name=player_info["race"]["name"])
 
 
 def create_guild(player_info: dict) -> Guild | None:
