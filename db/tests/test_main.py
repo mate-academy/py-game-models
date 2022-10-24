@@ -1,7 +1,6 @@
 import pytest
 from django.db.models import EmailField
 
-from django.db import models
 from main import main, Race, Skill, Player, Guild
 
 
