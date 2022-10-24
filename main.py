@@ -1,4 +1,7 @@
 import json
+
+from django.db import IntegrityError
+
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
@@ -30,13 +33,16 @@ def main() -> None:
             description=guild["description"]
         )[0] if guild else None
 
-        Player.objects.get_or_create(
-            nickname=player_name,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=race,
-            guild=guild
-        )
+        try:
+            Player.objects.create(
+                nickname=player_name,
+                email=player_data["email"],
+                bio=player_data["bio"],
+                race=race,
+                guild=guild
+            )
+        except IntegrityError:
+            print(f'A player with name {player_name} already exists! Choose another nickname.')
 
 
 if __name__ == "__main__":
