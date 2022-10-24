@@ -31,7 +31,9 @@ def create_race(player_info: dict) -> Race:
             description=player_info["race"]["description"]
         )
 
-    return Race.objects.get(name=player_info["race"]["name"])
+    race = Race.objects.get(name=player_info["race"]["name"])
+
+    return race
 
 
 def create_guild(player_info: dict) -> Guild | None:
