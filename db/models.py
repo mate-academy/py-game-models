@@ -1,13 +1,12 @@
 from django.db import models
-from django.db.models import SET_NULL
 
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
 
-    def __str__(self) -> None:
-        return "%s %s" % (self.name, self.description)
+    def __str__(self) -> str:
+        return f"{self.name}, {self.description}"
 
 
 class Skill(models.Model):
@@ -15,16 +14,16 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
-    def __str__(self) -> None:
-        return "%s %s %s" % (self.name, self.bonus, self.race)
+    def __str__(self) -> str:
+        return f"{self.name}, {self.bonus}, {self.race}"
 
 
 class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(null=True, blank=True)
 
-    def __str__(self) -> None:
-        return "%s %s" % (self.name, self.description)
+    def __str__(self) -> str:
+        return f"{self.name}, {self.description}"
 
 
 class Player(models.Model):
@@ -32,5 +31,5 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=SET_NULL, null=True)
+    guild = models.ForeignKey(Guild, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
