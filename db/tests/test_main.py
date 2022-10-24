@@ -1,4 +1,5 @@
 import pytest
+from django.db import models
 from django.db.models import EmailField
 
 from main import main, Race, Skill, Player, Guild
@@ -72,3 +73,7 @@ def test_players():
 
 def test_email_field():
     assert isinstance(Player._meta.get_field("email"), EmailField)
+
+
+def test_guild_on_delete():
+    assert Player._meta.get_field("guild").remote_field.on_delete == models.SET_NULL
