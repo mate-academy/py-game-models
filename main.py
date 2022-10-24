@@ -5,41 +5,39 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json", "r") as f:
-        date = json.loads(f.read())
+        data = json.load(f)
 
-    def create_race(date: dict) -> Race:
-        date = date.get("race")
-        if not Race.objects.filter(name=date.get("name")).exists():
-            Race.objects.create(
-                name=date.get("name"),
-                description=date.get("description")
+    def create_race(data: dict) -> Race:
+        if not Race.objects.filter(name=data.get("name")).exists():
+            return Race.objects.create(
+                name=data.get("name"),
+                description=data.get("description")
             )
-        return Race.objects.get(name=date.get("name"))
+        return Race.objects.get(name=data.get("name"))
 
-    def create_skill(date: dict) -> None:
-        for skill in date.get("race").get("skills"):
+    def create_skill(data: dict) -> None:
+        for skill in data.get("skills"):
             if not Skill.objects.filter(name=skill.get("name")).exists():
                 Skill.objects.create(
                     name=skill.get("name"),
                     bonus=skill.get("bonus"),
-                    race=create_race(date)
+                    race=create_race(data)
                 )
 
-    def create_guild(date: dict) -> Guild | None:
-        if date.get("guild"):
-            date = date.get("guild")
-            if not Guild.objects.filter(name=date.get("name")).exists():
-                Guild.objects.create(
-                    name=date.get("name"),
-                    description=date.get("description")
+    def create_guild(data: dict) -> Guild | None:
+        if data:
+            if not Guild.objects.filter(name=data.get("name")).exists():
+                return Guild.objects.create(
+                    name=data.get("name"),
+                    description=data.get("description")
                 )
-            return Guild.objects.get(name=date.get("name"))
+            return Guild.objects.get(name=data.get("name"))
         return None
 
-    for name, info in date.items():
-        race = create_race(info)
-        guild = create_guild(info)
-        create_skill(info)
+    for name, info in data.items():
+        race = create_race(info.get("race"))
+        guild = create_guild(info.get("guild"))
+        create_skill(info.get("race"))
 
         Player.objects.create(
             nickname=name,

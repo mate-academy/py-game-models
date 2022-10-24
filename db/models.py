@@ -1,7 +1,7 @@
-from django.db import models as m
+from django.db import models
 
 
-class Race(m.Model):
+class Race(models.Model):
     races = (
         ("E", "Elf"),
         ("D", "Dwarf"),
@@ -9,37 +9,37 @@ class Race(m.Model):
         ("O", "Ork")
     )
 
-    name = m.CharField(max_length=255, unique=True, choices=races)
-    description = m.TextField(blank=True)
+    name = models.CharField(max_length=255, unique=True, choices=races)
+    description = models.TextField(blank=True)
 
     def __str__(self) -> str:
-        return f"The race is:{self.name}"
+        return f"The race is: {self.name}"
 
 
-class Skill(m.Model):
-    name = m.CharField(max_length=255, unique=True)
-    bonus = m.CharField(max_length=255)
-    race = m.ForeignKey(Race, on_delete=m.PROTECT)
+class Skill(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    bonus = models.CharField(max_length=255)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"Skill: {self.name}, belongs to {self.race.name}"
 
 
-class Guild(m.Model):
-    name = m.CharField(max_length=255, unique=True)
-    description = m.TextField(blank=True, null=True)
+class Guild(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"Guild {self.name}!"
+        return f"Guild: {self.name}!"
 
 
-class Player(m.Model):
-    nickname = m.CharField(max_length=255, unique=True)
-    email = m.EmailField(max_length=255)
-    bio = m.CharField(max_length=255)
-    race = m.ForeignKey(Race, on_delete=m.PROTECT)
-    guild = m.ForeignKey(Guild, on_delete=m.PROTECT, null=True)
-    create_at = m.DateTimeField(auto_now=True)
+class Player(models.Model):
+    nickname = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255)
+    bio = models.CharField(max_length=255)
+    race = models.ForeignKey(Race, on_delete=models.PROTECT)
+    guild = models.ForeignKey(Guild, on_delete=models.CASCADE, null=True)
+    create_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return (f"Name: {self.nickname}, "
