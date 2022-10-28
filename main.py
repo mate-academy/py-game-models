@@ -6,7 +6,6 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    pass
     with open("players.json") as file:
         players = load(file)
 
@@ -28,29 +27,31 @@ def main() -> None:
                 description=race_description
             )
 
+        race = Race.objects.get(name=race_name)
+
         for skill in race_skills:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race_id=race_name
+                    race=race
                 )
 
-        if guild_name and not Guild.objects.filter(name=guild_name).exists():
-            Guild.objects.create(
-                name=guild_name,
-                description=guild_description,
-            )
+        guild = None
+
+        if guild_name:
+            if not Guild.objects.filter(name=guild_name).exists():
+                Guild.objects.create(
+                    name=guild_name,
+                    description=guild_description,
+                )
+            guild = Guild.objects.get(name=guild_name)
 
         if not Player.objects.filter(nickname=nickname).exists():
             Player.objects.create(
                 nickname=nickname,
                 email=email,
                 bio=bio,
-                race_id=race_name,
-                guild_id=guild_name
+                race=race,
+                guild=guild
             )
-
-
-if __name__ == "__main__":
-    main()
