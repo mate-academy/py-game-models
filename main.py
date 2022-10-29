@@ -30,7 +30,7 @@ def main() -> None:
         if not Race.objects.filter(name=race["name"]).exists():
             info_race = race["description"] if race["description"] else ""
             Race.objects.create(
-                name=race['name'],
+                name=race["name"],
                 description=info_race
             )
 
