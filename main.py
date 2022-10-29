@@ -17,7 +17,7 @@ def main() -> None:
         try:
             if not Guild.objects.filter(name=guild["name"]).exists():
                 info_guild = guild["description"] if guild[
-                    "description"] else ""
+                    "description"] is not None else None
                 Guild.objects.create(
                     name=guild["name"],
                     description=info_guild
