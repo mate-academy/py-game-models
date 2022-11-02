@@ -14,16 +14,17 @@ def main() -> None:
         skills = race["skills"]
         guild = player_info["guild"]
 
-        try:
-            if not Guild.objects.filter(name=guild["name"]).exists():
-                info_guild = guild["description"] if guild[
-                    "description"] is not None else None
-                Guild.objects.create(
-                    name=guild["name"],
-                    description=info_guild
-                )
-        except TypeError:
+        if guild is None:
             guild_inst = None
+        elif not Guild.objects.filter(name=guild["name"]).exists():
+            info_guild = guild["description"] if \
+                guild["description"] is not None \
+                else None
+            Guild.objects.create(
+                name=guild["name"],
+                description=info_guild
+            )
+            guild_inst = Guild.objects.get(name=guild["name"])
         else:
             guild_inst = Guild.objects.get(name=guild["name"])
 
