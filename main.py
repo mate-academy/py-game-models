@@ -4,42 +4,68 @@ import json
 
 from db.models import Race, Skill, Player, Guild
 
+from skills import Skills as Skill_class
+
+from race import Race as Race_class
+
+from guild import Guild as Guild_class
+
+from player import Player as Player_class
+
 
 def main() -> None:
     with open("players.json", "r") as data_file:
         data = json.load(data_file)
         for checker in data:
-            race_name = data.get(checker).get("race").get("name")
-            if Race.objects.filter(
-                    name=race_name).exists() is False:
-                properties = data.get(checker).get("race").get("description")
-                race_hero = Race.objects.create(
-                    name=data.get(checker).get("race").get("name"),
-                    description=properties)
+            # object class Race from race.py
+            race = Race_class(
+                name=data.get(checker).get("race").get("name"),
+                description=data.get(checker).get("race").get("description"))
+            if Race.objects.filter(name=race.name).exists() is False:
+                race_hero = Race.objects.create(name=race.name,
+                                                description=race.description)
+            skills = data.get(checker).get("race").get("skills")
+            skills_update(skills, race_hero)
             if data.get(checker).get("guild") is not None:
-                guild_check = data.get(checker).get("guild").get("name")
+                descript = data.get(checker).get("guild").get("description")
+                # object class Guild from guild.py
+                guild = Guild_class(
+                    description=descript,
+                    name=data.get(checker).get("guild").get("name"))
             if data.get(checker).get("guild") is None:
                 guild_name = None
-            if Guild.objects.filter(name=guild_check).exists() is False:
-                descript = data.get(checker).get("guild").get("description")
+            if Guild.objects.filter(name=guild.name).exists() is False:
                 guild_name = Guild.objects.create(
-                    name=data.get(checker).get("guild").get("name"),
-                    description=descript)
+                    name=guild.name,
+                    description=guild.description)
+            # object class Player from player.py
+            player = Player_class(nickname=checker,
+                                  email=data.get(checker).get("email"),
+                                  bio=data.get(checker).get("bio"),
+                                  race=race_hero,
+                                  guild=guild_name)
             if Player.objects.filter(nickname=checker).exists() is False:
                 Player.objects.create(
-                    nickname=checker,
-                    email=data.get(checker).get("email"),
-                    bio=data.get(checker).get("bio"),
-                    race=race_hero,
-                    guild=guild_name)
-            skills = data.get(checker).get("race").get("skills")
-            for skill in skills:
-                if Skill.objects.filter(
-                        name=skill.get("name")).exists() is False:
-                    Skill.objects.create(
-                        name=skill.get("name"),
-                        bonus=skill.get("bonus"),
-                        race=race_hero)
+                    nickname=player.nickname,
+                    email=player.email,
+                    bio=player.bio,
+                    race=player.race,
+                    guild=player.guild)
+
+
+def skills_update(skills: list, race_hero: callable) -> None:
+    for skill in skills:
+        # object class Skills from skills.py
+        hero_skill = Skill_class(
+            name=skill.get("name"),
+            bonus=skill.get("bonus"),
+            race=race_hero)
+        if Skill.objects.filter(
+                name=hero_skill.name).exists() is False:
+            Skill.objects.create(
+                name=hero_skill.name,
+                bonus=hero_skill.bonus,
+                race=hero_skill.race)
 
 
 if __name__ == "__main__":
