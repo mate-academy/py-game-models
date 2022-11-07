@@ -4,72 +4,59 @@ import json
 
 from db.models import Race, Skill, Player, Guild
 
-from skills import Skills as Skill_class
-
-from race import Race as Race_class
-
-from guild import Guild as Guild_class
-
-from player import Player as Player_class
-
 
 def main() -> None:
-    with open("players.json", "r") as data_file:
-        data = json.load(data_file)
-        for checker in data:
-            # object class Race from race.py
-            race = Race_class(
-                name=data.get(checker).get("race").get("name"),
-                description=data.get(checker).get("race").get("description"))
-            if not Race.objects.filter(name=race.name).exists():
-                race_hero = Race.objects.create(name=race.name,
-                                                description=race.description)
-            skills = data.get(checker).get("race").get("skills")
-            skills_update(skills, race_hero)
-            if not data.get(checker).get("guild") is None:
-                guild_name = guild_update(data, checker)
-            if data.get(checker).get("guild") is None:
-                guild_name = None
-            # object class Player from player.py
-            player = Player_class(nickname=checker,
-                                  email=data.get(checker).get("email"),
-                                  bio=data.get(checker).get("bio"),
-                                  race=race_hero,
-                                  guild=guild_name)
-            if not Player.objects.filter(nickname=checker).exists():
-                Player.objects.create(
-                    nickname=player.nickname,
-                    email=player.email,
-                    bio=player.bio,
-                    race=player.race,
-                    guild=player.guild)
+    file_characters = open("players.json")
+    data = json.load(file_characters)
+    for player in data:
+        race_name = data.get(player).get("race").get("name")
+        race_descript = data.get(player).get("race").get("description")
+        race_hero = race_update(race_name, race_descript)
+        skills = data.get(player).get("race").get("skills")
+        skill_update(skills, race_hero)
+        guild_check = data.get(player).get("guild")
+        guild = guild_update(guild_check)
+        if not Player.objects.filter(nickname=player).exists():
+            Player.objects.create(
+                nickname=player,
+                email=data.get(player).get("email"),
+                bio=data.get(player).get("bio"),
+                race=race_hero,
+                guild=guild)
+    file_characters.close()
 
 
-def guild_update(players_data, player_check) -> [str, None]:
-    descript = players_data.get(player_check).get("guild").get("description")
-    # object class Guild from guild.py
-    guild = Guild_class(
-        description=descript,
-        name=players_data.get(player_check).get("guild").get("name"))
-    if not Guild.objects.filter(name=guild.name).exists():
-        return Guild.objects.create(
-            name=guild.name,
-            description=guild.description)
+def race_update(race_name: str, race_description: str) -> Race.objects:
+    if not Race.objects.filter(name=race_name).exists():
+        return Race.objects.create(
+            name=race_name,
+            description=race_description)
+    else:
+        return Race.objects.filter(name=race_name).get()
 
 
-def skills_update(skills: list, race_hero: callable) -> None:
+def skill_update(skills: list, race: Race.objects) -> None:
     for skill in skills:
-        # object class Skills from skills.py
-        hero_skill = Skill_class(
-            name=skill.get("name"),
-            bonus=skill.get("bonus"),
-            race=race_hero)
         if not Skill.objects.filter(
-                name=hero_skill.name).exists():
+                name=skill.get("name")).exists():
             Skill.objects.create(
-                name=hero_skill.name,
-                bonus=hero_skill.bonus,
-                race=hero_skill.race)
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race=race)
+
+
+def guild_update(guild: [dict, None]) -> Guild.objects:
+    if guild is not None:
+        if not Guild.objects.filter(
+                name=guild.get("name")).exists():
+            return Guild.objects.create(
+                name=guild.get("name"),
+                description=guild.get("description"))
+    if guild is None:
+        return None
+    else:
+        return Guild.objects.filter(
+            name=guild.get("name")).get()
 
 
 if __name__ == "__main__":
