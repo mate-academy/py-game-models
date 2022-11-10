@@ -8,46 +8,57 @@ def main() -> None:
     with open("players.json") as file:
         players = json.load(file)
 
+    def race_loading(name: str, description: str) -> None:
+        if not Race.objects.filter(name=name):
+            Race.objects.create(
+                name=name,
+                description=description
+            )
+
+    def skills_loading(skills: list, race_name: Race) -> None:
+        for skill in skills:
+            if not Skill.objects.filter(name=skill["name"]):
+                Skill.objects.create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race_name
+                )
+
+    def guild_loading(name: str, description: str) -> None:
+        if not Guild.objects.filter(name=name):
+            Guild.objects.create(
+                name=name,
+                description=description)
+
     # load players into a db
     for player_name, player_content in players.items():
 
         # load race data
-        additional_race_name = player_content["race"]["name"]
-        additional_race_description = player_content["race"]["description"]
-        if not Race.objects.filter(name=additional_race_name):
-            Race.objects.create(name=additional_race_name,
-                                description=additional_race_description)
+        race_loading(
+            name=player_content["race"]["name"],
+            description=player_content["race"]["description"]
+        )
 
         # load skills data
-        skills = player_content["race"]["skills"]
-        additional_race = Race.objects.get(name=additional_race_name)
-        for skill in skills:
-            additional_skill_name = skill["name"]
-            additional_skill_bonus = skill["bonus"]
-            if not Skill.objects.filter(name=additional_skill_name):
-                Skill.objects.create(
-                    name=additional_skill_name,
-                    bonus=additional_skill_bonus,
-                    race=additional_race
-                )
+        skills_loading(
+            skills=player_content["race"]["skills"],
+            race_name=Race.objects.get(name=player_content["race"]["name"])
+        )
 
         # load guild data
         if player_content["guild"] is not None:
-            additional_guild_name = player_content["guild"]["name"]
-            additional_guild_description = None
-            if player_content["guild"]["description"]:
-                additional_guild_description =\
-                    player_content["guild"]["description"]
-            if not Guild.objects.filter(name=additional_guild_name):
-                Guild.objects.create(name=additional_guild_name,
-                                     description=additional_guild_description)
-
-        # load player data
-        additional_guild = None
-        if player_content["guild"] is not None:
+            guild_loading(
+                name=player_content["guild"]["name"],
+                description=player_content["guild"]["description"]
+            )
             additional_guild = Guild.objects.get(
                 name=player_content["guild"]["name"]
             )
+        else:
+            additional_guild = None
+
+        # load player data
+        additional_race = Race.objects.get(name=player_content["race"]["name"])
         Player.objects.create(
             nickname=player_name,
             email=player_content["email"],
@@ -59,7 +70,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-    # with open("players.json") as file:
-    #     players = json.load(file)
-    # print(players["nick"]["guild"])
