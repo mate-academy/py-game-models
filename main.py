@@ -32,7 +32,7 @@ def create_race(value: dict) -> Race:
     return Race.objects.get(name=value["race"]["name"])
 
 
-def create_guild(value: dict) -> None:
+def create_guild(value: dict) -> Guild or None:
     if value["guild"]:
         if not Guild.objects.filter(
                 name=value["guild"]["name"]
