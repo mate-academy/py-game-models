@@ -9,9 +9,7 @@ def main() -> None:
     with open("players.json", "r") as players:
         data_players = json.load(players)
     for nickname, characteristic in data_players.items():
-        if not Player.objects.filter(
-            nickname=nickname
-        ).exists():
+        if not Player.objects.filter(nickname=nickname).exists():
             if not Race.objects.filter(
                     name=characteristic["race"]["name"]
             ).exists():
@@ -24,17 +22,21 @@ def main() -> None:
                     name=characteristic["race"]["name"]
                 )
             for skill in characteristic["race"]["skills"]:
-                if not Skill.objects.filter(
-                        name=skill["name"]
-                ).exists():
+                if not Skill.objects.filter(name=skill["name"]).exists():
                     Skill.objects.create(
                         name=skill["name"],
                         bonus=skill["bonus"],
                         race=race
                     )
+            Player.objects.create(
+                nickname=nickname,
+                email=characteristic["email"],
+                bio=characteristic["bio"],
+                race=race
+            )
             if characteristic["guild"]:
                 if not Guild.objects.filter(
-                    name=characteristic["guild"]["name"]
+                        name=characteristic["guild"]["name"]
                 ).exists():
                     guild = Guild.objects.create(
                         name=characteristic["guild"]["name"],
@@ -44,20 +46,7 @@ def main() -> None:
                     guild = Guild.objects.get(
                         name=characteristic["guild"]["name"]
                     )
-                Player.objects.create(
-                    nickname=nickname,
-                    email=characteristic["email"],
-                    bio=characteristic["bio"],
-                    race=race,
-                    guild=guild
-                )
-            else:
-                Player.objects.create(
-                    nickname=nickname,
-                    email=characteristic["email"],
-                    bio=characteristic["bio"],
-                    race=race,
-                )
+                Player.objects.filter(nickname=nickname).update(guild=guild)
 
 
 if __name__ == "__main__":
