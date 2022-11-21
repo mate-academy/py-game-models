@@ -17,13 +17,17 @@ def main() -> None:
                 description=info["race"]["description"]
             )
 
-    skills = list(data.values())[1]["race"]["skills"]
-    for skill in skills:
-        Skill.objects.create(
-            name=skill["name"],
-            bonus=skill["bonus"],
-            race=Race.objects.get(name="elf")
-        )
+    list_of_skills = []
+    for name, info in data.items():
+        skills = info["race"]["skills"]
+        for skill in skills:
+            if skill["name"] not in list_of_skills:
+                list_of_skills.append(skill["name"])
+                Skill.objects.create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=Race.objects.get(name=info["race"]["name"])
+                )
 
     list_of_guils = []
     for name, info in data.items():
