@@ -16,14 +16,18 @@ def main() -> None:
             Race.objects.create(name=player_race["name"],
                                 description=player_race["description"])
 
-        player_guild = user_inform["guild"]
-        if player_guild is not None and not Guild.objects.filter(
-            name=player_guild["name"]
-        ).exists():
-            Guild.objects.create(
-                name=player_guild["name"],
-                description=player_guild["description"]
-            )
+        if user_inform["guild"] is not None:
+            if not \
+                    Guild.objects.filter(
+                        name=user_inform["guild"]["name"]
+                    ).exists():
+                Guild.objects.create(
+                    name=user_inform["guild"]["name"],
+                    description=user_inform["guild"]["description"]
+                )
+            player_guild = Guild.objects.get(name=user_inform["guild"]["name"])
+        else:
+            player_guild = None
 
         player_skill = user_inform["race"]["skills"]
         for skill in player_skill:
@@ -36,21 +40,13 @@ def main() -> None:
                     race=Race.objects.get(name=player_race["name"])
                 )
 
-        try:
+        if not Player.objects.filter(nickname=user_name).exists():
             Player.objects.create(
                 nickname=user_name,
                 email=user_inform["email"],
                 bio=user_inform["bio"],
                 race=Race.objects.get(name=player_race["name"]),
-                guild=Guild.objects.get(name=player_guild["name"])
-            )
-        except TypeError:
-            Player.objects.create(
-                nickname=user_name,
-                email=user_inform["email"],
-                bio=user_inform["bio"],
-                race=Race.objects.get(name=player_race["name"])
-            )
+                guild=player_guild)
 
 
 if __name__ == "__main__":
