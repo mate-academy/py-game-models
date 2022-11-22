@@ -13,7 +13,7 @@ def main() -> None:
         race_description = info["race"]["description"]
         if not Race.objects.filter(name=race_name).exists():
             Race.objects.create(name=race_name,
-                                descriptions=race_description)
+                                description=race_description)
 
         skills = info["race"]["skills"]
         for skill in skills:
@@ -21,27 +21,23 @@ def main() -> None:
             skill_bonus = skill["bonus"]
             if not Skill.objects.filter(name=skill_name).exists():
                 Skill.objects.create(name=skill_name,
-                                     bonus=skill_bonus)
+                                     bonus=skill_bonus,
+                                     race=Race.objects.get(name=race_name))
 
         if info["guild"]:
             guild_name = info["guild"]["name"]
             guild_description = info["guild"]["description"]
             if not Guild.objects.filter(name=guild_name).exists():
-                Guild.objects.create(name=guild_name, description=guild_description)
+                Guild.objects.create(name=guild_name,
+                                     description=guild_description)
 
-            Player.objects.create(
-                                  nickname=name,
+            Player.objects.create(nickname=name,
                                   email=info["email"],
                                   bio=info["bio"],
                                   race=Race.objects.get(name=race_name),
-                                  guild=Guild.objects.get(name=guild_name)
-            )
+                                  guild=Guild.objects.get(name=guild_name))
         else:
-            Player.objects.create(
-                                  nickname=name,
+            Player.objects.create(nickname=name,
                                   email=info["email"],
                                   bio=info["bio"],
-                                  race=Race.objects.get(name=race_name)
-            )
-
-
+                                  race=Race.objects.get(name=race_name))
