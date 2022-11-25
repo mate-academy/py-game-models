@@ -8,6 +8,8 @@ def main() -> None:
     with open("players.json") as players:
         data = json.load(players)
     list_of_race = []
+    list_of_skills = []
+    list_of_guils = []
     for name, info in data.items():
         name_of_race = info["race"]["name"]
         if name_of_race not in list_of_race:
@@ -17,8 +19,6 @@ def main() -> None:
                 description=info["race"]["description"]
             )
 
-    list_of_skills = []
-    for name, info in data.items():
         skills = info["race"]["skills"]
         for skill in skills:
             if skill["name"] not in list_of_skills:
@@ -29,8 +29,6 @@ def main() -> None:
                     race=Race.objects.get(name=info["race"]["name"])
                 )
 
-    list_of_guils = []
-    for name, info in data.items():
         guild = info["guild"]
         if isinstance(guild, dict) and\
                 guild["name"] not in list_of_guils:
@@ -39,7 +37,7 @@ def main() -> None:
                 name=guild["name"],
                 description=guild["description"]
             )
-    for name, info in data.items():
+
         name_of_race = info["race"]["name"]
         if info["guild"] is not None:
             guild = Guild.objects.get(name=info["guild"]["name"])
