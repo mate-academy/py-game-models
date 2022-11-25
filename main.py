@@ -42,20 +42,16 @@ def main() -> None:
     for name, info in data.items():
         name_of_race = info["race"]["name"]
         if info["guild"] is not None:
-            Player.objects.create(
-                nickname=name,
-                email=info["email"],
-                bio=info["bio"],
-                race=Race.objects.get(name=name_of_race),
-                guild=Guild.objects.get(name=info["guild"]["name"])
-            )
+            guild = Guild.objects.get(name=info["guild"]["name"])
         else:
-            Player.objects.create(
-                nickname=name,
-                email=info["email"],
-                bio=info["bio"],
-                race=Race.objects.get(name=name_of_race)
-            )
+            guild = None
+        Player.objects.create(
+            nickname=name,
+            email=info["email"],
+            bio=info["bio"],
+            race=Race.objects.get(name=name_of_race),
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
