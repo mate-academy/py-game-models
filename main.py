@@ -21,11 +21,10 @@ def main() -> None:
                     Guild.objects.filter(
                         name=user_inform["guild"]["name"]
                     ).exists():
-                Guild.objects.create(
+                player_guild = Guild.objects.create(
                     name=user_inform["guild"]["name"],
                     description=user_inform["guild"]["description"]
                 )
-            player_guild = Guild.objects.get(name=user_inform["guild"]["name"])
         else:
             player_guild = None
 
