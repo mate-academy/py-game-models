@@ -5,26 +5,18 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-
-    # load information from json
-
     with open("players.json", "r") as f:
         players = json.load(f)
     for key, value in players.items():
-
-        # create unique race
-
+        race_name = value["race"]["name"]
         race = Race(
-            name=value["race"]["name"],
+            name=race_name,
             description=value["race"]["description"]
         )
-        if Race.objects.filter(name=value["race"]["name"]).exists() is False:
+        if Race.objects.filter(name=race_name).exists() is False:
             race.save()
-
-        # create skills
-
         for skill in value["race"]["skills"]:
-            race_ = Race.objects.get(name=value["race"]["name"])
+            race_ = Race.objects.get(name=race_name)
             skill_ = Skill(
                 name=skill["name"],
                 bonus=skill["bonus"],
@@ -32,9 +24,6 @@ def main() -> None:
             )
             if Skill.objects.filter(name=skill["name"]).exists() is False:
                 skill_.save()
-
-        # create guilds
-
         if value["guild"] is not None:
             guild = Guild(
                 name=value["guild"]["name"],
@@ -44,13 +33,9 @@ def main() -> None:
                     name=value["guild"]["name"]
             ).exists() is False:
                 guild.save()
-
-        # create players
-
-        race_for_player = Race.objects.get(name=value["race"]["name"])
-        guild_for_player = None
-        if value["guild"] is not None:
-            guild_for_player = Guild.objects.get(name=value["guild"]["name"])
+        race_for_player = Race.objects.get(name=race_name)
+        guild_for_player = Guild.objects.get(name=value["guild"]["name"]) \
+            if value["guild"] is not None else None
         player_ = Player(
             nickname=key,
             email=value["email"],
