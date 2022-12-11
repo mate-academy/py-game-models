@@ -7,16 +7,16 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as f:
         players = json.load(f)
-    for key, value in players.items():
-        race_name = value["race"]["name"]
+    for nickname, player_info in players.items():
+        race_name = player_info["race"]
         race = Race(
-            name=race_name,
-            description=value["race"]["description"]
+            name=race_name["name"],
+            description=race_name["description"]
         )
-        if Race.objects.filter(name=race_name).exists() is False:
+        if Race.objects.filter(name=race_name["name"]).exists() is False:
             race.save()
-        for skill in value["race"]["skills"]:
-            race_ = Race.objects.get(name=race_name)
+        for skill in race_name["skills"]:
+            race_ = Race.objects.get(name=race_name["name"])
             skill_ = Skill(
                 name=skill["name"],
                 bonus=skill["bonus"],
@@ -24,22 +24,23 @@ def main() -> None:
             )
             if Skill.objects.filter(name=skill["name"]).exists() is False:
                 skill_.save()
-        if value["guild"] is not None:
+        guild_ = player_info["guild"]
+        if guild_ is not None:
             guild = Guild(
-                name=value["guild"]["name"],
-                description=value["guild"]["description"]
+                name=guild_["name"],
+                description=guild_["description"]
             )
             if Guild.objects.filter(
-                    name=value["guild"]["name"]
+                    name=guild_["name"]
             ).exists() is False:
                 guild.save()
-        race_for_player = Race.objects.get(name=race_name)
-        guild_for_player = Guild.objects.get(name=value["guild"]["name"]) \
-            if value["guild"] is not None else None
+        race_for_player = Race.objects.get(name=race_name["name"])
+        guild_for_player = Guild.objects.get(name=guild_["name"]) \
+            if guild_ is not None else None
         player_ = Player(
-            nickname=key,
-            email=value["email"],
-            bio=value["bio"],
+            nickname=nickname,
+            email=player_info["email"],
+            bio=player_info["bio"],
             race=race_for_player,
             guild=guild_for_player
         )
