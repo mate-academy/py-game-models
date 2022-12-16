@@ -6,26 +6,32 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json") as players:
         players_data = json.load(players)
+    player_race = None
+    player_guild = None
+
     for person in players_data:
-        email_to_add = players_data[person]["email"]
-        bio_to_add = players_data[person]["bio"]
-        race_to_add = players_data[person]["race"]
-        guild_to_add = players_data[person]["guild"]
-        skill_to_add = players_data[person]["race"]["skills"]
+        data = players_data[person]
+        email_to_add = data["email"]
+        person_bio = data["bio"]
+        person_race = data["race"]
+        person_guild = data["guild"]
+        person_skill = data["race"]["skills"]
         if not Race.objects.filter(
-            name=race_to_add["name"], description=race_to_add["description"]
+            name=person_race["name"], description=person_race["description"]
         ).exists():
             player_race = Race.objects.create(
-                name=race_to_add["name"],
-                description=race_to_add["description"]
+                name=person_race["name"],
+                description=person_race["description"]
             )
-        if players_data[person]["guild"]:
-            if not Guild.objects.filter(name=guild_to_add["name"]).exists():
+        if data["guild"]:
+            if Guild.objects.filter(
+                    name=person_guild["name"]).exists() is False:
                 player_guild = Guild.objects.create(
-                    name=guild_to_add["name"],
-                    description=guild_to_add["description"]
+                    name=person_guild["name"],
+                    description=person_guild["description"]
                 )
-        for skill in skill_to_add:
+
+        for skill in person_skill:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"], bonus=skill["bonus"], race=player_race
@@ -33,9 +39,9 @@ def main() -> None:
         Player.objects.create(
             nickname=person,
             email=email_to_add,
-            bio=bio_to_add,
+            bio=person_bio,
             race=player_race,
-            guild=player_guild if players_data[person]["guild"] else None,
+            guild=player_guild if data["guild"] else None,
         )
 
 
