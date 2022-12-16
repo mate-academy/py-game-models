@@ -9,39 +9,33 @@ def main() -> None:
     player_race = None
     player_guild = None
 
-    for person in players_data:
-        data = players_data[person]
-        email_to_add = data["email"]
-        person_bio = data["bio"]
-        person_race = data["race"]
-        person_guild = data["guild"]
-        person_skill = data["race"]["skills"]
+    for person_name, info in players_data.items():
         if not Race.objects.filter(
-            name=person_race["name"], description=person_race["description"]
+            name=info["race"]["name"], description=info["race"]["description"]
         ).exists():
             player_race = Race.objects.create(
-                name=person_race["name"],
-                description=person_race["description"]
+                name=info["race"]["name"],
+                description=info["race"]["description"]
             )
-        if data["guild"]:
+        if info["guild"]:
             if Guild.objects.filter(
-                    name=person_guild["name"]).exists() is False:
+                    name=info["guild"]["name"]).exists() is False:
                 player_guild = Guild.objects.create(
-                    name=person_guild["name"],
-                    description=person_guild["description"]
+                    name=info["guild"]["name"],
+                    description=info["guild"]["description"]
                 )
 
-        for skill in person_skill:
+        for skill in info["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"], bonus=skill["bonus"], race=player_race
                 )
         Player.objects.create(
-            nickname=person,
-            email=email_to_add,
-            bio=person_bio,
+            nickname=person_name,
+            email=info["email"],
+            bio=info["bio"],
             race=player_race,
-            guild=player_guild if data["guild"] else None,
+            guild=player_guild if info["guild"] else None,
         )
 
 
