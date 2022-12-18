@@ -7,29 +7,29 @@ def main() -> None:
     with open("players.json") as players_data:
         players = json.load(players_data)
 
-    for player in players.keys():
+    for player, player_info in players.items():
         player_instance = Player.objects.create(
             nickname=player,
-            email=players[player]["email"],
-            bio=players[player]["bio"],
-            race=Race.objects.get(name=players[player]["race"]["name"])
-            if Race.objects.filter(name=players[player]["race"]["name"])
+            email=player_info["email"],
+            bio=player_info["bio"],
+            race=Race.objects.get(name=player_info["race"]["name"])
+            if Race.objects.filter(name=player_info["race"]["name"])
             else Race.objects.create(
-                name=players[player]["race"]["name"],
-                description=players[player]["race"]["description"] if
-                players[player]["race"]["description"] else None
+                name=player_info["race"]["name"],
+                description=player_info["race"]["description"] if
+                player_info["race"]["description"] else None
             ),
-            guild=None if not players[player]["guild"] else
+            guild=None if not player_info["guild"] else
             (
-                Guild.objects.get(name=players[player]["guild"]["name"])
-                if Guild.objects.filter(name=players[player]["guild"]["name"])
+                Guild.objects.get(name=player_info["guild"]["name"])
+                if Guild.objects.filter(name=player_info["guild"]["name"])
                 else Guild.objects.create(
-                    name=players[player]["guild"]["name"],
-                    description=players[player]["guild"]["description"]
-                    if players[player]["guild"]["description"] else None
+                    name=player_info["guild"]["name"],
+                    description=player_info["guild"]["description"]
+                    if player_info["guild"]["description"] else None
                 )),
         )
-        for skill in players[player]["race"]["skills"]:
+        for skill in player_info["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]):
                 Skill.objects.create(
                     name=skill["name"],
