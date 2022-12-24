@@ -7,27 +7,30 @@ import json
 def main() -> None:
     with open("players.json", "r") as file:
         read_file = json.load(file)
-        for key, value in read_file.items():
-            if not Race.objects.filter(name=value["race"]["name"]).exists():
+        for nickname, player_info in read_file.items():
+            if not Race.objects.filter(
+                    name=player_info["race"]["name"]).exists():
                 race_instance = Race.objects.create(
-                    name=value["race"]["name"],
-                    description=value["race"]["description"])
-            for i in value["race"]["skills"]:
-                if not Skill.objects.filter(name=i["name"]).exists():
-                    Skill.objects.create(name=i["name"],
-                                         bonus=i["bonus"],
+                    name=player_info["race"]["name"],
+                    description=player_info["race"]["description"])
+            for skill_dict in player_info["race"]["skills"]:
+                if not Skill.objects.filter(name=skill_dict["name"]).exists():
+                    Skill.objects.create(name=skill_dict["name"],
+                                         bonus=skill_dict["bonus"],
                                          race=race_instance)
-            if value["guild"] is not None and \
+            if player_info["guild"] is not None and \
                     not Guild.objects.filter(
-                        name=value["guild"]["name"]).exists():
+                        name=player_info["guild"]["name"]).exists():
                 guid_instance = Guild.objects.create(
-                    name=value["guild"]["name"],
-                    description=value["guild"]["description"])
-            if value["guild"] is None:
+                    name=player_info["guild"]["name"],
+                    description=player_info["guild"]["description"])
+            if player_info["guild"] is None:
                 guid_instance = None
-            if not Player.objects.filter(nickname=key).exists():
-                Player.objects.create(nickname=key, email=value["email"],
-                                      bio=value["bio"], race=race_instance,
+            if not Player.objects.filter(nickname=nickname).exists():
+                Player.objects.create(nickname=nickname,
+                                      email=player_info["email"],
+                                      bio=player_info["bio"],
+                                      race=race_instance,
                                       guild=guid_instance)
 
 
