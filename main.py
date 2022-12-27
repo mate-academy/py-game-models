@@ -8,7 +8,6 @@ def main() -> None:
     with open("players.json", "r") as players_file:
         file_with_players = json.load(players_file)
         for player in file_with_players:
-            print(file_with_players[player]["guild"])
             if not Race.objects.filter(
                     name=file_with_players[player]["race"]["name"]
             ).exists():
