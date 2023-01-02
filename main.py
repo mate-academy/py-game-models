@@ -3,6 +3,10 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
+class DoesNotExist:
+    pass
+
+
 def main() -> None:
     with open("players.json") as file:
         data = json.load(file)
@@ -23,6 +27,7 @@ def main() -> None:
             skill.race = race
             skill.save()
 
+        guild = None
         if info["guild"] is not None:
             if not Guild.objects.filter(name=info["guild"]["name"]).exists():
                 guild = Guild.objects.create(
@@ -31,13 +36,8 @@ def main() -> None:
                 )
             else:
                 guild = Guild.objects.get(name=info["guild"]["name"])
-            Player.objects.create(nickname=name, email=info["email"],
-                                  bio=info["bio"], race=race, guild=guild)
-
-        else:
-            Player.objects.create(nickname=name, email=info["email"],
-                                  bio=info["bio"], race=race)
-
-
-if __name__ == "__main__":
-    print(main())
+        Player.objects.create(nickname=name,
+                              email=info["email"],
+                              bio=info["bio"],
+                              race=race,
+                              guild=guild)
