@@ -8,7 +8,6 @@ def main() -> None:
     with open("players.json") as file:
         players = json.load(file)
     race = None
-    guild = None
     for name, info in players.items():
         info_race = info["race"]
         if not Race.objects.filter(
@@ -25,7 +24,8 @@ def main() -> None:
                     race=race
                 )
         info_guild = info["guild"]
-        if info_guild:
+        guild = None
+        if info_guild is not None:
             guild_description = (
                 info_guild["description"] if info_guild["description"] else
                 None
@@ -37,12 +37,10 @@ def main() -> None:
                     name=info_guild["name"],
                     description=guild_description
                 )
-
             guild = Guild.objects.get(
                 name=info_guild["name"]
             )
-        else:
-            guild = None
+
         Player.objects.create(
             nickname=name,
             email=info["email"],
