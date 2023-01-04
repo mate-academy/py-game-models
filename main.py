@@ -8,47 +8,49 @@ import json
 def main() -> None:
     with open("players.json") as players_json_file:
         players_file = json.load(players_json_file)
-        for name, value in players_file.items():
-            if not Race.objects.filter(name=value["race"]["name"]):
+        for name, info in players_file.items():
+            race = info["race"]
+            guild = info["guild"]
+            if not Race.objects.filter(name=info["race"]["name"]):
                 Race.objects.create(
-                    name=value["race"]["name"],
-                    description=value["race"]["description"]
+                    name=race["name"],
+                    description=race["description"]
                 )
 
-            if len(value["race"]["skills"]) >= 1:
-                for skill in value["race"]["skills"]:
+            if len(race["skills"]) >= 1:
+                for skill in race["skills"]:
                     if not Skill.objects.filter(name=skill["name"]):
                         Skill.objects.create(
                             name=skill["name"],
                             bonus=skill["bonus"],
                             race_id=Race.objects.filter(
-                                name=value["race"]["name"]
+                                name=race["name"]
                             ).values_list("id", flat=True)
                         )
 
-            if value["guild"] is not None and \
+            if guild is not None and \
                     not Guild.objects.filter(
-                        name=value["guild"]["name"]).exists():
+                        name=guild["name"]).exists():
                 Guild.objects.create(
-                    name=value["guild"]["name"],
-                    description=value["guild"]["description"]
+                    name=guild["name"],
+                    description=guild["description"]
                 )
 
             if not Player.objects.filter(nickname=name).exists():
                 Player.objects.create(
                     nickname=name,
-                    email=value["email"],
-                    bio=value["bio"],
+                    email=info["email"],
+                    bio=info["bio"],
 
                     race_id=Race.objects.filter(
-                        name=value["race"]["name"]
+                        name=race["name"]
                     ).values_list("id", flat=True),
 
                     guild_id=Guild.objects.filter(
-                        name=value["guild"]["name"]
+                        name=guild["name"]
                     ).values_list(
                         "id", flat=True
-                    ) if value["guild"] is not None else None
+                    ) if guild is not None else None
                 )
 
 
