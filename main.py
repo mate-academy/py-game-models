@@ -1,6 +1,5 @@
 import init_django_orm  # noqa: F401
 import json
-import datetime
 from db.models import Race, Skill, Player, Guild
 
 
@@ -16,7 +15,10 @@ def main() -> None:
                 name=race_name,
                 description=character["race"]["description"]
             )
+        else:
+            race = Race.objects.get(name=race_name)
 
+        guild = None
         if character["guild"]:
             guild_name = character["guild"]["name"]
             if not Guild.objects.filter(name=guild_name).exists():
@@ -24,8 +26,8 @@ def main() -> None:
                     name=guild_name,
                     description=character["guild"]["description"]
                 )
-        else:
-            guild = None
+            else:
+                guild = Guild.objects.get(name=guild_name)
 
         for skill in character["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
@@ -42,7 +44,6 @@ def main() -> None:
                 bio=character["bio"],
                 race=race,
                 guild=guild,
-                created_at=datetime.datetime.now()
             )
 
 
