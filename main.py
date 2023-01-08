@@ -34,7 +34,6 @@ def main() -> None:
                                              )
         else:
             guild = None
-
         Player.objects.create(nickname=name,
                               email=p_dict["email"],
                               bio=p_dict["bio"],
