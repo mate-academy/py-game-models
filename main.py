@@ -6,14 +6,17 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     race_inst = None
     guild_inst = None
+
     with open("players.json", "r") as file:
         players = json.load(file)
+
     for player_name, player in players.items():
         if not Race.objects.filter(name=player["race"]["name"]).exists():
             race_inst = Race.objects.create(
                 name=player["race"]["name"],
                 description=player["race"]["description"]
             )
+
         for skill in player["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
@@ -21,6 +24,7 @@ def main() -> None:
                     bonus=skill["bonus"],
                     race=race_inst
                 )
+
         guild = player.get("guild")
         if guild is not None:
             if not Guild.objects.filter(name=player["guild"]["name"]).exists():
@@ -28,12 +32,12 @@ def main() -> None:
                     name=player["guild"]["name"],
                     description=(
                         player["guild"]["description"]
-                        if player["guild"]["description"]
-                        else None
+                        if player["guild"]["description"] else None
                     )
                 )
         else:
             guild_inst = None
+
         if not Player.objects.filter(nickname=player_name).exists():
             Player.objects.create(
                 nickname=player_name,
