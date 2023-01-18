@@ -13,7 +13,8 @@ def main() -> None:
         if not Race.objects.filter(name=player_race_info["name"]).exists():
             player_race = Race.objects.create(
                 name=player_race_info["name"],
-                description=player_race_info["description"])
+                description=player_race_info["description"]
+            )
         else:
             player_race = Race.objects.get(name=player_race_info["name"])
 
