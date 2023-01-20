@@ -33,9 +33,8 @@ def main() -> None:
             else:
                 Skill.objects.get(name=skill["name"])
 
-        if guild_dict is None:
-            guild = None
-        else:
+        guild = None
+        if guild_dict is not None:
             if not Guild.objects.filter(
                 name=guild_dict["name"]
             ).exists():
@@ -54,8 +53,6 @@ def main() -> None:
                 race=race,
                 guild=guild,
             )
-        else:
-            Player.objects.get(nickname=player_name)
 
 
 if __name__ == "__main__":
