@@ -11,7 +11,7 @@ def main() -> None:
 
     for player_name, player_info in players.items():
         race = player_info["race"]
-        guild = player_info["guild"] if player_info["guild"] else None
+        guild = player_info["guild"] or None
         skills = player_info["race"]["skills"]
 
         if not Race.objects.filter(name=race["name"]).exists():
