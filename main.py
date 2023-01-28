@@ -7,9 +7,9 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json") as file:
-        data = json.load(file)
-    print(data)
-    for player_nickname, player_info in data.items():
+        players_data = json.load(file)
+
+    for player_nickname, player_info in players_data.items():
 
         if not Race.objects.filter(name=player_info["race"]["name"]).exists():
             race = Race.objects.create(
