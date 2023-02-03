@@ -7,8 +7,8 @@ def main() -> None:
     with open("players.json") as dict_players:
         players = json.load(dict_players)
 
-    for nick in players:
-        player = players[nick]
+    for nickname in players:
+        player = players[nickname]
         skills = player["race"]["skills"]
         race = player["race"]
         guild = player["guild"] if player["guild"] else None
@@ -28,16 +28,16 @@ def main() -> None:
                 )
             guild = Guild.objects.get(name=guild["name"])
 
-        for item in skills:
-            if not Skill.objects.filter(name=item["name"]).exists():
+        for skill in skills:
+            if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
-                    name=item["name"],
-                    bonus=item["bonus"],
+                    name=skill["name"],
+                    bonus=skill["bonus"],
                     race=race
                 )
 
         Player.objects.create(
-            nickname=nick,
+            nickname=nickname,
             email=player["email"],
             bio=player["bio"],
             race=race,
