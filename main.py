@@ -13,9 +13,12 @@ def main() -> None:
             guild_check = Guild.objects.filter(name=guild_name).exists()
             if not guild_check:
                 guild_script = (
-                    info["guild"]["description"] if info["guild"]["description"] else None
+                    info["guild"]["description"]
+                    if info["guild"]["description"] else None
                 )
-                guild = Guild.objects.create(name=guild_name, description=guild_script)
+                guild = Guild.objects.create(
+                    name=guild_name, description=guild_script
+                )
             else:
                 guild = Guild.objects.get(name=guild_name)
 
@@ -23,14 +26,19 @@ def main() -> None:
         race_check = Race.objects.filter(name=race_name).exists()
         if race_check is False:
             race_script = (
-                info["race"]["description"] if info["race"]["description"] else None
+                info["race"]["description"]
+                if info["race"]["description"] else None
             )
             race = Race.objects.create(name=race_name, description=race_script)
-            skill_package = info["race"]["skills"] if info["race"]["skills"] else None
+            skill_package = (
+                info["race"]["skills"] if info["race"]["skills"] else None
+            )
             if skill_package:
                 for item in skill_package:
                     skill_name, bonus = item["name"], item["bonus"]
-                    Skill.objects.create(name=skill_name, bonus=bonus, race_id=race.id)
+                    Skill.objects.create(
+                        name=skill_name, bonus=bonus, race_id=race.id
+                    )
         else:
             race = Race.objects.get(name=race_name)
 
