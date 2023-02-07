@@ -35,13 +35,14 @@ def main() -> None:
                     )
             else:
                 guild_ = None
-            Player.objects.create(
-                nickname=gamer,
-                email=gamer_values["email"],
-                bio=gamer_values["bio"],
-                race=race_,
-                guild=guild_
-            )
+            if not Player.objects.filter(nickname=gamer).exists():
+                Player.objects.create(
+                    nickname=gamer,
+                    email=gamer_values["email"],
+                    bio=gamer_values["bio"],
+                    race=race_,
+                    guild=guild_
+                )
 
 
 if __name__ == "__main__":
