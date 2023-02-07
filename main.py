@@ -13,6 +13,8 @@ def main() -> None:
                     name=gamer_values["race"]["name"],
                     description=gamer_values["race"]["description"]
                 )
+            else:
+                race_ = Race.objects.get(name=gamer_values["race"]["name"])
             for skill in gamer_values["race"]["skills"]:
                 if not Skill.objects.filter(name=skill["name"]).exists():
                     Skill.objects.create(
@@ -26,6 +28,10 @@ def main() -> None:
                     guild_ = Guild.objects.create(
                         name=gamer_values["guild"]["name"],
                         description=gamer_values["guild"]["description"]
+                    )
+                else:
+                    guild_ = Guild.objects.get(
+                        name=gamer_values["guild"]["name"]
                     )
             else:
                 guild_ = None
