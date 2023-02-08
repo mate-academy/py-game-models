@@ -4,31 +4,31 @@ from typing import Union
 from db.models import Race, Skill, Player, Guild
 
 
-def race_creating(race_dict: dict) -> Race:
-    race_ = Race.objects.get_or_create(
-        name=race_dict["name"],
-        description=race_dict["description"]
+def race_creating(race: dict) -> Race:
+    created_race = Race.objects.get_or_create(
+        name=race["name"],
+        description=race["description"]
     )
-    return race_[0]
+    return created_race[0]
 
 
-def guild_creating(guild_dict: dict) -> Union[Guild, None]:
-    if guild_dict:
-        guild_ = Guild.objects.get_or_create(
-            name=guild_dict["name"],
-            description=guild_dict["description"]
+def guild_creating(guild: dict) -> Union[Guild, None]:
+    if guild:
+        created_guild = Guild.objects.get_or_create(
+            name=guild["name"],
+            description=guild["description"]
         )
-        return guild_[0]
+        return created_guild[0]
     return None
 
 
-def skills_creating(skills_dict: dict) -> None:
-    for skill in skills_dict["skills"]:
+def skills_creating(skills: dict) -> None:
+    for skill in skills["skills"]:
         if not Skill.objects.filter(name=skill["name"]).exists():
             Skill.objects.create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=race_creating(skills_dict)
+                race=race_creating(skills)
             )
 
 
