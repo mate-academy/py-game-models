@@ -1,35 +1,29 @@
-from typing import Callable, Union
-
 import init_django_orm  # noqa: F401
 import json
+from typing import Union
 from db.models import Race, Skill, Player, Guild
 
 
-def race_creating(race_dict: dict) -> Callable:
-    if not Race.objects.filter(name=race_dict["race"]["name"]).exists():
-        return Race.objects.create(
-            name=race_dict["race"]["name"],
-            description=race_dict["race"]["description"]
+def race_creating(race_dict: dict) -> Race:
+    race_ = Race.objects.get_or_create(
+        name=race_dict["name"],
+        description=race_dict["description"]
+    )
+    return race_[0]
+
+
+def guild_creating(guild_dict: dict) -> Union[Guild, None]:
+    if guild_dict:
+        guild_ = Guild.objects.get_or_create(
+            name=guild_dict["name"],
+            description=guild_dict["description"]
         )
-    else:
-        return Race.objects.get(name=race_dict["race"]["name"])
-
-
-def guild_creating(guild_dict: dict) -> Union[Callable, None]:
-    if guild_dict["guild"]:
-        if not Guild.objects.filter(name=guild_dict["guild"]["name"]).exists():
-            return Guild.objects.create(
-                name=guild_dict["guild"]["name"],
-                description=guild_dict["guild"]["description"]
-            )
-        else:
-            return Guild.objects.get(name=guild_dict["guild"]["name"])
-    else:
-        return None
+        return guild_[0]
+    return None
 
 
 def skills_creating(skills_dict: dict) -> None:
-    for skill in skills_dict["race"]["skills"]:
+    for skill in skills_dict["skills"]:
         if not Skill.objects.filter(name=skill["name"]).exists():
             Skill.objects.create(
                 name=skill["name"],
@@ -42,14 +36,14 @@ def main() -> None:
     with open("players.json") as f:
         gamers = json.load(f)
         for gamer, gamer_values in gamers.items():
-            skills_creating(gamer_values)
+            skills_creating(gamer_values["race"])
             if not Player.objects.filter(nickname=gamer).exists():
                 Player.objects.create(
                     nickname=gamer,
                     email=gamer_values["email"],
                     bio=gamer_values["bio"],
-                    race=race_creating(gamer_values),
-                    guild=guild_creating(gamer_values)
+                    race=race_creating(gamer_values["race"]),
+                    guild=guild_creating(gamer_values["guild"])
                 )
 
 
