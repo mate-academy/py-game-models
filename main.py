@@ -5,20 +5,20 @@ from db.models import Race, Skill, Player, Guild
 
 
 def race_creating(race: dict) -> Race:
-    created_race = Race.objects.get_or_create(
+    race_, created = Race.objects.get_or_create(
         name=race["name"],
         description=race["description"]
     )
-    return created_race[0]
+    return race_
 
 
 def guild_creating(guild: dict) -> Union[Guild, None]:
     if guild:
-        created_guild = Guild.objects.get_or_create(
+        guild_, created = Guild.objects.get_or_create(
             name=guild["name"],
             description=guild["description"]
         )
-        return created_guild[0]
+        return guild_
     return None
 
 
