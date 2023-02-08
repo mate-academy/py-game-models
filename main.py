@@ -11,31 +11,27 @@ def main() -> None:
             race = info["race"]
             skills = info["race"]["skills"]
             guild = info["guild"]
-
             # Create Race objects if records not exist yet
-            obj, created = Race.objects.get_or_create(
+            Race.objects.get_or_create(
                 name=race["name"],
                 description=race["description"]
             )
-
             # Create Guild objects if records not exist yet
             if guild:
-                obj, created = Guild.objects.get_or_create(
+                Guild.objects.get_or_create(
                     name=guild["name"],
                     description=guild["description"]
                 )
-
             # # Create Skill objects if records not exist yet
             if skills:
                 for skill in skills:
-                    obj, created = Skill.objects.get_or_create(
+                    Skill.objects.get_or_create(
                         name=skill["name"],
                         bonus=skill["bonus"],
                         race=Race.objects.get(name=race["name"])
                     )
-
             # # Create Player objects if records not exist yet
-            obj, created = Player.objects.get_or_create(
+            Player.objects.get_or_create(
                 nickname=nickname,
                 email=info["email"],
                 bio=info["bio"],
