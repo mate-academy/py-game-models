@@ -14,7 +14,9 @@ def main() -> None:
                 description=attribute["race"]["description"]
             )
             for skill in attribute["race"]["skills"]:
-                Skill.objects.create(name=skill["name"], bonus=skill["bonus"], race=race_value)
+                Skill.objects.create(
+                    name=skill["name"], bonus=skill["bonus"], race=race_value
+                )
         else:
             race_value = Race.objects.get(name=attribute["race"]["name"])
 
@@ -22,12 +24,16 @@ def main() -> None:
 
         if attribute["guild"] is None:
             pass
-        elif not Guild.objects.filter(name=attribute["guild"]["name"]).exists():
+        elif not Guild.objects.filter(
+                name=attribute["guild"]["name"]
+        ).exists():
             guild_value = Guild.objects.create(
                 name=attribute["guild"]["name"],
                 description=attribute["guild"]["description"]
             )
-        elif Guild.objects.filter(name=attribute["guild"]["name"]).exists():
+        elif Guild.objects.filter(
+                name=attribute["guild"]["name"]
+        ).exists():
             guild_value = Guild.objects.get(name=attribute["guild"]["name"])
 
         Player.objects.create(
@@ -41,4 +47,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
