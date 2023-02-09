@@ -1,34 +1,37 @@
 import init_django_orm  # noqa: F401
 import json
 
-from db.models import Race, Skill, Player, Guild
+from db.models import Guild, Player, Skill, Race
 
 
 def main() -> None:
     with open("players.json", "r") as file_in:
-        players_data = json.load(file_in)
+        players = json.load(file_in)
 
-    for player, data in players_data.items():
+    for player, data in players.items():
+        race = data["race"]["name"]
+        guild = data["guild"] or None
+        skills = data["race"]["skills"]
 
-        if not Race.objects.filter(name=data["race"]["name"]).exists():
+        if not Race.objects.filter(name=race).exists():
             Race.objects.create(
-                name=data["race"]["name"],
+                name=race,
                 description=data["race"]["description"]
             )
 
-        for skill_info in data["race"]["skills"]:
+        for skill_info in skills:
             if not Skill.objects.filter(name=skill_info["name"]).exists():
                 Skill.objects.create(
                     name=skill_info["name"],
                     bonus=skill_info["bonus"],
-                    race=Race.objects.get(name=data["race"]["name"])
+                    race=Race.objects.get(name=race)
                 )
 
-        if data["guild"]:
-            if not Guild.objects.filter(name=data["guild"]["name"]).exists():
+        if guild:
+            if not Guild.objects.filter(name=guild["name"]).exists():
                 Guild.objects.create(
-                    name=data["guild"]["name"],
-                    description=data["guild"]["description"]
+                    name=guild["name"],
+                    description=guild["description"]
                 )
 
         if not Player.objects.filter(nickname=player).exists():
@@ -36,9 +39,9 @@ def main() -> None:
                 nickname=player,
                 email=data["email"],
                 bio=data["bio"],
-                race=Race.objects.get(name=data["race"]["name"]),
-                guild=Guild.objects.get(name=data["guild"]["name"])
-                if data["guild"] else None)
+                race=Race.objects.get(name=race),
+                guild=Guild.objects.get(name=guild["name"])
+                if guild else None)
 
 
 if __name__ == "__main__":
