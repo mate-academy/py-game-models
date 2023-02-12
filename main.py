@@ -17,8 +17,8 @@ def create_race(name: str, description: str, skills: list) -> Race:
         )
         for skill in skills:
             create_skill(
-                name=skill["name"],
-                bonus=skill["bonus"],
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
                 race=race_value
             )
     else:
@@ -44,19 +44,17 @@ def main() -> None:
 
     for name, attribute in players.items():
         race_value = create_race(
-            attribute["race"]["name"],
-            attribute["race"]["description"],
-            attribute["race"]["skills"]
+            attribute.get("race", {}).get("name"),
+            attribute.get("race", {}).get("description"),
+            attribute.get("race", {}).get("skills")
         )
 
         guild_value = None
 
-        if attribute["guild"] is None:
-            pass
-        else:
+        if attribute.get("guild"):
             guild_value = create_guild(
-                name=attribute["guild"]["name"],
-                description=attribute["guild"]["description"]
+                name=attribute.get("guild", {}).get("name"),
+                description=attribute.get("guild", {}).get("description")
             )
 
         Player.objects.create(
