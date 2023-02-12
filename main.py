@@ -3,38 +3,61 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
+def create_skill(name: str, bonus: str, race: Race) -> Skill:
+    return Skill.objects.create(
+        name=name, bonus=bonus, race=race
+    )
+
+
+def create_race(name: str, description: str, skills: list) -> Race:
+    if not Race.objects.filter(name=name).exists():
+        race_value = Race.objects.create(
+            name=name,
+            description=description
+        )
+        for skill in skills:
+            create_skill(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race_value
+            )
+    else:
+        race_value = Race.objects.get(name=name)
+    return race_value
+
+
+def create_guild(name: str, description: str) -> Guild:
+    guild_value = None
+    if not Guild.objects.filter(name=name).exists():
+        guild_value = Guild.objects.create(
+            name=name,
+            description=description
+        )
+    elif Guild.objects.filter(name=name).exists():
+        guild_value = Guild.objects.get(name=name)
+    return guild_value
+
+
 def main() -> None:
     with open("players.json", "r") as data:
         players = json.load(data)
 
     for name, attribute in players.items():
-        if not Race.objects.filter(name=attribute["race"]["name"]).exists():
-            race_value = Race.objects.create(
-                name=attribute["race"]["name"],
-                description=attribute["race"]["description"]
-            )
-            for skill in attribute["race"]["skills"]:
-                Skill.objects.create(
-                    name=skill["name"], bonus=skill["bonus"], race=race_value
-                )
-        else:
-            race_value = Race.objects.get(name=attribute["race"]["name"])
+        race_value = create_race(
+            attribute["race"]["name"],
+            attribute["race"]["description"],
+            attribute["race"]["skills"]
+        )
 
         guild_value = None
 
         if attribute["guild"] is None:
             pass
-        elif not Guild.objects.filter(
-                name=attribute["guild"]["name"]
-        ).exists():
-            guild_value = Guild.objects.create(
+        else:
+            guild_value = create_guild(
                 name=attribute["guild"]["name"],
                 description=attribute["guild"]["description"]
             )
-        elif Guild.objects.filter(
-                name=attribute["guild"]["name"]
-        ).exists():
-            guild_value = Guild.objects.get(name=attribute["guild"]["name"])
 
         Player.objects.create(
             nickname=name,
