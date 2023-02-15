@@ -4,15 +4,15 @@ from db.models import Race, Skill, Player, Guild
 
 
 def create_new_user(
-        players: dict,
-        player: dict,
+        player: str,
+        players_inf: dict,
         guild: Guild,
         race: Race
 ) -> None:
     Player.objects.create(
         nickname=player,
-        email=players[player]["email"],
-        bio=players[player]["bio"],
+        email=players_inf["email"],
+        bio=players_inf["bio"],
         race=race,
         guild=guild,
     )
@@ -48,12 +48,12 @@ def get_or_crate_race(race_inf: dict) -> Race:
 def main() -> None:
     with open("players.json") as players_inf:
         players = json.load(players_inf)
-    for player in players:
-        race_inf = players[player]["race"]
+    for player, players_inf in players.items():
+        race_inf = players_inf["race"]
         race = get_or_crate_race(race_inf)
         get_or_create_skills(race_inf["skills"], race)
-        guild = get_or_create_guild(players[player])
-        create_new_user(players, player, guild, race)
+        guild = get_or_create_guild(players_inf)
+        create_new_user(player, players_inf, guild, race)
 
 
 if __name__ == "__main__":
