@@ -5,13 +5,14 @@ from app.createBaseClasses import CreateBase
 
 
 def main() -> None:
+    data: dict = {}
     with open("players.json", "r") as json_file:
-        loaded_json: dict = json.load(json_file)
-        for player in loaded_json.keys():
-            CreateBase.create_player(
-                player,
-                loaded_json[player]
-            )
+        data = json.load(json_file)
+    for player in data.keys():
+        CreateBase.create_player(
+            player,
+            data[player]
+        )
 
 
 if __name__ == "__main__":
