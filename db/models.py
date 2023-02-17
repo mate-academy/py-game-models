@@ -2,16 +2,9 @@ from django.db import models
 
 
 class Race(models.Model):
-    RACES_TO_PLAY_CHOICES = (
-        ("elf", "Elf"),
-        ("dwarf", "Dwarf"),
-        ("human", "Human"),
-        ("ork", "Ork")
-    )
     name = models.CharField(
         max_length=255,
-        unique=True,
-        choices=RACES_TO_PLAY_CHOICES
+        unique=True
     )
     description = models.TextField(blank=True)
 
@@ -21,7 +14,6 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        choices=Race.RACES_TO_PLAY_CHOICES,
         on_delete=models.CASCADE,
     )
 
@@ -37,7 +29,6 @@ class Player(models.Model):
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        choices=Race.RACES_TO_PLAY_CHOICES,
         on_delete=models.CASCADE
     )
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
