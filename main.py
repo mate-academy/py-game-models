@@ -1,52 +1,68 @@
-import init_django_orm  # noqa: F401
 import json
+import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
+from django.core.exceptions import ObjectDoesNotExist
+from typing import Any, Dict
+
+
+def create_race(data: Dict[str, Any]) -> Race:
+    race = Race(
+        name=data.get("name"),
+        description=data.get("description"),
+    )
+    race.save()
+    for skill in data.get("skills"):
+        Skill.objects.create(
+            name=skill.get("name"),
+            bonus=skill.get("bonus"),
+            race=race,
+        )
+    return race
+
+
+def create_guild(data: Dict[str, Any]) -> Guild:
+    guild = Guild(
+        name=data.get("name"),
+        description=data.get("description"),
+    )
+    guild.save()
+    return guild
+
+
+def get_race(data: Dict[str, Any]) -> Race:
+    try:
+        race = Race.objects.get(name=data.get("name"))
+    except ObjectDoesNotExist:
+        race = create_race(data)
+    return race
+
+
+def get_guild(data: Dict[str, Any]) -> Guild:
+    guild = None
+    if data:
+        try:
+            guild = Guild.objects.get(name=data.get("name"))
+        except ObjectDoesNotExist:
+            guild = create_guild(data)
+    return guild
 
 
 def main() -> None:
     with open("players.json") as data:
         players = json.load(data)
+
     for player, data in players.items():
-        foreign_keys = {}
-        if not Race.objects.filter(name=data["race"]["name"]).exists():
-            race = Race(
-                name=data["race"]["name"],
-                description=data["race"]["description"],
-            )
-            race.save()
-            foreign_keys["race"] = race
-        else:
-            foreign_keys["race"] = Race.objects.get(name=data["race"]["name"])
-        for skill in data["race"]["skills"]:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=foreign_keys["race"],
-                )
-        if (
-            data.get("guild")
-            and not Guild.objects.filter(
-                name=data.get("guild").get("name")
-            ).exists()
-        ):
-            guild = Guild(
-                name=data["guild"]["name"],
-                description=data["guild"]["description"],
-            )
-            guild.save()
-            foreign_keys["guild"] = guild
-        elif data.get("guild"):
-            foreign_keys["guild"] = Guild.objects.get(
-                name=data["guild"]["name"]
-            )
+        race_data = data.get("race")
+        guild_data = data.get("guild")
+        race = get_race(race_data)
+        guild = get_guild(guild_data)
         Player.objects.create(
             nickname=player,
-            email=data["email"],
-            bio=data["bio"],
-            race=foreign_keys.get("race"),
-            guild=foreign_keys.get("guild"),
+            email=data.get("email"),
+            bio=data.get("bio"),
+            race=race,
+            guild=guild,
         )
 
 
