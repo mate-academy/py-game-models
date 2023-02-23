@@ -6,11 +6,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def get_race_and_skills(race_data: dict, skills_data: list) -> Race:
-    obj, created = Race.objects.get_or_create(
+    race, created = Race.objects.get_or_create(
         name=race_data["name"],
         description=race_data["description"]
     )
-    race = obj
     if created:
         for skill in skills_data:
             Skill.objects.create(
@@ -26,11 +25,10 @@ def get_guild(guild_data: dict) -> Guild | None:
     if not guild_data:
         guild = None
     else:
-        obj, created = Guild.objects.get_or_create(
+        guild, created = Guild.objects.get_or_create(
             name=guild_data["name"],
             description=guild_data["description"]
         )
-        guild = obj
 
     return guild
 
