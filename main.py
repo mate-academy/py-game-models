@@ -41,7 +41,7 @@ def main() -> None:
 
         race_data = player_info["race"]
         skills_data = race_data["skills"]
-        guild_data = player_info["guild"] if player_info["guild"] else None
+        guild_data = player_info.get("guild")
 
         race = get_race_and_skills(race_data, skills_data)
         guild = get_guild(guild_data)
