@@ -16,7 +16,6 @@ def main() -> None:
                 description=data["race"]["description"]
             )
 
-
         for skill in data["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
