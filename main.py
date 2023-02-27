@@ -30,7 +30,7 @@ def main() -> None:
             for skill in players_data[key_name].get("race").get("skills"):
                 if Skill.objects.filter(name=skill.get("name")):
                     skill_model = Skill.objects.filter(
-                        name=skill.get("name"), race_id=race.id
+                        name=skill.get("name")
                     )[0]
 
                 else:
