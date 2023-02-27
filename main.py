@@ -57,7 +57,3 @@ def main() -> None:
     for player_name, player in players.items():
         get_or_create_skill(player)
         create_player(players)
-
-
-if __name__ == "__main__":
-    main()
