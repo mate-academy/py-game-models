@@ -1,10 +1,9 @@
-from typing import Any
 import init_django_orm  # noqa: F401
 import json
 from db.models import Race, Skill, Player, Guild
 
 
-def get_or_create_race(player: dict) -> Any:
+def get_or_create_race(player: dict) -> Race:
     race_inst, created = Race.objects.get_or_create(
         name=player["race"]["name"],
         defaults={"description": player["race"]["description"]}
@@ -12,18 +11,19 @@ def get_or_create_race(player: dict) -> Any:
     return race_inst
 
 
-def get_or_create_skill(player: dict) -> None:
+def create_player_skills(player: dict) -> None:
+    race_data = get_or_create_race(player)
     for skill in player["race"]["skills"]:
         Skill.objects.get_or_create(
             name=skill["name"],
             defaults={
                 "bonus": skill["bonus"],
-                "race": get_or_create_race(player)
+                "race": race_data
             }
         )
 
 
-def get_or_create_guild(player: dict) -> Any:
+def get_or_create_guild(player: dict) -> Guild:
     guild = player.get("guild")
     if guild is not None:
         guild_inst, created = Guild.objects.get_or_create(
@@ -37,16 +37,17 @@ def get_or_create_guild(player: dict) -> Any:
     return guild_inst
 
 
-def create_player(players: dict) -> None:
+def get_or_create_player(players: dict) -> None:
     for player_name, player in players.items():
-        if not Player.objects.filter(nickname=player_name).exists():
-            Player.objects.create(
-                nickname=player_name,
-                email=player["email"],
-                bio=player["bio"],
-                race=get_or_create_race(player),
-                guild=get_or_create_guild(player)
-            )
+        Player.objects.get_or_create(
+            nickname=player_name,
+            defaults={
+                "email": player["email"],
+                "bio": player["bio"],
+                "race": get_or_create_race(player),
+                "guild": get_or_create_guild(player)
+            }
+        )
 
 
 def main() -> None:
@@ -55,8 +56,8 @@ def main() -> None:
         players = json.load(file)
 
     for player_name, player in players.items():
-        get_or_create_skill(player)
-        create_player(players)
+        create_player_skills(player)
+        get_or_create_player(players)
 
 
 if __name__ == "__main__":
