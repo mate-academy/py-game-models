@@ -37,7 +37,7 @@ def get_or_create_guild(player: dict) -> Any:
     return guild_inst
 
 
-def get_or_create_player(players: dict) -> None:
+def create_player(players: dict) -> None:
     for player_name, player in players.items():
         if not Player.objects.filter(nickname=player_name).exists():
             Player.objects.create(
@@ -56,7 +56,7 @@ def main() -> None:
 
     for player_name, player in players.items():
         get_or_create_skill(player)
-        get_or_create_player(players)
+        create_player(players)
 
 
 if __name__ == "__main__":
