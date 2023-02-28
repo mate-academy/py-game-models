@@ -16,9 +16,9 @@ def main() -> None:
         race_description = player_data.get("race")["description"]
 
         if Race.objects.filter(name=race_name).exists():
-            Race.objects.get(name=race_name)
+            player_race = Race.objects.get(name=race_name)
         else:
-            Race.objects.create(
+            player_race = Race.objects.create(
                 name=race_name,
                 description=race_description
             )
@@ -41,7 +41,7 @@ def main() -> None:
                     )
         #
         # add Guild data
-        if player_data.get("guild") is not None:
+        if player_data.get("guild"):
             guild_name = player_data.get("guild")["name"]
             guild_description = player_data.get("guild")["description"]
 
@@ -59,9 +59,6 @@ def main() -> None:
         player_nickname = player
         player_email = player_data.get("email")
         player_bio = player_data.get("bio")
-        player_race = Race.objects.get(
-            name=player_data.get("race")["name"]
-        )
 
         Player.objects.create(
             nickname=player_nickname,
