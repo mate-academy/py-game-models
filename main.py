@@ -1,5 +1,4 @@
 import json
-from typing import Union
 
 import init_django_orm  # noqa: F401
 
@@ -26,9 +25,9 @@ def create_race(race_info: dict[str, list]) -> Race:
     return race
 
 
-def create_guild(guild_info: Union[None, dict[str]]) -> Guild | None:
+def create_guild(guild_info: None | dict) -> Guild | None:
     if guild_info is None:
-        return None
+        return
 
     if Guild.objects.filter(name=guild_info.get("name")).exists():
         return Guild.objects.get(name=guild_info.get("name"))
