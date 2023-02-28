@@ -12,15 +12,17 @@ def get_or_create_race(player: dict) -> Race:
 
 
 def create_player_skills(player: dict) -> None:
+    skills_inst = None
     race_data = get_or_create_race(player)
     for skill in player["race"]["skills"]:
-        Skill.objects.get_or_create(
+        skills_inst, created = Skill.objects.get_or_create(
             name=skill["name"],
             defaults={
                 "bonus": skill["bonus"],
                 "race": race_data
             }
         )
+    return skills_inst
 
 
 def get_or_create_guild(player: dict) -> Guild:
@@ -33,7 +35,6 @@ def get_or_create_guild(player: dict) -> Guild:
 
     else:
         guild_inst = None
-
     return guild_inst
 
 
@@ -51,7 +52,6 @@ def get_or_create_player(players: dict) -> None:
 
 
 def main() -> None:
-
     with open("players.json", "r") as file:
         players = json.load(file)
 
