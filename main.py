@@ -56,9 +56,14 @@ def main() -> None:
         players = json.load(file)
 
     for player_name, player in players.items():
+<<<<<<< HEAD
         create_player_skills(player)
         get_or_create_player(players)
 
 
 if __name__ == "__main__":
     main()
+=======
+        get_or_create_skill(player)
+        create_player(players)
+>>>>>>> origin/develop
