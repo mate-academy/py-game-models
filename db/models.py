@@ -28,6 +28,6 @@ class Player(models.Model):
         "short description provided by a user about himself/herself",
         max_length=255
     )
-    race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
