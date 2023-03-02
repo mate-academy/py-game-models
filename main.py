@@ -33,9 +33,13 @@ def main() -> None:
             Guild.objects.create(name=name, description=description)
 
     for player, atr in data.items():
-        race = Race.objects.filter(name=atr.get("race").get("name")).values("id")[0]["id"]
+        race = Race.objects.filter(
+            name=atr.get("race").get("name")
+        ).values("id")[0]["id"]
         try:
-            guild = Guild.objects.filter(name=atr.get("guild").get("name")).values("id")[0]["id"]
+            guild = Guild.objects.filter(
+                name=atr.get("guild").get("name")
+            ).values("id")[0]["id"]
         except AttributeError:
             guild = None
 
@@ -46,6 +50,7 @@ def main() -> None:
             race_id=race,
             guild_id=guild
         )
+
 
 if __name__ == "__main__":
     main()
