@@ -3,19 +3,25 @@ import json
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
+from django.shortcuts import get_object_or_404
+from django.http.response import Http404
 
 
 def create_race(race_info: dict[str, list]) -> Race:
-    if Race.objects.filter(name=race_info.get("name")).exists():
-        race = Race.objects.get(name=race_info.get("name"))
-    else:
+    try:
+        racer_name = race_info.get("name")
+        race = get_object_or_404(Race, name=racer_name)
+    except Http404:
         race = Race.objects.create(
             name=race_info.get("name"),
             description=race_info.get("description")
         )
 
     for skills in race_info.get("skills"):
-        if not Skill.objects.filter(name=skills.get("name")).exists():
+        try:
+            skill_name = skills.get("name")
+            get_object_or_404(Skill, name=skill_name)
+        except Http404:
             Skill.objects.create(
                 name=skills.get("name"),
                 bonus=skills.get("bonus"),
@@ -28,14 +34,14 @@ def create_race(race_info: dict[str, list]) -> Race:
 def create_guild(guild_info: None | dict) -> Guild | None:
     if guild_info is None:
         return
-
-    if Guild.objects.filter(name=guild_info.get("name")).exists():
-        return Guild.objects.get(name=guild_info.get("name"))
-
-    return Guild.objects.create(
-        name=guild_info.get("name"),
-        description=guild_info.get("description")
-    )
+    try:
+        guild_name = guild_info.get("name")
+        return get_object_or_404(Guild, name=guild_name)
+    except Http404:
+        return Guild.objects.create(
+            name=guild_info.get("name"),
+            description=guild_info.get("description")
+        )
 
 
 def main() -> None:
