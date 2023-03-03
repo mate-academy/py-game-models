@@ -34,13 +34,13 @@ def main() -> None:
                         race=race
                     )
 
-            if player_data["guild"] and Guild.objects.filter(
+            if guild_data and Guild.objects.filter(
                     name=guild_data["name"]
             ).exists():
                 guild = Guild.objects.get(
                     name=guild_data["name"]
                 )
-            elif player_data["guild"]:
+            elif guild_data:
                 guild = Guild.objects.create(
                     name=guild_data["name"],
                     description=guild_data["description"]
