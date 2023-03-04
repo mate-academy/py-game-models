@@ -12,16 +12,16 @@ def main() -> None:
     list_of_name = list(game_data)
 
     player_race = Race.objects.create(
-        name=game_data[list_of_name[0]]["race"]["name"],
-        description=game_data[list_of_name[0]]["race"]["description"]
+        name=game_data[str(list_of_name[0])]["race"]["name"],
+        description=game_data[str(list_of_name[0])]["race"]["description"]
     )
 
     new_guild = Guild.objects.create(
-        name=game_data[list_of_name[1]]["guild"]["name"],
-        description=game_data[list_of_name[1]]["guild"]["description"]
+        name=game_data[str(list_of_name[1])]["guild"]["name"],
+        description=game_data[str(list_of_name[1])]["guild"]["description"]
     )
     for key, value in game_data.items():
-        if key == list_of_name[2]:
+        if key == str(list_of_name[2]):
             for key1, values in value.items():
                 if key1 == "race":
                     Skill.objects.create(
@@ -31,8 +31,8 @@ def main() -> None:
                     )
 
     Player.objects.create(
-        nickname=list_of_name[3],
-        email=game_data[list_of_name[3]]["email"],
+        nickname=str(list_of_name[3]),
+        email=game_data[str(list_of_name[3])]["email"],
         race=player_race,
         guild=new_guild
     )
