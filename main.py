@@ -33,6 +33,7 @@ def main() -> None:
     Player.objects.create(
         nickname=str(list_of_name[3]),
         email=game_data[str(list_of_name[3])]["email"],
+        bio=game_data[str(list_of_name[3])]["bio"],
         race=player_race,
         guild=new_guild
     )
