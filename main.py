@@ -13,7 +13,7 @@ def main() -> None:
 
     player_race = Race.objects.create(
         name=game_data[list_of_name[0]]["race"]["name"],
-        description=game_data["john"]["race"]["description"]
+        description=game_data[list_of_name[0]]["race"]["description"]
     )
 
     new_guild = Guild.objects.create(
