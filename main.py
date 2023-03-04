@@ -6,37 +6,37 @@ import json
 
 
 def main() -> None:
-    with open("players.json") as pj:
-        game_data = json.load(pj)
+    with open("players.json", "r") as players:
+        game_data = json.load(players)
+    for player in game_data:
+        race = game_data[player]["race"]
+        skills = race["skills"]
+        guild = game_data[player]["guild"]
 
-    list_of_name = list(game_data)
+        race = Race.objects.get_or_create(
+            name=race["name"],
+            description=race["description"]
+        )[0]
 
-    player_race = Race.objects.create(
-        name=game_data[str(list_of_name[0])]["race"]["name"],
-        description=game_data[str(list_of_name[0])]["race"]["description"]
-    )
+        for skill in skills:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=Race.objects.get(name="elf")
+            )
 
-    new_guild = Guild.objects.create(
-        name=game_data[str(list_of_name[1])]["guild"]["name"],
-        description=game_data[str(list_of_name[1])]["guild"]["description"]
-    )
-    for key, value in game_data.items():
-        if key == str(list_of_name[2]):
-            for key1, values in value.items():
-                if key1 == "race":
-                    Skill.objects.create(
-                        name=values["skills"][0]["name"],
-                        bonus=values["skills"][0]["bonus"],
-                        race=player_race
-                    )
+        guild = Guild.objects.get_or_create(
+            name=guild["name"],
+            description=guild["description"]
+        )[0] if guild else None
 
-    Player.objects.create(
-        nickname=str(list_of_name[3]),
-        email=game_data[str(list_of_name[3])]["email"],
-        bio=game_data[str(list_of_name[3])]["bio"],
-        race=player_race,
-        guild=new_guild
-    )
+        Player.objects.create(
+            nickname=player,
+            email=game_data[player]["email"],
+            bio=game_data[player]["bio"],
+            race=race,
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
