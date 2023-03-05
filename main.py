@@ -38,7 +38,7 @@ def main() -> None:
             nickname=player_name,
             email=player_data["email"],
             bio=player_data["bio"],
-            race=race_obj,
+            race=race,
             guild=guild_obj,
         )
 
