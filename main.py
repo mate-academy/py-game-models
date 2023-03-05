@@ -16,8 +16,9 @@ def main() -> None:
             guild_description = data[player_name]["guild"].get("description")
             create_guild(guild_name, guild_description)
         race_id = Race.objects.get(name=race_name).id
-        guild_id = Guild.objects.get(name=data[player_name]["guild"].get("name")).id\
-            if data[player_name]["guild"] else None
+        guild_id = Guild.objects.get(
+                    name=data[player_name]["guild"].get("name")
+                    ).id if data[player_name]["guild"] else None
         create_player(player_name,
                       data[player_name]["email"],
                       data[player_name]["bio"],
