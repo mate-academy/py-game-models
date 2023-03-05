@@ -12,45 +12,35 @@ def get_python_data_from_json(json_file_path: str) -> Dict[str, Any]:
         return data
 
 
-def create_race(data: Dict[str, Any]) -> Race:
-    race = Race(
-        name=data.get("name"),
-        description=data.get("description"),
-    )
-    race.save()
-    for skill in data.get("skills"):
-        Skill.objects.create(
-            name=skill.get("name"),
-            bonus=skill.get("bonus"),
-            race=race,
-        )
-    return race
-
-
-def create_guild(data: Dict[str, Any]) -> Guild:
-    guild = Guild(
-        name=data.get("name"),
-        description=data.get("description"),
-    )
-    guild.save()
-    return guild
-
-
 def get_race(data: Dict[str, Any]) -> Race:
-    try:
-        race = Race.objects.get(name=data.get("name"))
-    except ObjectDoesNotExist:
-        race = create_race(data)
+    race, created = Race.objects.get_or_create(
+        name=data.get("name"),
+        defaults={
+            "description": data.get("description"),
+        }
+    )
+    if created:
+        for skill in data.get("skills"):
+            Skill.objects.create(
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race=race,
+            )
     return race
 
 
 def get_guild(data: Dict[str, Any]) -> Guild:
     guild = None
-    if data:
+    if data and data.get("name"):
         try:
-            guild = Guild.objects.get(name=data.get("name"))
+            guild, created = Guild.objects.get_or_create(
+                name=data.get("name"),
+                defaults={
+                    "description": data.get("description"),
+                }
+            )
         except ObjectDoesNotExist:
-            guild = create_guild(data)
+            pass
     return guild
 
 
