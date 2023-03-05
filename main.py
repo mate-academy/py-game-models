@@ -13,19 +13,16 @@ def main() -> None:
         skills = race["skills"]
 
         race_name = race["name"]
-        if not Race.objects.filter(name=race_name).exists():
-            race_description = race["description"] \
-                if race["description"] else ""
-            Race.objects.create(
-                name=race_name,
-                description=race_description,
-            )
-        race_obj = Race.objects.get(name=race_name)
+        race_description = race["description"]
+        race_obj = Race.object.get_or_create(
+            name=race_name,
+            description=race_description
+        )
 
         for skill in skills:
             if skill:
                 skill_name = skill["name"]
-                skill_bonus = skill["bonus"] if skill["bonus"] else ""
+                skill_bonus = None
                 if not Skill.objects.filter(name=skill_name).exists():
                     Skill.objects.create(
                         name=skill_name,
