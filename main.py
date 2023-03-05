@@ -14,7 +14,7 @@ def main() -> None:
 
         race_name = race["name"]
         race_description = race["description"]
-        race_obj = Race.object.get_or_create(
+        race_obj = Race.objects.get_or_create(
             name=race_name,
             description=race_description
         )
