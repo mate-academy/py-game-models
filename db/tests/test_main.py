@@ -2,10 +2,12 @@ import pytest
 from django.db import models
 from django.db.models import EmailField
 
+
+
 from main import main, Race, Skill, Player, Guild
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_guilds():
     main()
     assert list(Guild.objects.values_list("name", "description")) == [
@@ -15,7 +17,7 @@ def test_guilds():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_skills():
     main()
     assert list(Skill.objects.values_list("name", "bonus")) == [
@@ -33,7 +35,7 @@ def test_skills():
     ]
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_races():
     main()
     assert list(Race.objects.values_list("name", "description")) == [
@@ -50,7 +52,7 @@ def test_races():
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_players():
     main()
     assert list(
