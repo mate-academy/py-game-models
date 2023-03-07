@@ -3,10 +3,10 @@ from __future__ import annotations
 from django.db import models
 
 races = (
-    ("Elf", "information"),
-    ("Dwarf", "information"),
-    ("Human", "information"),
-    ("Ork", "information"),
+    ("Elf", "Elf"),
+    ("Dwarf", "Dwarf"),
+    ("Human", "Human"),
+    ("Ork", "Ork"),
 )
 
 
