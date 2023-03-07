@@ -2,6 +2,7 @@ import pytest
 from django.db import models
 from django.db.models import EmailField
 
+
 from main import main, Race, Skill, Player, Guild
 
 
@@ -40,16 +41,13 @@ def test_races():
         ("elf", "The magic race"),
         ("human", "Human race"),
     ]
-    assert list(
-        Race.objects.get(name="elf").skill_set.values_list("name")
-    ) == [
+    assert list(Race.objects.get(name="elf").skill_set.values_list("name")) == [
         ("Teleportation",),
         ("Reality Warping",),
     ]
     assert (
-        list(Race.objects.get(
-            name="human"
-        ).skill_set.values_list("name", "bonus")) == []
+        list(Race.objects.get(name="human").skill_set.values_list("name", "bonus"))
+        == []
     )
 
 
@@ -61,12 +59,10 @@ def test_players():
             "nickname", "email", "bio", "race__name", "guild__name"
         )
     ) == [
-        ("john", "john@gmail.com", "Hello, I'm John, elf ranger"
-         , "elf", "archers"),
+        ("john", "john@gmail.com", "Hello, I'm John, elf ranger", "elf", "archers"),
         ("max", "max@gmail.com", "Hello, I'm Max, elf mag", "elf", "mags"),
         ("arthur", "arthur@gmail.com", "Arthur, elf mag", "elf", "mags"),
-        ("andrew", "andrew@gmail.com", "Hello, I'm Andrew",
-         "human", "blacksmiths"),
+        ("andrew", "andrew@gmail.com", "Hello, I'm Andrew", "human", "blacksmiths"),
         ("nick", "nick@gmail.com", "Hello, I'm Nick", "human", None),
     ]
 
