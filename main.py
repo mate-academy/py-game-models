@@ -25,7 +25,7 @@ def main() -> None:
                 description=config_race_description
             )
             config_skills_list = data[name]["race"]["skills"]
-            if len(config_skills_list) != 0:
+            if config_skills_list:
                 for skill in config_skills_list:
                     conf_skill_name = skill["name"] if skill["name"] else None
                     conf_skill_bns = skill["bonus"] if skill["bonus"] else None
