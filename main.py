@@ -9,6 +9,7 @@ with open("players.json", "r") as sourse:
 
 
 def main() -> None:
+    global race_id
     for nickname, info in data.items():
         if info["race"]:
             name_race = (
