@@ -10,45 +10,50 @@ def main() -> None:
 
     for player in players_data:
         # Guild
+
         if players_data[player].get("guild"):
-            if Guild.objects.filter(
-                    name=players_data[player]["guild"]["name"]
-            ).exists():
-                player_guild = Guild.objects.get(
-                    name=players_data[player]["guild"]["name"]
-                )
+
+            guild_name = players_data[player]["guild"]["name"]
+            guild_description = players_data[player]["guild"]["description"]
+
+            if Guild.objects.filter(name=guild_name).exists():
+                player_guild = Guild.objects.get(name=guild_name)
             else:
                 player_guild = Guild.objects.create(
-                    name=players_data[player]["guild"]["name"],
-                    description=players_data[player]["guild"]["description"]
+                    name=guild_name,
+                    description=guild_description
                 )
         else:
             player_guild = None
+
         # Race
-        if Race.objects.filter(
-                name=players_data[player]["race"]["name"]
-        ).exists():
-            Race.objects.get(name=players_data[player]["race"]["name"])
+        race_name = players_data[player]["race"]["name"]
+        race_description = players_data[player]["race"]["description"]
+
+        if Race.objects.filter(name=race_name).exists():
+            Race.objects.get(name=race_name)
 
         else:
             Race.objects.create(
-                name=players_data[player]["race"]["name"],
-                description=players_data[player]["race"]["description"]
+                name=race_name,
+                description=race_description
             )
 
         # Skills
+
         if skills := players_data[player]["race"]["skills"]:
 
             for skill in skills:
-                if Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.get(name=skill["name"])
+                skill_name = skill["name"]
+                if Skill.objects.filter(name=skill_name).exists():
+                    Skill.objects.get(name=skill_name)
 
                 else:
                     Skill.objects.create(
-                        name=skill["name"],
+                        name=skill_name,
                         bonus=skill["bonus"],
                         race=Race.objects.get(
-                            name=players_data[player]["race"]["name"]
+                            name=race_name
                         )
                     )
 
@@ -58,7 +63,7 @@ def main() -> None:
             nickname=player,
             email=players_data[player]["email"],
             bio=players_data[player]["bio"],
-            race=Race.objects.get(name=players_data[player]["race"]["name"]),
+            race=Race.objects.get(name=race_name),
             guild=player_guild,
         )
 
