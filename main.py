@@ -1,5 +1,6 @@
 import init_django_orm  # noqa: F401
 import json
+import datetime
 
 from db.models import Race, Skill, Player, Guild
 
@@ -9,48 +10,36 @@ def main() -> None:
         players_data = json.load(players_file)
 
     for player in players_data:
-        player_nickname = player
-        player_email = players_data[player]["email"]
-        player_bio = players_data[player]["bio"]
-        race = players_data[player]["race"]
+        Race.objects.get_or_create(
+            name=players_data[player]["race"]["name"],
+            description=players_data[player]["race"]["description"]
+        )
 
-        if Race.objects.filter(name=race["name"]).exists():
-            player_race = Race.objects.get(name=race["name"])
-        else:
-            player_race = Race.objects.create(
-                name=race["name"],
-                description=race["description"]
-            )
-
-        skills = race["skills"]
-
-        for skill in skills:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
+        if len(players_data[player]["race"]["skills"]) != 0:
+            for skill in players_data[player]["race"]["skills"]:
+                Skill.objects.get_or_create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=player_race
+                    race=Race.objects.get(name=players_data[player]["race"]["name"])
                 )
 
-        guild = players_data[player]["guild"]
+        if players_data[player]["guild"] is not None:
+            Guild.objects.get_or_create(
+                name=players_data[player]["guild"]["name"],
+                description=players_data[player]["guild"]["description"]
+            )
 
-        if guild is not None:
-            if not Guild.objects.filter(name=guild["name"]).exists():
-                Guild.objects.create(
-                    name=guild["name"],
-                    description=guild["description"]
-                )
-            player_guild = Guild.objects.get(name=guild["name"])
-        else:
-            player_guild = guild
-
-        Player.objects.create(
-            nickname=player_nickname,
-            email=player_email,
-            bio=player_bio,
-            race=player_race,
-            guild=player_guild
-        )
+        if not Player.objects.filter(nickname=player).exists():
+            Player.objects.create(
+                nickname=player,
+                email=players_data[player]["email"],
+                bio=players_data[player]["bio"],
+                race=Race.objects.get(name=players_data[player]["race"]["name"]),
+                guild=Guild.objects.get(
+                    name=players_data[player]["guild"]["name"])
+                if players_data[player]["guild"] else None,
+                created_at=datetime.datetime.now()
+            )
 
 
 if __name__ == "__main__":
