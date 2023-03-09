@@ -14,17 +14,17 @@ def main() -> None:
         race_dict = data["race"]
         if not Race.objects.filter(name=race_dict["name"]).exists():
             Race.objects.create(
-                name=data["race"]["name"],
-                description=data["race"]["description"]
+                name=race_dict["name"],
+                description=race_dict["description"]
             )
+        race = Race.objects.get(name=race_dict["name"])
 
-        race = Race.objects.get(name=data["race"]["name"])
-
-        for skill in data["race"]["skills"]:
+        for skill in race_dict["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"], bonus=skill["bonus"], race=race
                 )
+
         guild = data["guild"] if data["guild"] else None
         if guild:
             if not Guild.objects.filter(name=data["guild"]["name"]).exists():
