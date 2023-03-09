@@ -31,12 +31,13 @@ def create_guild(guild_data: dict) -> Guild:
 
 
 def create_skills(race_data: dict, race: Race) -> None:
-    for skill_data in race_data["skills"]:
-        Skill.objects.get_or_create(
-            name=skill_data["name"],
-            bonus=skill_data["bonus"],
-            race=race
-        )
+    if "skills" in race_data:
+        for skill_data in race_data["skills"]:
+            Skill.objects.get_or_create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race
+            )
 
 
 def create_player(player_data: dict) -> Player:
