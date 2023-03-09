@@ -8,15 +8,17 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.loads(file.read())
     for nick, info in data.items():
-        player_race, _ = Race.objects.get_or_create(
-            name=info.get("race").get("name"),
-            description=info.get("race").get("description"),
-        )
+        race_data = info.get("race")
         player_guild = info.get("guild")
+        skills = info.get("race").get("skills")
+        player_race, _ = Race.objects.get_or_create(
+            name=race_data.get("name"),
+            description=race_data.get("description"),
+        )
         if player_guild:
             player_guild, _ = Guild.objects.get_or_create(
-                name=info.get("guild").get("name"),
-                description=info.get("guild").get("description"),
+                name=player_guild.get("name"),
+                description=player_guild.get("description"),
             )
         player = Player.objects.create(
             nickname=nick,
@@ -25,7 +27,6 @@ def main() -> None:
             race=player_race,
             guild=player_guild,
         )
-        skills = info.get("race").get("skills")
         if skills:
             for skill in skills:
                 if not Skill.objects.filter(name=skill.get("name")).exists():
