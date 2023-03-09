@@ -13,36 +13,23 @@ def main() -> None:
         skills = info.get("race").get("skills")
         guild = info.get("guild")
 
-        # For class Race
-        if Race.objects.filter(name=race.get("name")).exists():
-            new_race = Race.objects.get(name=race.get("name"))
-        else:
-            new_race = Race(
-                name=race.get("name"),
-                description=race.get("description")
-            )
-            new_race.save()
+        new_race, _ = Race.objects.get_or_create(
+            name=race.get("name"),
+            description=race.get("description")
+        )
 
-        # For class Skill
         for skill in skills:
-            if not Skill.objects.filter(name=skill.get("name")).exists():
-                new_skill = Skill(
-                    name=skill.get("name"),
-                    bonus=skill.get("bonus"),
-                    race=new_race
-                )
-                new_skill.save()
+            Skill.objects.get_or_create(
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race=new_race
+            )
 
-        # For class Guild
         if guild:
-            if Guild.objects.filter(name=guild.get("name")).exists():
-                guild = Guild.objects.get(name=guild.get("name"))
-            else:
-                guild = Guild(
-                    name=guild.get("name"),
-                    description=guild.get("description")
-                )
-                guild.save()
+            guild, _ = Guild.objects.get_or_create(
+                name=guild.get("name"),
+                description=guild.get("description")
+            )
 
         player = Player(
             nickname=name,
