@@ -11,7 +11,8 @@ def main() -> None:
         players = json.load(file)
 
     for name, data in players.items():
-        if not Race.objects.filter(name=data["race"]["name"]).exists():
+        race_dict = data["race"]
+        if not Race.objects.filter(name=race_dict["name"]).exists():
             Race.objects.create(
                 name=data["race"]["name"],
                 description=data["race"]["description"]
