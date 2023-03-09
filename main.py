@@ -14,7 +14,7 @@ def main() -> None:
 
         race_name = data_info["race"]["name"]
         race_note = data_info["race"]["description"]
-        if not Race.objects.filter(name=data_info["race"]["name"]).exists():
+        if not Race.objects.filter(name=race_name).exists():
             Race.objects.get_or_create(
                 name=race_name,
                 description=race_note
