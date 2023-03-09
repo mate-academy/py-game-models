@@ -10,40 +10,34 @@ def main() -> None:
         data = json.load(file)
 
     for player_name, player_info in data.items():
-        race = player_info.get("race")
-        skills = player_info.get("race")["skills"]
-        guild = player_info.get("guild")
+        race = player_info["race"]
+        skills = player_info["race"]["skills"]
+        guild = player_info["guild"]
 
-        if Race.objects.filter(name=race["name"]).exists():
-            race = Race.objects.get(name=race["name"])
-        else:
-            race = Race.objects.create(name=race["name"],
-                                       description=race["description"])
+        race, created = Race.objects.get_or_create(
+            name=race["name"],
+            description=race["description"]
+        )
 
         for skill in skills:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                skill = Skill.objects.create(
-                    name=skill.get("name"),
-                    bonus=skill.get("bonus"),
-                    race=race)
-            else:
-                Skill.objects.get(name=skill["name"])
+            skill, created = Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
 
         if guild:
-            if Guild.objects.filter(name=guild["name"]).exists():
-                guild = Guild.objects.get(name=guild["name"])
-            else:
-                guild = Guild.objects.create(
-                    name=guild["name"],
-                    description=guild["description"]
-                )
+            guild, created = Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"]
+            )
         else:
             guild = None
 
         Player.objects.create(
             nickname=player_name,
-            email=player_info.get("email"),
-            bio=player_info.get("bio"),
+            email=player_info["email"],
+            bio=player_info["bio"],
             race=race,
             guild=guild
         )
