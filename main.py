@@ -53,8 +53,8 @@ def main() -> None:
         email = player_data["email"]
         bio = player_data["bio"]
         race = player_data["race"]
-        skills = race["skills"] if race["skills"] else None
-        guild = player_data["guild"] if player_data["guild"] else None
+        skills = race["skills"]
+        guild = player_data["guild"]
 
         race = create_race(race)
         create_skills(skills, race)
