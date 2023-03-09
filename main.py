@@ -4,9 +4,6 @@ import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 
-with open("players.json") as data:
-    DATA = json.load(data)
-
 
 def crate_race(race_data: dict) -> Race:
     race, _ = Race.objects.get_or_create(
@@ -33,8 +30,12 @@ def crete_guild(guild_data: dict) -> Guild | None:
 
 
 def main() -> None:
+    with open("players.json") as data:
+        DATA = json.load(data)
+
     for user_name, user_data in DATA.items():
         race = crate_race(race_data=user_data.get("race"))
+
         for skill in user_data.get("race").get("skills"):
             create_skill(skills_data=skill, race=race)
 
