@@ -11,8 +11,8 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        on_delete=models.SET_DEFAULT,
-        default="No skills"
+        on_delete=models.SET_NULL,
+        null=True
     )
 
 
@@ -30,12 +30,12 @@ class Player(models.Model):
     )
     race = models.ForeignKey(
         Race,
-        on_delete=models.SET_DEFAULT,
-        default="unknown"
+        on_delete=models.SET_NULL,
+        null=True
     )
     guild = models.ForeignKey(
         Guild,
-        on_delete=models.SET_DEFAULT,
-        default="free condottiere"
+        on_delete=models.SET_NULL,
+        null=True
     )
     created_at = models.DateTimeField(auto_now_add=True)

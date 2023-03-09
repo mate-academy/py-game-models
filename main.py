@@ -1,5 +1,4 @@
 import json
-from typing import List
 
 import init_django_orm  # noqa: F401
 
@@ -9,22 +8,46 @@ with open("players.json") as data:
     DATA = json.load(data)
 
 
+def crate_race(race_data: dict) -> Race:
+    race, _ = Race.objects.get_or_create(
+        name=race_data.get("name"),
+        description=race_data.get("description")
+    )
+    return race
+
+
+def create_skill(skills_data: dict, race: Race) -> None:
+    Skill.objects.get_or_create(
+        name=skills_data.get("name"),
+        bonus=skills_data.get("bonus"),
+        race=race
+    )
+
+
+def crete_guild(guild_data: dict) -> Guild | None:
+    guild, _ = Guild.objects.get_or_create(
+        name=guild_data.get("name"),
+        description=guild_data.get("description"),
+    )
+    return guild
+
+
 def main() -> None:
     for user_name, user_data in DATA.items():
-        race, _ = Race.objects.get_or_create(
-            name=user_data.get("race").get("name"),
-            description=user_data.get("race").get("description")
-        )
+        race = crate_race(race_data=user_data.get("race"))
         for skill in user_data.get("race").get("skills"):
-            Skill.objects.get_or_create(
-                skill.get("name")
-            )
+            create_skill(skills_data=skill, race=race)
+
+        guild = None
+        if user_data.get("guild"):
+            guild = crete_guild(user_data.get("guild"))
 
         Player(
             nickname=user_name,
             email=user_data.get("email"),
             bio=user_data.get("bio"),
-            race=race
+            race=race,
+            guild=guild
         )
 
 
