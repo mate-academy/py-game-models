@@ -11,7 +11,6 @@ def main() -> None:
     for player, properties in data.items():
         email = properties["email"]
         bio = properties["bio"]
-        guild = properties["guild"]
         skills = properties["race"]["skills"]
 
         race, _ = Race.objects.get_or_create(
@@ -27,16 +26,18 @@ def main() -> None:
                     race=race
                 )
 
+        player = Player(
+            nickname=player,
+            email=email,
+            bio=bio,
+            race=race
+        )
+
         if properties["guild"]:
             guild, _ = Guild.objects.get_or_create(
                 name=properties["guild"]["name"],
                 description=properties["guild"]["description"]
             )
+            player.guild = guild
 
-        Player.objects.create(
-            nickname=player,
-            email=email,
-            bio=bio,
-            race=race,
-            guild=guild
-        )
+        player.save()
