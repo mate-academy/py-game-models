@@ -9,39 +9,39 @@ def main() -> None:
     with open("players.json", "r") as players_file:
         players_data = json.load(players_file)
 
-    for player in players_data:
+    for player, data in players_data.items():
         Race.objects.get_or_create(
-            name=players_data[player]["race"]["name"],
-            description=players_data[player]["race"]["description"]
+            name=data["race"]["name"],
+            description=data["race"]["description"]
         )
 
         if len(players_data[player]["race"]["skills"]) != 0:
-            for skill in players_data[player]["race"]["skills"]:
+            for skill in data["race"]["skills"]:
                 Skill.objects.get_or_create(
                     name=skill["name"],
                     bonus=skill["bonus"],
                     race=Race.objects.get(
-                        name=players_data[player]["race"]["name"]
+                        name=data["race"]["name"]
                     )
                 )
 
-        if players_data[player]["guild"] is not None:
+        if data["guild"] is not None:
             Guild.objects.get_or_create(
-                name=players_data[player]["guild"]["name"],
-                description=players_data[player]["guild"]["description"]
+                name=data["guild"]["name"],
+                description=data["guild"]["description"]
             )
 
         if not Player.objects.filter(nickname=player).exists():
             Player.objects.create(
                 nickname=player,
-                email=players_data[player]["email"],
-                bio=players_data[player]["bio"],
+                email=data["email"],
+                bio=data["bio"],
                 race=Race.objects.get(
-                    name=players_data[player]["race"]["name"]
+                    name=data["race"]["name"]
                 ),
                 guild=Guild.objects.get(
-                    name=players_data[player]["guild"]["name"])
-                if players_data[player]["guild"] else None,
+                    name=data["guild"]["name"])
+                if data["guild"] else None,
                 created_at=datetime.datetime.now()
             )
 
