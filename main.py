@@ -2,7 +2,6 @@ import init_django_orm  # noqa: F401
 import json
 
 from django.db import transaction
-from typing import List
 from db.models import Race, Skill, Player, Guild
 
 
@@ -31,7 +30,7 @@ def create_guild(guild_data: dict) -> Guild:
     return guild
 
 
-def create_skills(race_data: dict, race: Race) -> List[Skill]:
+def create_skills(race_data: dict, race: Race) -> None:
     for skill_data in race_data["skills"]:
         Skill.objects.get_or_create(
             name=skill_data["name"],
