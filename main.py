@@ -28,7 +28,6 @@ def main() -> None:
             ).save()
 
         for skills in attributes["race"]["skills"]:
-            print(skills)
             if not Skill.objects.filter(name=skills["name"]).exists():
                 Skill(
                     name=skills["name"],
