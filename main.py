@@ -24,9 +24,9 @@ def create_guild(guild_data: dict) -> Guild | None:
     if not guild_data:
         return None
     guild, created = Guild.objects.get_or_create(
-            name=guild_data["name"],
-            defaults={"description": guild_data.get("description")},
-        )
+        name=guild_data["name"],
+        defaults={"description": guild_data.get("description")},
+    )
     return guild
 
 
