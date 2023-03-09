@@ -9,12 +9,11 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
 
-    for race in data.values():
-        name = race.get("race").get("name")
-        description = race.get("race").get("description")
-        if not Race.objects.filter(name=name).exists():
-            Race.objects.create(name=name, description=description)
-        skills_list = race.get("race").get("skills")
+    for player, attributes in data.items():
+        name = attributes.get("race").get("name")
+        description = attributes.get("race").get("description")
+        race = Race.objects.get_or_create(name=name, description=description)
+        skills_list = attributes.get("race").get("skills")
         if skills_list:
             for skill in skills_list:
                 if not Skill.objects.filter(name=skill.get("name")).exists():
@@ -23,32 +22,22 @@ def main() -> None:
                         bonus=skill.get("bonus"),
                         race=Race.objects.get(name=name)
                     )
-
-    for guild in data.values():
-        if not guild.get("guild"):
-            continue
-        name = guild.get("guild").get("name")
-        description = guild.get("guild").get("description")
-        if not Guild.objects.filter(name=name).exists():
-            Guild.objects.create(name=name, description=description)
-
-    for player, atr in data.items():
-        race = Race.objects.filter(
-            name=atr.get("race").get("name")
-        ).values("id")[0]["id"]
         try:
-            guild = Guild.objects.filter(
-                name=atr.get("guild").get("name")
-            ).values("id")[0]["id"]
+            guild_name = attributes.get("guild").get("name")
+            description_guild = attributes.get("guild").get("description")
+            guild = Guild.objects.get_or_create(
+                name=guild_name,
+                description=description_guild
+            )
         except AttributeError:
             guild = None
 
         Player.objects.create(
             nickname=player,
-            email=atr.get("email"),
-            bio=atr.get("bio"),
-            race_id=race,
-            guild_id=guild
+            email=attributes.get("email"),
+            bio=attributes.get("bio"),
+            race_id=race[0].id,
+            guild_id=guild[0].id if guild else None,
         )
 
 
