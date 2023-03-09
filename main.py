@@ -4,7 +4,6 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    global race, guild_obj
     with open("players.json", "r") as date:
         player_info = json.load(date)
     for player, info in player_info.items():
