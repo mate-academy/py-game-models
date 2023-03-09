@@ -12,8 +12,7 @@ def get_or_create_model_instance(
 ) -> Race | Guild:
     if not model.objects.filter(**data_filter).exists():
         instance = model.objects.create(**creation_data)
-    else:
-        instance = model.objects.get(**data_filter)
+    instance = model.objects.get(**data_filter)
     return instance
 
 
