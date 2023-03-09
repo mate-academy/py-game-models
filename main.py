@@ -6,11 +6,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def race(info: dict) -> Race:
-    Race.objects.get_or_create(
+    return Race.objects.get_or_create(
         name=info["race"]["name"],
         description=info["race"]["description"]
-    )
-    return Race.objects.get(name=info["race"]["name"])
+    )[0]
 
 
 def skill(info: dict, race_choose: Race) -> None:
@@ -22,15 +21,13 @@ def skill(info: dict, race_choose: Race) -> None:
         )
 
 
-def guild(info: dict) -> Guild:
+def guild(info: dict) -> Guild | None:
     if info["guild"]:
-        Guild.objects.get_or_create(
+        return Guild.objects.get_or_create(
             name=info["guild"]["name"],
             description=info["guild"]["description"]
-        )
-    return (Guild.objects.get(name=info["guild"]["name"])
-            if info["guild"]
-            else None)
+        )[0]
+    return None
 
 
 def player(name: str, info: dict, race_choose: Race, if_guild: Guild) -> None:
