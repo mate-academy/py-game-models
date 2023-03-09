@@ -2,6 +2,7 @@ import init_django_orm  # noqa: F401
 import json
 
 from django.db import transaction
+
 from db.models import Race, Skill, Player, Guild
 
 
@@ -19,14 +20,13 @@ def create_race(race_data: dict) -> Race:
     return race
 
 
-def create_guild(guild_data: dict) -> Guild:
-    if guild_data:
-        guild, created = Guild.objects.get_or_create(
+def create_guild(guild_data: dict) -> Guild | None:
+    if not guild_data:
+        return None
+    guild, created = Guild.objects.get_or_create(
             name=guild_data["name"],
             defaults={"description": guild_data.get("description")},
         )
-    else:
-        guild = None
     return guild
 
 
@@ -40,7 +40,7 @@ def create_skills(race_data: dict, race: Race) -> None:
             )
 
 
-def create_player(player_data: dict) -> Player:
+def create_player(player_data: dict) -> None:
     race_data = player_data["race"]
     race = create_race(race_data)
 
@@ -49,7 +49,7 @@ def create_player(player_data: dict) -> Player:
 
     create_skills(race_data, race)
 
-    player, created = Player.objects.get_or_create(
+    Player.objects.get_or_create(
         nickname=player_data["nickname"],
         defaults={
             "email": player_data["email"],
@@ -58,7 +58,6 @@ def create_player(player_data: dict) -> Player:
             "guild": guild,
         },
     )
-    return player
 
 
 @transaction.atomic
