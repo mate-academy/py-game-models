@@ -11,59 +11,28 @@ def main() -> None:
 
     for player, player_data in players.items():
 
-        # add Race data
-        race_name = player_data.get("race")["name"]
-        race_description = player_data.get("race")["description"]
+        player_race = Race.objects.get_or_create(
+            name=player_data.get("race")["name"],
+            description=player_data.get("race")["description"]
+        )[0]
 
-        if Race.objects.filter(name=race_name).exists():
-            player_race = Race.objects.get(name=race_name)
-        else:
-            player_race = Race.objects.create(
-                name=race_name,
-                description=race_description
-            )
-
-        # add Skill data
-        race_skills = player_data.get("race")["skills"]
-        if race_skills:
-            for skill in race_skills:
-                skill_name = skill.get("name")
-                skill_bonus = skill.get("bonus")
-                skill_race = Race.objects.get(name=race_name)
-
-                if Skill.objects.filter(name=skill_name).exists():
-                    Skill.objects.get(name=skill_name)
-                else:
-                    Skill.objects.create(
-                        name=skill_name,
-                        bonus=skill_bonus,
-                        race=skill_race
-                    )
-        #
-        # add Guild data
-        if player_data.get("guild"):
-            guild_name = player_data.get("guild")["name"]
-            guild_description = player_data.get("guild")["description"]
-
-            if Guild.objects.filter(name=guild_name).exists():
-                player_guild = Guild.objects.get(name=guild_name)
-            else:
-                player_guild = Guild.objects.create(
-                    name=guild_name,
-                    description=guild_description
+        if player_data.get("race")["skills"]:
+            for skill in player_data.get("race")["skills"]:
+                Skill.objects.get_or_create(
+                    name=skill.get("name"),
+                    bonus=skill.get("bonus"),
+                    race=Race.objects.get(name=player_data.get("race")["name"])
                 )
-        else:
-            player_guild = None
 
-        # add Player data
-        player_nickname = player
-        player_email = player_data.get("email")
-        player_bio = player_data.get("bio")
+        player_guild = Guild.objects.get_or_create(
+            name=player_data.get("guild")["name"],
+            description=player_data.get("guild")["description"]
+        )[0] if player_data.get("guild") else None
 
         Player.objects.create(
-            nickname=player_nickname,
-            email=player_email,
-            bio=player_bio,
+            nickname=player,
+            email=player_data.get("email"),
+            bio=player_data.get("bio"),
             race=player_race,
             guild=player_guild
         )
