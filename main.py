@@ -4,65 +4,68 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-def create_guild_instance(guild_player_data: dict) -> tuple:
-    return Guild.objects.get_or_create(
-        name=guild_player_data["name"],
-        description=guild_player_data["description"],
-    )
-
-
-def create_race_instance(race_player_data: dict) -> tuple:
-    return Race.objects.get_or_create(
-        name=race_player_data["name"],
-        description=race_player_data["description"],
-    )
-
-
-def create_skills_instances(
+def create_player(
+        nickname: str,
+        email: str,
+        bio: str,
         race: Race,
-        skills_player_data: list
+        guild: Guild | None
 ) -> None:
-    if skills_player_data:
-        for skill in skills_player_data:
+    Player.objects.get_or_create(
+        nickname=nickname,
+        email=email,
+        bio=bio,
+        race=race,
+        guild=guild
+    )
+
+
+def create_race(race_data: dict) -> Race:
+    return Race.objects.get_or_create(
+        name=race_data["name"],
+        description=race_data["description"]
+    )[0]
+
+
+def create_skills(skills_data: dict, race: Race) -> None:
+    if skills_data:
+        for skill in skills_data:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=race,
+                race=race
             )
+
+
+def create_guild(guild_data: dict) -> Guild:
+    if guild_data:
+        return Guild.objects.get_or_create(
+            name=guild_data["name"],
+            description=guild_data["description"]
+        )[0]
 
 
 def main() -> None:
     with open("players.json") as file_in:
-        players = json.load(file_in)
+        game_data = json.load(file_in)
 
-    for player_name, player_data in players.items():
-        guild_player_data = (
-            player_data["guild"] if player_data["guild"] else None
-        )
-        if guild_player_data:
-            guild, *_ = create_guild_instance(guild_player_data)
+    for player_name, player_data in game_data.items():
+        email = player_data["email"]
+        bio = player_data["bio"]
+        race = player_data["race"]
+        skills = race["skills"] if race["skills"] else None
+        guild = player_data["guild"] if player_data["guild"] else None
 
-        race_player_data = player_data["race"] if player_data["race"] else None
-        if race_player_data:
-            race, *_ = create_race_instance(race_player_data)
-        skills_player_data = (
-            race_player_data["skills"]
-            if race_player_data["skills"]
-            else None
-        )
-        create_skills_instances(race, skills_player_data)
-
-        _, created = Player.objects.get_or_create(
+        race = create_race(race)
+        create_skills(skills, race)
+        guild = create_guild(guild)
+        create_player(
             nickname=player_name,
-            email=player_data["email"],
-            bio=player_data["bio"],
+            email=email,
+            bio=bio,
             race=race,
-            guild=(guild if guild_player_data else None),
+            guild=guild
         )
-        if not created:
-            print(
-                f"Player with nickname:{player_name} has been already created!"
-            )
 
 
 if __name__ == "__main__":
