@@ -8,7 +8,6 @@ def main() -> None:
 
     with open("players.json", "r") as file:
         player_list = json.load(file)
-    print(player_list)
 
     for player_name, player_data in player_list.items():
         guild = None
