@@ -2,7 +2,17 @@ from django.db import models
 
 
 class Race(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    ELF = "Elf"
+    DWARF = "Dwarf"
+    HUMAN = "Human"
+    ORK = "Ork"
+    RACE_CHOICES = [
+        (ELF, "Elf"),
+        (DWARF, "Dwarf"),
+        (HUMAN, "Human"),
+        (ORK, "Ork"),
+    ]
+    name = models.CharField(max_length=255, unique=True, choices=RACE_CHOICES)
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
@@ -39,8 +49,7 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         to_field="name",
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.CASCADE,
     )
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateField(auto_now_add=True)
