@@ -20,7 +20,7 @@ def main() -> None:
         )
 
         for skill in skills:
-            skill, created = Skill.objects.get_or_create(
+            Skill.objects.get_or_create(
                 name=skill.get("name"),
                 bonus=skill.get("bonus"),
                 race=race
@@ -32,7 +32,7 @@ def main() -> None:
                 description=guild.get("description")
             )
 
-        player = Player.objects.create(
+        Player.objects.create(
             nickname=player_name,
             email=player_data.get("email"),
             bio=player_data.get("bio"),
