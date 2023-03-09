@@ -51,3 +51,7 @@ def main() -> None:
             race_id=race.id,
             guild_id=guild.id if data_info["guild"] else None
         )
+
+
+if __name__ == "__main__":
+    main()
