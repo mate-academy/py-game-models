@@ -18,7 +18,6 @@ def main() -> None:
             name=race.get("name"),
             description=race.get("description")
         )
-        race.save()
 
         for skill in skills:
             skill, created = Skill.objects.get_or_create(
@@ -26,14 +25,12 @@ def main() -> None:
                 bonus=skill.get("bonus"),
                 race=race
             )
-            skill.save()
 
         if guild:
             guild, created = Guild.objects.get_or_create(
                 name=guild.get("name"),
                 description=guild.get("description")
             )
-            guild.save()
 
         player = Player.objects.create(
             nickname=player_name,
@@ -42,7 +39,6 @@ def main() -> None:
             race=race,
             guild=guild
         )
-        player.save()
 
 
 if __name__ == "__main__":
