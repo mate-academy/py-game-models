@@ -10,20 +10,21 @@ def main() -> None:
         players = json.load(players_file)
 
     for nickname, info in players.items():
-        guild = info["guild"] if info["guild"] else None
+        guild = info.get("guild")
         race = info.get("race")
         skills = info["race"].get("skills")
 
         if guild is not None:
             if not Guild.objects.filter(name=guild["name"]).exists():
-                Guild.objects.create(
+                guild = Guild.objects.create(
                     name=guild["name"],
                     description=guild["description"]
                 )
-            guild = Guild.objects.get(name=guild["name"])
+            else:
+                guild = Guild.objects.get(name=guild["name"])
 
         if not Race.objects.filter(name=race["name"]).exists():
-            created_race = Race.objects.create(
+            race = Race.objects.create(
                 name=race["name"],
                 description=race["description"]
             )
@@ -32,10 +33,10 @@ def main() -> None:
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=created_race
+                    race=race
                 )
-
-        race = Race.objects.get(name=race["name"])
+        else:
+            race = Race.objects.get(name=race["name"])
 
         if not Player.objects.filter(nickname=nickname).exists():
             Player.objects.create(
