@@ -11,9 +11,8 @@ def get_or_create_model_instance(
         creation_data: dict
 ) -> Race | Guild:
     if not model.objects.filter(**data_filter).exists():
-        instance = model.objects.create(**creation_data)
-    instance = model.objects.get(**data_filter)
-    return instance
+        return model.objects.create(**creation_data)
+    return model.objects.get(**data_filter)
 
 
 def create_skills(skills_data: list[dict], race_object: Race) -> list:
