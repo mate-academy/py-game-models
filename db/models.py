@@ -8,7 +8,7 @@ class Race(models.Model):
 
 class Guild(models.Model):
     name = models.CharField(unique=True, max_length=255)
-    description = models.TextField(null=True)
+    description = models.TextField(blank=True)
 
 
 class Skill(models.Model):
