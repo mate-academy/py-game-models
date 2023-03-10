@@ -21,13 +21,12 @@ def main() -> None:
                     race=race_get
                 )
 
+        guild_get = None
         if player_info.get("guild"):
             guild_get = Guild.objects.get_or_create(
                 name=player_info["guild"]["name"],
                 description=player_info["guild"]["description"]
             )[0]
-        else:
-            guild_get = None
 
         Player.objects.create(
             nickname=player_name,
