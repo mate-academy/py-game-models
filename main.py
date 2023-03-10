@@ -31,9 +31,9 @@ def crete_guild(guild_data: dict) -> Guild | None:
 
 def main() -> None:
     with open("players.json") as data:
-        DATA = json.load(data)
+        user_entities = json.load(data)
 
-    for user_name, user_data in DATA.items():
+    for user_name, user_data in user_entities.items():
         race = crate_race(race_data=user_data.get("race"))
 
         for skill in user_data.get("race").get("skills"):
@@ -43,7 +43,7 @@ def main() -> None:
         if user_data.get("guild"):
             guild = crete_guild(user_data.get("guild"))
 
-        Player(
+        Player.objects.create(
             nickname=user_name,
             email=user_data.get("email"),
             bio=user_data.get("bio"),
