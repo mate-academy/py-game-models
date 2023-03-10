@@ -29,6 +29,7 @@ def main() -> None:
                     bonus=skill["bonus"],
                     race=race
                 )
+        guild = None
         if player_info["guild"]:
             guild_exists = Guild.objects.filter(
                 name=player_info["guild"]["name"]
@@ -40,8 +41,6 @@ def main() -> None:
                 name=player_info["guild"]["name"],
                 description=player_info["guild"]["description"]
             )
-        else:
-            guild = None
 
         Player.objects.create(
             nickname=name,
