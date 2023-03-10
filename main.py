@@ -17,7 +17,7 @@ def main() -> None:
             Race.objects.create(name=race_name, description=race_description)
 
         guild_name = (players[player]["guild"]["name"]
-            if players[player]["guild"] else None)
+                      if players[player]["guild"] else None)
         if guild_name is not None:
             guild_description = players[player]["guild"]["description"]
             new_guild = Guild.objects.filter(name=guild_name).exists()
@@ -56,7 +56,3 @@ def main() -> None:
                 race=race,
                 guild=guild
             )
-
-
-if __name__ == "__main__":
-    main()
