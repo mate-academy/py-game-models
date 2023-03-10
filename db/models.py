@@ -24,4 +24,3 @@ class Player(models.Model):
     race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_ad = models.DateField(auto_now_add=True)
-
