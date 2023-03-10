@@ -1,7 +1,8 @@
 import init_django_orm  # noqa: F401
 
-from db.models import Race, Skill, Player, Guild
 import json
+
+from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
@@ -15,8 +16,8 @@ def main() -> None:
         if not new_race:
             Race.objects.create(name=race_name, description=race_description)
 
-        guild_name = players[player]["guild"]["name"] \
-            if players[player]["guild"] else None
+        guild_name = (players[player]["guild"]["name"]
+            if players[player]["guild"] else None)
         if guild_name is not None:
             guild_description = players[player]["guild"]["description"]
             new_guild = Guild.objects.filter(name=guild_name).exists()
