@@ -18,6 +18,7 @@ def main() -> None:
                 name=name_race,
                 description=race_description
             )
+
         if info["guild"]:
             guild_name = info["guild"]["name"]
             guild_description = info["guild"]["description"]
@@ -26,8 +27,6 @@ def main() -> None:
                     name=guild_name,
                     description=guild_description
                 )
-        else:
-            guild = None
 
         for skill in info["race"]["skills"]:
             name_skill = skill["name"]
@@ -45,7 +44,7 @@ def main() -> None:
                 email=info["email"],
                 bio=info["bio"],
                 race=race,
-                guild=guild
+                guild=guild if info["guild"] else None,
             )
 
 
