@@ -27,8 +27,16 @@ def main() -> None:
             )
 
         if data[name]["guild"]:
-            config_guild_name = data[name]["guild"].get("name") if data[name]["guild"] else None
-            config_guild_description = data[name]["guild"].get("description") if data[name]["guild"] else None
+            config_guild_name = (
+                data[name]["guild"].get("name")
+                if data[name]["guild"]
+                else None
+            )
+            config_guild_description = (
+                data[name]["guild"].get("description")
+                if data[name]["guild"]
+                else None
+            )
 
             guild_entry, _ = Guild.objects.get_or_create(
                 name=config_guild_name,
@@ -43,7 +51,7 @@ def main() -> None:
             email=config_email,
             bio=config_bio,
             race=race_entry,
-            guild=guild_entry,
+            guild=guild_entry if data[name]["guild"] else None ,
         )
 
 
