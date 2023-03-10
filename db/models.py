@@ -7,10 +7,10 @@ class Race(models.Model):
     HUMAN = "Human"
     ORK = "Ork"
     RACE_CHOICES = [
-        (ELF, "Elf"),
-        (DWARF, "Dwarf"),
-        (HUMAN, "Human"),
-        (ORK, "Ork"),
+        (ELF, ELF),
+        (DWARF, DWARF),
+        (HUMAN, HUMAN),
+        (ORK, ORK),
     ]
     name = models.CharField(max_length=255, unique=True, choices=RACE_CHOICES)
     description = models.TextField(blank=True)
@@ -32,7 +32,7 @@ class Skill(models.Model):
 
 
 class Guild(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, null=True)
     description = models.TextField(null=True)
 
     def __str__(self) -> str:

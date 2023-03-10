@@ -12,32 +12,29 @@ def main() -> None:
         config_race_name = data[name]["race"].get("name")
         config_race_description = data[name]["race"].get("description")
 
-        if not Race.objects.filter(name=config_race_name).exists():
-            race_entry = Race.objects.create(
-                name=config_race_name,
-                description=config_race_description
-            )
-            config_skills_list = data[name]["race"].get("skills", [])
-            for skill in config_skills_list:
-                conf_skill_name = skill.get("name")
-                conf_skill_bns = skill.get("bonus")
-                if not Skill.objects.filter(
-                        name=conf_skill_name
-                ).exists():
-                    Skill.objects.create(
-                        name=conf_skill_name,
-                        bonus=conf_skill_bns,
-                        race=race_entry,
-                    )
-        if data[name]["guild"] is not None:
-            config_guild_name = data[name]["guild"].get("name")
-            config_guild_description = data[name]["guild"].get("description")
+        race_entry, _ = Race.objects.get_or_create(
+            name=config_race_name,
+            defaults={"description": config_race_description},
+        )
 
-            if not Guild.objects.filter(name=config_guild_name).exists():
-                guild_entry = Guild.objects.create(
-                    name=config_guild_name,
-                    description=config_guild_description
-                )
+        config_skills_list = data[name]["race"].get("skills", [])
+        for skill in config_skills_list:
+            conf_skill_name = skill.get("name")
+            conf_skill_bns = skill.get("bonus")
+            skill_entry, _ = Skill.objects.get_or_create(
+                name=conf_skill_name,
+                defaults={"bonus": conf_skill_bns, "race": race_entry},
+            )
+
+        if data[name]["guild"]:
+            config_guild_name = data[name]["guild"].get("name") if data[name]["guild"] else None
+            config_guild_description = data[name]["guild"].get("description") if data[name]["guild"] else None
+
+            guild_entry, _ = Guild.objects.get_or_create(
+                name=config_guild_name,
+                defaults={"description": config_guild_description},
+            )
+
         config_player_nickname = name
         config_email = data[name].get("email")
         config_bio = data[name].get("bio")
@@ -46,7 +43,7 @@ def main() -> None:
             email=config_email,
             bio=config_bio,
             race=race_entry,
-            guild=guild_entry if data[name]["guild"] else None,
+            guild=guild_entry,
         )
 
 
