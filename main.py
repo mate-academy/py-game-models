@@ -18,13 +18,15 @@ def main() -> None:
                 Guild.objects.filter(name=info["guild"]["name"]).exists()):
             Guild.objects.create(
                 name=info["guild"]["name"],
-                description=info["guild"]["description"])
+                description=info["guild"]["description"]
+            )
         for skill in info["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=player_race)
+                    race=player_race
+                )
         player_guild = (None if info["guild"] is None
                         else Guild.objects.get(name=info["guild"]["name"]))
         Player.objects.create(
