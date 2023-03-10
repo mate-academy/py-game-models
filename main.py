@@ -27,19 +27,20 @@ def main() -> None:
                 description=attributes["race"]["description"]
             ).save()
 
+        race = Race.objects.get(name=race_name)
         for skills in attributes["race"]["skills"]:
             if not Skill.objects.filter(name=skills["name"]).exists():
                 Skill(
                     name=skills["name"],
                     bonus=skills["bonus"],
-                    race=Race.objects.get(name=race_name)
+                    race=race
                 ).save()
 
         Player(
             nickname=name,
             email=attributes["email"],
             bio=attributes["bio"],
-            race=Race.objects.get(name=race_name),
+            race=race,
             guild=guild
         ).save()
 
