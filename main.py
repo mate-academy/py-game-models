@@ -9,40 +9,37 @@ JSON_FILE = "players.json"
 
 
 def main() -> None:
-    with open(JSON_FILE) as f:
-        data = json.load(f)
-    for player, info in data.items():
-        if not Race.objects.filter(name=info["race"]["name"]).exists():
-            Race.objects.create(
-                name=info["race"]["name"],
-                description=info["race"]["description"],
+    with open(JSON_FILE, "r") as file:
+        players = json.load(file)
+
+    for name, data in players.items():
+        race_dict = data["race"]
+
+        race, cr = Race.objects.get_or_create(
+            name=race_dict["name"],
+            description=race_dict["description"]
+        )
+        race = Race.objects.get(name=race_dict["name"])
+
+        for skill in race_dict["skills"]:
+
+            skill, cr = Skill.objects.get_or_create(
+                name=skill["name"], bonus=skill["bonus"], race=race
             )
 
-        race = Race.objects.get(name=info["race"]["name"])
-
-        for skill in info["race"]["skills"]:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
-        guild = info["guild"]
+        guild = data["guild"] if data["guild"] else None
         if guild:
-            if not Guild.objects.filter(name=info["guild"]["name"]).exists():
-                Guild.objects.create(
-                    name=info["guild"]["name"],
-                    description=info["guild"]["description"]
-                )
-
-            guild = Guild.objects.get(name=info["guild"]["name"])
+            guild, cr = Guild.objects.get_or_create(
+                name=data["guild"]["name"],
+                description=data["guild"]["description"]
+            )
 
         Player.objects.create(
-            nickname=player,
-            email=info["email"],
-            bio=info["bio"],
+            nickname=name,
+            email=data["email"],
+            bio=data["bio"],
             race=race,
-            guild=guild,
+            guild=guild
         )
 
 
