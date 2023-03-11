@@ -31,14 +31,14 @@ def main() -> None:
                     name=skill["name"], bonus=skill["bonus"], race=race
                 )
 
-        # if not Player.objects.filter(nickname=name).exists():
-        Player.objects.create(
-            nickname=name,
-            email=info["email"],
-            bio=info["bio"],
-            race=race,
-            guild=guild
-        )
+        if not Player.objects.filter(nickname=name).exists():
+            Player.objects.create(
+                nickname=name,
+                email=info["email"],
+                bio=info["bio"],
+                race=race,
+                guild=guild
+            )
 
 
 if __name__ == "__main__":
