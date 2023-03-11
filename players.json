@@ -71,16 +71,7 @@
     "race": {
       "name": "human",
       "description": "Human race",
-      "skills": [
-        {
-          "name": "Teleportation",
-          "bonus": "The ability to move so fast they look like they're teleporting. Could be considered to technically be Teleportation."
-        },
-        {
-          "name": "Reality Warping",
-          "bonus": "The ability to Warp Reality. Make the impossible become possible but can't warp anything containing the structure that holds everything together (Which are many creatures.)"
-        }
-      ]
+      "skills": []
     },
     "guild": {
       "name": "blacksmiths",
@@ -93,16 +84,7 @@
     "race": {
       "name": "human",
       "description": "Human race",
-      "skills": [
-        {
-          "name": "Teleportation",
-          "bonus": "The ability to move so fast they look like they're teleporting. Could be considered to technically be Teleportation."
-        },
-        {
-          "name": "Reality Warping",
-          "bonus": "The ability to Warp Reality. Make the impossible become possible but can't warp anything containing the structure that holds everything together (Which are many creatures.)"
-        }
-      ]
+      "skills": []
     },
     "guild": null
   }
