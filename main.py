@@ -9,25 +9,25 @@ def main() -> None:
     with open("players.json") as file:
         players = json.load(file)
 
-    for key, value in players.items():
-        race_name = value["race"]["name"]
-        race_description = value["race"]["description"]
+    for player_name, player_info in players.items():
+        race_name = player_info["race"]["name"]
+        race_description = player_info["race"]["description"]
         race, created_race = Race.objects.get_or_create(
             name=race_name,
             description=race_description
         )
 
-        guild_name = (value["guild"]["name"]
-                      if value["guild"] else None)
+        guild_name = (player_info["guild"]["name"]
+                      if player_info["guild"] else None)
         guild = None
         if guild_name is not None:
-            guild_description = value["guild"]["description"]
+            guild_description = player_info["guild"]["description"]
             guild, created_guild = Guild.objects.get_or_create(
                 name=guild_name,
                 description=guild_description
             )
 
-        skills = value["race"]["skills"]
+        skills = player_info["race"]["skills"]
 
         for skill in skills:
             Skill.objects.get_or_create(
@@ -36,12 +36,16 @@ def main() -> None:
                 race=race
             )
 
-        email = value["email"]
-        bio = value["bio"]
+        email = player_info["email"]
+        bio = player_info["bio"]
         Player.objects.create(
-            nickname=key,
+            nickname=player_name,
             email=email,
             bio=bio,
             race=race,
             guild=guild
         )
+
+
+if __name__ == "__main__":
+    main()
