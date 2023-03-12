@@ -28,12 +28,11 @@ def main() -> None:
 
         skills_list = info_["race"]["skills"]
         for skill_ in skills_list:
-            if not Skill.objects.filter(name=skill_["name"]).exists():
-                Skill.objects.create(
-                    name=skill_["name"],
-                    bonus=skill_["bonus"],
-                    race=race_
-                )
+            Skill.objects.get_or_create(
+                name=skill_["name"],
+                bonus=skill_["bonus"],
+                race=race_
+            )
 
         Player.objects.create(
             nickname=nickname_,
