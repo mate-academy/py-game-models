@@ -19,12 +19,11 @@ def main() -> None:
         )
 
         for skill in skills:
-            if not Skill.objects.filter(name=skill["name"]):
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
 
         player = Player(
             nickname=player,
