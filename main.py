@@ -9,8 +9,8 @@ def main() -> None:
 
     for user, info in data.items():
         nickname = user
-        email = info["email"] if info["email"] else None
-        bio = info["bio"] if info["bio"] else None
+        email = info.get("email")
+        bio = info.get("bio")
 
         if info["guild"]:
             guild_name = (info["guild"]["name"]
@@ -37,8 +37,8 @@ def main() -> None:
 
             if info["race"]["skills"]:
                 for skill in info["race"]["skills"]:
-                    skill_name = skill["name"] if skill["name"] else None
-                    skill_bonus = skill["bonus"] if skill["bonus"] else None
+                    skill_name = skill.get("name")
+                    skill_bonus = skill.get("bonus")
 
                     if not Skill.objects.filter(name=skill_name).exists():
                         Skill.objects.create(
@@ -52,7 +52,7 @@ def main() -> None:
             email=email,
             bio=bio,
             race=race_link if info["race"]["name"] else None,
-            guild=guild_link if info["guild"] else None
+            guild=guild_link if info.get("guild") else None
         )
 
 
