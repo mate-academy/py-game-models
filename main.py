@@ -12,7 +12,10 @@ def main() -> None:
         try:
             Race.objects.get_or_create(
                 name=race_name,
-                description=player_info["race"]["description"]
+                defaults={
+                    "description": player_info["race"]["description"]
+                }
+
             )
         except Race.DoesNotExist:
             Race.objects.create(
@@ -23,8 +26,10 @@ def main() -> None:
                 try:
                     Skill.objects.get_or_create(
                         name=skill["name"],
-                        bonus=skill["bonus"],
-                        race=Race.objects.get(name=race_name)
+                        defaults={
+                            "bonus": skill["bonus"],
+                            "race": Race.objects.get(name=race_name)
+                        }
                     )
                 except Skill.DoesNotExist:
                     Skill.objects.create(
@@ -37,7 +42,9 @@ def main() -> None:
             try:
                 Guild.objects.get_or_create(
                     name=guild_name,
-                    description=player_info["guild"]["description"]
+                    defaults={
+                        "description": player_info["guild"]["description"]
+                    }
                 )
                 if guild_name is None:
                     raise Guild.DoesNotExist
@@ -53,10 +60,12 @@ def main() -> None:
         try:
             Player.objects.get_or_create(
                 nickname=player_name,
-                email=player_info["email"],
-                bio=player_info["bio"],
-                race=Race.objects.get(name=player_info["race"]["name"]),
-                guild=player_guild
+                defaults={
+                    "email": player_info["email"],
+                    "bio": player_info["bio"],
+                    "race": Race.objects.get(name=player_info["race"]["name"]),
+                    "guild": player_guild
+                }
             )
         except Player.DoesNotExist:
             Player.objects.create(
