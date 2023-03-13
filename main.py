@@ -10,9 +10,9 @@ def main() -> None:
 
     for nickname, info in data.items():
 
-        race = info["race"]
-        guild = info["guild"] if info["guild"] else None
-        skills = info["race"]["skills"]
+        race = info.get("race")
+        guild = info.get("guild")
+        skills = info.get("race").get("skills")
 
         race, new_race = Race.objects.get_or_create(
             name=race["name"],
