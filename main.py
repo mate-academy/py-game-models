@@ -10,7 +10,7 @@ def main() -> None:
     for player_name, player_info in players_info.items():
         race_name = player_info["race"]["name"]
         try:
-            Race.objects.get(name=race_name)
+            Race.objects.get_or_create(name=race_name)
         except Race.DoesNotExist:
             Race.objects.create(
                 name=race_name,
@@ -18,7 +18,7 @@ def main() -> None:
             )
             for skill in player_info["race"]["skills"]:
                 try:
-                    Skill.objects.get(name=skill["name"])
+                    Skill.objects.get_or_create(name=skill["name"])
                 except Skill.DoesNotExist:
                     Skill.objects.create(
                         name=skill["name"],
@@ -28,7 +28,7 @@ def main() -> None:
         if isinstance(player_info["guild"], dict):
             guild_name = player_info["guild"]["name"]
             try:
-                Guild.objects.get(name=guild_name)
+                Guild.objects.get_or_create(name=guild_name)
                 if guild_name is None:
                     raise Guild.DoesNotExist
             except Guild.DoesNotExist:
@@ -38,7 +38,7 @@ def main() -> None:
                 )
 
         try:
-            Player.objects.get(nickname=player_name)
+            Player.objects.get_or_create(nickname=player_name)
         except Player.DoesNotExist:
             player_guild = Guild.objects.get(
                 name=player_info["guild"]["name"]
