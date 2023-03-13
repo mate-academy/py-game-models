@@ -23,6 +23,7 @@ def main() -> None:
                 )
 
         guild = None
+
         if info["guild"]:
             guild, creator = Guild.objects.get_or_create(
                 name=info["guild"]["name"],
