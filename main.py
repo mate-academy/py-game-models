@@ -11,13 +11,13 @@ def main() -> None:
         players = json.load(file)
 
     for name, info in players.items():
+        guild = None
         if info["guild"]:
             guild, _ = Guild.objects.get_or_create(
                 name=info["guild"]["name"],
                 description=info["guild"]["description"]
             )
-        else:
-            guild = None
+
 
         race, created = Race.objects.get_or_create(
             name=info["race"]["name"],
