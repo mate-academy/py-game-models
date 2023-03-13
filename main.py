@@ -7,7 +7,7 @@ file_name = "players.json"
 
 
 def main() -> None:
-    with open(file_name, 'r') as file:
+    with open(file_name, "r") as file:
         players = json.load(file)
 
     for name, info in players.items():
