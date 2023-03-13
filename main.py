@@ -1,6 +1,5 @@
-import init_django_orm  # noqa: F401
-
 import json
+import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 
@@ -15,7 +14,7 @@ def main() -> None:
         race_name = data_info["race"]["name"]
         race_note = data_info["race"]["description"]
         if not Race.objects.filter(name=race_name).exists():
-            Race.objects.get_or_create(
+            Race.objects.create(
                 name=race_name,
                 description=race_note
             )
@@ -26,7 +25,7 @@ def main() -> None:
             skills = data_info["race"]["skills"]
             for skill in skills:
                 if not Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.get_or_create(
+                    Skill.objects.create(
                         name=skill["name"],
                         bonus=skill["bonus"],
                         race_id=race.id
@@ -38,18 +37,18 @@ def main() -> None:
             guild_name = data_info["guild"]["name"]
             guild_note = data_info["guild"]["description"]
             if not Guild.objects.filter(name=guild_name).exists():
-                Guild.objects.get_or_create(
+                Guild.objects.create(
                     name=guild_name,
                     description=guild_note
                 )
             guild = Guild.objects.get(name=guild_name)
 
-        Player.objects.get_or_create(
+        Player.objects.create(
             nickname=name,
             email=data_info["email"],
             bio=data_info["bio"],
-            race_id=race.id,
-            guild_id=guild.id if data_info["guild"] else None
+            race=race,
+            guild=guild
         )
 
 
