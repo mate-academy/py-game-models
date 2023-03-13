@@ -1,14 +1,13 @@
 import json
 
 import init_django_orm  # noqa: F401
-
 from db.models import Race, Skill, Player, Guild
 
 file_name = "players.json"
 
 
 def main() -> None:
-    with open(file_name) as file:
+    with open(file_name, 'r') as file:
         players = json.load(file)
 
     for name, info in players.items():
