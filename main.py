@@ -1,5 +1,5 @@
-import init_django_orm  # noqa: F401
 import json
+import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
@@ -13,39 +13,33 @@ def main() -> None:
         bio = info.get("bio")
 
         if info["guild"]:
-            guild_name = (info["guild"]["name"]
-                          if info["guild"]["name"] else None)
-            guild_description = (info["guild"]["description"]
-                                 if info["guild"]["description"] else None)
+            guild_name = (info["guild"].get("name"))
+            guild_description = info["guild"].get("description")
 
-            if not Guild.objects.filter(name=guild_name).exists():
-                guild_link = Guild.objects.create(
-                    name=guild_name,
-                    description=guild_description
-                )
+            guild_link, _ = Guild.objects.get_or_create(
+                name=guild_name,
+                description=guild_description
+            )
 
         if info["race"]:
-            race_name = info["race"]["name"] if info["race"]["name"] else None
-            race_description = (info["race"]["description"]
-                                if info["race"]["description"] else None)
+            race_name = info["race"].get("name")
+            race_description = info["race"].get("description")
 
-            if not Race.objects.filter(name=race_name).exists():
-                race_link = Race.objects.create(
-                    name=race_name,
-                    description=race_description
-                )
+            race_link, _ = Race.objects.get_or_create(
+                name=race_name,
+                description=race_description
+            )
 
             if info["race"]["skills"]:
                 for skill in info["race"]["skills"]:
                     skill_name = skill.get("name")
                     skill_bonus = skill.get("bonus")
 
-                    if not Skill.objects.filter(name=skill_name).exists():
-                        Skill.objects.create(
-                            name=skill_name,
-                            bonus=skill_bonus,
-                            race=race_link
-                        )
+                    Skill.objects.get_or_create(
+                        name=skill_name,
+                        bonus=skill_bonus,
+                        race=race_link
+                    )
 
         Player.objects.create(
             nickname=nickname,
