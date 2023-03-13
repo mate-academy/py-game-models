@@ -34,7 +34,8 @@ def main() -> None:
             except Skill.DoesNotExist:
                 Skill.objects.create(
                     name=skill["name"],
-                    bonus=skill["bonus"],                        race=Race.objects.get(name=race_name)
+                    bonus=skill["bonus"],
+                    race=Race.objects.get(name=race_name)
                 )
         if isinstance(player_info["guild"], dict):
             guild_name = player_info["guild"]["name"]
