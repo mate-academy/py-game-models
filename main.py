@@ -18,7 +18,6 @@ def main() -> None:
                 description=info["guild"]["description"]
             )
 
-
         race, created = Race.objects.get_or_create(
             name=info["race"]["name"],
             description=info["race"]["description"]
