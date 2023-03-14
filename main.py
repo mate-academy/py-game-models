@@ -9,7 +9,7 @@ def main() -> None:
         players_info = json.load(players_file)
     for player_name, player_info in players_info.items():
         race_name = player_info["race"]["name"]
-        Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_name,
             defaults={
                 "description": player_info["race"]["description"]
@@ -20,26 +20,25 @@ def main() -> None:
                 name=skill["name"],
                 defaults={
                     "bonus": skill["bonus"],
-                    "race": Race.objects.get(name=race_name)
+                    "race": race
                 }
             )
         if isinstance(player_info["guild"], dict):
             guild_name = player_info["guild"]["name"]
-            Guild.objects.get_or_create(
+            player_guild, _ = Guild.objects.get_or_create(
                 name=guild_name,
                 defaults={
                     "description": player_info["guild"]["description"]
                 }
             )
-        player_guild = Guild.objects.get(
-            name=player_info["guild"]["name"]
-        ) if isinstance(player_info["guild"], dict) else None
+        else:
+            player_guild = None
         Player.objects.get_or_create(
             nickname=player_name,
             defaults={
                 "email": player_info["email"],
                 "bio": player_info["bio"],
-                "race": Race.objects.get(name=player_info["race"]["name"]),
+                "race": race,
                 "guild": player_guild
             }
         )
