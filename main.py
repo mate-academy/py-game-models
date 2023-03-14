@@ -44,11 +44,8 @@ def main() -> None:
                 for skill in player_skills_info:
                     create_skill(race, skill)
 
-        guild = None
         player_guild_info = player_info.get("guild")
-
-        if player_guild_info:
-            guild = create_guild(player_guild_info)
+        guild = create_guild(player_guild_info) if player_guild_info else None
 
         if not Player.objects.filter(nickname=player_name).exists():
             Player.objects.create(
