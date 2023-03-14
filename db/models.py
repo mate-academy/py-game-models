@@ -11,8 +11,7 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.CASCADE,
     )
 
 
@@ -30,8 +29,7 @@ class Player(models.Model):
     )
     race = models.ForeignKey(
         Race,
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.CASCADE
     )
     guild = models.ForeignKey(
         Guild,
