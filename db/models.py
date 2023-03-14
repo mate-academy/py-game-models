@@ -9,7 +9,7 @@ class Race(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255, help_text="skill bonus type")
-    race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
 
 class Guild(models.Model):
