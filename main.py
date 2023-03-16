@@ -20,6 +20,8 @@ def main() -> None:
                 name=guild_name,
                 description=guild_description
             )
+        else:
+            guild_link = None
 
         if info["race"]:
             race_name = info["race"].get("name")
@@ -45,8 +47,8 @@ def main() -> None:
             nickname=nickname,
             email=email,
             bio=bio,
-            race=race_link if info["race"]["name"] else None,
-            guild=guild_link if info.get("guild") else None
+            race=race_link,
+            guild=guild_link
         )
 
 
