@@ -13,35 +13,33 @@ def main() -> None:
         guild = player_info.get("guild")
         skills = race.get("skills")
 
-        if not Race.objects.filter(name=race["name"]).exists():
-            current_race = Race.objects.create(
-                name=race["name"],
-                description=race["description"]
+        Race.objects.get_or_create(
+            name=race["name"],
+            description=race["description"]
+        )
+        race = Race.objects.get(name=race["name"])
+
+        for skill in skills:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race_id=race.id
             )
 
-            for skill in skills:
-                if not Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.create(
-                        name=skill["name"],
-                        bonus=skill["bonus"],
-                        race_id=current_race.id
-                    )
         if guild:
-            if not Guild.objects.filter(name=guild["name"]).exists():
-                Guild.objects.create(
-                    name=guild["name"],
-                    description=guild["description"]
-                )
-            guild = Guild.objects.get(name=guild["name"])
-
-        if not Player.objects.filter(nickname=player_name).exists():
-            Player.objects.create(
-                nickname=player_name,
-                email=player_info["email"],
-                bio=player_info["bio"],
-                race=Race.objects.get(name=race["name"]),
-                guild=guild
+            Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"]
             )
+        guild = Guild.objects.get(name=guild["name"]) if guild else None
+
+        Player.objects.get_or_create(
+            nickname=player_name,
+            email=player_info["email"],
+            bio=player_info["bio"],
+            race=race,
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
