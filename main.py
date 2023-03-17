@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 from typing import Any, Dict
 from db.models import Race, Skill, Player, Guild
-from django.core.exceptions import ObjectDoesNotExist
 
 
 def read_json() -> dict:
@@ -16,35 +15,30 @@ def read_json() -> dict:
 
 
 def get_or_create_race(data: Dict[str, Any]) -> Race:
-    try:
-        race = Race.objects.get(name=data.get("name"))
-    except ObjectDoesNotExist:
-        race = Race(
+    if data:
+        obj_race, created_race = Race.objects.get_or_create(
             name=data.get("name"),
             description=data.get("description")
         )
-        race.save()
+
         for skill in data.get("skills"):
-            Skill.objects.create(
+            Skill.objects.get_or_create(
                 name=skill.get("name"),
                 bonus=skill.get("bonus"),
-                race=race
+                race=obj_race
             )
-    return race
+
+        return obj_race
 
 
 def get_or_create_guild(data: Dict[str, Any]) -> Guild:
-    guild = None
     if data:
-        try:
-            guild = Guild.objects.get(name=data.get("name"))
-        except ObjectDoesNotExist:
-            guild = Guild(
-                name=data.get("name"),
-                description=data.get("description")
-            )
-            guild.save()
-    return guild
+        obj_guild, created_guild = Guild.objects.get_or_create(
+            name=data.get("name"),
+            description=data.get("description")
+        )
+
+        return obj_guild
 
 
 def main() -> None:
