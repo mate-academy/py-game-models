@@ -19,7 +19,6 @@ def guild_creating(guild: dict) -> (Guild, None):
             description=guild["description"]
         )
         return guild_
-    return None
 
 
 def skills_creating(skills: dict) -> None:
@@ -35,16 +34,16 @@ def skills_creating(skills: dict) -> None:
 def main() -> None:
     with open("players.json") as f:
         gamers = json.load(f)
-        for gamer, gamer_values in gamers.items():
-            skills_creating(gamer_values["race"])
-            if not Player.objects.filter(nickname=gamer).exists():
-                Player.objects.create(
-                    nickname=gamer,
-                    email=gamer_values["email"],
-                    bio=gamer_values["bio"],
-                    race=race_creating(gamer_values["race"]),
-                    guild=guild_creating(gamer_values["guild"])
-                )
+    for gamer, gamer_values in gamers.items():
+        skills_creating(gamer_values["race"])
+        if not Player.objects.filter(nickname=gamer).exists():
+            Player.objects.create(
+                nickname=gamer,
+                email=gamer_values["email"],
+                bio=gamer_values["bio"],
+                race=race_creating(gamer_values["race"]),
+                guild=guild_creating(gamer_values["guild"])
+            )
 
 
 if __name__ == "__main__":
