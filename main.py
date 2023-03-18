@@ -14,7 +14,7 @@ def main() -> None:
     guilds = {}
 
     for player_name, player_data in data.items():
-        race_name = player_data["race"]["name"]
+        race_name = player_data.get("race").get("name")
         guild_name = player_data.get("guild").get("name") if player_data.get(
             "guild"
         ) else None
