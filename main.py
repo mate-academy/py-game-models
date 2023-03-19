@@ -9,9 +9,7 @@ from db.models import Race, Skill, Player, Guild
 def read_json() -> dict:
     path_to_file = Path(__file__).parent.joinpath("players.json")
     with open(path_to_file, "r") as file_read_stream:
-        players = json.load(file_read_stream)
-
-    return players
+        return json.load(file_read_stream)
 
 
 def get_or_create_race(data: Dict[str, Any]) -> Race:
