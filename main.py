@@ -11,25 +11,19 @@ def open_player_file() -> dict:
 
 
 def create_race(data: dict) -> Race:
-    if not Race.objects.filter(name=data["race"]["name"]).exists():
-        race = Race.objects.create(
-            name=data["race"]["name"],
-            description=data["race"]["description"]
-        )
-    else:
-        race = Race.objects.get(name=data["race"]["name"])
+    race, _ = Race.objects.get_or_create(
+        name=data["race"]["name"],
+        description=data["race"]["description"]
+    )
     return race
 
 
 def create_skill(data: dict) -> None:
     for skill in data["race"]["skills"]:
-        if not Skill.objects.filter(name=skill["name"]).exists():
-            skill = Skill.objects.create(
-                name=skill["name"],
-                bonus=skill["bonus"]
-            )
-        else:
-            skill = Skill.objects.get(name=skill["name"])
+        skill, _ = Skill.objects.get_or_create(
+            name=skill["name"],
+            bonus=skill["bonus"]
+        )
         skill.race = create_race(data)
         skill.save()
 
@@ -37,13 +31,10 @@ def create_skill(data: dict) -> None:
 def create_guild(data: dict) -> None:
     guild = None
     if data["guild"] is not None:
-        if not Guild.objects.filter(name=data["guild"]["name"]).exists():
-            guild = Guild.objects.create(
-                name=data["guild"]["name"],
-                description=data["guild"]["description"]
-            )
-        else:
-            guild = Guild.objects.get(name=data["guild"]["name"])
+        guild, _ = Guild.objects.get_or_create(
+            name=data["guild"]["name"],
+            description=data["guild"]["description"]
+        )
     return guild
 
 
