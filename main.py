@@ -19,12 +19,13 @@ def create_race(data: dict) -> Race:
 
 
 def create_skill(data: dict) -> None:
+    race = create_race(data)
     for skill in data["race"]["skills"]:
         skill, _ = Skill.objects.get_or_create(
             name=skill["name"],
             bonus=skill["bonus"]
         )
-        skill.race = create_race(data)
+        skill.race = race
         skill.save()
 
 
