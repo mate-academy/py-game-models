@@ -31,14 +31,14 @@ def main() -> None:
                         bonus=skill["bonus"],
                         race=race
                     )
-            if not None:
-                Player.objects.get_or_create(
-                    nickname=player_name,
-                    email=player_info["email"],
-                    bio=player_info["bio"],
-                    race=race,
-                    guild=guild
-                )
+
+            Player.objects.get_or_create(
+                nickname=player_name,
+                email=player_info["email"],
+                bio=player_info["bio"],
+                race=race,
+                guild=guild
+            )
 
 
 if __name__ == "__main__":
