@@ -2,7 +2,7 @@ import init_django_orm  # noqa: F401fr
 import json
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from db.models import Race, Skill, Player, Guild
 
 
@@ -12,9 +12,9 @@ def read_json() -> dict:
         return json.load(file_read_stream)
 
 
-def get_or_create_race(data: Dict[str, Any]) -> Race:
+def get_or_create_race(data: Dict[str, Any]) -> Optional[Race]:
     if data:
-        obj_race, created_race = Race.objects.get_or_create(
+        obj_race, _ = Race.objects.get_or_create(
             name=data.get("name"),
             description=data.get("description")
         )
@@ -29,9 +29,9 @@ def get_or_create_race(data: Dict[str, Any]) -> Race:
         return obj_race
 
 
-def get_or_create_guild(data: Dict[str, Any]) -> Guild:
+def get_or_create_guild(data: Dict[str, Any]) -> Optional[Guild]:
     if data:
-        obj_guild, created_guild = Guild.objects.get_or_create(
+        obj_guild, _ = Guild.objects.get_or_create(
             name=data.get("name"),
             description=data.get("description")
         )
