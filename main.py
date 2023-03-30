@@ -50,13 +50,11 @@ def main() -> None:
             if not Skill.objects.filter(name=skill_name).exists():
                 skill_race = Race.objects.get(name=race_name)
 
-                skill = Skill.objects.create(
+                Skill.objects.create(
                     name=skill_name,
                     bonus=skill_bonus,
                     race=skill_race
                 )
-            else:
-                skill = Skill.objects.get(name=skill_name)
 
         Player.objects.create(
             nickname=nickname,
