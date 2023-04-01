@@ -5,9 +5,7 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-def get_or_create_race(player: tuple[str, dict]) -> Race:
-    (player_name, player_data) = player
-
+def get_or_create_race(player_data: dict) -> Race:
     race_data = player_data.get("race")
     race_name = race_data.get("name")
     race_description = race_data.get("description")
@@ -20,9 +18,7 @@ def get_or_create_race(player: tuple[str, dict]) -> Race:
     return race
 
 
-def get_or_create_guild(player: tuple[str, dict]) -> Guild:
-    (player_name, player_data) = player
-
+def get_or_create_guild(player_data: dict) -> Guild:
     guild_data = player_data.get("guild")
     guild = None
 
@@ -38,9 +34,7 @@ def get_or_create_guild(player: tuple[str, dict]) -> Guild:
     return guild
 
 
-def create_race_skills(player: tuple[str, dict]) -> None:
-    (player_name, player_data) = player
-
+def create_race_skills(player_data: dict) -> None:
     race_data = player_data.get("race")
     race_name = race_data.get("name")
     race_skills = race_data.get("skills")
@@ -57,9 +51,7 @@ def create_race_skills(player: tuple[str, dict]) -> None:
         )
 
 
-def create_player(player: tuple[str, dict], race: Race, guild: Guild) -> None:
-    (player_name, player_data) = player
-
+def create_player(player_name: str, player_data: dict, race: Race, guild: Guild) -> None:
     nickname = player_name
     email = player_data.get("email")
     bio = player_data.get("bio")
@@ -78,10 +70,12 @@ def main() -> None:
         players = json.load(source_file)
 
     for player in players.items():
-        race = get_or_create_race(player)
-        guild = get_or_create_guild(player)
-        create_race_skills(player)
-        create_player(player, race, guild)
+        (player_name, player_data) = player
+
+        race = get_or_create_race(player_data)
+        guild = get_or_create_guild(player_data)
+        create_race_skills(player_data)
+        create_player(player_name, player_data, race, guild)
 
 
 if __name__ == "__main__":
