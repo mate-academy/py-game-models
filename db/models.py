@@ -18,7 +18,7 @@ class Skill(models.Model):
     race = models.ForeignKey(
         "Race",
         related_name="skill_set",
-        on_delete=models.DO_NOTHING
+        on_delete=models.CASCADE
     )
 
     def __str__(self) -> str:
@@ -43,7 +43,7 @@ class Player(models.Model):
     race = models.ForeignKey(
         "Race",
         related_name="player_race",
-        on_delete=models.DO_NOTHING
+        on_delete=models.PROTECT
     )
     guild = models.ForeignKey(
         "Guild",
@@ -51,8 +51,10 @@ class Player(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.nickname}, {self.email}. {self.bio}. " \
-               f"Race: {self.race}. Guild: {self.guild}."
+        return (
+            f"{self.nickname}, {self.email}. {self.bio}. "
+            f"Race: {self.race}. Guild: {self.guild}."
+        )
