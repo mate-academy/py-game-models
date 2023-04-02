@@ -51,7 +51,12 @@ def create_race_skills(player_data: dict) -> None:
         )
 
 
-def create_player(player_name: str, player_data: dict, race: Race, guild: Guild) -> None:
+def create_player(
+        player_name: str,
+        player_data: dict,
+        race: Race,
+        guild: Guild
+) -> None:
     nickname = player_name
     email = player_data.get("email")
     bio = player_data.get("bio")
