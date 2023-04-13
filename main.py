@@ -23,15 +23,17 @@ def main() -> None:
                 race=race_name)
 
         guild_data = value["guild"]
+        guild_name = Guild.objects.get_or_create(
+            name=guild_data["name"],
+            description=guild_data["description"]
+        )[0] if value["guild"] is not None else None
+
         Player.objects.get_or_create(
             nickname=key,
             email=value["email"],
             bio=value["bio"],
             race=race_name,
-            guild=Guild.objects.get_or_create(
-                name=guild_data["name"],
-                description=guild_data["description"])[0]
-            if value["guild"] is not None else None)
+            guild=guild_name)
 
 
 if __name__ == "__main__":
