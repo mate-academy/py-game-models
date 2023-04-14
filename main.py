@@ -9,24 +9,20 @@ def main() -> None:
 
     for key, item in players_data.items():
 
-        if not Race.objects.filter(name=item["race"]["name"]).exists():
-            Race.objects.create(
-                name=item["race"]["name"],
-                description=item["race"]["description"]
-            )
+        race, _ = Race.objects.get_or_create(
+            name=item["race"]["name"],
+            description=item["race"]["description"]
+        )
 
         for skill in item["race"]["skills"]:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=Race.objects.get(name=item["race"]["name"])
-                )
+            skill, _ = Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
 
-        if item["guild"] is not None \
-                and not Guild.objects.filter(
-                name=item["guild"]["name"]).exists():
-            Guild.objects.create(
+        if item.get("guild"):
+            guild, _ = Guild.objects.get_or_create(
                 name=item["guild"]["name"],
                 description=item["guild"]["description"]
             )
@@ -35,9 +31,8 @@ def main() -> None:
             nickname=key,
             email=item["email"],
             bio=item["bio"],
-            race=Race.objects.get(name=item["race"]["name"]),
-            guild=Guild.objects.get(name=item["guild"]["name"])
-            if item.get("guild") else None
+            race=race,
+            guild=guild if item.get("guild") else None
         )
 
 
