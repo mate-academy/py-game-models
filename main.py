@@ -13,26 +13,30 @@ def main() -> None:
         if guild:
             guild, _ = Guild.objects.get_or_create(
                 name=guild.get("name"),
-                description=guild.get("description"))
+                description=guild.get("description")
+            )
 
-        race = info.get("race")
+        race = info["race"]
         new_race, _ = Race.objects.get_or_create(
             name=race.get("name"),
-            description=race.get("description"))
+            description=race.get("description")
+        )
 
-        skills = race.get("skills")
+        skills = race["skills"]
         for skill in skills:
             Skill.objects.get_or_create(
                 race=new_race,
                 name=skill.get("name"),
-                bonus=skill.get("bonus"))
+                bonus=skill.get("bonus")
+            )
 
         Player.objects.get_or_create(
             nickname=name,
             email=info.get("email"),
             bio=info.get("bio"),
             race=new_race,
-            guild=guild)
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
