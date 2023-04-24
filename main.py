@@ -23,7 +23,7 @@ def main() -> None:
                 bonus=skill["bonus"]
             )
 
-        guild = info.get("guild", None)
+        guild = info.get("guild")
         if guild:
             guild, _ = Guild.objects.get_or_create(
                 name=guild["name"],
