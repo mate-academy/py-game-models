@@ -5,19 +5,19 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json") as f:
-        players_data = json.load(f)
+    with open("players.json", "r") as file:
+        players_data = json.load(file)
 
     for nickname, info in players_data.items():
         race = info["race"]
-        race_to_add, _ = Race.objects.get_or_create(
+        new_race, _ = Race.objects.get_or_create(
             name=race["name"],
             description=race["description"]
         )
 
         for skill in race["skills"]:
             Skill.objects.get_or_create(
-                race=race_to_add,
+                race=new_race,
                 name=skill["name"],
                 bonus=skill["bonus"]
             )
@@ -33,7 +33,7 @@ def main() -> None:
             nickname=nickname,
             email=info.get("email"),
             bio=info.get("bio"),
-            race=race_to_add,
+            race=new_race,
             guild=guild)
 
 
