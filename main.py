@@ -11,7 +11,8 @@ def main() -> None:
     for player_name, player_data in players.items():
         player_guild = player_data.get("guild")
         player_race_name = player_data.get("race", {}).get("name")
-        player_race_description = player_data.get("race", {}).get("description")
+        player_race_description = \
+            player_data.get("race", {}).get("description")
         player_skills = player_data.get("race", {}).get("skills")
 
         guild = None
