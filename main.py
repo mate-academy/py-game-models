@@ -11,38 +11,30 @@ def main() -> None:
 
     for player_name, information in players_dict.items():
 
-        race_name = information["race"]["name"]
-        race_description = information["race"]["description"]
-        Race.objects.get_or_create(
-            name=race_name,
-            description=race_description
+        race, _ = Race.objects.get_or_create(
+            name=information["race"]["name"],
+            description=information["race"]["description"]
         )
         for skill in information["race"]["skills"]:
-            skill_name = skill["name"]
-            skill_bonus = skill["bonus"]
-            skill_race = Race.objects.get(name=race_name)
-            Skill.objects.get_or_create(
-                name=skill_name,
-                bonus=skill_bonus,
-                race=skill_race
+            skill, _ = Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
             )
-        guild_name = None
+
+        guild = None
         if information["guild"]:
-            guild_name = information["guild"].get("name")
-            guild_description = information["guild"]["description"]
-            Guild.objects.get_or_create(
-                name=guild_name,
-                description=guild_description
+            guild, _ = Guild.objects.get_or_create(
+                name=information["guild"]["name"],
+                description=information["guild"]["description"]
             )
 
         Player.objects.create(
             nickname=player_name,
             email=information["email"],
             bio=information["bio"],
-            race=Race.objects.get(name=race_name),
-            guild=Guild.objects.get(
-                name=guild_name
-            ) if guild_name is not None else None
+            race=race,
+            guild=guild if guild is not None else None
         )
 
 
