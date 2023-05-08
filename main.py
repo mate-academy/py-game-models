@@ -34,7 +34,7 @@ def main() -> None:
             email=information["email"],
             bio=information["bio"],
             race=race,
-            guild=guild if guild is not None else None
+            guild=guild
         )
 
 
