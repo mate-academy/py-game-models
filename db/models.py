@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 
 
@@ -29,4 +27,4 @@ class Player(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    created_at = models.DateTimeField(default=datetime.datetime)
+    created_at = models.DateTimeField(auto_now_add=True)
