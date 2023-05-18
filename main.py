@@ -20,6 +20,7 @@ def main() -> None:
             race_obj, _ = Race.objects.get_or_create(
                 name=player_info["race"].get("name"),
                 description=player_info["race"].get("description"))
+
             for skill in player_info["race"]["skills"]:
                 Skill.objects.get_or_create(
                     name=skill.get("name"),
