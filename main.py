@@ -10,14 +10,14 @@ def main() -> None:
         for player_name, player_info in json.load(players).items():
 
             if player_info["guild"]:
-                guild_obj, _ = Guild.objects.get_or_create(
+                guild, _ = Guild.objects.get_or_create(
                     name=player_info["guild"].get("name"),
                     description=player_info["guild"].get("description")
                 )
             else:
-                guild_obj = None
+                guild = None
 
-            race_obj, _ = Race.objects.get_or_create(
+            race, _ = Race.objects.get_or_create(
                 name=player_info["race"].get("name"),
                 description=player_info["race"].get("description"))
 
@@ -25,15 +25,15 @@ def main() -> None:
                 Skill.objects.get_or_create(
                     name=skill.get("name"),
                     bonus=skill.get("bonus"),
-                    race=race_obj
+                    race=race
                 )
 
             Player.objects.get_or_create(
                 nickname=player_name,
                 email=player_info["email"],
                 bio=player_info["bio"],
-                race=race_obj,
-                guild=guild_obj
+                race=race,
+                guild=guild
             )
 
 
