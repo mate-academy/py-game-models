@@ -7,7 +7,10 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json") as players:
+
         loaded_players = json.load(players)
+
+        players.close()
 
         for player_name, player_info in loaded_players.items():
 
@@ -41,8 +44,6 @@ def main() -> None:
                 race=race,
                 guild=guild
             )
-
-    players.close()
 
 
 if __name__ == "__main__":
