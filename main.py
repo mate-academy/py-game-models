@@ -42,6 +42,8 @@ def main() -> None:
                 guild=guild
             )
 
+    players.close()
+
 
 if __name__ == "__main__":
     main()
