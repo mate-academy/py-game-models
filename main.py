@@ -19,28 +19,33 @@ def main() -> None:
         if guild_info:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_info.get("name"),
-                description=guild_info.get("description")
+                defaults={"description": guild_info.get("description")}
             )
         else:
             guild = None
 
         race, _ = Race.objects.get_or_create(
             name=race_info.get("name"),
-            description=race_info.get("description"))
+            defaults={"description": race_info.get("description")}
+        )
 
         for skill in skills:
             Skill.objects.get_or_create(
                 name=skill.get("name"),
-                bonus=skill.get("bonus"),
-                race=race
+                defaults={
+                    "bonus": skill.get("bonus"),
+                    "race": race
+                }
             )
 
         Player.objects.get_or_create(
             nickname=player_name,
-            email=player_info.get("email"),
-            bio=player_info.get("bio"),
-            race=race,
-            guild=guild
+            defaults={
+                "email": player_info.get("email"),
+                "bio": player_info.get("bio"),
+                "race": race,
+                "guild": guild
+            }
         )
 
 
