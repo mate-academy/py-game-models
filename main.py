@@ -22,7 +22,7 @@ def main() -> None:
             Skill.objects.get_or_create(name=skill.get("name"), bonus=skill.get("bonus"), race=race_id)
 
         if guild is not None:
-            guild_, _ = Guild.objects.get_or_create(name=guild.get("name"), description=guild.get("description"))
+            Guild.objects.get_or_create(name=guild.get("name"), description=guild.get("description"))
 
         guild_id = Guild.objects.get_or_create(name=guild.get("name"), description=guild.get("description"))[0] if guild is not None else None
         Player.objects.get_or_create(
