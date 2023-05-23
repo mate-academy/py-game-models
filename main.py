@@ -40,6 +40,7 @@ def main() -> None:
             name=guild.get("name"),
             description=guild.get("description")
         )[0] if guild is not None else None
+
         Player.objects.get_or_create(
             nickname=player,
             email=info.get("email"),
