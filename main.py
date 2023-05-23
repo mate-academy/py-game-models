@@ -18,6 +18,7 @@ def main() -> None:
 
         Race.objects.get_or_create(name=race.get("name"), description=race.get("description"))
         race_id = Race.objects.get_or_create(name=race.get("name"), description=race.get("description"))[0]
+
         for skill in skills:
             Skill.objects.get_or_create(name=skill.get("name"), bonus=skill.get("bonus"), race=race_id)
 
