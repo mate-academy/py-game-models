@@ -8,32 +8,35 @@ import json
 def main() -> None:
     with open("players.json", "r") as f:
         players = json.load(f)
+
     for player, data in players.items():
-        race_data = data["race"] if data["race"] else None
-        race = Race.objects.create(
+
+        race_data = data["race"]
+        race, _ = Race.objects.get_or_create(
             name=race_data["name"],
-            description=race_data["description"]
-        )
+            description=race_data["description"])
 
-        skills_data = data["race"]["skills"] if data["race"]["skills"] else None
-        Skill.objects.create(
-            name=skills_data["name"],
-            bonus=skills_data["bonus"],
-            race=race
-        )
+        skills_data = race_data["skills"]
+        for skill in skills_data:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
 
-        guild_data = data["guild"] if data["guild"] else None
-        guild = Guild.objects.create(
-            name=guild_data["name"],
-            description=guild_data["description"]
-        )
+        guild = data["guild"]
+        if guild:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"]
+            )
 
-        Player.objects.create(
-            nickname=players["nickname"],
-            email=players["email"],
-            bio=players["bio"],
+        Player.objects.get_or_create(
+            nickname=player,
+            email=data["email"],
+            bio=data["bio"],
             race=race,
-            guild=guild
+            guild=guild,
         )
 
 
