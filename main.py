@@ -35,7 +35,7 @@ def main() -> None:
         guild_id = Guild.objects.get(name=guild.get("name")) \
             if guild is not None else None
 
-        Player.objects.get_or_create(
+        Player.objects.create(
             nickname=player,
             email=info.get("email"),
             bio=info.get("bio"),
