@@ -25,12 +25,12 @@ def main() -> None:
         for skill in skills:
             Skill.objects.get_or_create(
                 name=skill.get("name"),
-                bonus=skill.get("bonus"),
-                race=race_id)
+                defaults={"bonus": skill.get("bonus"), "race": race_id})
 
         if guild is not None:
             Guild.objects.get_or_create(
-                name=guild.get("name"), defaults={"description": guild.get("description")})
+                name=guild.get("name"),
+                defaults={"description": guild.get("description")})
 
         guild_id = Guild.objects.get(name=guild.get("name")) \
             if guild is not None else None
