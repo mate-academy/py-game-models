@@ -8,8 +8,11 @@ def main() -> None:
         data = json.load(file)
 
     for player_name, player_data in data.items():
-        guild_name = player_data["guild"]["name"] \
-            if player_data["guild"] else None
+        guild_name = (
+            player_data["guild"]["name"]
+            if player_data["guild"]
+            else None
+        )
 
         if player_data["guild"]:
             guild_description = player_data["guild"].get("description")
@@ -24,8 +27,11 @@ def main() -> None:
                 description=guild_description
             )
 
-        race_name = player_data["race"]["name"] \
-            if player_data["race"] else None
+        race_name = (
+            player_data["race"]["name"]
+            if player_data["race"]
+            else None
+        )
         race_description = player_data["race"].get("description")
 
         if race_name and not Race.objects.filter(
