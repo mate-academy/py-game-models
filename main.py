@@ -7,24 +7,29 @@ from django.db.models import QuerySet
 
 def race_create(player_race_data: dict) -> QuerySet:
     race_name = player_race_data["name"]
-    if not Race.objects.filter(name=race_name).exists():
-        race = Race.objects.create(name=race_name,
-                                   description=player_race_data["description"])
-        for skill in player_race_data["skills"]:
-            Skill.objects.create(name=skill["name"],
-                                 bonus=skill["bonus"],
-                                 race=race)
-    return Race.objects.get(name=race_name)
+    race, created = Race.objects.get_or_create(
+        name=race_name,
+        description=player_race_data["description"]
+    )
+    if created:
+        for skill_data in player_race_data["skills"]:
+            Skill.objects.create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race
+            )
+    return race
 
 
-def guild_create(guild_data: dict) -> QuerySet | None:
+def guild_create(guild_data: dict[str] = None) -> QuerySet | None:
     if guild_data is None:
-        return None
+        return
     guild_name = guild_data["name"]
-    if not Guild.objects.filter(name=guild_name).exists():
-        Guild.objects.create(name=guild_name,
-                             description=guild_data["description"])
-    return Guild.objects.get(name=guild_name)
+    guild, created = Guild.objects.get_or_create(
+        name=guild_name,
+        description=guild_data["description"]
+    )
+    return guild
 
 
 def main() -> None:
