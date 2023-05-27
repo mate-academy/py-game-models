@@ -10,14 +10,14 @@ def main() -> None:
 
     for player, player_attr in players_dict:
         Race.objects.get_or_create(
-            name=player_attr["race"]["name"],
-            description=player_attr["race"]["description"],
+            name=player_attr.get("race")["name"],
+            description=player_attr.get("race")["description"],
         )
 
         for skill in player_attr["race"]["skills"]:
             race = Race.objects.get(name=player_attr["race"]["name"])
             Skill.objects.get_or_create(
-                name=skill["name"], bonus=skill["bonus"], race=race
+                name=skill.get("name"), bonus=skill.get("bonus"), race=race
             )
 
         if player_attr.get("guild") is not None:
@@ -28,8 +28,8 @@ def main() -> None:
 
         Player.objects.create(
             nickname=player,
-            email=player_attr["email"],
-            bio=player_attr["bio"],
+            email=player_attr.get("email"),
+            bio=player_attr.get("bio"),
             race=Race.objects.get(name=player_attr["race"]["name"]),
             guild=(
                 Guild.objects.get(name=player_attr["guild"]["name"])
