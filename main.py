@@ -9,40 +9,28 @@ def main() -> None:
         players = json.load(file)
 
     for player_name, player_info in players.items():
-        if not Race.objects.filter(name=player_info["race"]["name"]).exists():
-            new_race = Race.objects.create(
-                name=player_info["race"]["name"],
-                description=player_info["race"]["description"],
+        new_race, _ = Race.objects.get_or_create(
+            name=player_info["race"].get("name"),
+            description=player_info["race"].get("description"),
+        )
+        for skill in player_info["race"]["skills"]:
+            if not Skill.objects.filter(name=skill.get("name")).exists():
+                Skill.objects.create(
+                    name=skill.get("name"), bonus=skill.get("bonus"), race=new_race
+                )
+        if player_info["guild"] is not None:
+            new_guild, _ = Guild.objects.get_or_create(
+                name=player_info["guild"].get("name"),
+                description=player_info["guild"].get("description"),
             )
-            for skill in player_info["race"]["skills"]:
-                if not Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.create(
-                        name=skill["name"], bonus=skill["bonus"], race=new_race
-                    )
         else:
-            new_race = Race.objects.filter(
-                name=player_info["race"]["name"]
-            ).get()
-
-        if player_info["guild"] is None:
             new_guild = None
-        elif not Guild.objects.filter(
-                name=player_info["guild"]["name"]
-        ).exists():
-            new_guild = Guild.objects.create(
-                name=player_info["guild"]["name"],
-                description=player_info["guild"]["description"],
-            )
-        else:
-            new_guild = Guild.objects.filter(
-                name=player_info["guild"]["name"]
-            ).get()
 
         if not Player.objects.filter(nickname=player_name).exists():
             Player.objects.create(
                 nickname=player_name,
-                email=player_info["email"],
-                bio=player_info["bio"],
+                email=player_info.get("email"),
+                bio=player_info.get("bio"),
                 race=new_race,
                 guild=new_guild,
             )
