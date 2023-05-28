@@ -1,3 +1,5 @@
+from typing import Optional
+
 import init_django_orm  # noqa: F401
 import json
 
@@ -21,7 +23,7 @@ def race_create(player_race_data: dict) -> QuerySet:
     return race
 
 
-def guild_create(guild_data: dict[str] = None) -> QuerySet | None:
+def guild_create(guild_data: Optional[dict[str]] = None) -> QuerySet | None:
     if guild_data is None:
         return
     guild_name = guild_data["name"]
