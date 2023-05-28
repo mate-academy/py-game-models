@@ -35,8 +35,8 @@ def guild_create(guild_data: Optional[dict[str]] = None) -> QuerySet | None:
 
 
 def main() -> None:
-    with open("players.json") as config:
-        players = json.load(config)
+    with open("players.json") as conf:
+        players = json.load(conf)
     for player, info in players.items():
         Player.objects.create(
             nickname=player,
