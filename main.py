@@ -7,16 +7,16 @@ from db.models import Race, Skill, Player, Guild
 
 
 def race_create(player_race_data: dict) -> Race:
-    race_name = player_race_data["name"]
+    race_name = player_race_data.get("name")
     race, created = Race.objects.get_or_create(
         name=race_name,
-        description=player_race_data["description"]
+        description=player_race_data.get("description")
     )
     if created:
-        for skill_data in player_race_data["skills"]:
+        for skill_data in player_race_data.get("skills"):
             Skill.objects.create(
-                name=skill_data["name"],
-                bonus=skill_data["bonus"],
+                name=skill_data.get("name"),
+                bonus=skill_data.get("bonus"),
                 race=race
             )
     return race
@@ -25,10 +25,10 @@ def race_create(player_race_data: dict) -> Race:
 def guild_create(guild_data: Optional[dict] = None) -> Guild | None:
     if guild_data is None:
         return
-    guild_name = guild_data["name"]
+    guild_name = guild_data.get("name")
     guild, _ = Guild.objects.get_or_create(
         name=guild_name,
-        description=guild_data["description"]
+        description=guild_data.get("description")
     )
     return guild
 
