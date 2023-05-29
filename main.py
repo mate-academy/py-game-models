@@ -7,7 +7,7 @@ from db.models import Race, Skill, Player, Guild
 from django.db.models import QuerySet
 
 
-def race_create(player_race_data: dict) -> QuerySet:
+def race_create(player_race_data: dict) -> Race:
     race_name = player_race_data["name"]
     race, created = Race.objects.get_or_create(
         name=race_name,
@@ -23,7 +23,7 @@ def race_create(player_race_data: dict) -> QuerySet:
     return race
 
 
-def guild_create(guild_data: Optional[dict] = None) -> QuerySet | None:
+def guild_create(guild_data: Optional[dict] = None) -> Guild | None:
     if guild_data is None:
         return
     guild_name = guild_data["name"]
