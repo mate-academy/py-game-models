@@ -4,7 +4,6 @@ import init_django_orm  # noqa: F401
 import json
 
 from db.models import Race, Skill, Player, Guild
-from django.db.models import QuerySet
 
 
 def race_create(player_race_data: dict) -> Race:
