@@ -23,7 +23,7 @@ def race_create(player_race_data: dict) -> QuerySet:
     return race
 
 
-def guild_create(guild_data: Optional[dict[str]] = None) -> QuerySet | None:
+def guild_create(guild_data: Optional[dict] = None) -> QuerySet | None:
     if guild_data is None:
         return
     guild_name = guild_data["name"]
