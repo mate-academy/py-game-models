@@ -26,7 +26,7 @@ def guild_create(guild_data: Optional[dict] = None) -> Guild | None:
     if guild_data is None:
         return
     guild_name = guild_data["name"]
-    guild, created = Guild.objects.get_or_create(
+    guild, _ = Guild.objects.get_or_create(
         name=guild_name,
         description=guild_data["description"]
     )
@@ -39,10 +39,10 @@ def main() -> None:
     for player, info in players.items():
         Player.objects.create(
             nickname=player,
-            email=info["email"],
-            bio=info["bio"],
-            race=race_create(info["race"]),
-            guild=guild_create(info["guild"]),
+            email=info.get("email"),
+            bio=info.get("bio"),
+            race=race_create(info.get("race")),
+            guild=guild_create(info.get("guild")),
         )
 
 
