@@ -10,13 +10,8 @@ def create_skills(users_data):
         )
 
         for skill in skills:
-            skill_already_exists = Skill.objects.filter(
-                name=skill["name"]
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
             )
-
-            if not skill_already_exists:
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
