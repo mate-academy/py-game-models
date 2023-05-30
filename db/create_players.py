@@ -1,7 +1,7 @@
 from db.models import Player, Race, Guild
 
 
-def create_players(users_data):
+def create_players(users_data: dict) -> None:
     for nickname, other_data in users_data.items():
         race_data = other_data["race"]
         race = Race.objects.get(
