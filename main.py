@@ -1,6 +1,5 @@
 import json
 
-from django.core.exceptions import ObjectDoesNotExist
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
@@ -34,22 +33,13 @@ def main() -> None:
         else:
             guild_info = None
 
-        try:
-            Player.objects.get(
-                nickname=player_name,
-                email=player_char["email"],
-                bio=player_char["bio"],
-                race=race_info,
-                guild=guild_info
-            )
-        except ObjectDoesNotExist:
-            Player.objects.create(
-                nickname=player_name,
-                email=player_char["email"],
-                bio=player_char["bio"],
-                race=race_info,
-                guild=guild_info
-            )
+        Player.objects.get_or_create(
+            nickname=player_name,
+            email=player_char["email"],
+            bio=player_char["bio"],
+            race=race_info,
+            guild=guild_info
+        )
 
 
 if __name__ == "__main__":
