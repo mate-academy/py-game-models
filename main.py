@@ -12,8 +12,12 @@ def main() -> None:
     with open("players.json") as data:
         users_data = json.load(data)
 
-        create_race_and_guild(users_data)
-        create_skills(users_data)
+        races, guilds = create_race_and_guild(users_data)
+        Race.objects.bulk_create(races)
+        Guild.objects.bulk_create(guilds)
+
+        skills = create_skills(users_data)
+        Skill.objects.bulk_create(skills)
         create_players(users_data)
 
 

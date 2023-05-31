@@ -1,7 +1,10 @@
 from db.models import Player, Race, Guild
 
 
-def create_players(users_data: dict) -> None:
+def create_players(users_data: dict) -> list:
+
+    players = {}
+
     for nickname, other_data in users_data.items():
         race_data = other_data["race"]
         race = Race.objects.get(
@@ -20,3 +23,6 @@ def create_players(users_data: dict) -> None:
             race=race,
             guild=guild_data,
         )
+
+    return list(players.values())
+
