@@ -26,7 +26,6 @@ def main() -> None:
                     race=race
                 )
 
-        guild = player["guild"]
         if guild:
             guild, is_created_guild = Guild.objects.get_or_create(
                 name=f"{guild['name']}",
