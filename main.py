@@ -8,23 +8,26 @@ def main() -> None:
     with open("players.json", "r") as file:
         info_for_players = json.load(file)
     for name in info_for_players:
+        race_info = info_for_players.get(name).get("race")
         Race.objects.get_or_create(
-            name=info_for_players.get(name).get("race")["name"],
-            description=info_for_players.get(name).get("race")["description"]
+            name=race_info.get("name"),
+            description=race_info.get("description")
         )
-        for skill in info_for_players.get(name).get("race").get("skills"):
+        skill_info = info_for_players.get(name).get("race").get("skills")
+        for skill in skill_info:
             race = Race.objects.get(
-                name=info_for_players.get(name).get("race").get("name")
+                name=race_info.get("name")
             )
             Skill.objects.get_or_create(
                 name=skill.get("name"),
                 bonus=skill.get("bonus"),
                 race=race)
-        if info_for_players.get(name).get("guild") is not None:
+        guild_info = info_for_players.get(name).get("guild")
+        if guild_info is not None:
             Guild.objects.get_or_create(
-                name=info_for_players.get(name).get("guild").get("name"),
+                name=guild_info.get("name"),
                 description=(
-                    info_for_players.get(name).get("guild").get("description")
+                    guild_info.get("description")
                 )
             )
         Player.objects.create(
@@ -32,19 +35,15 @@ def main() -> None:
             email=info_for_players.get(name).get("email"),
             bio=info_for_players.get(name).get("bio"),
             race=Race.objects.get(
-                name=info_for_players.get(name).get("race").get("name")
+                name=race_info.get("name")
             ),
             guild=(
                 Guild.objects.get(
-                    name=info_for_players.get(name).get("guild").get("name")
+                    name=guild_info.get("name")
                 )
-                if info_for_players.get(name).get("guild") is not None
+                if guild_info is not None
                 else None
             )
-
-
-
-
         )
 
 
