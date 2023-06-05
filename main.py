@@ -33,7 +33,7 @@ def main() -> None:
             )
 
         Player.objects.create(
-            name=name,
+            nickname=name,
             email=email,
             bio=bio,
             race=race,
