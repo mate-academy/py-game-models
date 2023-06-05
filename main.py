@@ -28,8 +28,8 @@ def main() -> None:
 
         if guild:
             guild, is_created_guild = Guild.objects.get_or_create(
-                name=f"{guild['name']}",
-                description=f"{guild['description']}"
+                name=guild['name'],
+                description=guild['description']
             )
 
         Player.objects.create(
