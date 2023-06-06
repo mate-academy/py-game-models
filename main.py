@@ -14,8 +14,8 @@ def main() -> None:
         skills_data = race_data["skills"]
 
         race, is_created_race = Race.objects.get_or_create(
-            name=f"{race_data['name']}",
-            description=f"{race_data['description']}"
+            name=race_data["name"],
+            description=race_data["description"]
         )
 
         if skills_data:
