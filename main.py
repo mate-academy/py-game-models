@@ -16,12 +16,14 @@ def main() -> None:
             guild_info = player_data.get("guild")
 
             race, _ = Race.objects.get_or_create(
-                name=race_info.get("name"), description=race_info.get("description")
+                name=race_info.get("name"),
+                description=race_info.get("description")
             )
 
             for skills in race_info.get("skills"):
                 skill, _ = Skill.objects.get_or_create(
-                    name=skills.get("name"), bonus=skills.get("bonus"), race=race
+                    name=skills.get("name"),
+                    bonus=skills.get("bonus"), race=race
                 )
 
             if guild_info:
