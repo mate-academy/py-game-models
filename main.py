@@ -8,44 +8,32 @@ def main() -> None:
     with open("players.json") as file:
         player_data = json.load(file)
 
-    for player in player_data:
-        if Race.objects.filter(
-                name=player_data[player]["race"]["name"]
-        ).exists():
-            race = Race.objects.get(name=player_data[player]["race"]["name"])
-        else:
-            race = Race.objects.create(
-                name=player_data[player]["race"]["name"],
-                description=player_data[player]["race"]["description"]
+    for player_name, player_data in player_data.items():
+        race, _ = Race.objects.get_or_create(
+            name=player_data["race"].get("name"),
+            description=player_data["race"].get("description")
+        )
+        if player_data["guild"]:
+            guild, _ = Guild.objects.get_or_create(
+                name=player_data["guild"].get("name"),
+                description=player_data["guild"].get("description")
             )
-        if player_data[player]["guild"]:
-            if Guild.objects.filter(
-                    name=player_data[player]["guild"]["name"]
-            ).exists():
-                guild = Guild.objects.get(
-                    name=player_data[player]["guild"]["name"]
-                )
-            else:
-                guild = Guild.objects.create(
-                    name=player_data[player]["guild"]["name"],
-                    description=player_data[player]["guild"]["description"]
-                )
         else:
             guild = None
         Player.objects.create(
-            nickname=player,
-            email=player_data[player]["email"],
-            bio=player_data[player]["bio"],
+            nickname=player_name,
+            email=player_data.get("email"),
+            bio=player_data.get("bio"),
             race=race,
             guild=guild
         )
-        for skill in player_data[player]["race"]["skills"]:
+        for skill in player_data["race"].get("skills"):
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
+                    name=skill.get("name"),
+                    bonus=skill.get("bonus"),
                     race=Race.objects.get(
-                        name=player_data[player]["race"]["name"]
+                        name=player_data["race"].get("name")
                     )
                 )
 
