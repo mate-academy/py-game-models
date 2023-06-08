@@ -28,7 +28,7 @@ def main() -> None:
             guild=guild
         )
         for skill in player_data["race"].get("skills"):
-            if not Skill.objects.filter(name=skill["name"]).exists():
+            if not Skill.objects.filter(name=skill.get("name")).exists():
                 Skill.objects.create(
                     name=skill.get("name"),
                     bonus=skill.get("bonus"),
