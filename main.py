@@ -12,22 +12,17 @@ def main() -> None:
         new_guild = None
         race_name = player["race"]["name"]
         race_description = player["race"]["description"]
-        if not Race.objects.filter(name=race_name).exists():
-            new_race = Race(name=race_name, description=race_description)
-            new_race.save()
-        else:
-            new_race = Race.objects.get(name=race_name)
+        new_race, created = Race.objects.get_or_create(
+            name=race_name,
+            defaults={"description": race_description},
+        )
         if player["guild"]:
             guild_name = player["guild"]["name"]
             guild_description = player["guild"]["description"]
-            if not Guild.objects.filter(name=guild_name).exists():
-                new_guild = Guild(
-                    name=guild_name,
-                    description=guild_description
-                )
-                new_guild.save()
-            else:
-                new_guild = Guild.objects.get(name=guild_name)
+            new_guild, created = Guild.objects.get_or_create(
+                name=guild_name,
+                defaults={"description": guild_description},
+            )
         if player["race"]["skills"]:
             for skill in player["race"]["skills"]:
                 skill_name = skill["name"]

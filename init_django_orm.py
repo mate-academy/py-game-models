@@ -1,4 +1,6 @@
 import sys
+sys.path.append(r'D:\python_work\Mate Academy\Django_ORM\projects\py-game-models\venv\Lib\site-packages')
+
 import os
 import django
 
