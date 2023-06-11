@@ -8,7 +8,7 @@ def main() -> None:
     with open("players.json", "r") as file:
         players_data = json.load(file)
 
-    for nick_name, player in players_data.items():
+    for nickname, player in players_data.items():
         new_guild = None
         race_name = player["race"]["name"]
         race_description = player["race"]["description"]
@@ -36,7 +36,7 @@ def main() -> None:
                     new_skill.save()
 
         new_player = Player(
-            nickname=nick_name,
+            nickname=nickname,
             email=player["email"],
             bio=player["bio"],
             race=new_race,
