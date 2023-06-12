@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0003_alter_player_race'),
+        ("db", "0003_alter_player_race"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='guild',
-            name='description',
+            model_name="guild",
+            name="description",
             field=models.TextField(blank=True, null=True),
         ),
     ]

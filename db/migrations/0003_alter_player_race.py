@@ -5,15 +5,16 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0002_alter_player_guild'),
+        ("db", "0002_alter_player_guild"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='player',
-            name='race',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='db.race'),
+            model_name="player",
+            name="race",
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.SET_NULL, to="db.race"
+            ),
         ),
     ]
