@@ -6,10 +6,12 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json") as f:
+       
+        
         player_json = json.load(f)
 
         for nickname, other in player_json.items():
-            race_date = other["race"]
+            race_date = other.get("race")
             race, _ = Race.objects.get_or_create(
                 name=race_date["name"],
                 description=race_date["description"]
@@ -23,7 +25,7 @@ def main() -> None:
                     race=race
                 )
 
-            guild_date = other["guild"]
+            guild_date = other.get("guild")
 
             if guild_date:
                 guild_date, _ = Guild.objects.get_or_create(
@@ -33,8 +35,8 @@ def main() -> None:
 
             Player.objects.create(
                 nickname=nickname,
-                email=other["email"],
-                bio=other["bio"],
+                email=other.get("email"),
+                bio=other.get("bio"),
                 race=race,
                 guild=guild_date
             )
