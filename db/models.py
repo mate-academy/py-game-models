@@ -20,9 +20,11 @@ class Skill(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"Skill: {self.name}\n" \
-               f"Bonus: {self.bonus}\n" \
-               f"Race: {self.race.name}\n"
+        return (
+            f"Skill: {self.name}\n"
+            f"Bonus: {self.bonus}\n"
+            f"Race: {self.race.name}\n"
+        )
 
 
 class Guild(models.Model):
@@ -52,6 +54,8 @@ class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"Player name: {self.nickname}\n" \
-               f"{self.race}" \
-               f"Created at: {self.created_at}\n"
+        return(
+            f"Player name: {self.nickname}\n"
+            f"{self.race}"
+            f"Created at: {self.created_at}\n"
+        )
