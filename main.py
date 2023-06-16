@@ -29,11 +29,17 @@ def main() -> None:
 
         guild = None
         if guild_info:
-            guild_exists = Guild.objects.filter(name=guild_info["name"]).exists()
+
+            guild_exists = Guild.objects.filter(
+                name=guild_info["name"]
+            ).exists()
+
             guild = (Guild.objects.get(name=guild_info["name"])
                      if guild_exists
-                     else Guild.objects.create(name=guild_info["name"],
-                                               description=guild_info["description"]))
+                     else Guild.objects.create(
+                         name=guild_info["name"],
+                         description=guild_info["description"])
+                     )
 
         Player.objects.create(nickname=player,
                               email=player_info["email"],
