@@ -18,11 +18,10 @@ def main() -> None:
             )
 
         race = player_info["race"]
-        if race:
-            Race.objects.get_or_create(
-                name=race["name"],
-                description=race["description"]
-            )
+        Race.objects.get_or_create(
+            name=race["name"],
+            description=race["description"]
+        )
 
         skills = race["skills"]
         for skill in skills:
