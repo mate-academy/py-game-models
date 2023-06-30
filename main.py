@@ -14,7 +14,7 @@ def main() -> None:
             )
 
     def get_guild_id(guild: dict) -> int:
-        return Guild.objects.get(name=guild["name"]).id
+        return Guild.objects.get(name=guild["name"]).id if guild else None
 
     def create_race(race: dict) -> None:
         if not Race.objects.filter(name=race["name"]).exists():
@@ -23,12 +23,12 @@ def main() -> None:
                 description=race["description"]
             )
 
-    def get_race_id(race: dict) -> int:
-        return Race.objects.get(name=race["name"]).id
+    def get_race_id(race_name: dict) -> int:
+        return Race.objects.get(name=race_name).id
 
-    def create_skills(race: dict):
-        skills = race["skills"]
-        for skill in skills:
+    def create_skills(race: dict) -> None:
+
+        for skill in race["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
@@ -36,8 +36,34 @@ def main() -> None:
                     race_id=get_race_id(race["name"])
                 )
 
+    def create_players() -> None:
+        with open("players.json", "r") as players:
+            players = json.load(players)
+            print(players)
+        for player, info in players.items():
+            name = player
+            email = info["email"]
+            bio = info["bio"]
+            guild = info["guild"]
+            race = info["race"]
+            print(race)
 
+            create_guild(guild)
+            create_race(race)
+            create_skills(race)
 
+            guild_id = get_guild_id(guild)
+            race_id = get_race_id(race["name"])
+
+            Player.objects.create(
+                nickname=name,
+                email=email,
+                bio=bio,
+                guild_id=guild_id,
+                race_id=race_id
+            )
+
+    create_players()
 
 
 if __name__ == "__main__":
