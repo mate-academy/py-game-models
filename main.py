@@ -6,7 +6,7 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-def receive_player_race(race: dict[str]) -> None:
+def create_player_race(race: dict[str]) -> None:
     if not Race.objects.filter(
         name=race["name"]
     ).exists():
@@ -16,7 +16,7 @@ def receive_player_race(race: dict[str]) -> None:
         )
 
 
-def receive_player_guild(guild: dict[str]) -> None:
+def create_player_guild(guild: dict[str]) -> None:
     if guild and not Guild.objects.filter(
         name=guild["name"]
     ).exists():
@@ -26,7 +26,7 @@ def receive_player_guild(guild: dict[str]) -> None:
         )
 
 
-def receive_race_skills(skills: List[dict], race: str) -> None:
+def create_race_skills(skills: List[dict], race: str) -> None:
     for skill in skills:
         if not Skill.objects.filter(
             name=skill["name"]
@@ -57,10 +57,10 @@ def main() -> None:
         ).exists():
             continue
 
-        receive_player_race(player_data["race"])
-        receive_player_guild(player_data["guild"])
+        create_player_race(player_data["race"])
+        create_player_guild(player_data["guild"])
 
-        receive_race_skills(
+        create_race_skills(
             player_data["race"]["skills"],
             player_data["race"]["name"]
         )
