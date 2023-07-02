@@ -4,29 +4,6 @@ from db.models import Race, Skill, Player, Guild
 import json
 
 
-def main() -> None:
-    with open("players.json") as players_file:
-        players = json.load(players_file)
-
-    for player_name, player_info in players.items():
-        race = player_info["race"]
-        skills = race["skills"]
-        guild = player_info["guild"]
-
-        create_race(race)
-        create_skills(skills, race)
-        create_guild(guild)
-
-        if not Player.objects.filter(nickname=player_name).exists():
-            Player.objects.create(
-                nickname=player_name,
-                email=player_info["email"],
-                bio=player_info["bio"],
-                race_id=get_race_id(race),
-                guild_id=get_guild_id(guild)
-            )
-
-
 def get_guild_id(guild: dict) -> int:
     if guild:
         return Guild.objects.get(name=guild["name"]).id
@@ -60,6 +37,29 @@ def create_race(race: dict) -> None:
             name=race["name"],
             description=race["description"]
         )
+
+
+def main() -> None:
+    with open("players.json") as players_file:
+        players = json.load(players_file)
+
+    for player_name, player_info in players.items():
+        race = player_info["race"]
+        skills = race["skills"]
+        guild = player_info["guild"]
+
+        create_race(race)
+        create_skills(skills, race)
+        create_guild(guild)
+
+        if not Player.objects.filter(nickname=player_name).exists():
+            Player.objects.create(
+                nickname=player_name,
+                email=player_info["email"],
+                bio=player_info["bio"],
+                race_id=get_race_id(race),
+                guild_id=get_guild_id(guild)
+            )
 
 
 if __name__ == "__main__":
