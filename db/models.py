@@ -2,7 +2,13 @@ from django.db import models
 
 
 class Race(models.Model):
-    name = models.CharField(unique=True, max_length=255)
+    RACE_CHOICES = [
+        ("E", "Elf"),
+        ("D", "Dwarf"),
+        ("H", "Human"),
+        ("O", "Ork"),
+    ]
+    name = models.CharField(unique=True, max_length=255, choices=RACE_CHOICES)
     description = models.TextField(blank=True)
 
 
