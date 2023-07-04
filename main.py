@@ -34,7 +34,7 @@ def get_player_skills(player_info: dict) -> None:
         )
 
 
-def create_player(player, player_info: dict) -> None:
+def create_player(player: str, player_info: dict) -> None:
     guild = get_player_guild(player_info)
     race = get_player_race(player_info)
     get_player_skills(player_info)
