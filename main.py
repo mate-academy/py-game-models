@@ -13,7 +13,7 @@ def main() -> None:
                 description=guild["description"]
             )
 
-    def get_guild_id(guild: dict) -> int:
+    def get_guild_id(guild: dict) -> int | None:
         return Guild.objects.get(name=guild["name"]).id if guild else None
 
     def create_race(race: dict) -> None:
