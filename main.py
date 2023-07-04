@@ -9,37 +9,32 @@ def main() -> None:
         players = json.load(players_file)
 
     for nickname_, properties in players.items():
-        if not Race.objects.all().filter(name=properties["race"]["name"]):
-            Race.objects.create(
-                name=properties["race"]["name"],
-                description=properties["race"]["description"],
-            )
+
+        users_guild = None
+
+        race = Race.objects.get_or_create(
+            name=properties["race"]["name"],
+            description=properties["race"]["description"],
+        )[0]
 
         for skill in properties["race"]["skills"]:
-            if not Skill.objects.all().filter(name=skill["name"]) and skill:
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=Race.objects.get(name=properties["race"]["name"])
-                )
-
-        if properties["guild"] and not Guild.objects.all().filter(
-                name=properties["guild"]["name"]):
-            Guild.objects.create(
-                name=properties["guild"]["name"],
-                description=properties["guild"]["description"]
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
             )
 
-        if not properties["guild"]:
-            users_guild = None
-        else:
-            users_guild = Guild.objects.get(name=properties["guild"]["name"])
+        if properties["guild"]:
+            users_guild = Guild.objects.get_or_create(
+                name=properties["guild"]["name"],
+                description=properties["guild"]["description"]
+            )[0]
 
         Player.objects.create(
             nickname=nickname_,
             email=properties["email"],
             bio=properties["bio"],
-            race=Race.objects.get(name=properties["race"]["name"]),
+            race=race,
             guild=users_guild
         )
 
