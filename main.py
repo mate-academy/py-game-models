@@ -21,20 +21,21 @@ def main() -> None:
             name=race["name"],
             description=race["description"]
         )
+        racing = Race.objects.get(name=race["name"])
 
         skills = race["skills"]
         for skill in skills:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=Race.objects.get(name=race["name"])
+                race=racing
             )
 
         Player.objects.create(
             nickname=player,
             email=player_info["email"],
             bio=player_info["bio"],
-            race=Race.objects.get(name=race["name"]),
+            race=racing,
             guild=guild
         )
 
