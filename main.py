@@ -11,31 +11,34 @@ def main() -> None:
 
     for player in players_data:
         race = players_data[player].get("race")
-        if race and not Race.objects.filter(name=race["name"]).exists():
-            Race.objects.create(name=race["name"],
-                                description=race["description"])
-        skills = race["skills"]
-        if skills:
+        new_race = None
+        if race:
+            new_race, _ = Race.objects.get_or_create(
+                name=race["name"],
+                description=race["description"]
+            )
+            skills = race.get("skills", [])
             for skill in skills:
-                if not Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.create(name=skill["name"],
-                                         bonus=skill["bonus"],
-                                         race_id=Race.objects.get(
-                                             name=race["name"]).id)
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=new_race
+                )
 
         guild = players_data[player].get("guild")
-        if guild and not Guild.objects.filter(name=guild["name"]).exists():
-            Guild.objects.create(name=guild["name"],
-                                 description=guild["description"])
+        new_guild = None
+        if guild:
+            new_guild, _ = Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"]
+            )
 
         Player.objects.create(
             nickname=player,
             email=players_data[player].get("email"),
             bio=players_data[player].get("bio"),
-            race_id=Race.objects.get(name=race["name"]).id
-            if race is not None else None,
-            guild_id=Guild.objects.get(name=guild["name"]).id
-            if guild is not None else None
+            race_id=new_race.id if new_race else None,
+            guild_id=new_guild.id if new_guild else None
         )
 
 
