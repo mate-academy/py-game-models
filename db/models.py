@@ -1,5 +1,3 @@
-from _ast import unaryop
-
 from django.db import models
 
 
