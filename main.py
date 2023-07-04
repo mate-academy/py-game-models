@@ -17,11 +17,10 @@ def main() -> None:
             )
 
         race = player_info["race"]
-        Race.objects.get_or_create(
+        racing, _ = Race.objects.get_or_create(
             name=race["name"],
             description=race["description"]
         )
-        racing = Race.objects.get(name=race["name"])
 
         skills = race["skills"]
         for skill in skills:
