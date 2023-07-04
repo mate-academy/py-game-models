@@ -17,15 +17,14 @@ def get_race_id(race_info: dict) -> int:
 
 
 def create_skills(race_info: dict) -> None:
-    skills_list = race_info["skills"]
-    if skills_list:
-        for skill in skills_list:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race_id=get_race_id(race_info)
-                )
+    skills_list = race_info.get("skills", [])
+    for skill in skills_list:
+        if not Skill.objects.filter(name=skill["name"]).exists():
+            Skill.objects.create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race_id=get_race_id(race_info)
+            )
 
 
 def create_guild(guild_info: dict) -> None:
