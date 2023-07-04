@@ -28,18 +28,21 @@ def main() -> None:
 
         for skill in value["race"]["skills"]:
             if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(name=skill["name"],
-                                     bonus=skill["bonus"],
-                                     race=player_race
-                                     )
+                Skill.objects.create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=player_race
+                )
 
         if not Player.objects.filter(nickname=nickname_).exists():
-            Player.objects.create(nickname=nickname_,
-                                  email=value["email"],
-                                  bio=value["bio"],
-                                  race=player_race,
-                                  guild=player_guild
-                                  )
+            Player.objects.create(
+                nickname=nickname_,
+                email=value["email"],
+                bio=value["bio"],
+                race=player_race,
+                guild=player_guild
+            )
+
         player_race = None
         player_guild = None
 
