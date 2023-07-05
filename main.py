@@ -12,7 +12,7 @@ def create_race(race: dict) -> None:
         )
 
 
-def get_race_id(race: dict) -> int:
+def get_race_by_name(race: dict) -> Race:
     return Race.objects.get(name=race["name"])
 
 
@@ -22,7 +22,7 @@ def create_skills(skills: list[dict], race: dict) -> None:
             Skill.objects.create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=get_race_id(race)
+                race=get_race_by_name(race)
             )
 
 
@@ -34,7 +34,7 @@ def create_guild(guild: dict) -> None:
         )
 
 
-def get_guild_id(guild: dict) -> int:
+def get_guild_by_name(guild: dict) -> Guild:
     return Guild.objects.get(name=guild["name"])
 
 
@@ -43,22 +43,20 @@ def main() -> None:
         data = json.load(data_file)
 
     for player in data:
-        player_data = data[player]
-        race = player_data["race"]
-        skills = race["skills"]
-        guild = player_data["guild"]
 
-        create_race(race)
-        create_skills(skills, race)
-        create_guild(guild)
+        create_race(data[player]["race"])
+        create_skills(skills=data[player]["race"]["skills"],
+                      race=data[player]["race"])
+        create_guild(guild=data[player]["guild"])
 
         if not Player.objects.filter(nickname=player).exists():
             Player.objects.create(
                 nickname=player,
-                email=player_data["email"],
-                bio=player_data["bio"],
-                race=get_race_id(race),
-                guild=get_guild_id(guild) if guild else None,
+                email=data[player]["email"],
+                bio=data[player]["bio"],
+                race=get_race_by_name(race=data[player]["race"]),
+                guild=get_guild_by_name(guild=data[player]["guild"])
+                if data[player]["guild"] else None,
             )
 
 
