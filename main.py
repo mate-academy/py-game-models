@@ -22,7 +22,7 @@ def main() -> None:
         )
 
 
-def player_race_check_and_create(race: dict) -> None:
+def player_race_check_and_create(race: dict) -> Race:
     if not Race.objects.filter(
             name=race["name"]
     ).exists():
@@ -45,7 +45,7 @@ def race_skills_check_and_create(race: dict) -> None:
                 ).id)
 
 
-def player_guild_check_and_create(guild: dict):
+def player_guild_check_and_create(guild: dict) -> Guild:
     if guild:
         if not Guild.objects.filter(
                 name=guild["name"]
