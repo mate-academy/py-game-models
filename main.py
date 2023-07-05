@@ -7,8 +7,8 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
 
     def create_guild(guild: dict) -> None:
-        if guild and not Guild.objects.filter(name=guild["name"]).exists():
-            Guild.objects.create(
+        if guild:
+            Guild.objects.get_or_create(
                 name=guild["name"],
                 description=guild["description"]
             )
@@ -17,11 +17,10 @@ def main() -> None:
         return Guild.objects.get(name=guild["name"]).id if guild else None
 
     def create_race(race: dict) -> None:
-        if not Race.objects.filter(name=race["name"]).exists():
-            Race.objects.create(
-                name=race["name"],
-                description=race["description"]
-            )
+        Race.objects.get_or_create(
+            name=race["name"],
+            description=race["description"]
+        )
 
     def get_race_id(race_name: dict) -> int:
         return Race.objects.get(name=race_name).id
@@ -39,14 +38,12 @@ def main() -> None:
     def create_players() -> None:
         with open("players.json", "r") as players:
             players = json.load(players)
-            print(players)
         for player, info in players.items():
             name = player
             email = info["email"]
             bio = info["bio"]
             guild = info["guild"]
             race = info["race"]
-            print(race)
 
             create_guild(guild)
             create_race(race)
