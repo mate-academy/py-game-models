@@ -20,9 +20,12 @@ def main() -> None:
 
         if is_race_created:
             for skill in player_info["race"]["skills"]:
+                skill_name = skill["name"]
+                skill_bonus = skill["bonus"]
+
                 Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
+                    name=skill_name,
+                    bonus=skill_bonus,
                     race=race
                 )
 
