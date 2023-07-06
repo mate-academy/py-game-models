@@ -41,23 +41,17 @@ def create_players() -> None:
     with open("players.json", "r") as players:
         players = json.load(players)
     for player, info in players.items():
-        name = player
-        email = info["email"]
-        bio = info["bio"]
-        guild = info["guild"]
-        race = info["race"]
+        create_guild(info["guild"])
+        create_race(info["race"])
+        create_skills(info["race"])
 
-        create_guild(guild)
-        create_race(race)
-        create_skills(race)
-
-        guild_id = get_guild_id(guild)
-        race_id = get_race_id(race["name"])
+        guild_id = get_guild_id(info["guild"])
+        race_id = get_race_id(info["race"]["name"])
 
         Player.objects.create(
-            nickname=name,
-            email=email,
-            bio=bio,
+            nickname=player,
+            email=info["email"],
+            bio=info["bio"],
             guild_id=guild_id,
             race_id=race_id
         )
