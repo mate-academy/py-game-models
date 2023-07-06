@@ -23,38 +23,31 @@ def main() -> None:
 
 
 def player_race_check_and_create(race: dict) -> Race:
-    if not Race.objects.filter(
-            name=race["name"]
-    ).exists():
-        Race.objects.create(
-            name=race["name"],
-            description=race["description"]
-        )
+    race_obj, _ = Race.objects.get_or_create(
+        name=race["name"],
+        description=race["description"]
+    )
     race_skills_check_and_create(race)
-    return Race.objects.get(name=race["name"])
+    return race_obj
 
 
 def race_skills_check_and_create(race: dict) -> None:
     for skill in race["skills"]:
-        if not Skill.objects.filter(name=skill["name"]).exists():
-            Skill.objects.create(
-                name=skill["name"],
-                bonus=skill["bonus"],
-                race_id=Race.objects.get(
-                    name=race["name"]
-                ).id)
+        _, _ = Skill.objects.get_or_create(
+            name=skill["name"],
+            bonus=skill["bonus"],
+            race=Race.objects.get(
+                name=race["name"]
+            ))
 
 
-def player_guild_check_and_create(guild: dict) -> Guild:
+def player_guild_check_and_create(guild: dict) -> Guild | None:
     if guild:
-        if not Guild.objects.filter(
-                name=guild["name"]
-        ).exists():
-            Guild.objects.create(
-                name=guild["name"],
-                description=guild["description"]
-            )
-        return Guild.objects.get(name=guild["name"])
+        guild, _ = Guild.objects.get_or_create(
+            name=guild["name"],
+            description=guild["description"]
+        )
+        return guild
     return None
 
 
