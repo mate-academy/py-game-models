@@ -7,44 +7,31 @@ def main() -> None:
 
     with open("players.json", "r") as file:
         data = json.load(file)
-        # print(data)
 
-    # create races and guilds
-    for player, information in data.items():
-        # print(player)
-
+    for player_name, information in data.items():
         race = information["race"]
         guild = information["guild"]
 
-        if guild and not Guild.objects.filter(name=guild["name"]).exists():
-            Guild.objects.create(
-                name=guild["name"],
-                description=guild["description"]
-            )
+        race_ref, is_created_race = Race.objects.get_or_create(
+            name=race["name"], description=race["description"]
+        )
 
-        if race and not Race.objects.filter(name=race["name"]).exists():
-            Race.objects.create(
-                name=race["name"],
-                description=race["description"]
+        skills = race["skills"]
+        for skill in skills:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=Race.objects.get(name=race["name"])
             )
-            skills = race["skills"]
-            for skill in skills:
-                if skill and not Skill.objects.filter(
-                        name=skill["name"]
-                ).exists():
-                    Skill.objects.create(
-                        name=skill["name"],
-                        bonus=skill["bonus"],
-                        race=Race.objects.get(name=race["name"])
-                    )
         email = information["email"]
         bio = information["bio"]
-        race_ref = Race.objects.get(name=race["name"])
+
         if guild:
-            guild_ref = Guild.objects.get(name=guild["name"])
-        #
+            guild_ref, is_created_guild = Guild.objects.get_or_create(
+                name=guild["name"], description=guild["description"]
+            )
             Player.objects.create(
-                nickname=player,
+                nickname=player_name,
                 email=email,
                 bio=bio,
                 race=race_ref,
@@ -52,7 +39,7 @@ def main() -> None:
             )
         else:
             Player.objects.create(
-                nickname=player,
+                nickname=player_name,
                 email=email,
                 bio=bio,
                 race=race_ref,

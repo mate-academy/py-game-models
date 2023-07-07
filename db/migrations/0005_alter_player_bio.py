@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0004_alter_player_guild'),
+        ("db", "0004_alter_player_guild"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='player',
-            name='bio',
-            field=models.CharField(max_length=255, verbose_name='provided by a user about himself/herself.'),
+            model_name="player",
+            name="bio",
+            field=models.CharField(
+                max_length=255, verbose_name="provided by a user about himself/herself."
+            ),
         ),
     ]
