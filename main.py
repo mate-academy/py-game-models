@@ -24,17 +24,14 @@ def main() -> None:
         else:
             race = Race.objects.get(name=race_name)
 
-        skills = []
         for skill in skills_info:
             skill_name = skill.get("name")
-            if Skill.objects.filter(name=skill_name).exists():
-                skills.append(Skill.objects.get(name=skill_name))
-                continue
-            Skill.objects.create(
-                name=skill_name,
-                bonus=skill.get("bonus"),
-                race_id=race.id
-            )
+            if not Skill.objects.filter(name=skill_name).exists():
+                Skill.objects.create(
+                    name=skill_name,
+                    bonus=skill.get("bonus"),
+                    race_id=race.id
+                )
 
         if guild_info:
             guild_name = guild_info.get("name")
