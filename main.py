@@ -15,44 +15,33 @@ def main() -> None:
         skills_info = race_info.get("skills")
         guild_info = player_info.get("guild")
 
-        race_name = race_info.get("name")
-        if not Race.objects.filter(name=race_name).exists():
-            race = Race.objects.create(
-                name=race_name,
-                description=race_info.get("description")
-            )
-        else:
-            race = Race.objects.get(name=race_name)
+        race = Race.objects.get_or_create(
+            name=race_info.get("name"),
+            description=race_info.get("description")
+        )[0]
 
         for skill in skills_info:
-            skill_name = skill.get("name")
-            if not Skill.objects.filter(name=skill_name).exists():
-                Skill.objects.create(
-                    name=skill_name,
-                    bonus=skill.get("bonus"),
-                    race_id=race.id
-                )
+            Skill.objects.get_or_create(
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race_id=race.id
+            )
 
         if guild_info:
-            guild_name = guild_info.get("name")
-            if not Guild.objects.filter(name=guild_name).exists():
-                guild = Guild.objects.create(
-                    name=guild_name,
-                    description=guild_info.get("description")
-                )
-            else:
-                guild = Guild.objects.get(name=guild_name)
+            guild = Guild.objects.get_or_create(
+                name=guild_info.get("name"),
+                description=guild_info.get("description")
+            )[0]
         else:
             guild = None
 
-        if not Player.objects.filter(nickname=nickname).exists():
-            Player.objects.create(
-                nickname=nickname,
-                email=email,
-                bio=bio,
-                race_id=race.id,
-                guild_id=guild.id if guild else None
-            )
+        Player.objects.get_or_create(
+            nickname=nickname,
+            email=email,
+            bio=bio,
+            race_id=race.id,
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
