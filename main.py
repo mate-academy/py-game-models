@@ -11,22 +11,14 @@ def main() -> None:
         data = json.load(players)
 
     for key, value in data.items():
-        players_race = Race.objects.get(
-            name=value["race"]["name"]
-        ) if Race.objects.filter(
-            name=value["race"]["name"]
-        ).exists() else Race(
+        players_race, created = Race.objects.get_or_create(
             name=value["race"]["name"],
             description=value["race"]["description"]
         )
         players_race.save()
 
         if value["guild"]:
-            players_guild = Guild.objects.get(
-                name=value["guild"]["name"]
-            ) if Guild.objects.filter(
-                name=value["guild"]["name"]
-            ).exists() else Guild(
+            players_guild, created = Guild.objects.get_or_create(
                 name=value["guild"]["name"],
                 description=value["guild"]["description"]
             )
