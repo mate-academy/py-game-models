@@ -5,50 +5,48 @@ from db.models import Race, Skill, Player, Guild
 
 
 def get_race(race_info: dict) -> Race:
-    result = Race.objects.get_or_create(
+    race, _ = Race.objects.get_or_create(
         name=race_info["name"],
         description=race_info["description"]
-    )[0]
+    )
     for skill_info in race_info["skills"]:
-        _ = get_skill(skill_info, result)
-    return result
+        _ = get_skill(skill_info, race)
+    return race
 
 
-def get_guild(guild_info: dict) -> Guild:
+def get_guild(guild_info: dict) -> Guild | None:
     if not guild_info:
         return None
-    result = Guild.objects.get_or_create(
+    guild, _ = Guild.objects.get_or_create(
         name=guild_info["name"],
         description=guild_info["description"]
-    )[0]
-    return result
+    )
+    return guild
 
 
-def get_skill(skill_info: dict, race: Race) -> Skill:
+def get_skill(skill_info: dict, race: Race) -> Skill | None:
     if not skill_info:
         return None
-    result = Skill.objects.get_or_create(
+    skill, _ = Skill.objects.get_or_create(
         name=skill_info["name"],
         bonus=skill_info["bonus"],
         race=race
-    )[0]
-    return result
+    )
+    return skill
 
 
 def main() -> None:
     with open("players.json", "r") as data_source:
         players = json.load(data_source)
     for player_name, player_data in players.items():
-        if Player.objects.filter(nickname=player_name).exists():
-            continue
-        race = get_race(player_data["race"])
-        guild = get_guild(player_data["guild"])
-        Player.objects.create(
+        _ = Player.objects.get_or_create(
             nickname=player_name,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=race,
-            guild=guild
+            defaults={
+                "email": player_data["email"],
+                "bio": player_data["bio"],
+                "race": get_race(player_data["race"]),
+                "guild": get_guild(player_data["guild"])
+            }
         )
 
 
