@@ -11,42 +11,27 @@ def main() -> None:
         guild = value["guild"]
         race = value["race"]
         if guild is not None:
-            if not Guild.objects.filter(name=guild["name"]).exists():
-                obj = Guild(
-                    name=value["guild"]["name"],
-                    description=value["guild"]["description"]
-                )
-                obj.save()
-                value["guild"] = obj
-            else:
-                obj = Guild.objects.get(name=guild["name"])
-                value["guild"] = obj
-        if not Race.objects.filter(name=race["name"]).exists():
-            race_obj = Race(
-                name=race["name"],
-                description=race["description"]
+            guild_obj, created = Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"]
             )
-            race_obj.save()
-            race["name"] = race_obj
-        else:
-            race_obj = Race.objects.get(name=race["name"])
-            race["name"] = race_obj
+        race_obj, created = Race.objects.get_or_create(
+            name=race["name"],
+            description=race["description"]
+        )
         if race["skills"]:
             for skill in race["skills"]:
-                if not Skill.objects.filter(name=skill["name"]).exists():
-                    obj = Skill(
-                        name=skill["name"],
-                        bonus=skill["bonus"],
-                        race=race_obj
-                    )
-                    obj.save()
-    for name, value in data.items():
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race_obj
+                )
         obj = Player(
             nickname=name,
             email=value["email"],
             bio=value["bio"],
-            race=value["race"]["name"],
-            guild=value["guild"]
+            race=race_obj,
+            guild=guild_obj if guild is not None else None
         )
         obj.save()
 
