@@ -22,7 +22,9 @@ def main() -> None:
 
         if len(list_of_info_skills) > 0:
             for skill_detail in list_of_info_skills:
-                if not Skill.objects.filter(name=skill_detail["name"]).exists():
+                if not (
+                    Skill.objects.filter(name=skill_detail["name"]).exists()
+                ):
                     skill = Skill(
                         name=skill_detail["name"],
                         bonus=skill_detail["bonus"],
