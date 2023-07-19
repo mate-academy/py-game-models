@@ -12,44 +12,33 @@ def main() -> None:
     for player_name in data:
         player = data[player_name]
 
-        # Define player personal data
+        # Create player
         player_data = {
             "nickname": player_name,
             "email": player.get("email"),
-            "bio": player.get("bio")
-        }
-
-        # Define player race and skills
-        race = player.get("race")
-        if Race.objects.filter(name=race.get("name")).exists():
-            player_data["race"] = Race.objects.get(name=race.get("name"))
-        else:
-            player_data["race"] = Race.objects.create(
-                name=race.get("name"),
-                description=race.get("description")
+            "bio": player.get("bio"),
+            "race": Race.objects.get_or_create(
+                name=player["race"]["name"],
+                description=player["race"]["description"]
+            )[0],
+            "guild": (
+                None if not player["guild"]
+                else Guild.objects.get_or_create(
+                    name=player["guild"]["name"],
+                    description=player["guild"]["description"]
+                )[0]
             )
-            for skill in race.get("skills"):
-                Skill.objects.create(
-                    name=skill.get("name"),
-                    bonus=skill.get("bonus"),
-                    race=player_data.get("race")
-                )
-
-        # Define player guild
-        guild = player["guild"]
-        if not guild:
-            player_data["guild"] = None
-        else:
-            if Guild.objects.filter(name=guild.get("name")).exists():
-                player_data["guild"] = Guild.objects.get(name=guild["name"])
-            else:
-                player_data["guild"] = Guild.objects.create(
-                    name=guild["name"],
-                    description=guild["description"]
-                )
-
-        # Create player
+        }
         Player.objects.create(**player_data)
+
+        # Define race-related skills
+        race = player_data["race"]
+        for skill in player["race"]["skills"]:
+            race.skill_set.get_or_create(
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race=race
+            )
 
 
 if __name__ == "__main__":
