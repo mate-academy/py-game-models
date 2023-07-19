@@ -13,14 +13,19 @@ def main() -> None:
         list_of_info_skills = info["race"]["skills"]
         info_guild = info["guild"]
 
-        if not Race.objects.filter(name=info_race["name"]).exists():
+        race = info_race["name"]
+        guild = None
+
+        if not Race.objects.filter(name=race).exists():
             race = Race(
-                name=info_race["name"],
+                name=race,
                 description=info_race["description"]
             )
             race.save()
+        else:
+            race = Race.objects.get(name=race)
 
-        if len(list_of_info_skills) > 0:
+        if list_of_info_skills:
             for skill_detail in list_of_info_skills:
                 if not (
                     Skill.objects.filter(name=skill_detail["name"]).exists()
@@ -32,21 +37,15 @@ def main() -> None:
                     )
                     skill.save()
 
-        if info_guild is not None:
+        if info_guild:
             if not Guild.objects.filter(name=info_guild["name"]).exists():
                 guild = Guild(
                     name=info_guild["name"],
                     description=info_guild["description"]
                 )
                 guild.save()
-
-        race = Race.objects.get(name=info_race["name"])
-        guild = None
-
-        if info_guild is None:
-            guild = None
-        else:
-            guild = Guild.objects.get(name=info_guild["name"])
+            else:
+                guild = Guild.objects.get(name=info_guild["name"])
 
         player = Player(
             nickname=name,
