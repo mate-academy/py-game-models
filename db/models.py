@@ -12,7 +12,7 @@ class Skill(models.Model):
         "Field describes what kind of bonus players can get from it",
         max_length=255
     )
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
 
 
 class Guild(models.Model):

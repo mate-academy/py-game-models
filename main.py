@@ -13,17 +13,12 @@ def main() -> None:
         list_of_info_skills = info["race"]["skills"]
         info_guild = info["guild"]
 
-        race = info_race["name"]
         guild = None
 
-        if not Race.objects.filter(name=race).exists():
-            race = Race(
-                name=race,
-                description=info_race["description"]
-            )
-            race.save()
-        else:
-            race = Race.objects.get(name=race)
+        race = Race.objects.get_or_create(
+            name=info_race["name"],
+            description=info_race["description"]
+        )[0]
 
         if list_of_info_skills:
             for skill_detail in list_of_info_skills:
