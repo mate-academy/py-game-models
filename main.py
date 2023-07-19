@@ -2,7 +2,7 @@ import json
 
 import init_django_orm  # noqa: F401
 
-from db.models import Race, Skill, Player, Guild
+from db.models import Race, Skill, Player, Guild  # noqa: F401
 
 
 def main() -> None:
@@ -12,9 +12,9 @@ def main() -> None:
     for player_name in data:
         player = data[player_name]
         race, race_exists = Race.objects.get_or_create(
-                name=player["race"]["name"],
-                description=player["race"]["description"]
-            )
+            name=player["race"]["name"],
+            description=player["race"]["description"]
+        )
 
         # Create player
         player_data = {
