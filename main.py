@@ -7,10 +7,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def get_or_create_race_and_skills(race: Dict) -> Race:
-    player_race = Race.objects.get_or_create(
+    player_race, _ = Race.objects.get_or_create(
         name=race["name"],
         description=race["description"]
-    )[0]
+    )
     if race["skills"]:
         for skill in race["skills"]:
             Skill.objects.get_or_create(
@@ -22,10 +22,11 @@ def get_or_create_race_and_skills(race: Dict) -> Race:
 
 
 def get_or_create_guild(guild: Dict) -> Guild:
-    return Guild.objects.get_or_create(
+    player_guild, _ = Guild.objects.get_or_create(
         name=guild["name"],
         description=guild["description"]
-    )[0]
+    )
+    return player_guild
 
 
 def main() -> None:
