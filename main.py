@@ -8,57 +8,66 @@ def main() -> None:
     with open("players.json", "r") as file:
         players = json.load(file)
 
+    create_race_entries(players)
+    create_skills_entries(players)
+    create_guild_entries(players)
+    create_player_entries(players)
+
+
+def create_race_entries(players: dict) -> None:
     for player in players:
-
         race = players.get(player).get("race")
+        description = (
+            race.get("description") if race.get("description") else None
+        )
+        Race.objects.get_or_create(
+            name=race.get("name"),
+            description=description
+        )
 
-        if not Race.objects.filter(name=race.get("name")).exists():
-            description = (
-                race.get("description") if race.get("description") else None
+
+def create_skills_entries(players: dict) -> None:
+    for player in players:
+        race = players.get(player).get("race")
+        for skill in race.get("skills"):
+            Skill.objects.get_or_create(
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race_id=Race.objects.get(name=race.get("name")).id
             )
-            Race.objects.create(
-                name=race.get("name"),
+
+
+def create_guild_entries(players: dict) -> None:
+    for player in players:
+        guild = players.get(player).get("guild")
+        if guild:
+            description = (
+                guild.get("description")
+                if guild.get("description")
+                else None
+            )
+            Guild.objects.get_or_create(
+                name=guild.get("name"),
                 description=description
             )
 
-        skills_list = race.get("skills")
-        for skill in skills_list:
-            if not Skill.objects.filter(name=skill.get("name")).exists():
-                Skill.objects.create(
-                    name=skill.get("name"),
-                    bonus=skill.get("bonus"),
-                    race_id=Race.objects.get(name=race.get("name")).id
-                )
 
+def create_player_entries(players: dict) -> None:
+    for player in players:
+        race = players.get(player).get("race")
         guild = players.get(player).get("guild")
-        if guild is not None:
-            if not Guild.objects.filter(name=guild.get("name")).exists():
-                description = (
-                    guild.get("description")
-                    if guild.get("description")
-                    else None
-                )
-                Guild.objects.create(
-                    name=guild.get("name"),
-                    description=description
-                )
-
-        if not Player.objects.filter(nickname=player).exists():
-            guild_id = (
-                Guild.objects.get(name=guild.get("name")).id
-                if guild else None
-            )
-            race_id = (
-                Race.objects.get(name=race.get("name")).id
-                if race else None
-            )
-            Player.objects.create(
-                nickname=player,
-                email=players.get(player).get("email"),
-                bio=players.get(player).get("bio"),
-                race_id=race_id,
-                guild_id=guild_id
-            )
+        guild_id = (
+            Guild.objects.get(name=guild.get("name")).id
+            if guild else None
+        )
+        race_id = Race.objects.get(name=race.get("name")).id
+        Player.objects.get_or_create(
+            nickname=player,
+            email=players.get(player).get("email"),
+            bio=players.get(player).get("bio"),
+            race_id=race_id,
+            guild_id=guild_id
+        )
 
 
 if __name__ == "__main__":
