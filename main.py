@@ -34,7 +34,9 @@ def main() -> None:
         if guild is not None:
             if not Guild.objects.filter(name=guild.get("name")).exists():
                 description = (
-                    guild.get("description") if guild.get("description") else None
+                    guild.get("description")
+                    if guild.get("description")
+                    else None
                 )
                 Guild.objects.create(
                     name=guild.get("name"),
