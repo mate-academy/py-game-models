@@ -11,35 +11,28 @@ def main() -> None:
 
     for name, user_data in data.items():
         current_race = user_data["race"]
-        if Race.objects.filter(name=current_race["name"]).exists():
-            race = Race.objects.filter(name=current_race["name"]).get()
-        else:
-            race = Race.objects.create(
-                name=current_race["name"],
-                description=current_race["description"]
-            )
+        race, _ = Race.objects.get_or_create(
+            name=current_race["name"],
+            description=current_race["description"]
+        )
 
         current_guild = user_data["guild"]
         if current_guild:
-            if Guild.objects.filter(name=current_guild["name"]).exists():
-                guild = Guild.objects.filter(name=current_guild["name"]).get()
-            else:
-                guild = Guild.objects.create(
-                    name=current_guild["name"],
-                    description=current_guild["description"]
-                )
+            guild, _ = Guild.objects.get_or_create(
+                name=current_guild["name"],
+                description=current_guild["description"]
+            )
         else:
             guild = None
 
         current_list_of_skills = user_data["race"]["skills"]
 
         for skill in current_list_of_skills:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                skill = Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
+            skill, _ = Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
 
         guild_id = guild.id if guild else None
 
