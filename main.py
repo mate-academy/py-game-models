@@ -49,7 +49,7 @@ def main() -> None:
         if not Player.objects.filter(nickname=new_player.nickname).exists():
             new_player.save()
         print(new_player)
-        print("----------------")
+        print("---------------")
 
 
 if __name__ == "__main__":
