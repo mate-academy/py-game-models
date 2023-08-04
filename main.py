@@ -8,28 +8,28 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json") as file:
         data = json.load(file)
-    for player, value in data.items():
+    for player, info in data.items():
         player_race, created = Race.objects.get_or_create(
-            name=value["race"]["name"],
-            description=value["race"]["description"]
+            name=info["race"]["name"],
+            description=info["race"]["description"]
         )
-        for skill in value["race"]["skills"]:
+        for skill in info["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
                 race=player_race
             )
-        if value["guild"] is not None:
+        if info["guild"] is not None:
             player_guild, created = Guild.objects.get_or_create(
-                name=value["guild"]["name"],
-                description=value["guild"]["description"]
+                name=info["guild"]["name"],
+                description=info["guild"]["description"]
             )
         else:
             player_guild = None
         Player.objects.get_or_create(
             nickname=player,
-            email=value["email"],
-            bio=value["bio"],
+            email=info["email"],
+            bio=info["bio"],
             race=player_race,
             guild=player_guild
         )
