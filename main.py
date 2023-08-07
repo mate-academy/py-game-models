@@ -30,7 +30,7 @@ def main() -> None:
             guild = None
 
         if race:
-            player_instance, _ = Player.objects.get_or_create(
+            user, _ = Player.objects.get_or_create(
                 nickname=player,
                 email=player_info["email"],
                 bio=player_info["bio"],
