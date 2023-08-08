@@ -22,7 +22,7 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
 
-    """AAA game for 70$ moment"""
+    """ 70$ AAA game moment """
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     guild = models.ForeignKey(Guild, default="", on_delete=models.SET_DEFAULT)
