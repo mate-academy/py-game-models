@@ -1,7 +1,5 @@
 import json
 
-from django.db.utils import IntegrityError
-
 import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
@@ -10,10 +8,10 @@ def main() -> None:
     with open("players.json") as file:
         data = json.load(file)
 
-    for player in data:
-        race_details = data[player]["race"]
+    for player_details in data.items():
+        current_guild = player_details[1]["guild"]
+        race_details = player_details[1]["race"]
         skill_details = race_details["skills"]
-        current_guild = data[player]["guild"]
 
         if not Race.objects.filter(name=race_details["name"]).exists():
             Race.objects.create(
@@ -39,9 +37,9 @@ def main() -> None:
             current_guild = Guild.objects.get(name=current_guild["name"]).id
 
         Player.objects.get_or_create(
-            nickname=str(player),
-            email=data[player]["email"],
-            bio=data[player]["bio"],
+            nickname=str(player_details[0]),
+            email=player_details[1]["email"],
+            bio=player_details[1]["bio"],
             race_id=current_race,
             guild_id=current_guild,
         )
