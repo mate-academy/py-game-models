@@ -14,13 +14,11 @@ def wipe() -> None:  # TODO: delete
 def main() -> None:
     with open("players.json") as file:
         data = json.load(file)
-
     for player, details in data.items():  # dict
-        try:
-            guild_details = data[player]["guild"]
-        except TypeError:
-            print(f"{player} is not in a guild")
-            current_guild = "from TypeError"
+
+
+
+
         race_details = data[player]["race"]  # race, not name
         skill_details = race_details["skills"]  # skill, not name
         # print(guild_details)
@@ -36,29 +34,32 @@ def main() -> None:
         current_race = Race.objects.get(name=race_details["name"]).id
 
         for skill in skill_details:
-            print(skill["name"])
+            #print(skill["name"])
             if not Skill.objects.filter(name=skill["name"]).exists():
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
                     race_id=current_race
                 )
-        if guild_details is not None:
-            if not Guild.objects.filter(name=guild_details["name"]).exists():
+        current_guild = data[player]["guild"]
+        if current_guild is not None:
+            print("NOT NONE")
+            print(current_guild)
+            if not Guild.objects.filter(name=current_guild["name"]).exists():
                 Guild.objects.create(
-                    name=guild_details["name"],
-                    description=guild_details["description"]
+                    name=current_guild["name"],
+                    description=current_guild["description"]
                 )
-        current_guild = Guild.objects.get(name=guild_details["name"]).id
-
+            current_guild = Guild.objects.get(name=current_guild["name"]).id
+        print(current_guild)
         new_player = Player.objects.create(
             nickname=str(player).capitalize(),  # capitalize?
             email=data[player]["email"],
             bio=data[player]["bio"],
             race_id=current_race,
-            guild_id=guild_details,
+            guild_id=current_guild,
         )
-        new_player.save()
+        new_player.save() # looks like i don't need it
 
 
 if __name__ == "__main__":
