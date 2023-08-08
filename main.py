@@ -40,7 +40,7 @@ def main() -> None:
 
         try:
             Player.objects.create(
-                nickname=str(player).capitalize(),  # capitalize()?
+                nickname=str(player),
                 email=data[player]["email"],
                 bio=data[player]["bio"],
                 race_id=current_race,
