@@ -25,5 +25,5 @@ class Player(models.Model):
     """ 70$ AAA game moment """
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
-    guild = models.ForeignKey(Guild, default="", on_delete=models.SET_DEFAULT)
+    guild = models.ForeignKey(Guild, null=True, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
