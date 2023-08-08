@@ -49,8 +49,6 @@ def main() -> None:
         except IntegrityError as e:
             print(f"Name already taken: {e}")
 
-        Guild.objects.filter(id=126).delete()
-
 
 if __name__ == "__main__":
     main()
