@@ -38,16 +38,13 @@ def main() -> None:
                 )
             current_guild = Guild.objects.get(name=current_guild["name"]).id
 
-        try:
-            Player.objects.create(
-                nickname=str(player),
-                email=data[player]["email"],
-                bio=data[player]["bio"],
-                race_id=current_race,
-                guild_id=current_guild,
-            )
-        except IntegrityError as e:
-            print(f"Name already taken: {e}")
+        Player.objects.get_or_create(
+            nickname=str(player),
+            email=data[player]["email"],
+            bio=data[player]["bio"],
+            race_id=current_race,
+            guild_id=current_guild,
+        )
 
 
 if __name__ == "__main__":
