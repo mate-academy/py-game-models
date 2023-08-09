@@ -13,23 +13,20 @@ def main() -> None:
             name=value["race"]["name"],
             description=value["race"]["description"]
         )
-        players_race.save()
 
         if value["guild"]:
             players_guild, created = Guild.objects.get_or_create(
                 name=value["guild"]["name"],
                 description=value["guild"]["description"]
             )
-            players_guild.save()
         else:
             players_guild = None
 
         for skill in value["race"]["skills"]:
             if skill and not Skill.objects.filter(name=skill["name"]).exists():
-                new_skill = Skill.objects.create(
+                Skill.objects.create(
                     name=skill["name"], bonus=skill["bonus"], race=players_race
                 )
-                new_skill.save()
 
         new_player = Player(
             nickname=key,
