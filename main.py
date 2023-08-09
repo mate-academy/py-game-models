@@ -20,19 +20,17 @@ def main() -> None:
         current_race = Race.objects.get(name=race_details["name"]).id
 
         for skill in skill_details:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race_id=current_race
-                )
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race_id=current_race
+            )
 
         if current_guild is not None:
-            if not Guild.objects.filter(name=current_guild["name"]).exists():
-                Guild.objects.create(
-                    name=current_guild["name"],
-                    description=current_guild["description"]
-                )
+            Guild.objects.get_or_create(
+                name=current_guild["name"],
+                description=current_guild["description"]
+            )
             current_guild = Guild.objects.get(name=current_guild["name"]).id
 
         Player.objects.get_or_create(
