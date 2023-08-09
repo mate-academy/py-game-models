@@ -13,12 +13,18 @@ def main() -> None:
         race_details = player_details[1]["race"]
         skill_details = race_details["skills"]
 
+        # Race.objects.get_or_create(
+        #     name=race_details["name"],
+        #     description=race_details["description"]
+        # )
+        # current_race = Race.objects.get(name=race_details["name"]).id
+
         if not Race.objects.filter(name=race_details["name"]).exists():
-            Race.objects.create(
+            Race.objects.get_or_create(
                 name=race_details["name"],
                 description=race_details["description"]
             )
-        current_race = Race.objects.get(name=race_details["name"]).id
+            current_race = Race.objects.get(name=race_details["name"]).id
 
         for skill in skill_details:
             if not Skill.objects.filter(name=skill["name"]).exists():
