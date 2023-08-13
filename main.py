@@ -16,6 +16,7 @@ def main() -> None:
         )
 
         guild = data.get("guild")
+        guild_from_db = None
         if guild is not None:
             guild_name = guild.get("name")
             guild_from_db = None
@@ -26,6 +27,7 @@ def main() -> None:
                 )
             else:
                 guild_from_db = Guild.objects.get(name=guild_name)
+
             new_player.guild = guild_from_db
 
         race_ = data.get("race")
