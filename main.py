@@ -9,9 +9,9 @@ def main() -> None:
 
     for player, data in players.items():
         race_data = data["race"]
-        race = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_data["name"],
-            description=race_data["description"])[0]
+            description=race_data["description"])
 
         skills_data = race_data["skills"]
         for skill in skills_data:
@@ -23,20 +23,17 @@ def main() -> None:
 
         guild = data["guild"]
         if guild:
-            guild = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=guild["name"],
-                description=guild["description"]
-            )
+                description=guild["description"])
 
-        player_query = Player.objects.filter(nickname=player)
-        if not player_query.exists():
-            Player.objects.create(
-                nickname=player,
-                email=data["email"],
-                bio=data["bio"],
-                race=race,
-                guild=guild,
-            )
+        Player.objects.get_or_create(
+            nickname=player,
+            email=data["email"],
+            bio=data["bio"],
+            race=race,
+            guild=guild,
+        )
 
 
 if __name__ == "__main__":
