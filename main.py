@@ -9,7 +9,6 @@ def main() -> None:
         players_data = json.load(file)
 
     for nickname, info in players_data.items():
-        print(nickname, info)
         race = Race.objects.get_or_create(
             name=info["race"]["name"],
             description=info["race"]["description"]
