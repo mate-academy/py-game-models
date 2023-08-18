@@ -16,7 +16,8 @@ def main() -> None:
         for skill in player_data["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
-                bonus=skill["bonus"]
+                bonus=skill["bonus"],
+                race=race
             )
 
         guild = player_data["guild"]
