@@ -8,7 +8,7 @@ def main() -> None:
         players = json.load(f)
 
     for player, data in players.items():
-        race_data = data["race"]
+        race_data = data.get("race")
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
             description=race_data["description"])
@@ -21,7 +21,7 @@ def main() -> None:
                 race=race
             )
 
-        guild = data["guild"]
+        guild = data.get("guild")
         if guild:
             guild, _ = Guild.objects.get_or_create(
                 name=guild["name"],
