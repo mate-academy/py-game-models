@@ -12,31 +12,27 @@ def main() -> None:
             if Player.objects.filter(nickname=player).exists():
                 continue
             guild = data[player]["guild"]
-            race = data[player]["race"]
+            race_dict = data[player]["race"]
             if guild is not None:
-                if not Guild.objects.filter(name=guild["name"]).exists():
-                    Guild.objects.create(
-                        name=guild["name"],
-                        description=guild["description"],
-                    )
-                guild = Guild.objects.filter(name=guild["name"]).get()
-            if not Race.objects.filter(name=race["name"]).exists():
-                Race.objects.create(
-                    name=race["name"],
-                    description=race["description"],
+                guild = Guild.objects.get_or_create(
+                    name=guild["name"],
+                    description=guild["description"],
+                )[0]
+            race = Race.objects.get_or_create(
+                name=race_dict["name"],
+                description=race_dict["description"],
+            )[0]
+            for skill in race_dict["skills"]:
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race,
                 )
-            for skill in race["skills"]:
-                if not Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.create(
-                        name=skill["name"],
-                        bonus=skill["bonus"],
-                        race=Race.objects.filter(name=race["name"]).get(),
-                    )
             Player.objects.create(
                 nickname=player,
                 email=data[player]["email"],
                 bio=data[player]["bio"],
-                race=Race.objects.filter(name=race["name"]).get(),
+                race=race,
                 guild=guild,
             )
 
