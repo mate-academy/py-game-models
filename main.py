@@ -14,7 +14,7 @@ def main() -> None:
             description=player_attributes["race"]["description"]
         )
         if created:
-            for skill in player_attributes["race"].get("skills"):
+            for skill in player_attributes["race"].get("skills", []):
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
