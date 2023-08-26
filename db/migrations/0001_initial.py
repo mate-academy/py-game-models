@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True)),
             ],
         ),
-        migrations.CreateModel(
+        migrations.CreateMode(
             name='Skill',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
