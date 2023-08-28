@@ -42,7 +42,7 @@ def main() -> None:
                 bonus=skill_entry["bonus"],
                 race=race
             )
-12391
+
 
 if __name__ == "__main__":
     main()
