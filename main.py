@@ -1,6 +1,6 @@
 import init_django_orm  # noqa: F401
 import json
-from db.models import Race, Skill, PlayerModel, Guild
+from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
@@ -27,7 +27,7 @@ def main() -> None:
                 description=player_attributes["guild"]["description"]
             )
 
-        player, created = PlayerModel.objects.get_or_create(
+        player, created = Player.objects.get_or_create(
             nickname=player_nickname,
             email=player_attributes["email"],
             bio=player_attributes["bio"],

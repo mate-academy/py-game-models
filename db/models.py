@@ -31,12 +31,12 @@ class Guild(models.Model):
     description = models.TextField(null=True)
 
 
-class PlayerModel(models.Model):
+class Player(models.Model):
     nickname = models.CharField(
         max_length=255,
         unique=True
     )
-    email = models.CharField(
+    email = models.EmailField(
         max_length=255
     )
     bio = models.CharField(
