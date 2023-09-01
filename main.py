@@ -38,11 +38,12 @@ def main() -> None:
                 Skill.objects.create(name=name, bonus=bonus, race=race_obj)
 
         guild = values.get("guild")
+        guild_obj = None
         if guild:
             guild_name = guild["name"]
             guild_description = guild["description"]
             if Guild.objects.filter(name=guild_name).exists():
-                pass
+                guild_obj = Guild.objects.get(name=guild_name)
             else:
                 guild_obj = Guild.objects.create(
                     name=guild_name, description=guild_description
