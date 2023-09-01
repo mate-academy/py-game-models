@@ -45,6 +45,3 @@ def main() -> None:
             race=rase_from_db,
             guild=guild
         )
-
-if __name__ == "__main__":
-    main()
