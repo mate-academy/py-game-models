@@ -11,7 +11,7 @@ def main() -> None:
     skill_set = set()
     guild_set = set()
     for name, player in players_data.items():
-        rase = player["race"]
+        race = player["race"]
         if rase["name"] not in race_set:
             race_set.add(rase["name"])
             Race.objects.create(
