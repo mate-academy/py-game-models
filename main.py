@@ -20,7 +20,7 @@ def main() -> None:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=Race.objects.get(name=race_json["name"])
+                race=race
             )
 
         guild, created = (
@@ -36,7 +36,7 @@ def main() -> None:
             email=players_data[player]["email"],
             bio=players_data[player]["bio"],
             race=race,
-            guild=guild,
+            guild=guild
         )
 
 
