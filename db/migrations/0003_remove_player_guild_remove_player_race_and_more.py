@@ -4,34 +4,33 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0002_alter_player_guild'),
+        ("db", "0002_alter_player_guild"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='player',
-            name='guild',
+            model_name="player",
+            name="guild",
         ),
         migrations.RemoveField(
-            model_name='player',
-            name='race',
+            model_name="player",
+            name="race",
         ),
         migrations.RemoveField(
-            model_name='skill',
-            name='race',
+            model_name="skill",
+            name="race",
         ),
         migrations.DeleteModel(
-            name='Guild',
+            name="Guild",
         ),
         migrations.DeleteModel(
-            name='Player',
+            name="Player",
         ),
         migrations.DeleteModel(
-            name='Race',
+            name="Race",
         ),
         migrations.DeleteModel(
-            name='Skill',
+            name="Skill",
         ),
     ]
