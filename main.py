@@ -9,39 +9,34 @@ def main() -> None:
     with open("players.json") as file:
         players = json.load(file)
 
-    for value in players.values():
-        if value["guild"] is not None:
-            if not Guild.objects.filter(name=value["guild"]["name"]).exists():
-                Guild.objects.create(
-                    name=value["guild"]["name"],
-                    description=value["guild"]["description"]
-                )
+    for name, info in players.items():
 
-    for value in players.values():
-        if not Race.objects.filter(name=value["race"]["name"]).exists():
-            Race.objects.create(
-                name=value["race"]["name"],
-                description=value["race"]["description"]
+        if info["guild"] is not None:
+            Guild.objects.get_or_create(
+                name=info["guild"]["name"],
+                description=info["guild"]["description"]
             )
 
-    for value in players.values():
-        for skill in value["race"]["skills"]:
-            if not Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.create(
+            Race.objects.get_or_create(
+                name=info["race"]["name"],
+                description=info["race"]["description"]
+            )
+
+            for skill in info["race"]["skills"]:
+                Skill.objects.get_or_create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=Race.objects.get(name=value["race"]["name"])
+                    race=Race.objects.get(name=info["race"]["name"])
                 )
 
-    for name, value in players.items():
         Player.objects.create(
             nickname=name,
-            email=value["email"],
-            bio=value["bio"],
-            race=Race.objects.get(name=value["race"]["name"]),
+            email=info["email"],
+            bio=info["bio"],
+            race=Race.objects.get(name=info["race"]["name"]),
             guild=(
-                Guild.objects.get(name=value["guild"]["name"])
-                if value["guild"] is not None else None)
+                Guild.objects.get(name=info["guild"]["name"])
+                if info["guild"] is not None else None)
         )
 
 
