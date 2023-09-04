@@ -12,10 +12,12 @@ def main() -> None:
     for name, info in players.items():
 
         if info["guild"] is not None:
-            Guild.objects.get_or_create(
+            guild, created = Guild.objects.get_or_create(
                 name=info["guild"]["name"],
                 description=info["guild"]["description"]
             )
+        else:
+            guild = None
 
         race, created = Race.objects.get_or_create(
             name=info["race"]["name"],
@@ -34,9 +36,7 @@ def main() -> None:
             email=info["email"],
             bio=info["bio"],
             race=race,
-            guild=(
-                Guild.objects.get(name=info["guild"]["name"])
-                if info["guild"] is not None else None)
+            guild=guild if info["guild"] is not None else None
         )
 
 
