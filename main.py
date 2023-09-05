@@ -41,4 +41,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    print(Race.objects.skill)
+    main()
