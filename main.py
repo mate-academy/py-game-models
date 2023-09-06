@@ -40,13 +40,14 @@ def main() -> None:
                     bonus=bonus,
                     race=race
                 )
-        Player.objects.create(
-            nickname=nickname,
-            email=email,
-            bio=bio,
-            race=race,
-            guild=guild
-        )
+        if not Player.objects.filter(nickname=nickname).exists():
+            Player.objects.create(
+                nickname=nickname,
+                email=email,
+                bio=bio,
+                race=race,
+                guild=guild
+            )
 
 
 if __name__ == "__main__":
