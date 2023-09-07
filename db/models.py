@@ -6,7 +6,7 @@ class Race(models.Model):
     description = models.CharField(max_length=255, blank=True)
 
     def __str__(self) -> str:
-        return str(self.name)
+        return f"{self.name}"
 
 
 class Skill(models.Model):
@@ -15,7 +15,7 @@ class Skill(models.Model):
     race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
-        return str(self.name)
+        return f"{self.name}"
 
 
 class Guild(models.Model):
@@ -23,7 +23,7 @@ class Guild(models.Model):
     description = models.TextField(null=True)
 
     def __str__(self) -> str:
-        return str(self.name)
+        return f"{self.name}"
 
 
 class Player(models.Model):
@@ -35,4 +35,4 @@ class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return str(self.nickname)
+        return f"{self.nickname}"
