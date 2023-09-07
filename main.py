@@ -17,8 +17,8 @@ def main() -> None:
                 name=race["name"],
                 description=race["description"]
             )
-            if skills := race["skills"] is not None:
-                for skill in skills:
+            if race["skills"] is not None:
+                for skill in race["skills"]:
                     if not Skill.objects.filter(name=skill["name"]).exists():
                         Skill.objects.create(
                             name=skill["name"],
