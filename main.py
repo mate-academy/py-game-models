@@ -5,8 +5,8 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json") as file:
-        players_info = json.load(file)
+    with open("players.json") as f:
+        players_info = json.load(f)
 
     for player_name, player_attributes in players_info.items():
         race, is_race_created = Race.objects.get_or_create(
