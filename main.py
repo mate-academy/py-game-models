@@ -13,7 +13,7 @@ def main() -> None:
     Guild.objects.all().delete()
     Player.objects.all().delete()
 
-    with open('players.json', 'r') as file:
+    with open("players.json", "r") as file:
         data = json.load(file)
 
     for player_name, player_data in data.items():
@@ -35,7 +35,8 @@ def main() -> None:
                 )
 
         if guild_data is not None:
-            if guild_data and not Guild.objects.filter(name=guild_data["name"]).exists():
+            name = guild_data["name"]
+            if guild_data and not Guild.objects.filter(name=name).exists():
                 guild_obj = Guild.objects.create(
                     name=guild_data["name"],
                     description=guild_data.get("description", "")
