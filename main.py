@@ -29,10 +29,10 @@ def main() -> None:
 
         for skill in info["race"]["skills"]:
             Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=Race.objects.get(name=info["race"]["name"])
-                )
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=Race.objects.get(name=info["race"]["name"])
+            )
 
 
 if __name__ == "__main__":
