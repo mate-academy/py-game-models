@@ -1,7 +1,7 @@
-import init_django_orm  # noqa: F401
-
-import json
 from db.models import Race, Skill, Player, Guild
+
+import init_django_orm  # noqa: F401
+import json
 
 
 def main() -> None:
