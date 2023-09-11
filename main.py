@@ -1,34 +1,34 @@
 import os
 import json
-import init_django_orm  # noqa: F401
 
+import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 from settings import BASE_DIR
 
 
 def create_race(race_data: dict) -> Race:
-    if Race.objects.filter(name=race_data["name"]).exists():
-        return Race.objects.get(name=race_data["name"])
-    race = Race.objects.create(
-        name=race_data["name"], description=race_data["description"]
+    race, created = Race.objects.get_or_create(
+        name=race_data["name"],
+        defaults={"description": race_data["description"]},
     )
-    for skill_data in race_data["skills"]:
-        Skill.objects.create(
-            name=skill_data["name"],
-            bonus=skill_data["bonus"],
-            race=race,
-        )
+    if created:
+        for skill_data in race_data["skills"]:
+            Skill.objects.create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race,
+            )
     return race
 
 
 def create_guild(guild_data: dict) -> Guild | None:
     if guild_data is None:
         return None
-    elif Guild.objects.filter(name=guild_data["name"]).exists():
-        return Guild.objects.get(name=guild_data["name"])
-    return Guild.objects.create(
-        name=guild_data["name"], description=guild_data["description"]
+    guild, _ = Guild.objects.get_or_create(
+        name=guild_data["name"],
+        defaults={"description": guild_data["description"]},
     )
+    return guild
 
 
 def load_players(filepath: str) -> dict[str, dict]:
@@ -46,8 +46,8 @@ def main() -> None:
         race_data: dict = player_data["race"]
         guild_data: dict = player_data["guild"]
 
-        race: Race = create_race(race_data)
-        guild: Guild | None = create_guild(guild_data)
+        race = create_race(race_data)
+        guild = create_guild(guild_data)
 
         Player.objects.create(
             nickname=nickname,
