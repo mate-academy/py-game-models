@@ -10,7 +10,6 @@ def main() -> None:
         players_info = json.load(f)
 
     for player, player_info in players_info.items():
-        print(f"{player}:{player_info}")
         nickname = player
         email = player_info['email']
         bio = player_info['bio']
