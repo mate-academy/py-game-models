@@ -9,48 +9,42 @@ def main() -> None:
     with open("players.json") as source_file:
         players_data = json.load(source_file)
 
-    for player in players_data:
+    for name, player_info in players_data.items():
         guild_ = None
-        player_guild = players_data[player]["guild"]
+        player_guild = player_info["guild"]
+
         if player_guild:
-            if not Guild.objects.filter(name=player_guild["name"]).exists():
-                guild_ = Guild(
-                    name=player_guild["name"],
-                    description=player_guild["description"],
-                )
-                guild_.save()
-            else:
-                guild_ = Guild.objects.filter(name=player_guild["name"])[0]
+            guild_, _ = Guild.objects.get_or_create(
+                name=player_guild["name"],
+                defaults={"description": player_guild["description"]},
+            )
 
         race_ = None
-        player_race = players_data[player]["race"]
-        if player_race:
-            if not Race.objects.filter(name=player_race["name"]).exists():
-                race_ = Race(
-                    name=player_race["name"],
-                    description=player_race["description"],
-                )
-                race_.save()
+        player_race = player_info["race"]
 
+        if player_race:
+            race_, created = Race.objects.get_or_create(
+                name=(player_race["name"]),
+                defaults={"description": player_race["description"]},
+            )
+
+            if created:
                 skills = player_race["skills"]
+
                 for skill in skills:
-                    skill_for_table = Skill(
+                    Skill.objects.create(
                         name=skill["name"],
                         bonus=skill["bonus"],
                         race=race_,
                     )
-                    skill_for_table.save()
-            else:
-                race_ = Race.objects.filter(name=player_race["name"])[0]
 
-        player_for_table = Player(
-            nickname=player,
-            email=players_data[player]["email"],
-            bio=players_data[player]["bio"],
+        Player.objects.create(
+            nickname=name,
+            email=player_info["email"],
+            bio=player_info["bio"],
             race=race_,
             guild=guild_,
         )
-        player_for_table.save()
 
 
 if __name__ == "__main__":
