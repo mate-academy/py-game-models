@@ -9,35 +9,29 @@ def main() -> None:
         players_info = json.load(file)
 
     for name, player_info in players_info.items():
-        race = player_info["race"]
-        if not Race.objects.filter(name=race["name"]).exists():
-            players_race = Race.objects.create(
-                name=race["name"],
-                description=race["description"]
+
+        players_race = player_info["race"]
+        if players_race:
+            players_race, if_exists = Race.objects.get_or_create(
+                name=players_race["name"],
+                description=players_race["description"]
             )
-        else:
-            players_race = Race.objects.get(name=race["name"])
-            for skill in player_info["race"]["skills"]:
-                if not Skill.objects.filter(name=skill["name"]).exists():
-                    Skill.objects.create(
-                        name=skill["name"],
-                        bonus=skill["bonus"],
-                        race=players_race
-                    )
 
-        guild = player_info["guild"]
-        if guild:
-            if not Guild.objects.filter(name=guild["name"]).exists():
-                players_guild = Guild.objects.create(
-                    name=guild["name"],
-                    description=guild["description"]
-                )
-            else:
-                players_guild = Guild.objects.get(name=guild["name"])
-        else:
-            players_guild = None
+        for player_skill in player_info["race"]["skills"]:
+            Skill.objects.get_or_create(
+                name=player_skill["name"],
+                bonus=player_skill["bonus"],
+                race=players_race
+            )
 
-        Player.objects.create(
+        players_guild = player_info["guild"]
+        if players_guild:
+            players_guild, if_exists = Guild.objects.get_or_create(
+                name=players_guild["name"],
+                description=players_guild["description"]
+            )
+
+        Player.objects.get_or_create(
             nickname=name,
             email=player_info.get("email"),
             bio=player_info.get("bio"),
