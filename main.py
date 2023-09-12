@@ -9,12 +9,13 @@ from db.models import Race, Skill, Player, Guild
 def analyse_race(input_race: dict) -> Race:
     """Function analyse if race exists, adding new or returning existing"""
     unique_name = input_race["name"]
-    if Race.objects.filter(name=unique_name).exists():
+    try:
         return Race.objects.get(name=unique_name)
-    return Race.objects.create(
-        name=unique_name,
-        description=input_race["description"]
-    )
+    except Race.DoesNotExist:
+        return Race.objects.create(
+            name=unique_name,
+            description=input_race["description"]
+        )
 
 
 def analyse_skills(input_skills: dict, input_race: Race) -> list:
