@@ -14,13 +14,15 @@ def main() -> None:
         players = json.load(file)
 
     for player, values in players.items():
-        nickname = player
-        email = values["email"]
-        bio = values["bio"]
-        race = values["race"]
+        nickname, email, bio, race = (
+            player,
+            values["email"],
+            values["bio"],
+            values["race"],
+        )
 
-        race_name = race["name"]
-        race_description = race["description"]
+        race_name, race_description = race["name"], race["description"]
+
         if Race.objects.filter(name=race_name).exists():
             pass
         else:
