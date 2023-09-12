@@ -14,7 +14,7 @@ def main() -> None:
             name=player_data["race"]["name"],
             description=player_data["race"]["description"]
         )
-        if skills := player_data["race"]["skills"]:
+        if skills := player_race["skills"]:
             for skill in skills:
                 Skill.objects.get_or_create(
                     name=skill["name"],
@@ -32,7 +32,7 @@ def main() -> None:
             nickname=name,
             email=player_data["email"],
             bio=player_data["bio"],
-            race=Race.objects.get(name=player_data["race"]["name"]),
+            race=Race.objects.get(name=player_race["name"]),
             guild=guild
         )
 
