@@ -16,11 +16,12 @@ def main() -> None:
             bio=option.get("bio"),
         )
 
-        race, _ = Race.objects.get_or_create(
-            name=option.get("race").get("name"),
-            description=option.get("race").get("description")
-        )
-        player_to_create.race = race
+        if race := option.get("race"):
+            race, _ = Race.objects.get_or_create(
+                name=race.get("name"),
+                description=race.get("description")
+            )
+            player_to_create.race = race
 
         if skills := option.get("race").get("skills"):
             for skill in skills:
