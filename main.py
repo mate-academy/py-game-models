@@ -17,9 +17,9 @@ def main() -> None:
         race_name = player_race["name"]
         race_description = player_race["description"]
 
-        if Race.objects.filter(name=race_name).exists():
+        try:
             race = Race.objects.get(name=race_name)
-        else:
+        except Race.DoesNotExist:
             race = Race.objects.create(
                 name=race_name,
                 description=race_description
