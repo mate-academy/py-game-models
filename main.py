@@ -21,30 +21,24 @@ def main() -> None:
         for skill in race_data["skills"]:
             get_or_create_skill(skill, race_obj)
 
-        player = Player.objects.create(
+        Player.objects.get_or_create(
             nickname=player_name,
             email=data["email"],
             bio=data["bio"],
             race=race_obj,
             guild=guild_obj
         )
-        player.save()
 
 
 def get_or_create_skill(skill: dict, race_obj: Model) -> Union[Model, None]:
     if not skill:
         return None
 
-    skill_name = skill["name"]
-    if not Skill.objects.filter(name=skill_name).exists():
-        skill_obj = Skill.objects.create(
-            name=skill_name,
-            bonus=skill["bonus"],
-            race=race_obj
-        )
-
-    else:
-        skill_obj = Skill.objects.get(name=skill_name)
+    skill_obj, created = Skill.objects.get_or_create(
+        name=skill["name"],
+        bonus=skill["bonus"],
+        race=race_obj
+    )
 
     return skill_obj
 
@@ -52,14 +46,11 @@ def get_or_create_skill(skill: dict, race_obj: Model) -> Union[Model, None]:
 def get_or_create_race(race_data: dict) -> Union[Model, None]:
     if not race_data:
         return None
-    race_name = race_data["name"]
-    if not Race.objects.filter(name=race_name).exists():
-        race_obj = Race.objects.create(
-            name=race_name,
-            description=race_data["description"]
-        )
-    else:
-        race_obj = Race.objects.get(name=race_name)
+
+    race_obj, created = Race.objects.get_or_create(
+        name=race_data["name"],
+        description=race_data["description"]
+    )
 
     return race_obj
 
@@ -68,13 +59,10 @@ def get_or_create_guild(guild_data: dict) -> Union[Model, None]:
     if not guild_data:
         return None
 
-    guild_name = guild_data["name"]
-    if not Guild.objects.filter(name=guild_name).exists():
-        guild_obj = Guild.objects.create(
-            name=guild_name,
-            description=guild_data["description"])
-    else:
-        guild_obj = Guild.objects.get(name=guild_name)
+    guild_obj, created = Guild.objects.get_or_create(
+        name=guild_data["name"],
+        description=guild_data["description"]
+    )
 
     return guild_obj
 
