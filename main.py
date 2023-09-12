@@ -32,7 +32,7 @@ def main() -> None:
             nickname=name,
             email=player_data["email"],
             bio=player_data["bio"],
-            race=Race.objects.get(name=player_race.name),
+            race=player_race,
             guild=guild
         )
 
