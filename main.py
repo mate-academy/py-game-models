@@ -17,9 +17,9 @@ def main() -> None:
             race_description = player_data["race"]["description"]
             race.description = race_description
             race.save()
-        for i in range(len(player_data["race"]["skills"])):
-            skill_name = player_data["race"]["skills"][i]["name"]
-            skill_bonus = player_data["race"]["skills"][i]["bonus"]
+        for skill in player_data["race"]["skills"]:
+            skill_name = skill["name"]
+            skill_bonus = skill["bonus"]
 
             skill, _ = Skill.objects.get_or_create(
                 name=skill_name,
