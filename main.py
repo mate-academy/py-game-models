@@ -6,21 +6,18 @@ from db.models import Race, Skill, Player, Guild
 
 
 def create_race(race_info: dict) -> int:
-    if not Race.objects.filter(name=race_info["name"]).exists():
-        Race.objects.create(
-            name=race_info["name"],
-            description=race_info["description"],
-        )
+    race, created = Race.objects.get_or_create(
+        name=race_info["name"],
+        defaults={"description": race_info["description"]},
+    )
 
-    return Race.objects.get(name=race_info["name"]).id
+    return race.id
 
 
 def create_skill(skill_info: dict, race_id: int) -> None:
     if not Skill.objects.filter(name=skill_info["name"]).exists():
         Skill.objects.create(
-            name=skill_info["name"],
-            bonus=skill_info["bonus"],
-            race_id=race_id
+            name=skill_info["name"], bonus=skill_info["bonus"], race_id=race_id
         )
 
 
@@ -29,8 +26,7 @@ def create_guild(guild: [dict, None]) -> None:
         return None
     if not Guild.objects.filter(name=guild["name"]).exists():
         Guild.objects.create(
-            name=guild["name"],
-            description=guild["description"]
+            name=guild["name"], description=guild["description"]
         )
 
     return Guild.objects.get(name=guild["name"]).id
@@ -47,7 +43,7 @@ def create_player(nickname: str, info: dict) -> None:
         email=info["email"],
         bio=info["bio"],
         race_id=race_id,
-        guild_id=create_guild(guild)
+        guild_id=create_guild(guild),
     )
 
 
