@@ -28,10 +28,9 @@ def main() -> None:
 
             Skill.objects.get_or_create(name=name, bonus=bonus, race=race_obj)
 
-        guild = values.get("guild")
         guild_obj = None
 
-        if guild:
+        if guild := values.get("guild"):
             guild_name = guild["name"]
             guild_description = guild["description"]
 
@@ -39,13 +38,16 @@ def main() -> None:
                 name=guild_name, description=guild_description
             )
 
-        Player.objects.create(
-            nickname=nickname,
-            email=email,
-            bio=bio,
-            race=race_obj,
-            guild=guild_obj,
-        )
+        if not Player.objects.filter(nickname=nickname).exists():
+            Player.objects.create(
+                nickname=nickname,
+                email=email,
+                bio=bio,
+                race=race_obj,
+                guild=guild_obj,
+            )
+        else:
+            print(f"User with nickname '{nickname}' already exists!")
 
 
 if __name__ == "__main__":
