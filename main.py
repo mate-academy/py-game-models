@@ -27,6 +27,9 @@ def main() -> None:
                 name=guild["name"],
                 description=guild["description"]
             )
+        else:
+            guild = None
+
         Player.objects.get_or_create(
             nickname=nickname,
             email=player_data["email"],
