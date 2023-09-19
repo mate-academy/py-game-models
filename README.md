@@ -53,7 +53,7 @@ Read data about players from `players.json` and add the corresponding entries to
 Note, that some guilds, races and skills are used for different players. Create only one
 instance for each guild, race and skill, do not copy them.
 
-**Note**: You can check, if some record already exists using 
-`Model.objects.filter(some_field="data").exists()` (returns `True` or `False`)
+**Note**: It would be very useful to use the 
+[get_or_create()](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#get-or-create) method here.
 
 ### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
