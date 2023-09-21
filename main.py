@@ -42,7 +42,9 @@ def main() -> None:
         player, player_created = Player.objects.get_or_create(
             nickname=person,
             email=res["email"],
-            defaults={"bio": res["bio"], "race": race_data, "guild": guild_data}
+            defaults={
+                "bio": res["bio"], "race": race_data, "guild": guild_data
+            }
         )
 
         if not player_created:
