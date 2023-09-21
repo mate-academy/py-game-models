@@ -39,13 +39,17 @@ def main() -> None:
                         "race": race_data}
                 )
 
-        Player.objects.create(
+        player, player_created = Player.objects.get_or_create(
             nickname=person,
             email=res["email"],
-            bio=res["bio"],
-            race=race_data,
-            guild=guild_data
+            defaults={"bio": res["bio"], "race": race_data, "guild": guild_data}
         )
+
+        if not player_created:
+            player.bio = res["bio"]
+            player.race = race_data
+            player.guild = guild_data
+            player.save()
 
 
 if __name__ == "__main__":
