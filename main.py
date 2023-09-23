@@ -11,7 +11,6 @@ def main() -> None:
 
     for player, data in players_data.items():
         nickname = player
-        print(nickname)
         email = data["email"]
         bio = data["bio"]
         game_race = data["race"]["name"]
