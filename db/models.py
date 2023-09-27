@@ -14,7 +14,8 @@ class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(
         "kind of bonus players can get from it",
-        max_length=255)
+        max_length=255
+    )
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -45,7 +46,8 @@ class Player(models.Model):
         Guild,
         on_delete=models.SET_NULL,
         null=True,
-        default=None)
+        default=None
+    )
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
