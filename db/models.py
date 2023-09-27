@@ -2,22 +2,19 @@ from django.db import models
 
 
 class Race(models.Model):
-    races = (
-        ("Elf", "Elf"),
-        ("Dwarf", "Dwarf"),
-        ("Human", "Human"),
-        ("Ork", "Ork")
-    )
-
-    name = models.CharField(max_length=255, unique=True, choices=races)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
+
+    def __str__(self) -> str:
+        return (f"name: {self.name}\n"
+                f"description: {self.description}")
 
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(
         "kind of bonus players can get from it",
-        max_length=255, unique=True)
+        max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
 
