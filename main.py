@@ -1,64 +1,54 @@
 import os
+from json import load
 
 import init_django_orm  # noqa: F401
 from db.models import (
     Race, Skill, Player, Guild
 )
-from support_funcs import (
-    load_json_data,
-    model_attrs,
-    create_model_item,
-
-)
 
 
-def update_race_and_skill_tables(json_data: str) -> None:
-    players = load_json_data(json_data)
+def fill_game_tables(players: dict) -> None:
     for player_name, player_data in players.items():
         race = player_data["race"]
         race_name, skills = race["name"], race["skills"]
-        player_race = model_attrs(Race, race)
-        create_model_item(Race, player_race)
 
+        Race.objects.get_or_create(name=race_name,
+                                   description=race["description"])
         for skill in skills:
-            race_skill = model_attrs(Skill, skill)
             current_race = Race.objects.get(name=f"{race_name}")
-            race_skill["race"] = current_race
-            create_model_item(Skill, race_skill)
+            Skill.objects.get_or_create(name=skill["name"],
+                                        bonus=skill["bonus"],
+                                        race=current_race)
+
+        guild = player_data["guild"]
+        if isinstance(guild, dict):
+            Guild.objects.get_or_create(name=guild["name"],
+                                        description=guild["description"])
 
 
-def update_guild_table(json_data: str) -> None:
-    players = load_json_data(json_data)
+def create_players(players: dict) -> None:
     for player_name, player_data in players.items():
-        guild_info = player_data["guild"]
-        if isinstance(guild_info, dict):
-            guild = model_attrs(Guild, guild_info)
-            create_model_item(Guild, guild)
-
-
-def update_player_table(json_data: str) -> None:
-    players = load_json_data(json_data)
-    for player_name, player_data in players.items():
-        player = model_attrs(Player, player_data, rest_keys="created_at")
-        race_name = player_data["race"]["name"]
-        if not isinstance(player_data["guild"], dict):
-            player.pop("guild")
-        else:
-            guild_name = player_data["guild"]["name"]
-            player["guild"] = Guild.objects.get(name=guild_name)
-
-        player["nickname"] = player_name
-        player["race"] = Race.objects.get(name=race_name)
-        create_model_item(Player, player)
+        guild = player_data["guild"]
+        if isinstance(guild, dict):
+            guild = Guild.objects.get(name=guild["name"])
+        Player.objects.get_or_create(
+            nickname=player_name,
+            email=player_data["email"],
+            bio=player_data["bio"],
+            race=Race.objects.get(name=player_data["race"]["name"]),
+            guild=guild
+        )
 
 
 def main() -> None:
     current_dir = os.path.dirname(os.path.abspath(__file__))
     players_path = os.path.join(current_dir, "players.json")
-    update_race_and_skill_tables(players_path)
-    update_guild_table(players_path)
-    update_player_table(players_path)
+    with open(players_path) as players_data:
+        players = load(players_data)
+        fill_game_tables(players)
+        create_players(players)
 
 
 if __name__ == "__main__":
     main()
+
