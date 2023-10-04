@@ -17,7 +17,7 @@ def model_attrs(model: Type, data: dict[str: Any],
                 rest_keys: str = "") -> dict:
     fields = dict.fromkeys(
         field.name for field in model._meta.fields
-        if field.name != 'id'
+        if field.name != "id"
         and field.name not in rest_keys.split()
     )
     for key, value in data.items():
