@@ -18,10 +18,9 @@ def main() -> None:
 
         race_name = all_info.get("race").get("name")
         race_description = all_info.get("race").get("description")
-        Race.objects.get_or_create(
+        race_object, created = Race.objects.get_or_create(
             name=race_name, description=race_description
         )
-        race_object = Race.objects.get(name=race_name)
 
         skills = all_info.get("race").get("skills")
         if skills:
