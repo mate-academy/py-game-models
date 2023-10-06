@@ -14,7 +14,7 @@ def main() -> None:
         nickname = player_nickname
         e_mail = all_info.get("email")
         bio = all_info.get("bio")
-        guild = None
+        guild_object = None
 
         race_name = all_info.get("race").get("name")
         race_description = all_info.get("race").get("description")
@@ -34,10 +34,7 @@ def main() -> None:
         if all_info.get("guild"):
             guild_name = all_info.get("guild").get("name")
             guild_description = all_info.get("guild").get("description")
-            Guild.objects.get_or_create(
-                name=guild_name, description=guild_description
-            )
-            guild = Guild.objects.get(
+            guild_object, created = Guild.objects.get_or_create(
                 name=guild_name, description=guild_description
             )
 
@@ -46,7 +43,7 @@ def main() -> None:
             email=e_mail,
             bio=bio,
             race=race_object,
-            guild=guild,
+            guild=guild_object,
         )
 
 

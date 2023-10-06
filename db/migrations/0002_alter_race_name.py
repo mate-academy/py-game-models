@@ -4,15 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0001_initial'),
+        ("db", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='race',
-            name='name',
-            field=models.CharField(choices=[('Elf', 'Elf'), ('Dwarf', 'Dwarf'), ('Human', 'Human'), ('Ork', 'Ork')], max_length=255, unique=True),
+            model_name="race",
+            name="name",
+            field=models.CharField(
+                choices=[
+                    ("Elf", "Elf"),
+                    ("Dwarf", "Dwarf"),
+                    ("Human", "Human"),
+                    ("Ork", "Ork"),
+                ],
+                max_length=255,
+                unique=True,
+            ),
         ),
     ]
