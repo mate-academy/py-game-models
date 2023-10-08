@@ -34,10 +34,7 @@ def main() -> None:
                 description=description_guild,
             )
 
-        if component[1].get("guild") is None:
-            guild = None
-        else:
-            guild = guild
+        guild = None if component[1].get("guild") is None else guild
         Player.objects.get_or_create(
             nickname=component[0],
             email=component[1].get("email"),
