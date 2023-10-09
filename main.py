@@ -23,6 +23,7 @@ def main() -> None:
                 race=race,
             )
 
+        guild = None
         if info.get("guild") is not None:
             name_guild = info.get("guild").get("name")
             description_guild = info.get("guild").get("description")
@@ -31,7 +32,6 @@ def main() -> None:
                 description=description_guild,
             )
 
-        guild = None if info.get("guild") is None else guild
         Player.objects.get_or_create(
             nickname=name_data,
             email=info.get("email"),
