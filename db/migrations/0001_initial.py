@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -73,11 +72,12 @@ class Migration(migrations.Migration):
                 ('email', models.CharField(max_length=255)),
                 ('bio', models.CharField(max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('guild', models.ForeignKey(
-                    null=True,
-                    on_delete=django.db.models.deletion.SET_NULL,
-                    to='db.guild'
-                )
+                ('guild',
+                 models.ForeignKey(
+                     null=True,
+                     on_delete=django.db.models.deletion.SET_NULL,
+                     to='db.guild'
+                 )
                  ),
                 ('race', models.ForeignKey(
                     on_delete=django.db.models.deletion.CASCADE,
