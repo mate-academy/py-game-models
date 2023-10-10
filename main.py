@@ -7,9 +7,9 @@ def main() -> None:
     with open(
             "C:/Users/user/Desktop/py-game-models/players.json", "r"
     ) as players_file:
-        players_data = json.load(players_file)
+        file_data = json.load(players_file)
 
-        for player, data in players_data.items():
+        for player, data in file_data.items():
             data_of_race = data["race"]
             race, bool_value = Race.objects.get_or_create(
                 name=data_of_race["name"],
