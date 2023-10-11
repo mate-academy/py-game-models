@@ -1,0 +1,203 @@
+[33mcommit 8e9e5bb28888944d9c51b80f9ebb27abd3bedd64[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m)[m
+Author: Vlad <hanovskyiv@gmail.com>
+Date:   Wed Oct 11 00:37:05 2023 +0300
+
+    'Solution'
+
+[33mcommit 700f0100796a41ba812fa63060305274a63288e9[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: ec1efdd 3c95a09
+Author: Ivan Ramyk <ivan.r@mate.academy>
+Date:   Tue Sep 19 20:39:28 2023 +0300
+
+    Merge pull request #497 from Serhii-Leonenko/add_get_or_create_to_README
+    
+    get_or_create added
+
+[33mcommit 3c95a09b4077ff43b353890a5d34b6f2a346640a[m
+Author: Serhii-Leonenko <leonenko3149@gmail.com>
+Date:   Tue Sep 19 19:22:20 2023 +0300
+
+    get_or_create added
+
+[33mcommit ec1efdd7814226e4a800eb1dd1b4787fa1cb4d75[m
+Author: Alex Zhidkov <72562232+Abnormaltype@users.noreply.github.com>
+Date:   Wed Jan 4 17:08:54 2023 +0200
+
+    Update README.md
+
+[33mcommit 763120543b40d7a442ec31691d67dc6a718cfb67[m
+Merge: 3f3ff56 217bfe7
+Author: Yaroslav <104159378+Y-Havryliv@users.noreply.github.com>
+Date:   Mon Oct 24 18:01:19 2022 +0300
+
+    Merge pull request #161 from mate-academy/test_on_delete_added
+    
+    test added
+
+[33mcommit 217bfe70709d2c22da8239edfc3c557f11752231[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 24 17:59:37 2022 +0300
+
+    old test
+
+[33mcommit ee652a8eb6028613a107e2c59518f1b0d771b108[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 24 17:31:13 2022 +0300
+
+    imports
+
+[33mcommit bb4a5140ae3d2f9c4c5b8d1d5523a4bb39feae36[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 24 17:27:08 2022 +0300
+
+    test and readme fixed
+
+[33mcommit 2246e3cc51c62babf5480f4db7fe83d3742957e3[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 24 17:12:31 2022 +0300
+
+    test fixed
+
+[33mcommit b1dc2670a55230906f6f42b0d66f0eb3cd787ad8[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 24 16:55:26 2022 +0300
+
+    imports optimized
+
+[33mcommit f8eafaaf8bc2dc9cf774bd0387aedd8aa508235c[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 24 16:53:38 2022 +0300
+
+    test added
+
+[33mcommit 3f3ff562bd78b8d0b7bc3f828845be31a4be6e98[m
+Merge: d9cb669 4270cd1
+Author: Nataliia Zakharchuk <62181026+Nattalli@users.noreply.github.com>
+Date:   Tue Oct 18 06:39:28 2022 -0700
+
+    Merge pull request #122 from mate-academy/checklist
+    
+    added checklist.md
+
+[33mcommit 4270cd174a456ee0c1fa4638da35c25bf98f45e6[m
+Author: Nataliia <dominok56@gmail.com>
+Date:   Tue Oct 18 16:35:19 2022 +0300
+
+    added one point
+
+[33mcommit 5c7658b48debf8186c7a6de8a05355a6234e42ca[m
+Author: Nataliia <dominok56@gmail.com>
+Date:   Tue Oct 18 16:04:00 2022 +0300
+
+    added checklist.md
+
+[33mcommit d9cb66945364ef00a2362a213f6379ba55681751[m
+Author: danylott <d.tuytuyshkin@gmail.com>
+Date:   Fri Oct 7 13:27:58 2022 +0300
+
+    Added flake8 plugins
+
+[33mcommit da351d7b0d9d51471fae303acb8ffd553d67bdcd[m
+Merge: 035762b 131164b
+Author: Yaroslav <104159378+Y-Havryliv@users.noreply.github.com>
+Date:   Mon Oct 3 12:31:55 2022 +0300
+
+    Merge pull request #100 from mate-academy/add_email_test
+    
+    test on email field added
+
+[33mcommit 131164b2e0c1f783971abc0929d91ea5059d7d20[m
+Author: Yaroslav Havryliv <yaroslav.h@mate.academy>
+Date:   Mon Oct 3 12:14:12 2022 +0300
+
+    test on email field added
+
+[33mcommit 035762bac380e28b0e5d6afdc0d3edd17bef1745[m
+Author: Alex Zhidkov <72562232+Abnormaltype@users.noreply.github.com>
+Date:   Mon Oct 3 11:10:09 2022 +0300
+
+    Update README.md
+
+[33mcommit 0fd6b0344f9a7836fe8e310155bbd81ab108951d[m
+Author: Alex Zhidkov <72562232+Abnormaltype@users.noreply.github.com>
+Date:   Fri Jun 17 09:32:53 2022 +0300
+
+    Update .gitignore
+
+[33mcommit adec2b680ddf944592992af376a69526cdcf542d[m
+Author: Danylo Tiutiushkin <48014331+danylott@users.noreply.github.com>
+Date:   Thu Jun 16 15:05:37 2022 +0300
+
+    Update README.md
+
+[33mcommit 98b11aefd5f9607d2646c51f775f64b98d58a322[m
+Author: Alex Zhidkov <72562232+Abnormaltype@users.noreply.github.com>
+Date:   Fri Jun 10 13:32:17 2022 +0300
+
+    Update test.yml
+
+[33mcommit 2d3a9b59b394297958fdacee3822e0dcb2046ee2[m
+Merge: b153d0d 5be0e09
+Author: Danylo Tiutiushkin <48014331+danylott@users.noreply.github.com>
+Date:   Thu Mar 10 21:56:35 2022 +0200
+
+    Merge pull request #2 from mate-academy/add-task
+    
+    Update statement
+
+[33mcommit 5be0e09ad00887b63605e8298fc00f268bc8966c[m
+Author: danylott <d.tuytuyshkin@gmail.com>
+Date:   Thu Mar 10 21:56:02 2022 +0200
+
+    Fixed flake8
+
+[33mcommit c20d50126d8804362cdf0fc7af96fbdf45434191[m
+Author: Danylo Tiutiushkin <48014331+danylott@users.noreply.github.com>
+Date:   Thu Mar 10 21:50:33 2022 +0200
+
+    removed app folder
+
+[33mcommit 5cea2398b9dfd78a541b82563f3e2a438417b504[m
+Author: danylott <d.tuytuyshkin@gmail.com>
+Date:   Thu Mar 10 21:49:31 2022 +0200
+
+    Removed `app` folder & upgraded tests
+
+[33mcommit 7e1dded9c982521b98e876180e4d290d3f95958d[m
+Author: IvanRamyk <ivan.r@mate.academy>
+Date:   Thu Mar 10 14:01:41 2022 +0200
+
+    Update statement
+
+[33mcommit cfde1c0e56a87e82622e54181c8ca5c88cece512[m
+Author: IvanRamyk <ivan.r@mate.academy>
+Date:   Tue Mar 8 12:05:05 2022 +0200
+
+    Update statement
+
+[33mcommit b153d0d8faa402eeeb69e1771861d0df93ebf861[m
+Merge: 8bcb058 083b7fe
+Author: Ivan Ramyk <ivan.r@mate.academy>
+Date:   Wed Feb 23 18:16:42 2022 +0200
+
+    Merge pull request #1 from mate-academy/add-task
+    
+    Add task
+
+[33mcommit 083b7fe7831632f195f949556d78d6adab7775bd[m
+Author: IvanRamyk <ivan.r@mate.academy>
+Date:   Wed Feb 23 17:51:19 2022 +0200
+
+    Delete user model
+
+[33mcommit ea8f36ef43135e062a231ff0231ba74eae37a9ee[m
+Author: IvanRamyk <ivan.r@mate.academy>
+Date:   Wed Feb 23 14:48:48 2022 +0200
+
+    Delete user model
+
+[33mcommit 8bcb05835ce84e82b111a53f8e053f9d62f66875[m
+Author: Ivan Ramyk <ivan.ramyk.official@gmail.com>
+Date:   Wed Feb 23 14:46:58 2022 +0200
+
+    Initial commit
