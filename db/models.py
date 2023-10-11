@@ -37,3 +37,4 @@ class Player(models.Model):
 
     def __str__(self) -> CharField:
         return self.nickname
+    
