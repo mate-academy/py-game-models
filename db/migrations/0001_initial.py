@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
                 ('email', models.CharField(max_length=255)),
                 ('bio', models.CharField(max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('guild',models.ForeignKey(
+                ('guild', models.ForeignKey(
                      null=True,
                      on_delete=django.db.models.deletion.SET_NULL,
                      to='db.guild'
