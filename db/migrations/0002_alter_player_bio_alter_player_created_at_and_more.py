@@ -5,35 +5,36 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0001_initial'),
+        ("db", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='player',
-            name='bio',
+            model_name="player",
+            name="bio",
             field=models.CharField(max_length=255),
         ),
         migrations.AlterField(
-            model_name='player',
-            name='created_at',
+            model_name="player",
+            name="created_at",
             field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
-            model_name='player',
-            name='guild',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='db.guild'),
+            model_name="player",
+            name="guild",
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.SET_NULL, to="db.guild"
+            ),
         ),
         migrations.AlterField(
-            model_name='race',
-            name='name',
+            model_name="race",
+            name="name",
             field=models.CharField(max_length=255, unique=True),
         ),
         migrations.AlterField(
-            model_name='skill',
-            name='bonus',
+            model_name="skill",
+            name="bonus",
             field=models.CharField(max_length=255),
         ),
     ]
