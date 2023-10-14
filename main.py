@@ -22,12 +22,13 @@ def main() -> None:
                 description=players[player]["guild"]["description"])
         else:
             guild = players[player]["guild"]
-        Player.objects.get_or_create(nickname=player,
-                                     email=players[player]["email"],
-                                     bio=players[player]["bio"],
-                                     race=race,
-                                     guild=guild,
-                                     )
+        Player.objects.get_or_create(
+            nickname=player,
+            email=players[player]["email"],
+            bio=players[player]["bio"],
+            race=race,
+            guild=guild,
+        )
 
 
 if __name__ == "__main__":
