@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Rase(models.Model):
+class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
 
@@ -11,7 +11,7 @@ class Skill(models.Model):
     bonus = models.CharField(
         "Describes what kind of bonus players can get from it.", max_length=255)
     race = models.ForeignKey(
-        Rase, related_name="skills", on_delete=models.CASCADE)
+        Race, related_name="skills", on_delete=models.CASCADE)
 
 
 class Guild(models.Model):
@@ -20,4 +20,12 @@ class Guild(models.Model):
 
 
 class Player(models.Model):
-    nickname = models
+    nickname = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255)
+    bio = models.CharField(
+        "It stores a short description provided by a user about himself/herself.", max_length=255)
+    race = models.ForeignKey(
+        Race, related_name="players", on_delete=models.CASCADE)
+    guild = models.ForeignKey(
+        Guild, related_name="players", on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
