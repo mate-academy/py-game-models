@@ -25,9 +25,6 @@ def main() -> None:
 
             player_data.pop("race")
             player_data.pop("guild")
-            # print(player_data, 'player data')
-            # print(player_race, 'player_race')
-            # print(player_guild, 'player_guild')
             Player.objects.create(
                 **player_data, nickname=name,
                 race=player_race,
