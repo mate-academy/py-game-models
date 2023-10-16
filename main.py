@@ -10,10 +10,10 @@ def main() -> None:
     data = {}
     with open("players.json", "r") as file:
         data = json.load(file)
-    for name in data:
-        player_data = data[name]
-        player_race = player_data["race"]
-        player_guild = player_data["guild"]
+    for player_name in data:
+        player_data = data.get(player_name)
+        player_race = player_data.get("race")
+        player_guild = player_data.get("guild")
         if player_guild:
             player_guild, _ = Guild.objects.get_or_create(
                 **player_guild)
@@ -27,7 +27,7 @@ def main() -> None:
         player_data.pop("race")
         player_data.pop("guild")
         Player.objects.create(
-            **player_data, nickname=name,
+            **player_data, nickname=player_name,
             race=player_race,
             guild=player_guild
         )
