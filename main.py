@@ -5,21 +5,34 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    # Guild.objects.all().delete()
+    Guild.objects.all().delete()
+    Race.objects.all().delete()
     with open("players.json", "r") as file:
         data = json.load(file)
         for name in data:
             player_data = data[name]
             player_race = player_data["race"]
             player_guild = player_data["guild"]
-            print(player_guild, 'player_guild1')
             if player_guild:
-                player_guild = Guild.objects.get_or_create(**player_guild)
-                print(player_guild, 'player_guild2')
-        # print(name, 'record')
-        # print(data[name])
-        # Player.objects.create(nickname =name, bio=player_data["bio"], email=player_data["email"], ra)
-        # print("data", data)
+                player_guild, _ = Guild.objects.get_or_create(
+                    **player_guild)
+            if player_race:
+                race_skills = player_race.pop("skills")
+                player_race, _ = Race.objects.get_or_create(
+                    **player_race)
+                for skill in race_skills:
+                    Skill.objects.get_or_create(**skill, race=player_race)
+
+            player_data.pop("race")
+            player_data.pop("guild")
+            # print(player_data, 'player data')
+            # print(player_race, 'player_race')
+            # print(player_guild, 'player_guild')
+            Player.objects.create(
+                **player_data, nickname=name,
+                race=player_race,
+                guild=player_guild
+            )
 
 
 if __name__ == "__main__":
