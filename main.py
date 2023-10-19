@@ -41,7 +41,3 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 
-# print(Race.objects.all())
-# print(Skill.objects.all())
-# print(Guild.objects.all())
-# print(Player.objects.all())
