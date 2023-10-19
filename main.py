@@ -1,6 +1,5 @@
 import init_django_orm  # noqa: F401
 import json
-import pytest
 
 from db.models import Race, Skill, Player, Guild
 
