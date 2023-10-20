@@ -14,13 +14,20 @@ def main() -> None:
             Skill.objects.get_or_create(name=skill["name"],
                                         bonus=skill["bonus"],
                                         race=race)
-        guild, _ = Guild.objects.get_or_create(name=data[person]["guild"]["name"],
-                                               description=data[person]["guild"]["description"])
+        guild_data = data["guild"]
+        if guild_data is not None:
+            guild_name = data["guild"]["name"]
+            guild_description = data["guild"]["description"]
+            guild_info = Guild.objects.get_or_create(
+                name=guild_name, description=guild_description)
+        else:
+            guild_info = None
+
         player, _ = Player.objects.get_or_create(name=person,
                                                  email=data[person]["email"],
                                                  bio=data[person]["bio"],
                                                  race=race,
-                                                 guild=guild)
+                                                 guild=guild_info)
 
 
 if __name__ == "__main__":
