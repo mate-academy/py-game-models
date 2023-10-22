@@ -17,21 +17,25 @@ def main() -> None:
         race_name = data["race"]["name"]
         race_description = data["race"]["description"]
         race_info, _ = Race.objects.get_or_create(
-            name=race_name, description=race_description)
+            name=race_name,
+            description=race_description)
 
         skill_data = data["race"]["skills"]
         for skill in skill_data:
             skill_name = skill["name"]
             skill_bonus = skill["bonus"]
             Skill.objects.get_or_create(
-                name=skill_name, bonus=skill_bonus, race=race_info)
+                name=skill_name,
+                bonus=skill_bonus,
+                race=race_info)
 
         guild_data = data["guild"]
         if guild_data is not None:
             guild_name = data["guild"]["name"]
             guild_description = data["guild"]["description"]
             guild_info, _ = Guild.objects.get_or_create(
-                name=guild_name, description=guild_description)
+                name=guild_name,
+                description=guild_description)
         else:
             guild_info = None
 
