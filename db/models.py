@@ -1,10 +1,10 @@
 from django.db import models
 
 RACE_CHOICES = (
-    ('elf', 'Elf'),
-    ('dwarf', 'Dwarf'),
-    ('human', 'Human'),
-    ('ork', 'Ork'),
+    ("elf", "Elf"),
+    ("dwarf", "Dwarf"),
+    ("human", "Human"),
+    ("ork", "Ork"),
 )
 
 

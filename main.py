@@ -42,5 +42,6 @@ def main() -> None:
             guild=guild if guild_name else None
         )
 
+
 if __name__ == "__main__":
     main()
