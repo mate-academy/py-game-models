@@ -39,7 +39,7 @@ def main() -> None:
             nickname=nickname,
             email=email,
             bio=bio,
-            guild=guild_info if guild_info is not None else None,
+            guild=guild_info,
             race=race_info,
         )
 
