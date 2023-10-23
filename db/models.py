@@ -18,9 +18,11 @@ class Guild(models.Model):
 
 
 class Player(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
-    bio = models.CharField("It stores a short description provided by a user about himself/herself", max_length=255)
-    race_id = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild_id = models.ForeignKey(Guild, on_delete=models.CASCADE)
+    text_bio = ("It stores a short description provided by"
+                " a user about himself/herself")
+    bio = models.CharField(text_bio, max_length=255)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateField(auto_now=True)
