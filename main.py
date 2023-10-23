@@ -22,10 +22,9 @@ def main() -> None:
             )
 
         if attributes["guild"] is not None:
-            guild_description = attributes["guild"]["description"] if attributes["guild"] else None
             guild, created = Guild.objects.get_or_create(
                 name=attributes["guild"]["name"],
-                description=guild_description
+                description=attributes["guild"]["description"]
             )
         else:
             guild = None
