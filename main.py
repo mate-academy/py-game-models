@@ -18,12 +18,11 @@ def main() -> None:
 
         skills_data = race_data.get("skills", [])
         for skill_data in skills_data:
-            skill, created = Skill.objects.get_or_create(
+            Skill.objects.get_or_create(
                 name=skill_data["name"],
                 bonus=skill_data["bonus"],
                 race=race
             )
-            print(f"Skill: {skill.name}, Created: {created}")
 
         guild_data = data.get("guild")
         if guild_data:
