@@ -8,8 +8,6 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
-        print(data)
-        print(isinstance(data, dict))
 
     for player_uniq_name, all_data_of_player in data.items():
 
@@ -27,7 +25,7 @@ def main() -> None:
         guild, status = Guild.objects.get_or_create(
             name=all_data_of_player["guild"]["name"],
             description=all_data_of_player["guild"]["description"]
-        )if all_data_of_player["guild"] else (None, status)
+        ) if all_data_of_player["guild"] else (None, status)
 
         Player.objects.create(
             nickname=player_uniq_name,
@@ -35,7 +33,6 @@ def main() -> None:
             bio=all_data_of_player["bio"],
             race=race,
             guild=guild
-
         )
 
 
