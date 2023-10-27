@@ -11,46 +11,32 @@ def main() -> None:
         race_data = player_data["race"]
         guild_data = player_data.get("guild")
 
-        try:
-            race = Race.objects.get(name=race_data["name"])
-        except Race.DoesNotExist:
-            race = Race(
-                name=race_data["name"],
-                description=race_data.get("description")
-            )
-            race.save()
+        race, created = Race.objects.get_or_create(
+            name=race_data["name"],
+            defaults={"description": race_data.get("description")}
+        )
 
         guild = None
         if guild_data:
-            try:
-                guild = Guild.objects.get(name=guild_data["name"])
-            except Guild.DoesNotExist:
-                guild = Guild(
-                    name=guild_data["name"],
-                    description=guild_data.get("description")
-                )
-                guild.save()
-
-        try:
-            Player.objects.get(nickname=nickname)
-        except Player.DoesNotExist:
-            player = Player(
-                nickname=nickname,
-                email=player_data["email"],
-                bio=player_data["bio"],
-                race=race,
-                guild=guild,
+            guild, created = Guild.objects.get_or_create(
+                name=guild_data["name"],
+                description=guild_data.get("description")
             )
-            player.save()
+
+        Player.objects.get_or_create(
+            nickname=nickname,
+            email=player_data["email"],
+            bio=player_data["bio"],
+            race=race,
+            guild=guild,
+        )
 
         for skill_data in race_data.get("skills", []):
-            try:
-                Skill.objects.get(name=skill_data["name"], race=race)
-            except Skill.DoesNotExist:
-                Skill(
-                    name=skill_data["name"],
-                    bonus=skill_data["bonus"],
-                    race=race).save()
+            Skill.objects.get_or_create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race
+            )
 
 
 if __name__ == "__main__":
