@@ -25,7 +25,7 @@ def main() -> None:
                 description=race["description"]
             )
 
-        skills = player_data["race"]["skills"]
+        skills = player_data["race"].get("skills")
         if skills:
             for skill in skills:
                 skill, created = Skill.objects.get_or_create(
