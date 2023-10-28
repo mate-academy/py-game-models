@@ -36,7 +36,6 @@ def main() -> None:
             race=race,
             guild=guild
         )
-        # print(user_data["race"]["name"])
 
 
 if __name__ == "__main__":
