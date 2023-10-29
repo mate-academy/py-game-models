@@ -5,8 +5,8 @@ import json
 
 
 def main() -> None:
-    with open("players.json", "r") as f:
-        json_data = json.load(f)
+    with open("players.json", "r") as users_data:
+        json_data = json.load(users_data)
     for user_name, user_data in json_data.items():
         race, created = Race.objects.get_or_create(
             name=user_data["race"]["name"],
