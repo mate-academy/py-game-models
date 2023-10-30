@@ -9,6 +9,7 @@ def main() -> None:
 
     with open("players.json", "r") as players_info:
         players_data = json.load(players_info)
+
     for player_name, player_data in players_data.items():
         guild = player_data.get("guild")
         if guild:
