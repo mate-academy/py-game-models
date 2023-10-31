@@ -7,9 +7,9 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json", "r") as data_file:
-        player_storages = json.load(data_file)
+        players = json.load(data_file)
 
-    for player_name, player_data in player_storages.items():
+    for player_name, player_data in players.items():
         race, created = Race.objects.get_or_create(
             name=player_data.get("race").get("name"),
             description=player_data.get("race").get("description"),
