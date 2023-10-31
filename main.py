@@ -15,28 +15,28 @@ def main() -> None:
             description=player_data.get("race").get("description"),
         )
 
-        skill_storages = player_data.get("race").get("skills", [])
+        skills = player_data.get("race").get("skills", [])
         [
             Skill.objects.get_or_create(
                 name=skill.get("name"), bonus=skill.get("bonus"), race=race
             )
-            for skill in skill_storages
+            for skill in skills
         ]
 
         if player_data.get("guild"):
-            guilds, created = Guild.objects.get_or_create(
+            guild, created = Guild.objects.get_or_create(
                 name=player_data.get("guild").get("name"),
                 description=player_data.get("guild").get("description"),
             )
         else:
-            guilds = None
+            guild = None
 
         Player.objects.create(
             nickname=player_name,
             email=player_data.get("email"),
             bio=player_data.get("bio"),
             race=race,
-            guild=guilds,
+            guild=guild,
         )
 
 
