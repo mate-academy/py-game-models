@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('db', '0003_remove_race_choose_roles'),
+        ("db", "0003_remove_race_choose_roles"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='player',
-            name='email',
+            model_name="player",
+            name="email",
             field=models.EmailField(max_length=255),
         ),
     ]
