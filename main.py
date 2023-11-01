@@ -9,9 +9,7 @@ def add_race(player: dict) -> None:
     player_race = player.get("race")
     race_name = player_race.get("name")
     race_description = player_race.get("description")
-
-    if not Race.objects.filter(name=race_name).exists():
-        Race.objects.create(name=race_name, description=race_description)
+    Race.objects.get_or_create(name=race_name, description=race_description)
 
 
 def add_skill(player: dict) -> None:
@@ -19,12 +17,11 @@ def add_skill(player: dict) -> None:
     race_name = player["race"]["name"]
 
     for skill in skills:
-        if not Skill.objects.filter(name=skill["name"]).exists():
-            Skill.objects.create(
-                name=skill["name"],
-                bonus=skill["bonus"],
-                race=Race.objects.get(name=race_name)
-            )
+        Skill.objects.get_or_create(
+            name=skill["name"],
+            bonus=skill["bonus"],
+            race=Race.objects.get(name=race_name)
+        )
 
 
 def add_guild(player: dict) -> None:
@@ -34,11 +31,10 @@ def add_guild(player: dict) -> None:
         guild_name = guild.get("name")
         guild_description = guild.get("description")
 
-        if not Guild.objects.filter(name=guild_name).exists():
-            Guild.objects.create(
-                name=guild_name,
-                description=guild_description
-            )
+        Guild.objects.get_or_create(
+            name=guild_name,
+            description=guild_description
+        )
 
 
 def add_player(player_name: str, players: dict) -> None:
@@ -46,7 +42,7 @@ def add_player(player_name: str, players: dict) -> None:
     race_name = player["race"]["name"]
     guild = player.get("guild")
     guild_name = guild["name"] if guild else None
-    Player.objects.create(
+    Player.objects.get_or_create(
         nickname=player_name,
         email=player["email"],
         bio=player["bio"],
