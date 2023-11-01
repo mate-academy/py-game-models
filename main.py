@@ -6,6 +6,7 @@ import json
 
 
 def main() -> None:
+    pass
     try:
         with open("players.json") as file:
             data = json.load(file)
@@ -16,41 +17,42 @@ def main() -> None:
         print(f"An error occurred: {e}")
         return
 
-    for person, res in data.items():
-        race_data, created = Race.objects.get_or_create(
-            name=res["race"]["name"],
-            defaults={"description": res["race"].get("description", "")}
-        )
-
-        guild_data = res.get("guild")
-        if guild_data is not None:
-            guild_data, created = Guild.objects.get_or_create(
-                name=guild_data["name"],
-                defaults={"description": guild_data.get("description", "")}
+    for player_name, player_info in data.items():
+        race_info = player_info.get("race")
+        if race_info:
+            race, created = Race.objects.get_or_create(
+                name=race_info.get("name"),
+                description=race_info.get("description")
             )
 
-        skill_info = res["race"].get("skills", [])
+        guild = player_info.get("guild")
+        if guild:
+            guild, created = Guild.objects.get_or_create(
+                name=guild.get("name"),
+                description=guild.get("description")
+            )
+
+        skill_info = race_info.get("skills")
         if skill_info:
-            for skill_data in skill_info:
+            for skill in skill_info:
                 Skill.objects.get_or_create(
-                    name=skill_data["name"],
-                    defaults={
-                        "bonus": skill_data.get("bonus", ""),
-                        "race": race_data}
+                    name=skill.get("name"),
+                    bonus=skill.get("bonus"),
+                    race=race
                 )
 
         player, player_created = Player.objects.get_or_create(
-            nickname=person,
-            email=res["email"],
+            nickname=player_name,
+            email=player_info.get("email"),
             defaults={
-                "bio": res["bio"], "race": race_data, "guild": guild_data
+                "bio": player_info.get("bio"), "race": race, "guild": guild
             }
         )
 
         if not player_created:
-            player.bio = res["bio"]
-            player.race = race_data
-            player.guild = guild_data
+            player.bio = player_info.get("bio")
+            player.race = race
+            player.guild = guild
             player.save()
 
 
