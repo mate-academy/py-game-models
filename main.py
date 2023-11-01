@@ -17,19 +17,20 @@ def main() -> None:
             race=Race.objects.get_or_create(
                 name=info["race"]["name"],
                 description=info["race"]["description"]
-            ),
+            )[0],
             guild=Guild.objects.get_or_create(
                 name=info["guild"]["name"],
-                desription=info["guild"]["description"]
-            ),
+                description=info["guild"]["description"]
+            )[0] if info["guild"] else info["guild"],
         )
-        for race in info["race"]:
+        race_name = info["race"]["name"]
+        for race in info["race"]["skills"]:
             Skill(
-                name=race["skills"]["bonus"],
-                bonus=race["skills"]["bonus"],
+                name=race["name"],
+                bonus=race["bonus"],
                 race=Race.objects.get_or_create(
-                    name=race["name"],
-                )
+                    name=race_name,
+                )[0]
             )
 
 
