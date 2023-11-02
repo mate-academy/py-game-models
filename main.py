@@ -6,7 +6,6 @@ import json
 
 
 def main() -> None:
-    pass
     try:
         with open("players.json") as file:
             data = json.load(file)
