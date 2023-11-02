@@ -20,17 +20,14 @@ def main() -> None:
             name=race_name,
             description=race_description
         )
-        player_skills = []
         if players_skills_info:
             for skill in players_skills_info:
                 skill_name = skill.get("name")
                 skill_bonus = skill.get("bonus")
-                player_skills.append(
-                    Skill.objects.get_or_create(
-                        name=skill_name,
-                        bonus=skill_bonus,
-                        race=race
-                    )
+                Skill.objects.get_or_create(
+                    name=skill_name,
+                    bonus=skill_bonus,
+                    race=race
                 )
 
         if player_guild_info:
