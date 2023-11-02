@@ -9,6 +9,7 @@ def main() -> None:
     with open("players.json", "r") as json_file:
         data = json.load(json_file)
 
+
     for player in data:
         player_data = data[player]
         race_data = player_data.get("race")
@@ -24,18 +25,16 @@ def main() -> None:
             )
         )
 
-        skills = []
         if skills_data:
             for skill in skills_data:
                 name = skill["name"]
                 bonus = skill["bonus"]
-                skills.append(
-                    Skill.objects.get_or_create(
-                        name=name,
-                        bonus=bonus,
-                        race=race
-                    )
+                Skill.objects.get_or_create(
+                    name=name,
+                    bonus=bonus,
+                    race=race
                 )
+
 
         guild = None
         if guild_data:
@@ -57,3 +56,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
