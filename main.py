@@ -10,8 +10,8 @@ def main() -> None:
         players = json.load(file)
 
     for player, player_data in players.items():
-        player_race = player_data.get("race")
-        player_guild = player_data.get("guild")
+        player_race = player_data.get("race", {})
+        player_guild = player_data.get("guild", {})
 
         race, created = Race.objects.get_or_create(
             name=player_race.get("name"),
