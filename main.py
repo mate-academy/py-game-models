@@ -7,26 +7,27 @@ import json
 
 def main() -> None:
     with open("players.json", "r") as f:
-        lines = json.load(f)
-        for player in lines:
+        information = json.load(f)
+        for nickname, information in information.items():
             race, created = Race.objects.get_or_create(
-                name=lines[player]["race"]["name"],
-                description=lines[player]["race"]["description"])
-            for skill_name in lines[player]["race"]["skills"]:
+                name=information["race"]["name"],
+                description=information["race"]["description"])
+            for skill_name in information["race"]["skills"]:
                 skill, created = Skill.objects.get_or_create(
                     name=skill_name["name"],
                     bonus=skill_name["bonus"], race=race)
-            if lines[player]["guild"] is not None:
+
+            if information["guild"] is not None:
                 guild, created = Guild.objects.get_or_create(
-                    name=lines[player]["guild"]["name"],
-                    description=lines[player]["guild"]["description"])
+                    name=information["guild"]["name"],
+                    description=information["guild"]["description"])
             else:
                 guild = None
 
             player, created = Player.objects.get_or_create(
-                nickname=player,
-                email=lines[player]["email"],
-                bio=lines[player]["bio"],
+                nickname=nickname,
+                email=information["email"],
+                bio=information["bio"],
                 race=race,
                 guild=guild)
 
