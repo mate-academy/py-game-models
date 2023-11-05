@@ -22,24 +22,24 @@ def main() -> None:
         if race_skills:
             for skill in race_skills:
                 Skill.objects.get_or_create(
-                    name=skill.get("name"),
-                    bonus=skill.get("bonus"),
+                    name=skill["name"],
+                    bonus=skill["bonus"],
                     race=race_instance
                 )
 
         if player_guild:
             for guild in player_guild:
                 guild_instance, created = Guild.objects.get_or_create(
-                    name=guild.get("name"),
-                    description=guild.get("description")
+                    name=guild["name"],
+                    description=guild["description"]
                 )
         else:
             guild_instance = None
 
         Player.objects.get_or_create(
             nickname=nickname,
-            email=player_data.get("email"),
-            bio=player_data.get("bio"),
+            email=player_data["email"],
+            bio=player_data["bio"],
             race=race_instance,
             guild=guild_instance
         )
