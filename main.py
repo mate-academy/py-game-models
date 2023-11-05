@@ -21,8 +21,8 @@ def main() -> None:
         if skills:
             for skill in skills:
                 Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
+                    name=skill.get("name"),
+                    bonus=skill.get("bonus"),
                     race=race_instance
                 )
 
