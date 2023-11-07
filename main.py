@@ -15,10 +15,9 @@ def main() -> None:
                 description=info["race"]["description"]
             )
 
-            skills_data = (info["race"]["skills"] if
-                           info["race"]["skills"] else None)
+            skills_data = info["race"].get("skills")
 
-            if skills_data is not None:
+            if skills_data:
                 for skill in skills_data:
                     Skill.objects.get_or_create(
                         name=skill["name"],
@@ -26,8 +25,7 @@ def main() -> None:
                         race_id=race_obj.id
                     )
 
-            guild_data = info["guild"] if info["guild"] else None
-            if guild_data is not None:
+            if info["guild"]:
                 guild_obj, guild = Guild.objects.get_or_create(
                     name=info["guild"]["name"],
                     description=info["guild"]["description"]
