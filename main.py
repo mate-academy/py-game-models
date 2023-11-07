@@ -6,15 +6,8 @@ import json
 
 
 def main() -> None:
-    try:
-        with open("players.json") as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        print("File 'players.json' not found.")
-        return
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return
+    with open("players.json") as file:
+        data = json.load(file)
 
     for player_name, player_info in data.items():
         race_info = player_info.get("race")
