@@ -10,13 +10,13 @@ def main() -> None:
 
         data = json.load(players)
 
-        for key, item in data.items():
+        for player_name, player_info in data.items():
             race, created_race = Race.objects.get_or_create(
-                name=item["race"]["name"],
-                description=item["race"]["description"]
+                name=player_info["race"]["name"],
+                description=player_info["race"]["description"]
             )
 
-            for skill in item["race"]["skills"]:
+            for skill in player_info["race"]["skills"]:
                 skill, created_skill = Skill.objects.get_or_create(
                     name=skill["name"],
                     bonus=skill["bonus"],
@@ -24,16 +24,16 @@ def main() -> None:
                 )
 
             guild = None
-            if item["guild"]:
+            if player_info["guild"]:
                 guild, created_guild = Guild.objects.get_or_create(
-                    name=item["guild"]["name"],
-                    description=item["guild"]["description"],
+                    name=player_info["guild"]["name"],
+                    description=player_info["guild"]["description"],
                 )
 
             Player.objects.create(
-                nickname=key,
-                email=item["email"],
-                bio=item["bio"],
+                nickname=player_name,
+                email=player_info["email"],
+                bio=player_info["bio"],
                 race=race,
                 guild=guild,
                 created_at=models.DateTimeField(auto_now_add=True)
