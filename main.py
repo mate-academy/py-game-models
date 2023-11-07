@@ -12,14 +12,14 @@ def main() -> None:
     for player, player_info in players.items():
         race = player_info.get("race")
         if race:
-            race, bool_ = Race.objects.get_or_create(
+            race, _ = Race.objects.get_or_create(
                 name=race.get("name"),
                 description=race.get("description")
             )
 
         guild = player_info.get("guild")
         if guild:
-            guild, bool_ = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=guild.get("name"),
                 description=guild.get("description")
             )
