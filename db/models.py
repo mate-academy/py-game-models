@@ -8,7 +8,9 @@ class Race(models.Model):
         HUMAN = "H", "Human"
         ORK = "O", "Ork"
 
-    name = models.CharField(max_length=255, unique=True, choices=RaceChoices.choices)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            choices=RaceChoices.choices)
     description = models.TextField(blank=True)
 
 
