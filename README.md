@@ -50,7 +50,7 @@ an id of the guild the player is a member of.
 Implement function `main()` in `main.py`:
 
 Read data about players from `players.json` and add the corresponding entries to the database.
-Note, that some guilds, races and skills are used for different players. Create only one
+Note, that some guilds, races and skills are used for different players. Create only o
 instance for each guild, race and skill, do not copy them.
 
 **Note**: It would be very useful to use the 
