@@ -4,14 +4,15 @@ from typing import Any
 import json
 import init_django_orm  # noqa: F401
 
-import db.models
+from db.models import Race, Skill, Player, Guild
 
 
 def model_instance_from_dict(model: str, data: dict) -> Any | None:
-    if data is not None:
-        class_ = getattr(db.models, model.capitalize())
+    models = {"Race": Race, "Skill": Skill, "Player": Player, "Guild": Guild}
+    class_ = models.get(model.capitalize())
+    if class_ is not None and data is not None:
         return class_.objects.get_or_create(**data)[0]
-    return None
+    return data
 
 
 def main() -> None:
@@ -19,19 +20,17 @@ def main() -> None:
         players_data = json.load(file_players)
 
     for player_name, player_data in players_data.items():
+        player = {"nickname": player_name}
         skills = player_data["race"].pop("skills")
-        race = model_instance_from_dict("race", player_data["race"])
+
+        for field, data in player_data.items():
+            player[field] = model_instance_from_dict(field, data)
 
         for skill in skills:
-            skill["race"] = race
+            skill["race"] = player["race"]
             model_instance_from_dict("skill", skill)
 
-        player_data["nickname"] = player_name
-        player_data["race"] = race
-        player_data["guild"] = model_instance_from_dict("guild",
-                                                        player_data["guild"])
-
-        model_instance_from_dict("player", player_data)
+        model_instance_from_dict("player", player)
 
 
 if __name__ == "__main__":
