@@ -15,7 +15,8 @@ class Skill(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"Skill: {self.name}, Bonus: {self.bonus}, Race: {self.race.name}"
+        return (f"Skill: {self.name}, Bonus: {self.bonus},"
+                f"Race: {self.race.name}")
 
 
 class Guild(models.Model):
