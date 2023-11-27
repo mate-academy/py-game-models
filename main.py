@@ -19,6 +19,7 @@ def main() -> None:
                 bonus=skill_["bonus"],
                 race=race
             )
+        guild = None
         if user["guild"]:
             name = user["guild"]["name"]
             description = user["guild"]["description"]
@@ -26,8 +27,6 @@ def main() -> None:
                 name=name,
                 description=description
             )
-        guild = None
-        if user["guild"]:
             guild = Guild.objects.get(name=user["guild"]["name"])
         Player.objects.get_or_create(
             nickname=nickname,
