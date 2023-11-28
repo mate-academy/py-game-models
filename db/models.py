@@ -30,8 +30,8 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(
         max_length=255,
-        help_text="It stores a short description"
-                  " provided by a user about himself/herself."
+        help_text="It stores a short description "
+                  "provided by a user about himself/herself."
     )
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
