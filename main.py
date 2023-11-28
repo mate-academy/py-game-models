@@ -30,6 +30,7 @@ def skill_func(skills_data: dict, race: dict) -> None:
             race=race
         )
 
+
 def player_func(player_name: dict,
                 player_data: dict,
                 race: dict,
