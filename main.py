@@ -6,7 +6,7 @@ from db.models import Race, Skill, Player, Guild
 
 def race_func(race_data: dict) -> Race:
     race, created = Race.objects.get_or_create(
-        name=race_data.get("race"),
+        name=race_data.get("name"),
         description=race_data.get("description")
     )
     return race
@@ -19,17 +19,16 @@ def guild_func(guild_data: dict) -> Guild | None:
             name=guild_data.get("name"),
             description=guild_data.get("description")
         )
-        return guild
+    return guild
 
 
-def skill_func(skills_data: dict, race: dict) -> Skill:
+def skill_func(skills_data: dict, race: dict) -> None:
     for skill in skills_data:
         skill, created = Skill.objects.get_or_create(
             name=skill.get("name"),
             bonus=skill.get("bonus"),
             race=race
         )
-
 
 def player_func(player_name: dict,
                 player_data: dict,
@@ -42,6 +41,7 @@ def player_func(player_name: dict,
         race=race,
         guild=guild
     )
+    return player
 
 
 def data_func(file_data: dict) -> tuple:
