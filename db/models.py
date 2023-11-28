@@ -16,7 +16,7 @@ class Skill(models.Model):
     )
     race = models.ForeignKey(
         Race, on_delete=models.CASCADE,
-        help_text="It shows which race has the corresponding skill."
+        help_text=" It shows which race has the corresponding skill."
     )
 
 
