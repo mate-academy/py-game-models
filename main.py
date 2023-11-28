@@ -12,7 +12,7 @@ def main() -> None:
         players_dict = json.load(f)
 
     for name, value_player in players_dict.items():
-        race_, bool_ = Race.objects.get_or_create(
+        race_, _ = Race.objects.get_or_create(
             name=value_player["race"]["name"],
             description=value_player["race"]["description"]
         )
@@ -20,7 +20,7 @@ def main() -> None:
         if not value_player["guild"]:
             guild_ = None
         else:
-            guild_, bool_ = Guild.objects.get_or_create(
+            guild_, _ = Guild.objects.get_or_create(
                 name=value_player["guild"]["name"],
                 description=value_player["guild"]["description"]
             )
