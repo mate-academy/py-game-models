@@ -6,8 +6,8 @@ from db.models import Race, Skill, Player, Guild
 
 def race_func(race_data: dict) -> Race:
     race, created = Race.objects.get_or_create(
-            name=race_data.get("race"),
-            description=race_data.get("description")
+        name=race_data.get("race"),
+        description=race_data.get("description")
     )
     return race
 
@@ -34,7 +34,7 @@ def skill_func(skills_data: dict, race: dict) -> Skill:
 def player_func(player_name: dict,
                 player_data: dict,
                 race: dict,
-                guild: dict):
+                guild: dict) -> None:
     player, created = Player.objects.get_or_create(
         nickname=player_name,
         email=player_data.get("email"),
@@ -61,6 +61,6 @@ def main() -> None:
         skill_func(skill_data, race)
         player_func(player_name, player_data, race, guild)
 
-        
+
 if __name__ == "__main__":
     main()
