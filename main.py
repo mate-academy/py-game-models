@@ -18,18 +18,19 @@ def main() -> None:
 
         for skill in player["race"]["skills"]:
             skill, _ = Skill.objects.get_or_create(
-                **skill, race_id=race
+                **skill,
+                race=race
             )
-
-        guild, _ = Guild.objects.get_or_create(**player["guild"]) \
-            if player["guild"] else None
+        guild = None
+        if player["guild"]:
+            guild, _ = Guild.objects.get_or_create(**player["guild"])
 
         Player.objects.create(
             nickname=nickname,
             email=player["email"],
             bio=player["bio"],
-            race_id=race,
-            guild_id=guild
+            race=race,
+            guild=guild
         )
 
 
