@@ -15,23 +15,20 @@ def main() -> None:
             description=data["race"]["description"]
         )[0]
 
-        skills = data["race"]["skills"]
-        if skills:
-            for skill in skills:
-                Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
+        for skill in data["race"]["skills"]:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
 
-        guild = data["guild"]
+        guild = data["guild"] or None
         if guild:
             guild = Guild.objects.get_or_create(
                 name=guild["name"],
                 description=guild["description"]
             )[0]
-        else:
-            guild = None
+
 
         Player.objects.get_or_create(
             nickname=player,
