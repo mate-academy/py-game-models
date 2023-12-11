@@ -35,9 +35,9 @@ class Player(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return (f"nickname: {self.nickname},"
-                f"email: {self.email}),"
-                f"bio: {self.bio},"
-                f"race: {self.bio},"
-                f"guild: {self.guild},"
-                f"created at: {self.created_at}"
+        return (f"nickname: {self.nickname}, "
+                f"email: {self.email}), "
+                f"bio: {self.bio}, "
+                f"race: {self.bio}, "
+                f"guild: {self.guild}, "
+                f"created at: {self.created_at}")
