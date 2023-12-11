@@ -14,20 +14,20 @@ def main() -> None:
         guild_data = player_data.get("guild")
         skills_data = race_data.get("skills")
 
-        race, created = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_data.get("name"),
             description=race_data.get("description")
         )
 
         guild = None
         if guild_data:
-            guild, created = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=guild_data.get("name"),
                 description=guild_data.get("description")
             )
 
         for skill_data in skills_data:
-            skill, created = Skill.objects.get_or_create(
+            skill, _ = Skill.objects.get_or_create(
                 name=skill_data.get("name"),
                 bonus=skill_data.get("bonus"),
                 race=race
