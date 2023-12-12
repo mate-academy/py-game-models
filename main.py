@@ -11,7 +11,7 @@ def main() -> None:
         race = Race.objects.get_or_create(
             name=data["race"]["name"],
             description=data["race"]["description"]
-            )[0]
+        )[0]
 
         for skill in data["race"]["skills"]:
             Skill.objects.get_or_create(
