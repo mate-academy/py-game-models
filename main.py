@@ -21,7 +21,7 @@ def main() -> None:
                 race=race
             )
         guild = None
-        if data["guild"]:
+        if data.get("guild"):
             guild, created = Guild.objects.get_or_create(
                 name=data["guild"]["name"],
                 description=data["guild"]["description"]
