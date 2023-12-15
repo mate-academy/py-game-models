@@ -8,9 +8,9 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as players_file:
         players = json.load(players_file)
-    for player_ in players:
+    for name in players:
 
-        player = players[player_]
+        player = players[name]
 
         if player.get("guild") is not None:
             guild, created = Guild.objects.get_or_create(
@@ -33,7 +33,7 @@ def main() -> None:
             )
 
         Player.objects.get_or_create(
-            nickname=player_,
+            nickname=name,
             email=player.get("email"),
             bio=player.get("bio"),
             race=race,
