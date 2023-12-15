@@ -3,7 +3,7 @@ from db.models import Race, Skill, Guild, Player
 from django.db.utils import IntegrityError
 
 
-def main() -> None:
+def main() -> str:
     with open("players.json", "r") as file:
         players_data = json.load(file)
 
