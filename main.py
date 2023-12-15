@@ -5,50 +5,40 @@ from django.db.utils import IntegrityError
 
 def main() -> None:
     with open("players.json", "r") as file:
-        player_data = json.load(file)
+        players_data = json.load(file)
 
-    data_list = [
-        {
-            "model": Guild,
-            "name": "Example Guild",
-            "defaults": {"description": "Example Guild Description"
-                         }},
-        {
-            "model": Race,
-            "name": "Example Race",
-            "defaults": {"description": "Example Race Description"}
-        },
-        {
-            "model": Skill,
-            "name": "Example Skill",
-            "bonus": "Example Bonus",
-            "race": "Example Race"
-        },
-    ]
+    for player_name, player_data in players_data.items():
+        race, created = Race.objects.get_or_create(
+            name=player_data["race"]["name"],
+            defaults={"description": player_data["race"]["description"]}
+        )
 
-    instances = {}
-    for data in data_list:
-        model = data["model"]
-        name = data["name"]
-        defaults = data.get("defaults", {})
-        instance, created = (model.objects.get_or_create
-                             (name=name, defaults=defaults))
-        instances[model] = instance
-
-    for player_info in player_data:
-        try:
-            player = Player.objects.create(
-                nickname=player_info["nickname"],
-                email=player_info["email"],
-                bio=player_info["bio"],
-                race=instances[Race],
-                guild=instances[Guild]
+        guild_data = player_data.get("guild", {})
+        guild = None
+        if guild_data is not None:
+            guild, created = (Guild.objects.get_or_create(
+                name=guild_data.get("name", ""),
+                defaults={"description": guild_data.get("description")})
             )
-            player.save()
-            print(f"Player {player.nickname} added to the database.")
+
+        try:
+            player, created = Player.objects.get_or_create(
+                nickname=player_name,
+                email=player_data["email"],
+                bio=player_data["bio"],
+                race=race,
+                guild=guild
+            )
         except IntegrityError:
-            print(f"Player {player_info['nickname']}"
-                  f" already exists in the database.")
+            print(f"Player with nickname or email '{player_name}"
+                  f"'/'{player_data['email']}' already exists.")
+
+        for skill_data in player_data["race"]["skills"]:
+            skill, created = Skill.objects.get_or_create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race
+            )
 
 
 if __name__ == "__main__":
