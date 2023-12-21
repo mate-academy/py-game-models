@@ -20,10 +20,13 @@ class Guild(models.Model):
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
-    bio = models.CharField("short description provided by a user about himself/herself", max_length=255)
+    bio = models.CharField(
+        "short description provided by a user about himself/herself",
+        max_length=255
+    )
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.nickname}: {self.race} rase, {self.guild} guild"
