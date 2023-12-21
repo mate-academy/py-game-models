@@ -21,7 +21,7 @@ def main() -> None:
                     bonus=player["race"]["skills"][skill]["bonus"],
                     race=Race.objects.get_or_create(
                         name=player["race"]["name"]
-                    )[1]
+                    ).id
                 )
 
             Guild.objects.get_or_create(
@@ -35,10 +35,10 @@ def main() -> None:
                 bio=player["bio"],
                 race=Race.objects.get_or_create(
                     name=player["race"]["name"]
-                )[1],
+                ).id,
                 guild=Guild.objects.get_or_create(
                     name=player["guild"]["name"]
-                )[1],
+                ).id,
             )
 
 
