@@ -12,10 +12,11 @@ def main() -> None:
     for player, info in players.items():
         # create guild
         guild_data = info["guild"] or None
-        guild, _ = Guild.objects.get_or_create(
-            name=guild_data["name"],
-            description=guild_data["description"]
-        )
+        if guild_data:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_data["name"],
+                description=guild_data["description"]
+            )
 
         # create race and skills of race
         race_data = info["race"]
