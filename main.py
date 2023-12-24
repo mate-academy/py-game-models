@@ -1,7 +1,6 @@
 import json
 
 import init_django_orm  # noqa: F401
-
 from db.models import Race, Skill, Guild, Player
 
 
@@ -26,6 +25,7 @@ def main() -> None:
     with open("players.json", "r") as players_json:
         players = json.load(players_json)
     for nickname, player in players.items():
+
         race_instance = get_race_instance(player, player["race"]["name"])
 
         player_skills = player["race"]["skills"]
@@ -44,7 +44,3 @@ def main() -> None:
             guild=guild_instance,
             nickname=nickname,
         )
-
-
-if __name__ == "__main__":
-    main()
