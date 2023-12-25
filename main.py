@@ -4,9 +4,9 @@ import json
 from db.models import Race, Skill, Guild, Player
 
 
-def create_race(data: dict) -> Race:
+def create_race_with_skills(data: dict) -> Race:
     race_name = data["name"]
-    race, created = Race.objects.get_or_create(
+    race, _ = Race.objects.get_or_create(
         name=race_name, defaults={"description": data.get("description", "")}
     )
 
@@ -35,7 +35,7 @@ def main() -> None:
         players_data = json.load(f)
 
     for player_name, player_data in players_data.items():
-        race = create_race(player_data["race"])
+        race = create_race_with_skills(player_data["race"])
         guild = create_guild(player_data["guild"])
 
         player, created = Player.objects.get_or_create(
