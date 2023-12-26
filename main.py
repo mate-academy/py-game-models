@@ -7,10 +7,10 @@ from db.models import Race, Skill, Guild, Player
 def create_race_with_skills(data: dict) -> Race:
     race_name = data["name"]
     race, _ = Race.objects.get_or_create(
-        name=race_name, defaults={"description": data.get("description", "")}
+        name=race_name, defaults={"description": data.get("description")}
     )
 
-    skills_data = data.get("skills", [])
+    skills_data = data.get("skills")
     for skill_data in skills_data:
         skill, _ = Skill.objects.get_or_create(
             name=skill_data["name"],
@@ -21,13 +21,13 @@ def create_race_with_skills(data: dict) -> Race:
 
 
 def create_guild(data: dict) -> Guild:
-    if data is None:
-        return None
-    guild_name = data["name"]
-    guild, _ = Guild.objects.get_or_create(
-        name=guild_name, defaults={"description": data.get("description", "")}
-    )
-    return guild
+    if data is not None:
+        guild_name = data["name"]
+        guild, _ = Guild.objects.get_or_create(
+            name=guild_name,
+            defaults={"description": data.get("description")}
+        )
+        return guild
 
 
 def main() -> None:
