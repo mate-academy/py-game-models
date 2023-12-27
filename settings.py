@@ -15,9 +15,9 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'eu-us'
+LANGUAGE_CODE = "eu-us"
 
-TIME_ZONE = ('Europe/Kiev')
+TIME_ZONE = ("Europe/Kiev")
 
 USE_I18N = True
 
