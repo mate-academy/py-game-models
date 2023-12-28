@@ -8,15 +8,15 @@ def main() -> None:
     with open("players.json", "r") as file:
         user_data = json.load(file)
 
-    for nick_name in user_data.keys():
+    for nick_name, data in user_data.items():
 
-        race_data = user_data[nick_name]["race"]
+        race_data = data["race"]
         race, created = Race.objects.get_or_create(
             name=race_data["name"],
             description=race_data["description"]
         )
 
-        guild_data = user_data[nick_name]["guild"]
+        guild_data = data["guild"]
         if guild_data:
             description_data = guild_data["description"] \
                 if guild_data["description"] else None
@@ -29,8 +29,8 @@ def main() -> None:
 
         Player.objects.get_or_create(
             nickname=nick_name,
-            email=user_data[nick_name]["email"],
-            bio=user_data[nick_name]["bio"],
+            email=data["email"],
+            bio=data["bio"],
             race=race,
             guild=guild
         )
