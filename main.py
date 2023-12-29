@@ -18,8 +18,7 @@ def main() -> None:
 
         guild_data = data["guild"]
         if guild_data:
-            description_data = guild_data.get("description") \
-                if guild_data.get("description") else None
+            description_data = guild_data.get("description")
             guild, created = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 description=description_data
