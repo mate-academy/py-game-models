@@ -2,7 +2,6 @@ import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 import json
-from django.utils import timezone
 
 
 def main() -> None:
@@ -31,8 +30,7 @@ def main() -> None:
             email=players_data[nickname]["email"],
             bio=players_data[nickname]["bio"],
             race=race,
-            guild=guild,
-            created_at=timezone.now()
+            guild=guild
         )
 
         for skill in race_data["skills"]:
