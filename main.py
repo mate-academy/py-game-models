@@ -16,8 +16,8 @@ def main() -> None:
         )
         guild_data = players_data[nickname]["guild"]
         if guild_data:
-            description_data = guild_data["description"]\
-                if guild_data["description"]\
+            description_data = guild_data.get("description")\
+                if guild_data.get("description")\
                 else None
             guild, created = Guild.objects.get_or_create(
                 name=guild_data["name"],
