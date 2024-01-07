@@ -30,11 +30,13 @@ def main() -> None:
         else:
             guild = None
 
-        Player.objects.get_or_create(nickname=nick_name_data,
-                                     email=item["email"],
-                                     bio=item["bio"],
-                                     guild=guild,
-                                     race=race)
+        Player.objects.get_or_create(
+            nickname=nick_name_data,
+            email=item["email"],
+            bio=item["bio"],
+            guild=guild,
+            race=race
+        )
 
 
 if __name__ == "__main__":
