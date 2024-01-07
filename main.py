@@ -14,14 +14,12 @@ def main() -> None:
             name=item["race"]["name"],
             description=item["race"]["description"]
         )
-
         for skill_info in item["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill_info["name"],
                 bonus=skill_info["bonus"],
                 race=race
             )
-
         if item["guild"] is not None:
             guild, created = Guild.objects.get_or_create(
                 name=item["guild"]["name"],
