@@ -18,11 +18,8 @@ def main() -> None:
 
         if model_data.get("guild"):
             guild, _ = Guild.objects.get_or_create(
-                name=model_data["guild"].get("name")
-                if model_data["guild"] is not None else None,
-                description=(model_data["guild"].get("description")
-                             if model_data["guild"] is not None else None)
-            )
+                name=model_data["guild"].get("name"),
+                description=model_data["guild"].get("description"))
 
         player, _ = Player.objects.get_or_create(
             nickname=player_name,
