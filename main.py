@@ -11,31 +11,30 @@ def main() -> None:
 
             # ~~~ Adds race in same table if it is not exist.
 
-            players_race = Race.objects.get_or_create(
-                name=player_data["race"]["name"],
-                description=player_data["race"]["description"]
-            )
+            race, race_description, skills = player_data["race"].values()
+            print(race, race_description)
+            players_race = Race.objects.get_or_create(name=race, description=race_description)
 
             # ~~~ Adds skill in same table if it is not exist.
 
-            if player_data["race"]["skills"]:
-                for skill in player_data["race"]["skills"]:
-
+            if skills:
+                for skill in skills:
                     Skill.objects.get_or_create(
                         name=skill["name"],
                         bonus=skill["bonus"],
-                        race_id=Race.objects.get(name=player_data["race"]["name"]).id
+                        race_id=Race.objects.get(name=race).id
                     )
 
             # ~~~ Adds guild in same table if it is not exist.
 
             guild_id = None
             if player_data["guild"]:
+                guild, guild_description = player_data["guild"].values()
                 players_guild = Guild.objects.get_or_create(
-                    name=player_data["guild"]["name"],
-                    description=player_data["guild"]["description"]
+                    name=guild,
+                    description=guild_description
                 )
-                guild_id = Guild.objects.get(name=player_data.get("guild")["name"]).id
+                guild_id = Guild.objects.get(name=guild).id
 
             # ~~~ Adds player in same table if he/she is not exist.
 
@@ -43,7 +42,7 @@ def main() -> None:
                 nickname=nickname,
                 email=player_data["email"],
                 bio=player_data["bio"],
-                race_id=Race.objects.get(name=player_data["race"]["name"]).id,
+                race_id=Race.objects.get(name=race).id,
                 guild_id=guild_id
             )
 
