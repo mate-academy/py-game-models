@@ -11,39 +11,40 @@ def main() -> None:
 
             # ~~~ Adds race in same table if it is not exist.
 
-            race, race_description, skills = player_data["race"].values()
-            print(race, race_description)
-            players_race = Race.objects.get_or_create(name=race, description=race_description)
+            race_data = player_data["race"]
+            race, _ = Race.objects.get_or_create(
+                name=race_data["name"],
+                description=race_data["description"]
+            )
 
             # ~~~ Adds skill in same table if it is not exist.
 
-            if skills:
-                for skill in skills:
+            if race_data["skills"]:
+                for skill in race_data["skills"]:
                     Skill.objects.get_or_create(
                         name=skill["name"],
                         bonus=skill["bonus"],
-                        race_id=Race.objects.get(name=race).id
+                        race=race
                     )
 
             # ~~~ Adds guild in same table if it is not exist.
 
-            guild_id = None
+            guild = None
             if player_data["guild"]:
-                guild, guild_description = player_data["guild"].values()
-                players_guild = Guild.objects.get_or_create(
-                    name=guild,
-                    description=guild_description
+                guild_data = player_data["guild"]
+                guild, _ = Guild.objects.get_or_create(
+                    name=guild_data["name"],
+                    description=guild_data["description"]
                 )
-                guild_id = Guild.objects.get(name=guild).id
 
             # ~~~ Adds player in same table if he/she is not exist.
 
-            current_player = Player.objects.get_or_create(
+            player, _ = Player.objects.get_or_create(
                 nickname=nickname,
                 email=player_data["email"],
                 bio=player_data["bio"],
-                race_id=Race.objects.get(name=race).id,
-                guild_id=guild_id
+                race=race,
+                guild=guild
             )
 
             # Skill.objects.get_or_create(
@@ -54,4 +55,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # Race.objects.all().delete()
+    # Player.objects.all().delete()
+    # Guild.objects.all().delete()
+    # Skill.objects.all().delete()
     main()
