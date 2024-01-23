@@ -46,17 +46,3 @@ def main() -> None:
                 race=race,
                 guild=guild
             )
-
-            # Skill.objects.get_or_create(
-            #         name="Puff",
-            #         bonus="Disintegrate any alive being (even Deathwing)",
-            #         race_id=1
-            #     )
-
-
-if __name__ == "__main__":
-    # Race.objects.all().delete()
-    # Player.objects.all().delete()
-    # Guild.objects.all().delete()
-    # Skill.objects.all().delete()
-    main()
