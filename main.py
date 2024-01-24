@@ -13,7 +13,7 @@ def main() -> None:
         email = players.get(player).get("email")
         bio = players.get(player).get("bio")
         race = players.get(player).get("race")
-        skills = players.get(player).get("race").get("skill")
+        skills = players.get(player).get("race").get("skills")
         guild = players.get(player).get("guild")
 
         # Trying to create guild for adding it to Player
@@ -35,13 +35,16 @@ def main() -> None:
 
         # Creating a skills from a list
 
-        for skill in skills:
+        try:
+            for skill in skills:
 
-            Skill.objects.get_or_create(
-                name=skill.get("name"),
-                bonus=skill.get("bonus"),
-                race=current_race
-            )
+                Skill.objects.get_or_create(
+                    name=skill.get("name"),
+                    bonus=skill.get("bonus"),
+                    race=current_race[0]
+                )
+        except TypeError:
+            pass
 
         # Creating a Player
 
@@ -50,15 +53,15 @@ def main() -> None:
                 nickname=player,
                 email=email,
                 bio=bio,
-                race=current_race,
-                guild=current_guild
+                race=current_race[0],
+                guild=current_guild[0]
             )
-        else:
+        if not current_guild:
             Player.objects.get_or_create(
                 nickname=player,
                 email=email,
                 bio=bio,
-                race=current_race,
+                race=current_race[0],
             )
 
 
