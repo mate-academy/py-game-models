@@ -11,9 +11,9 @@ def main() -> None:
         data = load(file)
 
     for nickname, item in data.items():
-        race = item["race"]
-        guild = item["guild"]
-        skills = race["skills"]
+        race = item.get("race")
+        guild = item.get("guild")
+        skills = race.get("skills")
 
         race, created = Race.objects.get_or_create(
             name=race["name"],
