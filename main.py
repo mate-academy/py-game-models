@@ -10,7 +10,7 @@ def main() -> None:
         players_data = json.load(players_file)
 
     for key in players_data.keys():
-        #  mapping guilds
+        #  mapping guilds .
         guild = players_data[key]["guild"]
         guild_obj = [None]
         if guild is not None:
