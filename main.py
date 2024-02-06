@@ -9,7 +9,7 @@ def main() -> None:
         data = json.load(file)
 
     for player_name, player_data in data.items():
-        race_data = player_data["race"]
+        race_data = player_data.get("race")
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
             description=race_data.get("description", "")
