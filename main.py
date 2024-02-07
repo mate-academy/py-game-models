@@ -20,10 +20,11 @@ def main() -> None:
                 bonus=skill_name["bonus"],
                 race=race
             )
-        if item["guild"] is not None:
+        guild_data = item.get("guild")
+        if guild_data is not None:
             guild, created = Guild.objects.get_or_create(
-                name=item["guild"]["name"],
-                description=item["guild"]["description"]
+                name=guild_data["name"],
+                description=guild_data["description"]
             )
         else:
             guild = None
