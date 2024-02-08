@@ -34,8 +34,6 @@ def main() -> None:
             race=race,
             guild=guild
         )
-        if created:
-            player.save()
 
 
 if __name__ == "__main__":
