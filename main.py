@@ -11,7 +11,7 @@ def main() -> None:
         players_config = json.load(json_file)
 
     for nickname, config in players_config.items():
-        race = Race.objects.get_or_create(
+        race, created = Race.objects.get_or_create(
             name=config["race"]["name"],
             description=config["race"]["description"]
         )
@@ -26,7 +26,7 @@ def main() -> None:
 
         guild = None
         if guild_data := config.get("guild"):
-            guild = Guild.objects.get_or_create(**guild_data)
+            guild, created = Guild.objects.get_or_create(**guild_data)
 
         Player.objects.get_or_create(
             nickname=nickname,
