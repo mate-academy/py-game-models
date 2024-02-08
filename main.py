@@ -8,7 +8,7 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     json_file_path = "players.json"
 
-    with open(json_file_path, 'r') as file:
+    with open(json_file_path, "r") as file:
         data = json.load(file)
 
     for nickname, player_data in data.items():
@@ -19,18 +19,18 @@ def main() -> None:
         )
         race, created = Race.objects.get_or_create(
             name=player_data["race"]["name"],
-            defaults={'description': player_data["race"]["description"]}
+            defaults={"description": player_data["race"]["description"]}
         )
         for skill_data in player_data["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill_data["name"],
-                defaults={'bonus': skill_data["bonus"], 'race': race}
+                defaults={"bonus": skill_data["bonus"], "race": race}
             )
         guild = None
         if player_data.get("guild"):
             guild, created = Guild.objects.get_or_create(
                 name=player_data["guild"]["name"],
-                defaults={'description': player_data["guild"]["description"]}
+                defaults={"description": player_data["guild"]["description"]}
             )
         player.race = race
         player.guild = guild
