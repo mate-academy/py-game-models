@@ -6,8 +6,6 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
 
-    Player.objects.all().delete()
-
     with open("players.json", "r") as players_file:
         players = json.load(players_file)
 
