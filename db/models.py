@@ -25,7 +25,11 @@ class Skill(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"Skill: {self.name}, Bonus: {self.bonus}, skill owned by which {self.race}"
+        return (
+            f"Skill: {self.name}, "
+            f"Bonus: {self.bonus}, "
+            f"skill owned by which {self.race}"
+        )
 
 
 class Guild(models.Model):
