@@ -24,7 +24,7 @@ def main() -> None:
                 )
 
         if guild := info.get("guild"):
-            guild, _ = Guild.objects.get_or_create(**info["guild"])
+            guild, _ = Guild.objects.get_or_create(**guild)
 
         Player.objects.create(
             nickname=player,
