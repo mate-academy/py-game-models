@@ -45,7 +45,7 @@ def main() -> None:
                 guild=current_guild
             )
             # Add skills to the player
-            player = Player.objects.get(nickname=player_name)
+            Player.objects.get(nickname=player_name)
 
 
 if __name__ == "__main__":
