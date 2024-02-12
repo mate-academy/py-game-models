@@ -10,11 +10,11 @@ def main() -> None:
         players_info = json.load(players_file)
 
     for player, player_inf in players_info.items():
-        race, race_done = Race.objects.get_or_create(
+        race, race_created = Race.objects.get_or_create(
             name=player_inf["race"]["name"],
             description=player_inf["race"]["description"],
         )
-        if race_done:
+        if race_created:
             if skills := player_inf["race"].get("skills"):
                 for skill in skills:
                     Skill.objects.get_or_create(
