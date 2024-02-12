@@ -13,12 +13,12 @@ def get_data_from_file() -> dict:
 def main() -> None:
     players_data = get_data_from_file()
     for name, data in players_data.items():
-        race, _ = Race.objects.get_or_create(
+        race, created = Race.objects.get_or_create(
             name=data.get("race").get("name"),
             description=data.get("race").get("description")
         )
 
-        if skills := data.get("race").get("skills"):
+        if (skills := data.get("race").get("skills")) and created:
             for skill in skills:
                 Skill.objects.get_or_create(
                     name=skill.get("name"),

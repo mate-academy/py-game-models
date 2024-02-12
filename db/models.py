@@ -2,13 +2,7 @@ from django.db import models
 
 
 class Race(models.Model):
-    races = (
-        ("elf", "Elf"),
-        ("dwarf", "Dwarf"),
-        ("human", "Human"),
-        ("ork", "Ork"),
-    )
-    name = models.CharField(max_length=255, choices=races, unique=True)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
@@ -20,7 +14,7 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     def __str__(self) -> str:
