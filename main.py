@@ -11,18 +11,19 @@ def main() -> None:
         players_config = json.load(json_file)
 
     for nickname, config in players_config.items():
-        race, created = Race.objects.get_or_create(
+        race, race_created = Race.objects.get_or_create(
             name=config["race"]["name"],
             description=config["race"]["description"]
         )
 
-        if skills := config["race"].get("skills"):
-            for skill in skills:
-                Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
+        if race_created:
+            if skills := config["race"].get("skills"):
+                for skill in skills:
+                    Skill.objects.create(
+                        name=skill["name"],
+                        bonus=skill["bonus"],
+                        race=race
+                    )
 
         guild = None
         if guild_data := config.get("guild"):
