@@ -17,7 +17,7 @@ def create_guild_instance(guild_info: dict) -> Guild:
     return guild_instance
 
 
-def create_guild_instances(skills_info: list, race: Race) -> None:
+def create_skill_fields(skills_info: list, race: Race) -> None:
     for skill in skills_info:
         Skill.objects.get_or_create(
             name=skill["name"],
@@ -40,7 +40,7 @@ def main() -> None:
             race=race,
             guild=guild
         )
-        create_guild_instances(players_info[player]["race"]["skills"], race)
+        create_skill_fields(players_info[player]["race"]["skills"], race)
 
 
 if __name__ == "__main__":
