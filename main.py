@@ -31,7 +31,7 @@ def main() -> None:
             bio=player[1]["bio"],
             race=player_race,
             guild=player_guild,
-            ),
+        )
 
 
 if __name__ == "__main__":
