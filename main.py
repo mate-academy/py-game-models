@@ -8,51 +8,44 @@ def main() -> None:
     with open("players.json", "r") as file:
         players = json.load(file)
 
-        for player in players:
-            email = players.get(player).get("email")
-            bio = players.get(player).get("bio")
-            race = players.get(player).get("race")
-            skills = players.get(player).get("race").get("skills")
-            guild = players.get(player).get("guild")
+        for player_name, player_data in players.items():
+            email = player_data.get("email")
+            bio = player_data.get("bio")
+            race_data = player_data.get("race")
+            skills_data = race_data.get("skills")
+            guild_data = player_data.get("guild")
 
-    try:
-        current_guild = Guild.objects.get_or_create(
-            name=guild.get("name"),
-            description=guild.get("description")
-        )
-    except AttributeError:
-        current_guild = None
-
-    current_race = Race.objects.get_or_create(
-        name=race.get("name"),
-        description=race.get("description")
-    )
-
-    try:
-        for skill in skills:
-            Skill.objects.get_or_create(
-                name=skill.get("name"),
-                bonus=skill.get("bonus"),
-                race=current_race[0]
+            current_race, _ = Race.objects.get_or_create(
+                name=race_data.get("name"),
+                description=race_data.get("description")
             )
-    except TypeError:
-        pass
 
-    if current_guild:
-        Player.objects.get_or_create(
-            nickname=player,
-            email=email,
-            bio=bio,
-            race=current_race[0],
-            guild=current_guild[0]
-        )
-    if not current_guild:
-        Player.objects.get_or_create(
-            nickname=player,
-            email=email,
-            bio=bio,
-            race=current_race[0],
-        )
+            if guild_data:
+                current_guild, _ = Guild.objects.get_or_create(
+                    name=guild_data.get("name"),
+                    description=guild_data.get("description")
+                )
+            else:
+                current_guild = None
+
+            skills = []
+            for skill_data in skills_data:
+                skill, _ = Skill.objects.get_or_create(
+                    name=skill_data.get("name"),
+                    bonus=skill_data.get("bonus"),
+                    race=current_race
+                )
+                skills.append(skill)
+
+            Player.objects.get_or_create(
+                nickname=player_name,
+                email=email,
+                bio=bio,
+                race=current_race,
+                guild=current_guild
+            )
+            # Add skills to the player
+            player = Player.objects.get(nickname=player_name)
 
 
 if __name__ == "__main__":
