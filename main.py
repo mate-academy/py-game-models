@@ -44,8 +44,7 @@ def main() -> None:
                 race=current_race,
                 guild=current_guild
             )
-            # Add skills to the player
-            Player.objects.get(nickname=player_name)
+
 
 
 if __name__ == "__main__":
