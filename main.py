@@ -13,28 +13,27 @@ def main() -> None:
         race_data = player_data.pop("race")
         guild_data = player_data.pop("guild")
 
-        race, _ = Race.objects.get_or_create(
+        race, created = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={
                 "description": race_data["description"]
             }
         )
 
-        for skill_data in race_data["skills"]:
-            Skill.objects.get_or_create(
-                name=skill_data["name"],
-                defaults={
-                    "bonus": skill_data["bonus"], "race": race
-                }
-            )
+        if created:
+            for skill_data in race_data["skills"]:
+                Skill.objects.create(
+                    name=skill_data["name"],
+                    bonus=skill_data["bonus"],
+                    race=race
+                )
 
         if guild_data is not None:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
-                defaults={
-                    "description": guild_data["description"]
-                }
             )
+            guild.description = guild_data["description"]
+            guild.save()
             player_data["guild"] = guild
 
         player_data["race"] = race
