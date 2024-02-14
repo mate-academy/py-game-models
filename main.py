@@ -22,7 +22,7 @@ def main() -> None:
             description=description,
         )
 
-        if skills:
+        if player_race:
             for skill in skills:
                 player_skill, _ = Skill.objects.get_or_create(
                     **skill,
