@@ -17,12 +17,12 @@ def main() -> None:
 
         email, bio, race, guild = data.values()
         name, description, skills = race.values()
-        player_race, _ = Race.objects.get_or_create(
+        player_race, is_player_race_created = Race.objects.get_or_create(
             name=name,
             description=description,
         )
 
-        if player_race:
+        if is_player_race_created:
             for skill in skills:
                 player_skill, _ = Skill.objects.get_or_create(
                     **skill,
