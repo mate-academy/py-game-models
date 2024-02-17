@@ -16,9 +16,9 @@ def main() -> None:
             description=player_info["race"]["description"]
         )
 
-        if rase_created and (player_skills := player_info["race"]["skills"]):
+        if rase_created:
 
-            for skill in player_skills:
+            for skill in player_info["race"]["skills"]:
                 Skill.objects.get_or_create(
                     name=skill["name"],
                     bonus=skill["bonus"],
