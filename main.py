@@ -10,18 +10,19 @@ def main() -> None:
         players = json.load(players_data)
     for nickname, player_value in players.items():
 
-        email, bio, race, guild = player_value.values()
+        email, bio, race_dict, guild = player_value.values()
 
-        race_name, description, skills = race.values()
-
-        race, is_present = Race.objects.get_or_create(
-            name=race_name,
-            description=description,
+        race, created = Race.objects.get_or_create(
+            name=race_dict["name"],
+            description=race_dict["description"]
         )
 
-        if not is_present:
-            for skill in skills:
-                Skill.objects.get_or_create(**skill, race=race)
+        if not created:
+            for skill in race_dict["skills"]:
+                Skill.objects.get_or_create(
+                    **skill,
+                    race=race
+                )
 
         if guild:
             guild, _ = Guild.objects.get_or_create(**guild)
