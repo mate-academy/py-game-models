@@ -4,78 +4,52 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-def make_guild(player_guild_data):
-    if not player_guild_data:
-        return None
-    name = player_guild_data["name"]
-    if not Guild.objects.filter(name=name).exists():
-        description = player_guild_data["description"]
-        Guild.objects.create(
-            name=name,
-            description=description
+def create_race(data_players: dict) -> Race:
+    race, _ = Race.objects.get_or_create(
+        name=data_players["race"]["name"],
+        description=data_players["race"]["description"]
+    )
+    return race
+
+
+def create_skill(data_players: dict) -> None:
+    for skill in data_players["race"]["skills"]:
+        Skill.objects.get_or_create(
+            name=skill["name"],
+            bonus=skill["bonus"],
+            race=create_race(data_players)
         )
-    return Guild.objects.get(name=name)
 
 
-def make_race(player_race_data):
-    name = player_race_data["name"]
-    if not Race.objects.filter(name=name).exists():
-        description = player_race_data["description"]
-        Race.objects.create(
-            name=name,
-            description=description
+def create_guild(data_players: dict) -> Guild:
+    guild = None
+    if data_players["guild"]:
+        guild, _ = Guild.objects.get_or_create(
+            name=data_players["guild"]["name"],
+            description=data_players["guild"]["description"]
         )
-    return Race.objects.get(name=name)
+    return guild
 
 
-def make_skills(player_skills_data, race):
-    for skill in player_skills_data:
-        name = skill["name"]
-        if not Skill.objects.filter(name=name).exists():
-            bonus = skill["bonus"]
-            Skill.objects.create(
-                name=name,
-                bonus=bonus,
-                race=race
-            )
-
-
-def make_player(
-        nickname,
-        email,
-        bio,
-        race,
-        guild
-):
-    if not Player.objects.filter(nickname=nickname).exists():
-        Player.objects.create(
-            nickname=nickname,
-            email=email,
-            bio=bio,
-            race=race,
-            guild=guild
-        )
+def create_player(data_players: dict, player: str) -> None:
+    Player.objects.get_or_create(
+        nickname=player,
+        email=data_players["email"],
+        bio=data_players["bio"],
+        race=create_race(data_players),
+        guild=create_guild(data_players)
+    )
 
 
 def main() -> None:
-    with open("players.json", "r") as file_in:
-        players = json.load(file_in)
+    with open("players.json") as players:
+        data_players = json.load(players)
 
-    for player in players:
-        nickname = player
-        email = players[player]["email"]
-        bio = players[player]["bio"]
-
-        race = make_race(players[player]["race"])
-        make_skills(players[player]["race"]["skills"], race)
-        guild = make_guild(players[player]["guild"])
-        make_player(
-            nickname,
-            email,
-            bio,
-            race,
-            guild
-        )
+    for player, data in data_players.items():
+        create_race(data)
+        create_guild(data)
+        create_skill(data)
+        create_player(data, player)
 
 
 if __name__ == "__main__":
