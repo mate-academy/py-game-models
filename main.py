@@ -11,7 +11,7 @@ def main() -> None:
 
     for nickname, player in players.items():
         race = player.get("race")
-        skills = player.get("race").pop("skills")
+        skills = race.pop("skills")
         race_object, race_created = Race.objects.get_or_create(**race)
 
         if race_created and skills:
