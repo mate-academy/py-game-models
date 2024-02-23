@@ -12,24 +12,23 @@ def main() -> None:
     for nickname, player in players.items():
         race = player.get("race")
         skills = race.pop("skills")
-        race_object, race_created = Race.objects.get_or_create(**race)
+        race, race_created = Race.objects.get_or_create(**race)
 
         if race_created and skills:
             for skill in skills:
-                skill["race"] = race_object
+                skill["race"] = race
                 Skill.objects.get_or_create(**skill)
 
         guild = player.get("guild")
-        guild_object, _ = Guild.objects.get_or_create(
-            **guild
-        ) if guild is not None else (None, None)
+        if guild:
+            guild, _ = Guild.objects.get_or_create(**guild)
 
         Player.objects.get_or_create(
             nickname=nickname,
             email=player.get("email"),
             bio=player.get("bio"),
-            race=race_object,
-            guild=guild_object,
+            race=race,
+            guild=guild,
         )
 
 
