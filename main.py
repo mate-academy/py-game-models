@@ -29,9 +29,9 @@ def main() -> None:
             guild_name = guild_data["name"]
             guild_description = guild_data["description"]
             if guild_name not in guilds:
-                guilds[guild_name] = \
-                    Guild.objects.get_or_create(name=guild_name,
-                                                description=guild_description)[0]
+                guilds[guild_name] = Guild.objects.get_or_create(
+                    name=guild_name,
+                    description=guild_description)[0]
 
         # Skills
         for skill_data in race_data["skills"]:
