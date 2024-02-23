@@ -31,7 +31,7 @@ def main() -> None:
             if guild_name not in guilds:
                 guilds[guild_name] = \
                     Guild.objects.get_or_create(name=guild_name,
-                                            description=guild_description)[0]
+                                                description=guild_description)[0]
 
         # Skills
         for skill_data in race_data["skills"]:
