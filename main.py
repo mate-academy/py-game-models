@@ -34,11 +34,3 @@ def main() -> None:
             race=race_index,
             guild=guild_index
         )
-
-
-if __name__ == "__main__":
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Guild.objects.all().delete()
-    Player.objects.all().delete()
-    main()
