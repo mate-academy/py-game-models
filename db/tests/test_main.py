@@ -41,7 +41,7 @@ def test_races():
         ("human", "Human race"),
     ]
     assert list(
-        Race.objects.get(name="elf").skill_set.values_list("name")
+        Race.objects.get(name="elf").skills.values_list("name")
     ) == [
         ("Teleportation",),
         ("Reality Warping",),
@@ -49,7 +49,7 @@ def test_races():
     assert (
         list(Race.objects.get(
             name="human"
-        ).skill_set.values_list("name", "bonus")) == []
+        ).skills.values_list("name", "bonus")) == []
     )
 
 
