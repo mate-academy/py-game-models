@@ -3,9 +3,7 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-
 def main() -> None:
-    races = []
     with open("players.json") as player:
         players = json.load(player)
     for player_nick, player_info in players.items():
@@ -37,11 +35,10 @@ def main() -> None:
             guild=guild_index
         )
 
+
 if __name__ == "__main__":
     Race.objects.all().delete()
     Skill.objects.all().delete()
     Guild.objects.all().delete()
     Player.objects.all().delete()
     main()
-
-
