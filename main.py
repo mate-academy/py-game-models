@@ -10,15 +10,17 @@ def main() -> None:
         player_data = json.load(file)
 
     for player, value in player_data.items():
-        race = Race.objects.get_or_create(
+        guild = None
+        if guild_value := value.get("guild"):
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_value["name"],
+                description=guild_value["description"]
+            )
+
+        race, _ = Race.objects.get_or_create(
             name=value["race"]["name"],
             description=value["race"]["description"]
-        )[0] if value["race"] else None
-
-        guild = Guild.objects.get_or_create(
-            name=value["guild"]["name"],
-            description=value["guild"]["description"]
-        )[0] if value["guild"] else None
+        )
 
         Player.objects.create(
             nickname=player,
@@ -37,4 +39,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    Player.objects.all().delete()
+    Guild.objects.all().delete()
+    Race.objects.all().delete()
+    Skill.objects.all().delete()
     main()
