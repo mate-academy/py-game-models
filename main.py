@@ -12,7 +12,7 @@ def main() -> None:
     for nickname, player_data in players_data.items():
         race_data = player_data.get("race")
         guild_data = player_data.get("guild")
-        skill_data = race_data.get("skill")
+        skill_data = race_data.get("skills")
 
         race_data, created = Race.objects.get_or_create(
             name=race_data.get("name"),
@@ -21,8 +21,8 @@ def main() -> None:
 
         for skill in skill_data:
             skill = Skill.objects.get_or_create(
-                name=skill_data.get("name"),
-                bonus=skill_data.get("bonus"),
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
                 race=race_data
             )
 
