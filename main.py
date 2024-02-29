@@ -12,7 +12,7 @@ def main() -> None:
         email = player_data["email"]
         bio = player_data["bio"]
         race_data = player_data["race"]
-        skills_data = player_data["skills"]
+        skills_data = race_data["skills"]
         guild_data = player_data["guild"]
 
         race, _ = Race.objects.get_or_create(
