@@ -20,30 +20,30 @@ def main() -> None:
             description=race_data["description"]
         )
 
-    if guild_data:
-        guild, _ = Guild.objects.get_or_create(
-            name=guild_data["name"],
-            description=guild_data["description"]
-        )
-    else:
-        guild = None
+        if guild_data:
+            current_guild, _ = Guild.objects.get_or_create(
+                name=guild_data["name"],
+                description=guild_data["description"]
+            )
+        else:
+            current_guild = None
 
-    skills = []
-    for skill_data in skills_data:
-        skill, _ = Skill.objects.get_or_create(
-            name=skill_data["name"],
-            bonus=skill_data["bonus"],
-            race=race
-        )
-        skills.append(skill)
+        skills = []
+        for skill_data in skills_data:
+            skill, _ = Skill.objects.get_or_create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race
+            )
+            skills.append(skill)
 
-    Player.objects.bulk_create(
-        nickname=player_name,
-        email=email,
-        bio=bio,
-        race=race,
-        guild=guild
-    )
+        Player.objects.get_or_create(
+            nickname=player_name,
+            email=email,
+            bio=bio,
+            race=race,
+            guild=current_guild
+        )
 
 
 if __name__ == "__main__":
