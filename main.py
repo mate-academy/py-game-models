@@ -24,11 +24,12 @@ def main() -> None:
         )
         skills = race["skills"]
         for skill in skills:
-            Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
-                race=player_race[0]
-            )
+            if skill["name"] not in Skill.objects.all().values_list("name"):
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=player_race[0]
+                )
         Player.objects.get_or_create(
             nickname=player,
             email=json_data[player]["email"],
