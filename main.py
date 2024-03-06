@@ -24,7 +24,9 @@ def main() -> None:
 
         for skill in options.get("race").get("skills"):
             Skill.objects.get_or_create(
-                name=skill["name"], bonus=skill["bonus"], race_id=race.id
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race_id=race.id,
             )
 
         Player.objects.create(
