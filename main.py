@@ -17,7 +17,7 @@ def main() -> None:
         guild = Guild.objects.get_or_create(
             name=values["guild"]["name"],
             description=values["guild"]["description"]
-        ) if values["guild"] else None
+        )[0] if values["guild"] else None
 
         for skill in values["race"]["skills"]:
             Skill.objects.get_or_create(
