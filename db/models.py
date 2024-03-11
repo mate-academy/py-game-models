@@ -2,14 +2,15 @@ from django.db import models
 
 
 class Race(models.Model):
-    RACE_TYPE = (
-        ("elf", "elf"),
-        ("dwarf", "dwarf"),
-        ("human", "human"),
-        ("ork", "ork")
-    )
+    class RaceType(models.TextChoices):
+        ELF = "elf", "elf"
+        DWARF = "dwarf", "dwarf"
+        HUMAN = "human", "human"
+        ORK = "ork", "ork"
 
-    name = models.CharField(max_length=255, unique=True, choices=RACE_TYPE)
+    name = models.CharField(
+        max_length=255, unique=True, choices=RaceType.choices
+    )
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
