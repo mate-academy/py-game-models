@@ -20,7 +20,7 @@ def main() -> None:
             name=race_options.get("name"),
             description=race_options.get("description"))
 
-        for skill in race_options.get("skills"):
+        for skill in race_options.get("skills", []):
             Skill.objects.get_or_create(name=skill.get("name"),
                                         bonus=skill.get("bonus"),
                                         race_id=race.id)
