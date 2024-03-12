@@ -23,7 +23,7 @@ def main() -> None:
                 race=race
             )
 
-        if info["guild"]:
+        if info.get("guild"):
             guild, created = Guild.objects.get_or_create(
                 name=info["guild"]["name"],
                 description=info["guild"]["description"]
