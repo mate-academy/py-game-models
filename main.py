@@ -16,7 +16,7 @@ def main() -> None:
                 description=options.get("guild").get("description"))
 
         race_options = options.get("race")
-        if race_option:
+        if race_options:
             race, _ = Race.objects.get_or_create(
                 name=race_options.get("name"),
                 description=race_options.get("description"))
