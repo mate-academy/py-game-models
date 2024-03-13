@@ -6,10 +6,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Guild.objects.all().delete()
-    Player.objects.all().delete()
+    Race.objects.delete()
+    Skill.objects.delete()
+    Guild.objects.delete()
+    Player.objects.delete()
 
     with open("players.json") as f:
         players = json.load(f)
