@@ -6,6 +6,7 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
+    # Deleted part
 
     with open("players.json") as f:
         players = json.load(f)
