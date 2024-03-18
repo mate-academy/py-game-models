@@ -24,9 +24,8 @@ def main() -> None:
                 description=guild_data.get("description")
             )
 
-        nickname = player_name
         Player.objects.create(
-            nickname=nickname,
+            nickname=player_name,
             email=player_data["email"],
             bio=player_data["bio"],
             race=race,
