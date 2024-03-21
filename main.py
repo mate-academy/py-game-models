@@ -7,10 +7,10 @@ def main() -> None:
     with open("players.json", "r") as f:
         data_file = json.load(f)
     for user, user_info in data_file.items():
-        race_obj = Race.objects.get_or_create(
+        race_obj, _ = Race.objects.get_or_create(
             name=user_info["race"]["name"],
             description=user_info["race"]["description"]
-        )[0]   # Add new Race object in DB.
+        )   # Add new Race object in DB.
         for skill in user_info["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
@@ -19,10 +19,10 @@ def main() -> None:
             )  # Add new Skills object in DB.
         guild = None
         if user_info["guild"] is not None:
-            guild = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=user_info["guild"]["name"],
                 description=user_info["guild"]["description"]
-            )[0]  # Add new Guild object in DB.
+            )  # Add new Guild object in DB.
 
         Player.objects.get_or_create(
             nickname=user,
