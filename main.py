@@ -17,25 +17,19 @@ def main() -> None:
                 bonus=skill["bonus"],
                 race=race_obj[0]
             )  # Add new Skills object in DB.
+        player = Player.objects.get_or_create(
+            nickname=user,
+            email=user_info["email"],
+            bio=user_info["bio"],
+            race=race_obj[0],
+        )
         if user_info["guild"] is not None:
             guild_obj = Guild.objects.get_or_create(
                 name=user_info["guild"]["name"],
                 description=user_info["guild"]["description"]
-            )    # Add new Guild object in DB.
-            Player.objects.get_or_create(
-                nickname=user,
-                email=user_info["email"],
-                bio=user_info["bio"],
-                race=race_obj[0],
-                guild=guild_obj[0],
-            )   # Add new Players object in DB.
-        else:
-            Player.objects.get_or_create(
-                nickname=user,
-                email=user_info["email"],
-                bio=user_info["bio"],
-                race=race_obj[0],
-            )   # Add new Players object in DB.
+            )   # Add new Guild object in DB.
+            player[0].guild = guild_obj[0]
+            player[0].save()
 
 
 if __name__ == "__main__":
