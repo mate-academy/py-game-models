@@ -29,7 +29,7 @@ def main() -> None:
                 description=user_info["guild"]["description"]
             )   # Add new Guild object in DB.
             player[0].guild = guild_obj[0]
-            player[0].save()
+            player[0].save()  # Save the update in to DB.
 
 
 if __name__ == "__main__":
