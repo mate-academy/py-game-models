@@ -32,23 +32,19 @@ def main() -> None:
 
         skills = []
         for skill_info in player_info["race"]["skills"]:
-            try:
-                skill, _ = Skill.objects.get_or_create(
-                    name=skill_info["name"],
-                    defaults={"bonus": skill_info["bonus"], "race": race}
-                )
-            except IntegrityError:
-                continue
-            skills.append(skill)
+            skill, _ = Skill.objects.get_or_create(
+                name=skill_info["name"],
+                defaults={"bonus": skill_info["bonus"], "race": race}
+            )
+        skills.append(skill)
 
-        player = Player(
+        player = Player.objects.create(
             nickname=player_name,
             email=player_info["email"],
             bio=player_info["bio"],
             race=race,
             guild=guild
         )
-        player.save()
 
 
 if __name__ == "__main__":
