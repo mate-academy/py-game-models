@@ -38,7 +38,7 @@ def main() -> None:
             )
         skills.append(skill)
 
-        player = Player.objects.create(
+        Player.objects.create(
             nickname=player_name,
             email=player_info["email"],
             bio=player_info["bio"],
