@@ -23,10 +23,10 @@ def main() -> None:
                                      )
 
         guild_params = player_params.get("guild", None)
-        guild = Guild.objects.get_or_create(
+        guild, guild_created = Guild.objects.get_or_create(
             name=guild_params["name"],
             description=guild_params["description"]
-        )[0] if guild_params else None
+        ) if guild_params else (None, False)
 
         Player.objects.create(
             nickname=player_name,
