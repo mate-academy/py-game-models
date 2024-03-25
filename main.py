@@ -28,13 +28,12 @@ def main() -> None:
                 bio=player_info["bio"],
                 race=race,
                 guild=guild,
-                created_at=timezone.now()
             )
 
-            for skill_dt in player_info["race"]["skills"]:
+            for skill in player_info["race"]["skills"]:
                 Skill.objects.get_or_create(
-                    name=skill_dt["name"],
-                    bonus=skill_dt["bonus"],
+                    name=skill["name"],
+                    bonus=skill["bonus"],
                     race=race
                 )
 
