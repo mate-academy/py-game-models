@@ -25,6 +25,7 @@ class Guild(models.Model):
     def __str__(self) -> any:
         return self.name
 
+
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
