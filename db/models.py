@@ -10,19 +10,6 @@ class Race(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(unique=True, max_length=255)
-    bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(
-        Race,
-        on_delete=models.CASCADE,
-    )
-    description = models.TextField(blank=True)
-
-    def __str__(self) -> any:
-        return self.name
-
-
-class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
