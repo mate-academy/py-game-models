@@ -1,5 +1,4 @@
 import json
-from django.utils import timezone
 from db.models import Guild, Race, Skill, Player
 
 
