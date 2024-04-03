@@ -5,27 +5,34 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-def get_or_create_race(data):
+def get_or_create_race(data: dict) -> Race:
     try:
         race = Race.objects.get(name=data["name"])
     except ObjectDoesNotExist:
-        race = Race.objects.create(name=data["name"], description=data["description"])
+        race = Race.objects.create(
+            name=data["name"],
+            description=data["description"])
     return race
 
 
-def get_or_create_skill(data, race):
+def get_or_create_skill(data: dict, race: Race) -> Skill:
     try:
         skill = Skill.objects.get(name=data["name"])
     except ObjectDoesNotExist:
-        skill = Skill.objects.create(name=data["name"], bonus=data["bonus"], race=race)
+        skill = Skill.objects.create(
+            name=data["name"],
+            bonus=data["bonus"],
+            race=race)
     return skill
 
 
-def get_or_create_guild(data):
+def get_or_create_guild(data: dict) -> Guild:
     try:
         guild = Guild.objects.get(name=data["name"])
     except ObjectDoesNotExist:
-        guild = Guild.objects.create(name=data["name"], description=data["description"])
+        guild = Guild.objects.create(
+            name=data["name"],
+            description=data["description"])
     return guild
 
 
@@ -37,7 +44,9 @@ def main() -> None:
             for skill in player["race"]["skills"]:
                 get_or_create_skill(skill, race)
 
-            guild = get_or_create_guild(player["guild"]) if player["guild"] else None
+            guild = get_or_create_guild(
+                player["guild"]
+            ) if player["guild"] else None
 
             Player.objects.create(
                 nickname=player["email"].split("@")[0],
