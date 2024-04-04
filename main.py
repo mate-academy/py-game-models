@@ -1,5 +1,5 @@
-import init_django_orm  # noqa: F401
 import json
+import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 
@@ -24,33 +24,33 @@ def main() -> None:
             name=data["nick"]["race"]["name"],
             description=data["nick"]["race"]["description"],
         )
-        skills = [Skill.objects.create(
+        [Skill.objects.create(
             name=skill["name"],
             bonus=skill["bonus"],
             race=race_elf
         ) for skill in data["john"]["race"]["skills"]]
-        player_john = Player.objects.create(
+        Player.objects.create(
             nickname="john",
             email=data["john"]["email"],
             bio=data["john"]["bio"],
             race=race_elf,
             guild=guild_archers
         )
-        player_max = Player.objects.create(
+        Player.objects.create(
             nickname="max",
             email=data["max"]["email"],
             bio=data["max"]["bio"],
             race=race_elf,
             guild=guild_mags
         )
-        player_arthur = Player.objects.create(
+        Player.objects.create(
             nickname="arthur",
             email=data["arthur"]["email"],
             bio=data["arthur"]["bio"],
             race=race_elf,
             guild=guild_mags
         )
-        player_andrew = Player.objects.create(
+        Player.objects.create(
             nickname="andrew",
             email=data["andrew"]["email"],
             bio=data["andrew"]["bio"],
@@ -59,7 +59,7 @@ def main() -> None:
                 name=data["andrew"]["guild"]["name"],
                 description=data["andrew"]["guild"]["description"])
         )
-        player_nick = Player.objects.create(
+        Player.objects.create(
             nickname="nick",
             email=data["nick"]["email"],
             bio=data["nick"]["bio"],
