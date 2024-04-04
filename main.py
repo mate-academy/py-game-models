@@ -5,6 +5,10 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
+    Guild.objects.all().delete()
+    Race.objects.all().delete()
+    Skill.objects.all().delete()
+    Player.objects.all().delete()
     with open("players.json") as f:
         data = json.load(f)
 
@@ -15,6 +19,10 @@ def main() -> None:
         guild_mags = Guild.objects.create(
             name=data["max"]["guild"]["name"],
             description=data["max"]["guild"]["description"],
+        )
+        guild_blacksmiths = Guild.objects.create(
+            name=data["andrew"]["guild"]["name"],
+            description=data["andrew"]["guild"]["description"],
         )
         race_elf = Race.objects.create(
             name=data["john"]["race"]["name"],
@@ -29,42 +37,25 @@ def main() -> None:
             bonus=skill["bonus"],
             race=race_elf
         ) for skill in data["john"]["race"]["skills"]]
-        Player.objects.create(
-            nickname="john",
-            email=data["john"]["email"],
-            bio=data["john"]["bio"],
-            race=race_elf,
-            guild=guild_archers
-        )
-        Player.objects.create(
-            nickname="max",
-            email=data["max"]["email"],
-            bio=data["max"]["bio"],
-            race=race_elf,
-            guild=guild_mags
-        )
-        Player.objects.create(
-            nickname="arthur",
-            email=data["arthur"]["email"],
-            bio=data["arthur"]["bio"],
-            race=race_elf,
-            guild=guild_mags
-        )
-        Player.objects.create(
-            nickname="andrew",
-            email=data["andrew"]["email"],
-            bio=data["andrew"]["bio"],
-            race=race_human,
-            guild=Guild.objects.create(
-                name=data["andrew"]["guild"]["name"],
-                description=data["andrew"]["guild"]["description"])
-        )
-        Player.objects.create(
-            nickname="nick",
-            email=data["nick"]["email"],
-            bio=data["nick"]["bio"],
-            race=race_human
-        )
+
+        for player in data.keys():
+            guild = None
+            if "guild" in data[player] and data[player]["guild"] is not None:
+                if data[player]["guild"]["name"] == "archers":
+                    guild = guild_archers
+                elif data[player]["guild"]["name"] == "mags":
+                    guild = guild_mags
+                else:
+                    guild = guild_blacksmiths
+            race = (race_elf if data[player]["race"]["name"] == "elf"
+                    else race_human)
+            Player.objects.create(
+                nickname=player,
+                email=data[player]["email"],
+                bio=data[player]["bio"],
+                race=race,
+                guild=guild,
+            )
 
 
 if __name__ == "__main__":
