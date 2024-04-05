@@ -11,13 +11,12 @@ def main() -> None:
             name=ability["race"]["name"],
             description=ability["race"].get("description")
         )
-        if ability["guild"]:
+        guild = None
+        if ability.get("guild"):
             guild, _ = Guild.objects.get_or_create(
                 name=ability["guild"].get("name"),
                 description=ability["guild"].get("description")
             )
-        else:
-            guild = None
         Player.objects.get_or_create(
             nickname=nickname,
             email=ability["email"],
