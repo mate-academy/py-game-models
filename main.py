@@ -8,48 +8,45 @@ def main() -> None:
     with open("players.json") as f:
         data = json.load(f)
 
-        guilds = {}
-        races = {}
-        for player in data.keys():
+        for player, info in data.items():
             # Create guilds
-            if "guild" in data[player] and data[player]["guild"] is not None:
-                guild_name = data[player]["guild"]["name"]
-                if guild_name not in guilds:
-                    guilds[guild_name] = Guild.objects.create(
-                        name=guild_name,
-                        description=data[player]["guild"]["description"],
+            if "guild" in info and info["guild"] is not None:
+                guild_list = Guild.objects.values_list("name", flat=True)
+                if info["guild"]["name"] not in guild_list:
+                    guild = Guild.objects.create(
+                        name=info["guild"]["name"],
+                        description=info["guild"]["description"],
                     )
-
+            else:
+                guild = None
             # Create races and skills
-            race_name = data[player]["race"]["name"]
-            if race_name not in races:
-                races[race_name] = Race.objects.create(
-                    name=race_name,
-                    description=data[player]["race"]["description"],
-                )
-                if "skills" in data[player]["race"]:
-                    for skill in data[player]["race"]["skills"]:
-                        Skill.objects.create(
-                            name=skill["name"],
-                            bonus=skill["bonus"],
-                            race=races[race_name]
-                        )
-
+            if "race" in info and info["race"] is not None:
+                race_list = Race.objects.values_list("name", flat=True)
+                if info["race"]["name"] not in race_list:
+                    race = Race.objects.create(
+                        name=info["race"]["name"],
+                        description=info["race"]["description"]
+                    )
+                # Skills
+                skills_list_data = info["race"]["skills"]
+                if "skills" in info["race"] and skills_list_data is not None:
+                    skills_list = Skill.objects.values_list("name", flat=True)
+                    for skill in skills_list_data:
+                        if skill["name"] not in skills_list:
+                            Skill.objects.create(
+                                name=skill["name"],
+                                bonus=skill["bonus"],
+                                race=race
+                            )
             # Create players
-            guild = guilds.get(
-                data[
-                    player]["guild"]["name"]
-            )if "guild" in data[
-                player] and data[
-                player]["guild"] is not None else None
-            race = races[data[player]["race"]["name"]]
-            Player.objects.create(
-                nickname=player,
-                email=data[player]["email"],
-                bio=data[player]["bio"],
-                race=race,
-                guild=guild,
-            )
+            if player not in Player.objects.values_list("nickname"):
+                Player.objects.create(
+                    nickname=player,
+                    email=info["email"],
+                    bio=info["bio"],
+                    race=race,
+                    guild=guild,
+                )
 
 
 if __name__ == "__main__":
