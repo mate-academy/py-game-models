@@ -5,10 +5,6 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Player.objects.all().delete()
-    Guild.objects.all().delete()
 
     with open("players.json", "r") as source_file:
         source_data = json.load(source_file)
@@ -28,13 +24,12 @@ def main() -> None:
             )
 
         guild_data = value.get("guild")
+        guild = None
         if guild_data:
             guild, guild_bool = Guild.objects.get_or_create(
                 name=guild_data.get("name"),
                 description=guild_data.get("description")
             )
-        else:
-            guild = None
 
         Player.objects.create(
             nickname=key,
