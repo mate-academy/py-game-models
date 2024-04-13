@@ -1,5 +1,6 @@
-import init_django_orm  # noqa: F401
 import json
+import init_django_orm  # noqa: F401
+
 
 from db.models import Race, Skill, Player, Guild
 
@@ -7,7 +8,6 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as file_json:
         data = json.load(file_json)
-        races = {}
         for nickname, player_data in data.items():
             race, _ = Race.objects.filter(
                 name=player_data["race"]["name"]
@@ -15,7 +15,6 @@ def main() -> None:
                 name=player_data["race"]["name"],
                 defaults={"description": player_data["race"]["description"]}
             )
-            races[race.name] = race
 
             for skill_data in player_data["race"]["skills"]:
                 Skill.objects.filter(

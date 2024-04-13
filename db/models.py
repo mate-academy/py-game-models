@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 
 class Race(models.Model):
@@ -27,4 +26,4 @@ class Player(models.Model):
                              related_name="race_player")
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL,
                               related_name="guild_player", null=True)
-    created_at = models.DateTimeField(default=datetime.datetime.now())
+    created_at = models.DateTimeField(auto_now=True)
