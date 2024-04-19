@@ -31,9 +31,10 @@ def create_race(player_race: dict[str]) -> Race:
     Creating unique race name, description of race and writes race to DB
     :return: Race instance
     """
-    get_player_race, _ = Race.objects.get_or_create(name=player_race["name"])
-    get_player_race.description = player_race["description"]
-    get_player_race.save()
+    get_player_race, _ = Race.objects.get_or_create(
+        name=player_race["name"],
+        description=player_race["description"]
+    )
     return get_player_race
 
 
