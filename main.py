@@ -1,7 +1,6 @@
 import os
 import django
 import json
-from datetime import datetime
 from db.models import Player, Guild, Race, Skill
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
@@ -9,6 +8,7 @@ django.setup()
 
 
 def main() -> None:
+    global guild_data
     with open("players.json") as f:
         players_data = json.load(f)
 
@@ -20,16 +20,22 @@ def main() -> None:
             name=player_data["race"]["name"],
             description=player_data["race"]["description"]
         )
-        guild_instance, _ = Guild.objects.get_or_create(
-            name=guild_data["name"],
-            description=guild_data["description"]
-            if guild_data["description"]
-            else None
-        )
+        if guild_data and "name" in guild_data:
+            name = guild_data["name"]
+            description = guild_data.get("description", None)
+            guild_instance, _ = Guild.objects.get_or_create(
+                name=name,
+                defaults={
+                    "description": description
+                }
+            )
+        else:
+            guild_instance = None
+
         if "skills" in race_data:
             skills_data = player_data["race"]["skills"]
             for skill_data in skills_data:
-                skill, _ = Skill.objects.get_or_create(
+                Skill.objects.get_or_create(
                     name=skill_data["name"],
                     bonus=skill_data["bonus"],
                     race=race_instance
@@ -40,5 +46,4 @@ def main() -> None:
             bio=player_data["bio"],
             race=race_instance,
             guild=guild_instance if player_data["guild"] else None,
-            defaults={"created_at": datetime.now()}
         )
