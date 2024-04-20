@@ -1,7 +1,10 @@
 import init_django_orm  # noqa: F401
+
 import json
 from typing import Dict, List, Any, Optional
+
 from django.db import transaction
+
 from db.models import Race, Skill, Player, Guild
 
 
@@ -13,12 +16,11 @@ def load_race(race_data: Dict[str, Any]) -> Race:
     return race
 
 
-def load_skill(race: Race, skills_data: List[dict]) -> None:
+def load_skill(race: Race, skills_data: List) -> None:
     for skill_data in skills_data:
         Skill.objects.get_or_create(
             name=skill_data["name"],
-            bonus=skill_data["bonus"],
-            race=race
+            defaults={"bonus": skill_data["bonus"], "race": race}
         )
 
 
@@ -53,6 +55,7 @@ def load_player(data: Dict[str, Any]) -> None:
     with transaction.atomic():
         for player_name, player_data in data.items():
             race = load_race(player_data["race"])
+            load_skill(race, player_data["race"].get("skills", []))
             guild = load_guild(player_data.get("guild"))
             create_player(player_name, player_data, race, guild)
 
