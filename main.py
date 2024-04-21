@@ -8,8 +8,7 @@ def main() -> None:
     with open("players.json") as file:
         data = json.load(file)
 
-    for player_name in data:
-        player_data = data[player_name]
+    for player_name, player_data in data.items():
         player_race = player_data["race"]
         player_guild = player_data["guild"]
 
