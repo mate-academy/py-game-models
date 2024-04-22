@@ -14,13 +14,12 @@ def main() -> None:
 
         race_info = info["race"]
 
+        guild = None
         if guild_info:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_info["name"],
                 description=guild_info["description"],
             )
-        else:
-            guild = None
 
         race, _ = Race.objects.get_or_create(
             name=race_info["name"],
