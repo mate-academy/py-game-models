@@ -9,17 +9,13 @@ def main() -> None:
     with open("players.json", "r") as file_json:
         data = json.load(file_json)
     for nickname, player_data in data.items():
-        race, _ = Race.objects.filter(
-            name=player_data["race"]["name"]
-        ).get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=player_data["race"]["name"],
             defaults={"description": player_data["race"]["description"]}
         )
 
         for skill_data in player_data["race"]["skills"]:
-            Skill.objects.filter(
-                name=skill_data["name"]
-            ).get_or_create(
+            Skill.objects.get_or_create(
                 name=skill_data["name"],
                 defaults={
                     "bonus": skill_data["bonus"],
@@ -28,9 +24,7 @@ def main() -> None:
             )
         guild = None
         if player_data["guild"]:
-            guild, _ = Guild.objects.filter(
-                name=player_data["guild"]["name"]
-            ).get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=player_data["guild"]["name"],
                 defaults={
                     "description": player_data["guild"]["description"]
