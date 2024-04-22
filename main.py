@@ -14,12 +14,15 @@ def main() -> None:
 
         race_info = info["race"]
 
-        guild = Guild.objects.get_or_create(
-            name=guild_info["name"],
-            description=guild_info["description"],
-        )if guild_info else None
+        if guild_info:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_info["name"],
+                description=guild_info["description"],
+            )
+        else:
+            guild = None
 
-        race = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_info["name"],
             description=race_info["description"]
         )
@@ -27,14 +30,14 @@ def main() -> None:
         for skill in race_info["skills"]:
             Skill.objects.get_or_create(name=skill["name"],
                                         bonus=skill["bonus"],
-                                        race_id=race[0].id)
+                                        race_id=race.id)
 
-        guild_id = guild[0].id if guild_info else None
+        guild_id = guild.id if guild else None
 
         Player.objects.get_or_create(nickname=player,
                                      email=info["email"],
                                      bio=info["bio"],
-                                     race_id=race[0].id,
+                                     race_id=race.id,
                                      guild_id=guild_id)
 
 
