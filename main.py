@@ -7,35 +7,37 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json", "r") as file:
-        data = json.load(file)
-
-        for nickname, info in data.items():
-            race_obj, _ = Race.objects.get_or_create(
-                name=info["race"]["name"],
-                description=info["race"]["description"]
+        with open("players.json", "r") as files:
+            players_data = json.load(files)
+        for player, player_info in players_data.items():
+            race, created = Race.objects.get_or_create(
+                name=player_info["race"]["name"],
+                description=player_info["race"]["description"]
             )
 
-            for skills_info in info["race"]["skills"]:
-                skill, _ = Skill.objects.get_or_create(
-                    name=skills_info["name"],
-                    bonus=skills_info["bonus"],
-                    race=race_obj
+            for skill in player_info["race"]["skills"]:
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race
                 )
-            if info["guild"] is not None:
-                guild_obj, _ = Guild.objects.get_or_create(
-                    name=info["guild"]["name"],
-                    description=info["guild"]["description"]
+
+            if player_info["guild"] is not None:
+                guild, created = Guild.objects.get_or_create(
+                    name=player_info["guild"]["name"],
+                    description=player_info["guild"]["description"]
                 )
             else:
-                guild_obj = None
+                guild = None
 
-            Player.objects.get_or_create(
-                nickname=nickname,
-                email=info["email"],
-                bio=info["bio"],
-                race=race_obj,
-                guild=guild_obj
+            created_player = Player.objects.create(
+                nickname=player,
+                email=player_info["email"],
+                bio=player_info["bio"],
+                race=race,
+                guild=guild
             )
+            created_player.save()
 
 
 if __name__ == "__main__":
