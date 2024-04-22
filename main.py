@@ -20,7 +20,6 @@ def create_or_update_guild(guild_data: Optional[dict]) -> Optional[Guild]:
             description=guild_data["description"],
         )
         return guild
-    return None
 
 
 def create_or_update_skills(skills_data: list, race: Race) -> None:
@@ -28,13 +27,13 @@ def create_or_update_skills(skills_data: list, race: Race) -> None:
         Skill.objects.get_or_create(
             name=skill["name"],
             bonus=skill["bonus"],
-            race=race
+            race=race,
         )
 
 
 def main() -> None:
-    with open("players.json", "r") as f:
-        data = json.load(f)
+    with open("players.json", "r") as file:
+        data = json.load(file)
 
     for user_name, user_info in data.items():
         race = create_or_update_race(user_info["race"])
