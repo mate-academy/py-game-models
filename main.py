@@ -49,7 +49,7 @@ def create_skills(player_race: dict[str], race_instance: Race) -> None:
         )
 
 
-def create_guild(player_guild: dict[str]) -> Guild:
+def create_guild(player_guild: dict[str]) -> Guild | None:
     """
     Creating unique guild name if player has a guild,
     description(not required) and writes guild to DB
@@ -62,3 +62,7 @@ def create_guild(player_guild: dict[str]) -> Guild:
             description=player_guild["description"]
         )
     return guild
+
+
+if __name__ == "__main__":
+    main()
