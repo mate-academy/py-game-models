@@ -33,7 +33,8 @@ def main() -> None:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=race)
+                race=race
+            )
 
 
 if __name__ == "__main__":
