@@ -6,7 +6,6 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as json_file:
         loaded_players = json.load(json_file)
-        print(loaded_players)
 
     for player, info in loaded_players.items():
 
