@@ -33,7 +33,7 @@ def main() -> None:
             guild, _ = Guild.objects.update_or_create(
                 name=guild_data.get("name"),
                 defaults={
-                    "descriptio": guild_data.get("description")
+                    "description": guild_data.get("description")
                 }
             )
         else:
