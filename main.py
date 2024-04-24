@@ -66,5 +66,6 @@ def main() -> None:
 
         create_player(player_name, player_data, race, guild)
 
+
 if __name__ == "__main__":
     main()
