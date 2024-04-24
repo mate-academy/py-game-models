@@ -1,7 +1,7 @@
-import json
-from typing import Dict
-
 import init_django_orm  # noqa: F401
+import json
+
+from typing import Dict
 
 from db.models import Race, Skill, Player, Guild
 
