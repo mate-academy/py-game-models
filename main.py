@@ -25,9 +25,7 @@ def main() -> None:
             description = guild_data.get("description", None)
             guild_instance, _ = Guild.objects.get_or_create(
                 name=name,
-                defaults={
-                    "description": description
-                }
+                description=description
             )
         else:
             guild_instance = None
