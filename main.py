@@ -26,10 +26,7 @@ def main() -> None:
 
 
 def create_race(player_race: dict[str]) -> Race:
-    """
-    Creating unique race name, description of race and writes race to DB
-    :return: Race instance
-    """
+
     get_player_race, _ = Race.objects.get_or_create(
         name=player_race["name"],
         description=player_race["description"]
@@ -38,9 +35,7 @@ def create_race(player_race: dict[str]) -> Race:
 
 
 def create_skills(player_race: dict[str], race_instance: Race) -> None:
-    """
-    Creating unique skills that are attached to the Race instance
-    """
+
     for skill in player_race["skills"]:
         skill, _ = Skill.objects.get_or_create(
             name=skill["name"],
