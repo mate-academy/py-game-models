@@ -63,3 +63,7 @@ def main() -> None:
         guild = create_or_update_guild(guild_data)
 
         create_player(player_name, player_data, race, guild)
+
+
+if __name__ == "__main__":
+    main()
