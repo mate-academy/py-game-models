@@ -29,7 +29,7 @@ class Guild(models.Model):
     description = models.TextField(null=True)
 
     def __str__(self) -> str:
-        return f"Guild: {self.name} {self.description or ""}"
+        return f"Guild: {self.name} {self.description or ''}"
 
 
 class Player(models.Model):
