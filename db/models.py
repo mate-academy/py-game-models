@@ -2,13 +2,17 @@ from django.db import models
 
 
 class Race(models.Model):
-    NAME_CHOICES = (
-        ("elf", "The elf race"),
-        ("dwarf", "The dwarf race"),
-        ("human", "Human race"),
-        ("ork", "The ork race"),
+    class RaceType(models.TextChoices):
+        ELF = ("elf", "The elf race")
+        DWARF = ("dwarf", "The dwarf race")
+        HUMAN = ("human", "Human race")
+        ORK = ("ork", "The ork race")
+
+    name = models.CharField(
+        max_length=255,
+        unique=True,
+        choices=RaceType.choices
     )
-    name = models.CharField(max_length=255, unique=True, choices=NAME_CHOICES)
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
@@ -29,7 +33,7 @@ class Guild(models.Model):
     description = models.TextField(null=True)
 
     def __str__(self) -> str:
-        return f"Guild: {self.name} {self.description or ''}"
+        return f"{self.name} {self.description or ''}"
 
 
 class Player(models.Model):
@@ -41,4 +45,4 @@ class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"Player: {self.nickname.capitalize()} - {self.bio}"
+        return f"{self.nickname.capitalize()} - {self.bio}"

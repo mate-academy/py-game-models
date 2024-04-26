@@ -49,4 +49,52 @@ class Migration(migrations.Migration):
                 ('race', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.race')),
             ],
         ),
+        migrations.AlterField(
+            model_name='race',
+            name='name',
+            field=models.CharField(
+                choices=[('Elf', 'Elf race'), ('Dwarf', 'Dwarf race'),
+                         ('Human', 'Human race'), ('Ork', 'Ork race')],
+                max_length=255, unique=True),
+        ),
+        migrations.AlterField(
+            model_name='skill',
+            name='race',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to='db.race'),
+        ),
+        migrations.AlterField(
+            model_name='skill',
+            name='race',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='db.race'),
+        ),
+        migrations.AlterField(
+            model_name='player',
+            name='guild',
+            field=models.ForeignKey(null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL,
+                                    to='db.guild'),
+        ),
+        migrations.AlterField(
+            model_name='race',
+            name='name',
+            field=models.CharField(
+                choices=[('elf', 'The elf race'), ('dwarf', 'The dwarf race'),
+                         ('human', 'Human race'), ('ork', 'The ork race')],
+                max_length=255, unique=True),
+        ),
+        migrations.AlterField(
+            model_name='skill',
+            name='race',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='skills', to='db.race'),
+        ),
+        migrations.AlterField(
+            model_name='skill',
+            name='race',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='db.race'),
+        ),
     ]
