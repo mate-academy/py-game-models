@@ -2,7 +2,7 @@ import json
 
 import init_django_orm  # noqa: F401
 
-from db.models import Race, Skill, Player, Guild
+from db.models import Race, Player, Guild
 
 
 def create_race(player_data: dict) -> Race:
@@ -44,7 +44,7 @@ def create_player(
     return player
 
 
-def create_skills(player: Player, player_data: dict):
+def create_skills(player: Player, player_data: dict) -> None:
     for skill in player_data["race"]["skills"]:
         name = skill["name"]
         bonus = skill["bonus"]
