@@ -2,7 +2,7 @@ import json
 
 import init_django_orm  # noqa: F401
 
-from db.models import Race, Player, Guild
+from db.models import Race, Player, Skill, Guild
 
 
 def create_race(player_data: dict) -> Race:
@@ -44,11 +44,11 @@ def create_player(
     return player
 
 
-def create_skills(player: Player, player_data: dict) -> None:
+def create_skills(player_data: dict, race: Race) -> None:
     for skill in player_data["race"]["skills"]:
         name = skill["name"]
         bonus = skill["bonus"]
-        player.race.skill_set.get_or_create(name=name, bonus=bonus)
+        Skill.objects.get_or_create(name=name, bonus=bonus, race=race)
 
 
 def main() -> None:
@@ -59,9 +59,8 @@ def main() -> None:
         try:
             player_race = create_race(player_info)
             player_guild = create_guild(player_info)
-            player = create_player(player_name, player_info,
-                                   player_race, player_guild)
-            create_skills(player, player_info)
+            create_player(player_name, player_info, player_race, player_guild)
+            create_skills(player_info, player_race)
         except Exception as error:
             print(f"Error creating player {player_name}: {str(error)}")
 
