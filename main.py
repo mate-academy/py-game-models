@@ -27,11 +27,11 @@ def main() -> None:
 
 def create_race(player_race: dict[str]) -> Race:
 
-    get_player_race, _ = Race.objects.get_or_create(
+    race_instance, _ = Race.objects.get_or_create(
         name=player_race["name"],
         description=player_race["description"]
     )
-    return get_player_race
+    return race_instance
 
 
 def create_skills(player_race: dict[str], race_instance: Race) -> None:
@@ -45,11 +45,7 @@ def create_skills(player_race: dict[str], race_instance: Race) -> None:
 
 
 def create_guild(player_guild: dict[str]) -> Guild | None:
-    """
-    Creating unique guild name if player has a guild,
-    description(not required) and writes guild to DB
-    :return: Guild instance
-    """
+
     guild = None
     if player_guild is not None:
         guild, _ = Guild.objects.get_or_create(
