@@ -1,13 +1,12 @@
 from django.db import models
-from django.utils import timezone
 
 
 class Race(models.Model):
     RACES = [
-        ("Elf", "Elf"),
-        ("Dwarf", "Dwarf"),
-        ("Human", "Human"),
-        ("Ork", "Ork")
+        ("elf", "Elf race"),
+        ("dwarf", "Dwarf race"),
+        ("human", "Human race"),
+        ("ork", "Ork race")
     ]
 
     name = models.CharField(
@@ -40,14 +39,14 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="races"
+        related_name="player_race"
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="guilds"
+        related_name="player_guild"
     )
     created_at = models.DateTimeField(
-        default=timezone.now
+        auto_now_add=True
     )
