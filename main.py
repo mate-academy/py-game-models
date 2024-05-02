@@ -17,9 +17,7 @@ def main() -> None:
         race, created = Race.objects.get_or_create(
             name=race_data.get("name"),
             defaults={
-                "description": {
-                    race_data.get("description")
-                }
+                "description": race_data.get("description")
             }
         )
 
