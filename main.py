@@ -29,6 +29,6 @@ def main() -> None:
                                      email=player["email"], bio=player["bio"],
                                      race=race_db, guild=guild_db)
 
+
 if __name__ == "__main__":
     main()
-
