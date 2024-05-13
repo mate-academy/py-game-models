@@ -15,13 +15,12 @@ def main() -> None:
             description=player["race"]["description"]
         )
 
+        guild_db = None
         if player["guild"]:
             guild_db, _ = Guild.objects.get_or_create(
                 name=player["guild"]["name"],
                 description=player["guild"]["description"]
             )
-        else:
-            guild_db = None
 
         for skill in player["race"]["skills"]:
             skill_db, _ = Skill.objects.get_or_create(
