@@ -2,14 +2,7 @@ from django.db import models
 
 
 class Race(models.Model):
-    RACE_CHOICES = (
-        ("Elf", "being with magical powers and supernatural beauty"),
-        ("Dwarf", "living in mountains or stones "
-                  "and being skilled craftspeople "),
-        ("Human", "most common and widespread species of primate"),
-        ("Ork", "a demon of Tyrol alpine folklore")
-    )
-    name = models.CharField(max_length=255, unique=True, choices=RACE_CHOICES)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
 
@@ -21,7 +14,7 @@ class Skill(models.Model):
 
 class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(null=True)
+    description = models.TextField(blank=True, null=True)
 
 
 class Player(models.Model):
@@ -29,5 +22,5 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
