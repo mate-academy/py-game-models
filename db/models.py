@@ -5,7 +5,7 @@ class Race(models.Model):
     RACE_CHOICES = (
         ("Elf", "being with magical powers and supernatural beauty"),
         ("Dwarf", "living in mountains or stones "
-                  "and being skilled craftspeople"),
+                  "and being skilled craftspeople "),
         ("Human", "most common and widespread species of primate"),
         ("Ork", "a demon of Tyrol alpine folklore")
     )
