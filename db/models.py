@@ -14,7 +14,7 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
                              on_delete=models.CASCADE,
-                             related_name="skills")
+                             related_name="skill_set")
 
     def __str__(self) -> str:
         return f"{self.name} {self.bonus} {self.race}"
