@@ -14,7 +14,7 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
                              on_delete=models.CASCADE,
-                             related_name="skill_set")
+                             related_name="skills")
 
     def __str__(self) -> str:
         return f"{self.name} {self.bonus} {self.race}"
@@ -34,11 +34,11 @@ class Player(models.Model):
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
                              on_delete=models.CASCADE,
-                             related_name="players_race")
+                             related_name="players")
     guild = models.ForeignKey(Guild,
                               on_delete=models.SET_NULL,
                               null=True, blank=True,
-                              related_name="players_guild")
+                              related_name="players")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
