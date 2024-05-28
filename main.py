@@ -2,10 +2,11 @@ import init_django_orm  # noqa: F401
 
 import json
 
+from typing import Tuple
 from db.models import Race, Skill, Player, Guild
 
 
-def create_race(race: dict) -> Race | bool:
+def create_race(race: dict) -> Tuple[Race, bool]:
     return Race.objects.get_or_create(
         name=race["name"],
         description=race["description"]
@@ -24,7 +25,7 @@ def create_skill(skills: list[dict], race: Race) -> None:
 def create_guild(guild: dict) -> Guild | None:
     if not guild:
         return
-    guild_obj, created = Guild.objects.get_or_create(
+    guild_obj, _ = Guild.objects.get_or_create(
         name=guild["name"],
         description=guild["description"]
     )
