@@ -22,10 +22,10 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
-                             related_name="races",
+                             related_name="players",
                              on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild,
                               null=True,
-                              related_name="guilds",
+                              related_name="players",
                               on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
