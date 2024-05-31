@@ -33,8 +33,9 @@ def main() -> None:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=Race.objects.get(name=
-                                      players_data[player]["race"]["name"])
+                race=Race.objects.get(
+                    name=players_data[player]["race"]["name"]
+                )
             ) if skill is not None else None
 
 
