@@ -8,8 +8,3 @@ venv/
 **__pycache__/
 *.pyc
 **db.sqlite3
-db/migrations/0001_initial.py
-db/migrations/0002_rename_name_player_email.py
-db/migrations/0003_remove_race_race_alter_race_name.py
-db/migrations/0004_alter_player_create_at_alter_player_guild_and_more.py
-.gitignore
