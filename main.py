@@ -1,5 +1,6 @@
-import init_django_orm  # noqa: F401
 import json
+
+import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 
@@ -13,28 +14,29 @@ def main() -> None:
     with open("players.json", "r") as players_file:
         players_data = json.load(players_file)
 
-    list_of_players = list(players_data)
+    for player_name, player_data in players_data.items():
+        race = Race.objects.get_or_create(
+            name=player_data["race"]["name"],
+            description=player_data["race"]["description"]
+        )[0]
+        guild = Guild.objects.get_or_create(
+            name=player_data["guild"]["name"],
+            description=player_data["guild"]["description"]
+        )[0] if player_data["guild"] is not None else None
 
-    for player in list_of_players:
         Player.objects.create(
-            nickname=player,
-            email=players_data[player]["email"],
-            bio=players_data[player]["bio"],
-            race=Race.objects.get_or_create(
-                name=players_data[player]["race"]["name"],
-                description=players_data[player]["race"]["description"]
-            )[0],
-            guild=Guild.objects.get_or_create(
-                name=players_data[player]["guild"]["name"],
-                description=players_data[player]["guild"]["description"]
-            )[0] if players_data[player]["guild"] is not None else None
+            nickname=player_name,
+            email=player_data["email"],
+            bio=player_data["bio"],
+            race=race,
+            guild=guild
         )
-        for skill in players_data[player]["race"]["skills"]:
+        for skill in player_data["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
                 race=Race.objects.get(
-                    name=players_data[player]["race"]["name"]
+                    name=player_data["race"]["name"]
                 )
             ) if skill is not None else None
 
