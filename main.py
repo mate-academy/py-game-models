@@ -30,7 +30,7 @@ def main() -> None:
         else:
             guild_inst = None
 
-        Player.objects.get_or_create(
+        Player.objects.create(
             nickname=player_name,
             email=info.get("email"),
             bio=info.get("bio"),
