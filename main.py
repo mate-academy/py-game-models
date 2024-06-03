@@ -4,7 +4,7 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-def create_race(race_data: dict) -> Race:
+def create_race(race_data: dict) -> Race | None:
     race_description = race_data.get("description")
     if race_description is None:
         return None
