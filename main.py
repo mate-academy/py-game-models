@@ -5,11 +5,11 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    
+
     with open("players.json", "r") as players_file:
-        
+
         players = json.load(players_file)
-        
+
     for player_name, player_info in players.items():
 
         guild = None
@@ -25,7 +25,7 @@ def main() -> None:
             name=race_dict["name"],
             description=race_dict["description"]
         )[0]
-        
+
         for skill in race_dict["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
