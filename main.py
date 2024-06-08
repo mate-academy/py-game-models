@@ -15,16 +15,16 @@ def main() -> None:
         guild = None
         guild_dict = player_info["guild"]
         if isinstance(guild_dict, dict):
-            guild = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=guild_dict["name"],
                 description=guild_dict["description"]
-            )[0]
+            )
 
         race_dict = player_info["race"]
-        race = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_dict["name"],
             description=race_dict["description"]
-        )[0]
+        )
 
         for skill in race_dict["skills"]:
             Skill.objects.get_or_create(
@@ -33,7 +33,7 @@ def main() -> None:
                 race=race
             )
 
-        Player.objects.get_or_create(
+        Player.objects.create(
             nickname=player_name,
             email=player_info["email"],
             bio=player_info["bio"],
