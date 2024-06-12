@@ -19,10 +19,9 @@ def main() -> None:
         else:
             guild = None
 
-        race_data = player_data.get("race")
         race, _ = Race.objects.get_or_create(
-            name=race_data["name"],
-            description=race_data["description"]
+            name=player_data["race"]["name"],
+            description=player_data["race"]["description"]
         )
 
         for skill in player_data["race"]["skills"]:
