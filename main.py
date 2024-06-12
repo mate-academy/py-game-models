@@ -11,7 +11,7 @@ def main() -> None:
     for player_nickname, player in players.items():
         race_data = player.get("race")
         race, _ = Race.objects.get_or_create(
-            name=race_data.get("name", ""),
+            name=race_data.get("name"),
             description=race_data.get("description")
         )
 
