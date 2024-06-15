@@ -30,6 +30,7 @@ def main() -> None:
 
         Player.objects.create(
             nickname=nickname,
+            email=properties["email"],
             bio=properties["bio"],
             race=race,
             guild=guild,
