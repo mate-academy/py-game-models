@@ -4,35 +4,46 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-def main() -> None:
-    with open("players.json") as file:
-        data = json.load(file)
+def main():
+    with open("players.json") as f:
+        players_data = json.load(f)
 
-    for player_name, player_data in data.items():
-        race_data = player_data["race"]
-        race, created = Race.objects.get_or_create(
+    for player_name, player_info in players_data.items():
+        # Get or create Race
+        race_data = player_info["race"]
+        race, _ = Race.objects.get_or_create(
             name=race_data["name"],
-            defaults={"description": race_data.get("description", "")}
+            defaults={
+                "description": race_data.get("description", "")
+            }
         )
 
-        for skill_info in race_data.get_("skills", []):
-            skill, created = Skill.objects.get_or_create(
-                name=skill_info["name"],
-                defaults={"bonus": skill_info["bonus"], "race": race}
+        # Create skills for the race
+        skills = race_data.get("skills", [])
+        for skill_data in skills:
+            skill, _ = Skill.objects.get_or_create(
+                name=skill_data["name"],
+                bonus=skill_data["bonus"],
+                race=race
             )
 
-        guild_info = player_data.get("guild")
-        guild = None
-        if guild_info:
-            guild, created = Guild.objects.get_or_create(
-                name=guild_info["name"],
-                defaults={"description": guild_info.get("description", "")}
+        # Get or create Guild
+        guild_data = player_info["guild"]
+        if guild_data:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_data["name"],
+                defaults={
+                    "description": guild_data.get("description", "")
+                }
             )
+        else:
+            guild = None
 
+        # Create Player
         Player.objects.create(
             nickname=player_name,
-            email=player_data["email"],
-            bio=player_data.get("bio", ""),
+            email=player_info["email"],
+            bio=player_info["bio"],
             race=race,
             guild=guild,
         )
