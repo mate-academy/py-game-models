@@ -29,7 +29,7 @@ def main() -> None:
 
         # Get or create Guild
         guild_data = player_info.get("guild", {})
-        guild = None 
+        guild = None
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
