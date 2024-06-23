@@ -3,10 +3,10 @@ from django.db import models
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True, choices=[
-        ('Elf', 'Elf'),
-        ('Dwarf', 'Dwarf'),
-        ('Human', 'Human'),
-        ('Ork', 'Ork'),
+        ("Elf", "Elf"),
+        ("Dwarf", "Dwarf"),
+        ("Human", "Human"),
+        ("Ork", "Ork"),
     ])
     description = models.TextField(blank=True)
 
