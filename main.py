@@ -16,14 +16,13 @@ def main() -> None:
             name=race_data["name"],
             defaults={"description": race_data.get("description", "")}
         )
-        print(race)
+
+        guild = None
         if guild_data is not None:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 defaults={"description": guild_data.get("description", "")}
             )
-        else:
-            guild = None
 
         for skill_data in skills_data:
             Skill.objects.get_or_create(
