@@ -1,7 +1,7 @@
 import init_django_orm  # noqa: F401
 import json
 
-from db.models import Race, Skill, PlayerModel, Guild
+from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
@@ -30,7 +30,7 @@ def main() -> None:
                 description=guide_info["description"]
             )
 
-        PlayerModel.objects.create(
+        Player.objects.create(
             nickname=nickname,
             email=person["email"],
             bio=person["bio"],
