@@ -6,39 +6,39 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json") as f:
-        data = json.load(f)
+    with open("players.json") as file:
+        players = json.load(file)
 
-    for nickname, info in data.items():
-        email, bio, race_data, guild_data = info.values()
-
-        race_instance, _ = Race.objects.get_or_create(
-            name=race_data["name"],
-            description=race_data["description"]
-        )
-
-        for skill in race_data["skills"]:
-            Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
-                race=race_instance
+        for name, player_info in players.items():
+            race_info = player_info["race"]
+            race, _ = Race.objects.get_or_create(
+                name=race_info["name"],
+                description=race_info["description"]
             )
 
-        if guild_data:
-            guild_instance, _ = Guild.objects.get_or_create(
-                name=guild_data["name"],
-                description=guild_data.get("description", "")
-            )
-        else:
-            guild_instance = None
+            skill_info = race_info["skills"]
+            for skill in skill_info:
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race
+                )
 
-        Player.objects.get_or_create(
-            nickname=nickname,
-            email=email,
-            bio=bio,
-            race=race_instance,
-            guild=guild_instance
-        )
+            guild_info = player_info["guild"]
+            guild = None
+            if guild_info:
+                guild, _ = Guild.objects.get_or_create(
+                    name=guild_info["name"],
+                    description=guild_info["description"]
+                )
+
+            Player.objects.get_or_create(
+                nickname=name,
+                email=player_info["email"],
+                bio=player_info["bio"],
+                race=race,
+                guild=guild
+            )
 
 
 if __name__ == "__main__":
