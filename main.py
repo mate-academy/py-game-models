@@ -17,14 +17,14 @@ def main() -> None:
 
         if guild:
             guild_db = Guild.objects.get_or_create(
-                name = guild["name"],
+                name=guild["name"],
                 description=guild["description"]
             )
             guild_id = guild_db[0].id
 
         if race:
             race_db = Race.objects.get_or_create(
-                name = race["name"],
+                name=race["name"],
                 description=race["description"]
             )
             race_id = race_db[0].id
