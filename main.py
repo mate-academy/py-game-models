@@ -21,9 +21,9 @@ def main() -> None:
                     bonus=skill["bonus"],
                     race=race
                 )
-
-            guild_info = person["guild"]
+                
             guild = None
+            guild_info = person["guild"]
             if guild_info:
                 guild, created = Guild.objects.get_or_create(
                     name=guild_info["name"],
