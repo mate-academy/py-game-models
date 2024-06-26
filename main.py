@@ -23,7 +23,7 @@ def main() -> None:
                 )
 
             guild_info = person["guild"]
-            guild = None            
+            guild = None
             if guild_info:
                 guild, created = Guild.objects.get_or_create(
                     name=guild_info["name"],
@@ -37,7 +37,6 @@ def main() -> None:
                 race=race,
                 guild=guild,
             )
-
 
 if __name__ == "__main__":
     main()
