@@ -9,7 +9,7 @@ def main() -> None:
         data = json.load(file)
     for user_name in data:
         user = data[user_name]
-        race, flag = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=user["race"]["name"],
             description=user["race"]["description"])
 
@@ -19,12 +19,11 @@ def main() -> None:
                 bonus=skill_data["bonus"], race=race
             )
 
+        guild = None
         if user.get("guild"):
-            guild, flag = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=user["guild"]["name"],
                 description=user["guild"]["description"])
-        else:
-            guild = None
 
         Player.objects.get_or_create(
             nickname=user_name,
