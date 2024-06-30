@@ -18,6 +18,8 @@ def process_players_data(data: dict) -> None:
             defaults={"description": race_data.get("description", "")}
         )
 
+        guild = None
+
         guild_data = player_data.get("guild")
         if guild_data:
             guild_name = guild_data.get("name", "")
@@ -26,8 +28,6 @@ def process_players_data(data: dict) -> None:
                 name=guild_name,
                 defaults={"description": guild_description}
             )
-        else:
-            guild = None
 
         skills_data = race_data.get("skills", [])
         for skill_data in skills_data:

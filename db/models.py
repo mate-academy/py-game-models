@@ -10,8 +10,8 @@ class Race(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    bonus = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
