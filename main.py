@@ -47,8 +47,6 @@ def process_players_data(data: dict) -> None:
             guild=guild
         )
 
-        print(f"Created player: {player.nickname}")
-
 
 def main() -> None:
     data = load_data_from_json("players.json")
