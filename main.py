@@ -26,7 +26,7 @@ def main() -> None:
         race_id_elf = Race.objects.get(name="elf")
         race_id_human = Race.objects.get(name="human")
 
-        skills = value['race']['skills']
+        skills = value["race"]["skills"]
         if len(skills):
             for skill in skills:
                 Skill.objects.get_or_create(
@@ -45,7 +45,11 @@ def main() -> None:
                 nickname=key,
                 email=value["email"],
                 bio=value["bio"],
-                race=(race_id_elf if value["race"]["name"] == "elf" else race_id_human),
+                race=(
+                    race_id_elf
+                    if value["race"]["name"] == "elf"
+                    else race_id_human
+                ),
                 guild=guild_instance
             )
 
