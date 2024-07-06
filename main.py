@@ -16,7 +16,6 @@ def main() -> None:
     data_players = load_players(path_to_file)
 
     for key, value in data_players.items():
-        print(f"key: {key}")
 
         data_race = value["race"]
         get_race, created = Race.objects.get_or_create(
@@ -25,7 +24,7 @@ def main() -> None:
         )
 
         for skill in data_race["skills"]:
-            Skill.objects.skill_set.get_or_create(
+            Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
                 race=get_race
