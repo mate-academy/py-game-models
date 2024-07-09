@@ -35,6 +35,8 @@ def main() -> None:
                 name=guild_name,
                 description=guild_description
             )
+        if guild is None:
+            obj_guild = None
 
         for skill in race_skills:
             Skill.objects.get_or_create(
