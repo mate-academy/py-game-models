@@ -44,23 +44,13 @@ def main() -> None:
                 skill.save()
 
         # Create Player
-        player, created = Player.objects.get_or_create(
+        Player.objects.create(
             nickname=player,
-            defaults={
-                "email": email,
-                "bio": bio,
-                "race": race,
-                "guild": guild
-            }
+            email=email,
+            bio=bio,
+            race=race,
+            guild=guild
         )
-
-        # Update the player details if they were fetched rather than created
-        if not created:
-            player.email = email
-            player.bio = bio
-            player.race = race
-            player.guild = guild
-            player.save()
 
 
 if __name__ == "__main__":
