@@ -13,7 +13,7 @@ class Skill(models.Model):
 
 
 class Guild(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, null=True)
     description = models.TextField(null=True)
 
 

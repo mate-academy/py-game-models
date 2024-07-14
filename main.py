@@ -5,45 +5,49 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-def main() -> None:
+def main():
     with open("players.json") as f:
         data = json.load(f)
 
-    player = data.get("john", {}).get("race")
-    Race.objects.get_or_create(
-        name=player["name"],
-        description=player["description"],
-    )
-    print(Race.objects.all())
+    for player in data.items():
 
-    guilds = data.get("john", {}).get("guild")
-    Guild.objects.get_or_create(
-        name=guilds["name"],
-        description=guilds["description"],
-    )
-    print(Guild.objects.all())
+        race = player[1].get("race", {}).get("name")
+        description = player[1].get("race", {}).get("description")
+        Race.objects.get_or_create(
+            name=race,
+            description=description,
+        )
+        print(Race.objects.all())
 
-    skills = data.get("john", {}).get("race").get("skills")
-    skill = skills[1]
-    Skill.objects.create(
-        name=skill["name"],
-        bonus=skill["bonus"],
-        race_id=5
-    )
-    print(Skill.objects.all())
+        guild_name = player[1].get("guild", {}).get("name", {})
+        guild_description = player[1].get("guild", {}).get("description", {})
+        Guild.objects.create(
+            name=guild_name,
+            description=guild_description,
+        )
 
-    player_data = data["john"]
-    for player_name in data:
-        if player_name == "john":
-            Player.objects.create(
-                nickname=player_name,
-                email=player_data.get("email"),
-                bio=player_data.get("bio"),
-                race_id=5,
-                guild_id=3,
+        print(Guild.objects.all())
+
+        skills = player[1].get("race", {}).get("skills")
+        for skill in skills:
+
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race_id=1,
             )
+        print(Skill.objects.all())
 
-    print(Player.objects.all())
+        player_name = player[0]
+        Player.objects.create(
+            nickname=player_name,
+            email=player[1].get("email"),
+            bio=player[1].get("bio"),
+            race_id=1,
+            guild_id=1,
+        )
+
+        print(Player.objects.all())
 
 
 if __name__ == "__main__":
