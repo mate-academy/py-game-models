@@ -23,32 +23,28 @@ def get_skill(
     )[0]
 
 
-def get_guild(guild_params: dict) -> Guild | None:
-    if guild_params:
-        return Guild.objects.get_or_create(
-            name=guild_params["name"],
-            description=guild_params["description"],
-        )[0]
-    return None
-
-
 def main() -> None:
     with open("players.json") as players_file:
         players = json.load(players_file)
 
-    for player_name in players:
+    for player_name, player_data in players.items():
 
-        guild = get_guild(players[player_name]["guild"])
+        guild = player_data["guild"]
+        if guild:
+            guild = Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"],
+            )[0]
 
-        race = get_race(players[player_name]["race"])
+        race = get_race(player_data["race"])
 
-        for skill in players[player_name]["race"]["skills"]:
+        for skill in player_data["race"]["skills"]:
             get_skill(skill, race)
 
         Player.objects.create(
             nickname=player_name,
-            email=players[player_name]["email"],
-            bio=players[player_name]["bio"],
+            email=player_data["email"],
+            bio=player_data["bio"],
             race=race,
             guild=guild
         )
