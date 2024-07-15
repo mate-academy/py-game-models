@@ -11,27 +11,27 @@ def main() -> None:
     Player.objects.all().delete()
     Guild.objects.all().delete()
 
-    with open('players.json', 'r') as players_file:
+    with open("players.json", "r") as players_file:
         players_json = json.load(players_file)
 
     for player_name, player_data in players_json.items():
-        email = player_data['email']
-        bio = player_data['bio']
-        race_data = player_data['race']
-        guild_data = player_data.get('guild')
-        skills_data = race_data.get('skills', [])
+        email = player_data["email"]
+        bio = player_data["bio"]
+        race_data = player_data["race"]
+        guild_data = player_data.get("guild")
+        skills_data = race_data.get("skills", [])
 
         # Making Race or passing
         race, created = Race.objects.get_or_create(
-            name=race_data['name'],
+            name=race_data["name"],
             defaults={"description": race_data.get("description", "")}
         )
 
         # Making a Guild or passing
         if guild_data:
             guild, created = Guild.objects.get_or_create(
-                name=guild_data['name'],
-                defaults={"description": guild_data.get('description', "")}
+                name=guild_data["name"],
+                defaults={"description": guild_data.get("description", "")}
             )
         else:
             guild = None
@@ -39,7 +39,7 @@ def main() -> None:
         # Making a Skill or passing
         for skill_data in skills_data:
             skill, created = Skill.objects.get_or_create(
-                name=skill_data['name'],
+                name=skill_data["name"],
                 defaults={"bonus": skill_data["bonus"], "race": race}
             )
 
