@@ -13,7 +13,7 @@ def main() -> None:
         race_data = properties["race"]
         skills = race_data.pop("skills")
 
-        race = Race.objects.get_or_create(**race_data)[0]
+        race, _ = Race.objects.get_or_create(**race_data)
 
         for skill_data in skills:
             Skill.objects.get_or_create(
@@ -22,11 +22,10 @@ def main() -> None:
             )
 
         guild_data = properties["guild"]
-        guild = (
-            Guild.objects.get_or_create(**guild_data)[0]
-            if guild_data
-            else None
-        )
+        if guild_data:
+            guild, _ = Guild.objects.get_or_create(**guild_data)
+        else:
+            guild = None
 
         Player.objects.create(
             nickname=nickname,
