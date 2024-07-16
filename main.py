@@ -35,15 +35,13 @@ def main() -> None:
                 defaults={"description": guild_description}
             )
 
-        Player.objects.get_or_create(
+        Player.objects.create(
             nickname=player_name,
-            defaults={
-                "email": player_data["email"],
-                "bio": player_data["bio"],
-                "race": race,
-                "guild": guild,
-                "created_at": timezone.now()
-            }
+            email=player_data["email"],
+            bio=player_data["bio"],
+            race=race,
+            guild=guild,
+            created_at=timezone.now()
         )
 
 
