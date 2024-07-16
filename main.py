@@ -9,6 +9,7 @@ def main() -> None:
     with open("players.json", "r") as players_file:
         players = json.load(players_file)
     for nickname, data in players.items():
+        guild = None
         race, _ = Race.objects.get_or_create(
             name=data["race"]["name"],
             description=data["race"]["description"]
@@ -18,8 +19,6 @@ def main() -> None:
                 name=data["guild"]["name"],
                 description=data["guild"]["description"]
             )
-        else:
-            guild = None
         [
             Skill.objects.get_or_create(
                 name=skill["name"], bonus=skill["bonus"], race=race
