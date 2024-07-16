@@ -15,6 +15,7 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
+        related_name="skills",
     )
 
     def __str__(self) -> str:
