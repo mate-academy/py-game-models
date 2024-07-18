@@ -18,6 +18,7 @@ def main() -> None:
             name=race_data["name"],
             description=race_data["description"]
         )
+        print(Race.objects.all())
 
         skills = []
         for skill_data in race_data.get("skills", []):
@@ -25,6 +26,7 @@ def main() -> None:
                 name=skill_data["name"], race=race, bonus=skill_data["bonus"]
             )
             skills.append(skill)
+        print(Skill.objects.all())
 
         guild_data = player_info.get("guild")
         guild = None
@@ -33,6 +35,7 @@ def main() -> None:
                 name=guild_data["name"],
                 description=guild_data["description"]
             )
+        print(Guild.objects.all())
 
         Player.objects.create(
             nickname=player_name,
@@ -41,6 +44,8 @@ def main() -> None:
             race=race,
             guild=guild,
         )
+
+        print(Player.objects.all())
 
 
 if __name__ == "__main__":
