@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
             name='Player',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nicname', models.CharField(max_length=255, unique=True)),
+                ('nickname', models.CharField(max_length=255, unique=True)),
                 ('email', models.EmailField(max_length=255)),
                 ('bio', models.CharField(choices=[('himself', 'herself')], max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
