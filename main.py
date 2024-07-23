@@ -47,7 +47,7 @@ def main() -> None:
         except IntegrityError:
             print(
                 f"Player with nickname {player_data["nickname"]} "
-                f"already exists."
+                "already exists."
             )
 
 
