@@ -9,7 +9,7 @@ def main() -> None:
         players_data = json.load(f)
 
     for nickname, details in players_data.items():
-        race_data = details['race']
+        race_data = details["race"]
         race, created = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={"description": race_data["description"]}
