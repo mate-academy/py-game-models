@@ -1,11 +1,7 @@
+import init_django_orm  # noqa: F401
 import json
-import os
-import django
 from django.utils import timezone
 from db.models import Race, Skill, Player, Guild
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myproject.settings")
-django.setup()
 
 
 def main() -> None:
