@@ -30,13 +30,12 @@ def create_skills(skills_info: list[dict[str, any]], race: Race) -> None:
 
 
 def create_guild(guild_info: Optional[dict[str, any]]) -> Optional[Guild]:
+    guild = None
     if guild_info:
         guild, _ = Guild.objects.get_or_create(
             name=guild_info["name"],
             description=guild_info["description"]
         )
-    else:
-        guild = None
     return guild
 
 
