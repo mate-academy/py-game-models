@@ -12,7 +12,7 @@ def load_players_from_file() -> dict[str, any]:
     return players
 
 
-def create_race(race_info: dict[str, any]) -> Race:
+def create_race(race_info: dict[str, Any]) -> Race:
     race, _ = Race.objects.get_or_create(
         name=race_info["name"],
         description=race_info["description"]
