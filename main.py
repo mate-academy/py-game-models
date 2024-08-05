@@ -8,7 +8,7 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as players_file:
         players = json.load(players_file)
-    
+
     for player_id, player_data in players.items():
         player_guild_data = player_data.get("guild")
         if player_guild_data:
