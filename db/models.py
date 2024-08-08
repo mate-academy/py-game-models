@@ -12,7 +12,8 @@ class Race(models.Model):
 class Skill(models.Model):
     name: str = models.CharField(max_length=255, unique=True)
     bonus: str = models.CharField(max_length=255)
-    races: models.ManyToManyField = models.ManyToManyField(Race, related_name="skill_set")
+    races: models.ManyToManyField = models.ManyToManyField(Race,
+                                                           related_name="skill_set")
 
     def __str__(self) -> str:
         return self.name
@@ -31,7 +32,9 @@ class Player(models.Model):
     email: str = models.EmailField(max_length=255)
     bio: str = models.CharField(max_length=255)
     race: models.ForeignKey = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild: models.ForeignKey = models.ForeignKey(Guild, null=True, on_delete=models.SET_NULL)
+    guild: models.ForeignKey = models.ForeignKey(Guild,
+                                                 null=True,
+                                                 on_delete=models.SET_NULL)
     created_at: models.DateTimeField = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

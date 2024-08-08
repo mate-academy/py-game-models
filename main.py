@@ -35,7 +35,8 @@ def main() -> None:
                 "email": details["email"],
                 "bio": details["bio"],
                 "race": race,
-                "guild": Guild.objects.filter(name=guild_data["name"]).first() if guild_data else None
+                "guild": Guild.objects.filter(
+                    name=guild_data["name"]).first() if guild_data else None
             }
         )
 
