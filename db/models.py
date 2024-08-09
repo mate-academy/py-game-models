@@ -11,7 +11,7 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
                              on_delete=models.CASCADE,
-                             related_name='skill_set'
+                             related_name="skill_set"
                              )
 
 
