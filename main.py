@@ -1,5 +1,4 @@
 import json
-from django.db import IntegrityError
 
 import init_django_orm  # noqa: F401
 
@@ -14,11 +13,7 @@ def main() -> None:
         print(e)
 
     for player_nickname, player_info in players.items():
-        # print(player_nickname, player_info.get("guild"))
-        try:
-            create_players(player_nickname, player_info)
-        except IntegrityError as e:
-            print(e)
+        create_players(player_nickname, player_info)
 
 
 def create_players(player_nickname: str, player_info: dict) -> None:
@@ -54,12 +49,3 @@ def create_players(player_nickname: str, player_info: dict) -> None:
             "bio": player_info.get("bio"),
         }
     )
-
-
-if __name__ == "__main__":
-    main()
-
-    # Player.objects.all().delete()
-    # Guild.objects.all().delete()
-    # Race.objects.all().delete()
-    # Skill.objects.all().delete()
