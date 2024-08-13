@@ -38,12 +38,10 @@ def player_creation(player_name: str, player_info: dict) -> None:
         )
 
     #  CREATING PLAYER
-    Player.objects.get_or_create(
+    Player.objects.create(
         nickname=player_name,
-        defaults={
-            "email": player_info["email"],
-            "bio": player_info["bio"],
-            "race": race,
-            "guild": guild
-        }
+        email=player_info["email"],
+        bio=player_info["bio"],
+        race=race,
+        guild=guild,
     )
