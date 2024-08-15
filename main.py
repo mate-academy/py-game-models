@@ -33,7 +33,7 @@ def main() -> None:
             )
             guild_name = Guild.objects.get(name=guild_info["name"])
 
-        Player.objects.get_or_create(
+        Player.objects.create(
             nickname=player_name,
             email=player_data["email"],
             bio=player_data["bio"],
