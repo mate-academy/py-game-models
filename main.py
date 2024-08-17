@@ -1,43 +1,37 @@
 import json
+
 import init_django_orm  # noqa: F401
+
 from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json", "r") as players_file:
-        data = json.load(players_file)
+    with open("players.json") as file:
+        players = json.load(file)
 
-    for player_key, player_data in data.items():
-        race_data = player_data["race"]
-        guild_data = player_data["guild"]
-        skills_data = race_data.get("skills", [])
-
+    for nickname, data in players.items():
         race, _ = Race.objects.get_or_create(
-            name=race_data["name"],
-            description=race_data["description"]
-        )
+            name=data["race"]["name"],
+            description=data["race"]["description"])
 
-        for skill in skills_data:
+        for skill in data["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
-                race=race
-            )
+                race=race)
 
         guild = None
-        if guild_data:
+        if data["guild"]:
             guild, _ = Guild.objects.get_or_create(
-                name=guild_data["name"],
-                description=guild_data["description"]
-            )
+                name=data["guild"]["name"],
+                description=data["guild"]["description"])
 
-        Player.objects.create(
-            nickname=player_key,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=race,
-            guild=guild
-        )
+            Player.objects.create(
+                nickname=nickname,
+                email=data["email"],
+                bio=data["bio"],
+                race=race,
+                guild=guild)
 
 
 if __name__ == "__main__":
