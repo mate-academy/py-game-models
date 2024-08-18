@@ -1,4 +1,3 @@
-# noinspection PyUnresolvedReferences
 import init_django_orm
 import json
 from django.db import transaction
