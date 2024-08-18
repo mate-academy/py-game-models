@@ -1,4 +1,3 @@
-import init_django_orm
 import json
 from django.db import transaction
 from db.models import Race, Skill, Guild, Player
