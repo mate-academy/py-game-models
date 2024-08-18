@@ -33,7 +33,7 @@ def main() -> None:
                     race=race_name
                 )
             race_name = Race.objects.get(name=player_data["race"]["name"])
-            Player.objects.get_or_create(
+            Player.objects.create(
                 nickname=nickname,
                 email=person_email,
                 bio=person_bio,
