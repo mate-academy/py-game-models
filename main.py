@@ -13,6 +13,7 @@ def main() -> None:
         email = players_data[player]["email"]
         bio = players_data[player]["bio"]
 
+
         race_name = players_data[player]["race"]["name"]
         race_description = players_data[player]["race"]["description"]
         race_obj, _ = Race.objects.update_or_create(
