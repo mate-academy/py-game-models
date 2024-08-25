@@ -1,5 +1,4 @@
 import json
-from email.policy import default
 
 import init_django_orm  # noqa: F401
 
@@ -12,45 +11,50 @@ def get_data() -> dict:
     return data
 
 
-def create_race(info):
+def create_race(info: dict[str, any]) -> Race:
     return Race.objects.get_or_create(
         name=info["race"]["name"],
         description=info["race"]["description"]
     )[0]
 
 
-def create_guild(info):
-    return Guild.objects.get_or_create(
-        name=info["guild"]["name"],
-        description=info["guild"].get("description")
-    )[0] if info["guild"] else None
+def create_guild(info: dict[str, any]) -> Guild:
+    return (
+        Guild.objects.get_or_create(
+            name=info["guild"]["name"],
+            description=info["guild"].get("description"),
+        )[0]
+        if info["guild"]
+        else None
+    )
 
 
-def create_skills(info, race):
+def create_skills(info: dict[str, any], race: Race) -> None:
     for current_skill in info["race"]["skills"]:
         if current_skill:
             Skill.objects.get_or_create(
                 name=current_skill["name"],
                 bonus=current_skill["bonus"],
-                race=race
+                race=race,
             )
 
-def create_player(name, race, guild, info):
+
+def create_player(
+    name: str,
+    race: Race,
+    guild: Guild,
+    info: dict[str, any]
+) -> None:
     Player.objects.get_or_create(
         nickname=name,
         email=info["email"],
         bio=info["bio"],
         race=race,
-        guild=guild
+        guild=guild,
     )
 
 
 def main() -> None:
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Player.objects.all().delete()
-    Guild.objects.all().delete()
-
     for name, info in get_data().items():
         race = create_race(info)
         guild = create_guild(info)
