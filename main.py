@@ -9,43 +9,37 @@ def main() -> None:
         players_data = json.load(f)
 
     for player in players_data:
-        nickname = player
-        email = players_data[player]["email"]
-        bio = players_data[player]["bio"]
 
-        race_name = players_data[player]["race"]["name"]
         race_description = players_data[player]["race"]["description"]
-        race_obj, _ = Race.objects.update_or_create(
-            name=race_name,
-            defaults={
-                "description": race_description
-                if race_description is not None
-                else ""
-            },
+        race_obj, _ = Race.objects.get_or_create(
+            name=players_data[player]["race"]["name"],
+            description=race_description
+            if race_description is not None
+            else ""
         )
 
         for skill in players_data[player]["race"]["skills"]:
-            Skill.objects.update_or_create(
+            Skill.objects.get_or_create(
                 name=skill["name"],
                 race=race_obj,
-                defaults={"bonus": skill["bonus"]},
+                bonus=skill["bonus"],
             )
 
         if players_data[player]["guild"]:
             guild_name = players_data[player]["guild"]["name"]
             guild_description = players_data[player]["guild"]["description"]
-            guild_obj, _ = Guild.objects.update_or_create(
+            guild_obj, _ = Guild.objects.get_or_create(
                 name=guild_name,
-                defaults={"description": guild_description},
+                description=guild_description
             )
         else:
             guild_obj = None
 
         Player.objects.update_or_create(
-            nickname=nickname,
+            nickname=player,
             defaults={
-                "email": email,
-                "bio": bio,
+                "email": players_data[player]["email"],
+                "bio": players_data[player]["bio"],
                 "race": race_obj,
                 "guild": guild_obj,
             }
