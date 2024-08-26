@@ -5,6 +5,7 @@ import json
 
 
 def main() -> None:
+    pass
     with open("players.json") as f:
         players_data = json.load(f)
 
@@ -13,9 +14,7 @@ def main() -> None:
         race_description = players_data[player]["race"]["description"]
         race_obj, _ = Race.objects.get_or_create(
             name=players_data[player]["race"]["name"],
-            description=race_description
-            if race_description is not None
-            else ""
+            description=race_description or ""
         )
 
         for skill in players_data[player]["race"]["skills"]:
