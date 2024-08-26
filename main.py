@@ -5,40 +5,38 @@ import json
 
 
 def main() -> None:
-    pass
     with open("players.json") as f:
         players_data = json.load(f)
 
-    for player in players_data:
+    for player_name, player_data in players_data.items():
 
-        race_description = players_data[player]["race"]["description"]
+        race_description = player_data["race"]["description"] or ""
         race_obj, _ = Race.objects.get_or_create(
-            name=players_data[player]["race"]["name"],
-            description=race_description or ""
+            name=player_data["race"]["name"],
+            description=race_description
         )
 
-        for skill in players_data[player]["race"]["skills"]:
+        for skill in player_data["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 race=race_obj,
                 bonus=skill["bonus"],
             )
 
-        if players_data[player]["guild"]:
-            guild_name = players_data[player]["guild"]["name"]
-            guild_description = players_data[player]["guild"]["description"]
+        guild_obj = None
+        if player_data["guild"]:
+            guild_name = player_data["guild"]["name"]
+            guild_description = player_data["guild"]["description"]
             guild_obj, _ = Guild.objects.get_or_create(
                 name=guild_name,
                 description=guild_description
             )
-        else:
-            guild_obj = None
 
         Player.objects.update_or_create(
-            nickname=player,
+            nickname=player_name,
             defaults={
-                "email": players_data[player]["email"],
-                "bio": players_data[player]["bio"],
+                "email": player_data["email"],
+                "bio": player_data["bio"],
                 "race": race_obj,
                 "guild": guild_obj,
             }
