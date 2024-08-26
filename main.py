@@ -72,13 +72,15 @@ def create_players(players_info: dict) -> None:
 
         race = get_or_create_race(race_name, race_description)
 
-        guild_info = player_info.get("guild", {})
-        guild_name = guild_info.get("name")
-        guild_description = guild_info.get("description", "")
+        guild_info = player_info.get("guild")
 
-        guild = get_or_create_guild(
-            guild_name, guild_description
-        ) if guild_name else None
+        if guild_info is not None:
+            guild_name = guild_info.get("name")
+            guild_description = guild_info.get("description", "")
+
+            guild = get_or_create_guild(guild_name, guild_description) if guild_name else None
+        else:
+            guild = None
 
         Player.objects.get_or_create(
             nickname=player_name,
