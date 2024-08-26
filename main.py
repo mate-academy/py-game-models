@@ -4,10 +4,7 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-def create_races() -> None:
-    with open("players.json", "r") as file:
-        players_info = json.load(file)
-
+def create_races(players_info: dict) -> None:
     races_list = []
     for user in players_info:
         if players_info[user]["race"] not in races_list:
@@ -26,10 +23,7 @@ def create_races() -> None:
             )
 
 
-def create_guilds() -> None:
-    with open("players.json", "r") as file:
-        players_info = json.load(file)
-
+def create_guilds(players_info: dict) -> None:
     guilds_list = []
     for user in players_info:
         if players_info[user]["guild"] not in guilds_list:
@@ -43,10 +37,7 @@ def create_guilds() -> None:
             )
 
 
-def create_players() -> None:
-    with open("players.json", "r") as file:
-        players_info = json.load(file)
-
+def create_players(players_info: dict) -> None:
     for player in players_info:
         race = Race.objects.get(name=players_info[player]["race"]["name"])
         guild = Guild.objects.get(
@@ -64,9 +55,11 @@ def create_players() -> None:
 
 
 def main() -> None:
+    with open("players.json", "r") as file:
+        players_info = json.load(file)
 
-    create_races()
+    create_races(players_info)
 
-    create_guilds()
+    create_guilds(players_info)
 
-    create_players()
+    create_players(players_info)
