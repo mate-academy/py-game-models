@@ -51,15 +51,17 @@ def create_guilds(players_info: dict) -> None:
     guilds = {}
 
     for player in players_info:
-        guild_info = players_info[player].get("guild", {})
-        guild_name = guild_info.get("name")
-        guild_description = guild_info.get("description", "")
+        guild_info = players_info[player].get("guild")
 
-        if guild_name:
-            if guild_name not in guilds:
-                guilds[guild_name] = get_or_create_guild(
-                    guild_name, guild_description
-                )
+        if guild_info is not None:
+            guild_name = guild_info.get("name")
+            guild_description = guild_info.get("description", "")
+
+            if guild_name:
+                if guild_name not in guilds:
+                    guilds[guild_name] = get_or_create_guild(
+                        guild_name, guild_description
+                    )
 
 
 def create_players(players_info: dict) -> None:
