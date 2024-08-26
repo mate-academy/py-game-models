@@ -5,7 +5,7 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-def open_json() -> None:
+def open_json() -> dict:
     with open("players.json", "r") as players_file:
         players = json.load(players_file)
     return players
@@ -31,7 +31,7 @@ def create_races_and_skills(players_info: dict) -> None:
             races[race_name] = get_or_create_race(race_name, race_description)
 
         race = races[race_name]
-        for skill in race_info["Skill"]:
+        for skill in race_info.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
