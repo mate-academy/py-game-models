@@ -49,4 +49,31 @@ class Migration(migrations.Migration):
                 ('race', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='db.race')),
             ],
         ),
+        migrations.AlterField(
+            model_name='player',
+            name='bio',
+            field=models.CharField(max_length=255),
+        ),
+        migrations.AlterField(
+            model_name='player',
+            name='guild',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING,
+                                    to='db.guild'),
+        ),
+        migrations.AlterField(
+            model_name='player',
+            name='race',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.race'),
+        ),
+        migrations.AlterField(
+            model_name='skill',
+            name='race',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='skill_set',
+                                    to='db.race'),
+        ),
+        migrations.AlterField(
+            model_name='player',
+            name='guild',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='db.guild'),
+        ),
     ]
