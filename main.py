@@ -4,7 +4,6 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-
 def load_players(file_path: str) -> dict:
     with open(file_path, "r") as file:
         data = json.load(file)
@@ -28,7 +27,7 @@ def get_or_create_skills(skills: list, race: Race) -> None:
         )
 
 
-def get_or_create_guild(guild) -> Guild:
+def get_or_create_guild(guild: dict) -> Guild:
     get_guild, created = Guild.objects.get_or_create(
         name=guild["name"],
         description=guild["description"]
