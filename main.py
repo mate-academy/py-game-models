@@ -1,10 +1,10 @@
-import init_django_orm  # noqa: F401
 import json
+import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 
 
-def main() -> None:
+def create_races() -> None:
     with open("players.json", "r") as file:
         players_info = json.load(file)
 
@@ -16,7 +16,7 @@ def main() -> None:
     for race in races_list:
         new_race = Race.objects.create(
             name=race["name"],
-            description=race["description"]
+            description=race["description"],
         )
         for skill in race["skills"]:
             Skill.objects.create(
@@ -24,6 +24,11 @@ def main() -> None:
                 bonus=skill["bonus"],
                 race=new_race
             )
+
+
+def create_guilds() -> None:
+    with open("players.json", "r") as file:
+        players_info = json.load(file)
 
     guilds_list = []
     for user in players_info:
@@ -37,15 +42,30 @@ def main() -> None:
                 description=guild["description"]
             )
 
+
+def create_players() -> None:
+    with open("players.json", "r") as file:
+        players_info = json.load(file)
+
     for player in players_info:
         race = Race.objects.get(name=players_info[player]["race"]["name"])
         guild = Guild.objects.get(
             name=players_info[player]["guild"]["name"]
         ) if players_info[player]["guild"] else None
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=player,
-            email=players_info[player]["email"],
-            bio=players_info[player]["bio"],
-            race=race,
-            guild=guild
+            defaults={
+                'email': players_info[player]["email"],
+                'bio': players_info[player]["bio"],
+                'race': race,
+                'guild': guild
+            }
         )
+
+def main() -> None:
+
+    create_races()
+
+    create_guilds()
+
+    create_players()
