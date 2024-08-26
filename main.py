@@ -8,7 +8,6 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as file:
         players_data = json.load(file)
-        print(players_data)
 
     for nickname, player_data in players_data.items():
         race_data = player_data["race"]
@@ -42,10 +41,6 @@ def main() -> None:
                 "guild": guild,
             }
         )
-
-        if created:
-            player.skills.set(skills)
-            player.save()
 
 
 if __name__ == "__main__":
