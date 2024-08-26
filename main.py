@@ -63,3 +63,7 @@ def main() -> None:
     create_guilds(players_info)
 
     create_players(players_info)
+
+
+if __name__ == "__main__":
+    main()
