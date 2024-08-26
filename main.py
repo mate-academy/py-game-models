@@ -78,7 +78,9 @@ def create_players(players_info: dict) -> None:
             guild_name = guild_info.get("name")
             guild_description = guild_info.get("description", "")
 
-            guild = get_or_create_guild(guild_name, guild_description) if guild_name else None
+            guild = get_or_create_guild(
+                guild_name, guild_description
+            ) if guild_name else None
         else:
             guild = None
 
