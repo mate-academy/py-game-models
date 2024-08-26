@@ -10,31 +10,46 @@ def main() -> None:
         players = json.load(file)
 
     for player_name, player_info in players.items():
-        race = Race.objects.get_or_create(
-            name=player_info["race"]["name"],
-            description=player_info["race"]["description"]
-        )[0]
-
-        Player.objects.get_or_create(
-            nickname=player_name,
-            email=player_info["email"],
-            bio=player_info["bio"],
-            race=race,
-
-            guild=Guild.objects.get_or_create(
-                name=player_info["guild"]["name"],
-                description=player_info["guild"]["description"]
-            )[0] if player_info["guild"] else None
-        )
-
-        if player_info["race"]["skills"]:
-            for skill in player_info["race"]["skills"]:
-                Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
-                )
+        race = get_or_create_race(player_info)
+        get_or_create_player(player_name, player_info, race)
+        get_or_create_skills(player_info, race)
 
 
-if __name__ == "__main__":
-    main()
+def get_or_create_guild(player_info: dict) -> Guild | None:
+    guild, _ = Guild.objects.get_or_create(
+        name=player_info.get("guild").get("name"),
+        description=player_info.get("guild").get("description")
+    ) if player_info.get("guild") else (None, None)
+    return guild
+
+
+def get_or_create_player(
+    player_name: str,
+    player_info: dict,
+    race: Race
+) -> None:
+    Player.objects.get_or_create(
+        nickname=player_name,
+        email=player_info.get("email"),
+        bio=player_info.get("bio"),
+        race=race,
+        guild=get_or_create_guild(player_info)
+    )
+
+
+def get_or_create_race(player_info: dict) -> Race:
+    race, _ = Race.objects.get_or_create(
+        name=player_info.get("race").get("name"),
+        description=player_info.get("race").get("description")
+    )
+    return race
+
+
+def get_or_create_skills(player_info: dict, race: Race) -> None:
+    if player_info.get("race").get("skills"):
+        for skill in player_info.get("race").get("skills"):
+            Skill.objects.get_or_create(
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
+                race=race
+            )
