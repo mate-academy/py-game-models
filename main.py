@@ -11,7 +11,7 @@ def open_json() -> None:
     return players
 
 
-def get_or_create_race(race_name: str, race_description: str) -> None:
+def get_or_create_race(race_name: str, race_description: str) -> Race:
     race, created = Race.objects.get_or_create(
         name=race_name,
         defaults={"description": race_description}
@@ -39,12 +39,11 @@ def create_races_and_skills(players_info: dict) -> None:
             )
 
 
-def get_or_create_guild(guild_name: str, guild_description: str) -> None:
-    guild = Guild.objects.filter(name=guild_name).first()
-    if guild is None:
-        guild = Guild.objects.create(
-            name=guild_name, description=guild_description
-        )
+def get_or_create_guild(guild_name: str, guild_description: str) -> Guild:
+    guild, created = Guild.objects.get_or_create(
+        name=guild_name,
+        defaults={"description": guild_description}
+    )
     return guild
 
 
