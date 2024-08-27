@@ -11,8 +11,7 @@ class Skill(models.Model):
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        on_delete=models.CASCADE,
-        related_name="skill_set"
+        on_delete=models.CASCADE
     )
 
 
@@ -28,13 +27,12 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="race_players"
+        related_name="players_of_race"
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
-        related_name="guild_players",
+        related_name="players_of_guild",
         null=True, blank=True
     )
-    skills = models.ManyToManyField(Skill, related_name="players")
     created_at = models.DateTimeField(auto_now_add=True)
