@@ -36,8 +36,9 @@ def main() -> None:
             )
 
     for person_name, person_value in data.items():
+        person_guild = person_value["guild"]
         race = Race.objects.get(name=person_value["race"]["name"])
-        guild_name = person_value["guild"]["name"] if person_value["guild"] else None
+        guild_name = person_guild["name"] if person_guild else None
         guild = Guild.objects.filter(name=guild_name).first()
 
         Player.objects.get_or_create(
