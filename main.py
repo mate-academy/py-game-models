@@ -94,7 +94,6 @@ def create_players(players_info: dict) -> None:
         )
 
 
-
 def main() -> None:
     players_info = open_json()
     create_races_and_skills(players_info)
