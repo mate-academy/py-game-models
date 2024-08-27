@@ -1,4 +1,5 @@
 import json
+
 from django.utils import timezone
 
 import init_django_orm  # noqa: F401
@@ -34,16 +35,16 @@ def main() -> None:
                 }
             )
 
-    for key, value in data.items():
-        race = Race.objects.get(name=value["race"]["name"])
-        guild_name = value["guild"]["name"] if value["guild"] else None
+    for person_name, person_value in data.items():
+        race = Race.objects.get(name=person_value["race"]["name"])
+        guild_name = person_value["guild"]["name"] if person_value["guild"] else None
         guild = Guild.objects.filter(name=guild_name).first()
 
         Player.objects.get_or_create(
-            nickname=key,
+            nickname=person_name,
             defaults={
-                "email": value["email"],
-                "bio": value["bio"],
+                "email": person_value["email"],
+                "bio": person_value["bio"],
                 "race": race,
                 "guild": guild,
                 "created_at": timezone.now(),
