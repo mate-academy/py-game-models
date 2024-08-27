@@ -15,8 +15,7 @@ def load_players(file_path: str) -> dict:
 def race(info: dict) -> Optional[Race]:
     race_obj, _ = Race.objects.get_or_create(
         name=info["race"]["name"],
-        description=info["race"]["description"]
-        if info["race"]["description"] else None,
+        description=info["race"]["description"] or ""
     ) if info["race"] else None
 
     return race_obj
@@ -36,8 +35,7 @@ def guild(info: dict) -> Optional[Guild]:
     if info["guild"]:
         guild_obj, _ = Guild.objects.get_or_create(
             name=info["guild"]["name"],
-            description=info["guild"]["description"]
-            if info["guild"]["description"] else None,
+            description=info["guild"]["description"] or None
         )
 
     return guild_obj
