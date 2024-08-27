@@ -22,15 +22,17 @@ def get_or_create_race(race_name: str, race_description: str) -> Race:
 def create_races_and_skills(players_info: dict) -> None:
     races = {}
 
-    for player in players_info:
-        race_info = players_info[player]["race"]
+    for player, info in players_info.items():
+        race_info = info["race"]
         race_name = race_info["name"]
         race_description = race_info["description"]
 
         if race_name not in races:
-            races[race_name] = get_or_create_race(race_name, race_description)
+            race = get_or_create_race(race_name, race_description)
+            races[race_name] = race
+        else:
+            race = races[race_name]
 
-        race = races[race_name]
         for skill in race_info.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill["name"],
@@ -50,18 +52,17 @@ def get_or_create_guild(guild_name: str, guild_description: str) -> Guild:
 def create_guilds(players_info: dict) -> None:
     guilds = {}
 
-    for player in players_info:
-        guild_info = players_info[player].get("guild")
+    for player, info in players_info.items():
+        guild_info = info.get("guild")
 
-        if guild_info is not None:
+        if guild_info:
             guild_name = guild_info.get("name")
             guild_description = guild_info.get("description", "")
 
-            if guild_name:
-                if guild_name not in guilds:
-                    guilds[guild_name] = get_or_create_guild(
-                        guild_name, guild_description
-                    )
+            if guild_name and guild_name not in guilds:
+                guilds[guild_name] = get_or_create_guild(
+                    guild_name, guild_description
+                )
 
 
 def create_players(players_info: dict) -> None:
@@ -73,16 +74,14 @@ def create_players(players_info: dict) -> None:
         race = get_or_create_race(race_name, race_description)
 
         guild_info = player_info.get("guild")
+        guild = None
 
-        if guild_info is not None:
+        if guild_info:
             guild_name = guild_info.get("name")
             guild_description = guild_info.get("description", "")
-
             guild = get_or_create_guild(
                 guild_name, guild_description
             ) if guild_name else None
-        else:
-            guild = None
 
         Player.objects.get_or_create(
             nickname=player_name,
@@ -93,6 +92,7 @@ def create_players(players_info: dict) -> None:
                 "guild": guild,
             }
         )
+
 
 
 def main() -> None:
