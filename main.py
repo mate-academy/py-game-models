@@ -7,8 +7,8 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json", "r") as players_info:
-        players = json.load(players_info)
-        for nickname, player_data in players.items():
+        players_data = json.load(players_info)
+        for nickname, player_data in players_data.items():
             person_email = player_data["email"]
             person_bio = player_data["bio"]
             if player_data["guild"] is not None:
