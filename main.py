@@ -1,12 +1,12 @@
+import json
+
 import init_django_orm  # noqa: F401
 
-import json
-from django.utils import timezone
 from db.models import Race, Skill, Player, Guild
 
 
 def get_or_create_race(race_data: dict) -> Race:
-    race, created = Race.objects.get_or_create(
+    race, _ = Race.objects.get_or_create(
         name=race_data["name"],
         defaults={"description": race_data["description"]}
     )
@@ -15,7 +15,7 @@ def get_or_create_race(race_data: dict) -> Race:
 
 def get_or_create_guild(guild_data: dict) -> Guild:
     if guild_data:
-        guild, created = Guild.objects.get_or_create(
+        guild, _ = Guild.objects.get_or_create(
             name=guild_data["name"],
             defaults={"description": guild_data["description"]}
         )
@@ -34,8 +34,7 @@ def get_or_create_player(
             "email": player_data["email"],
             "bio": player_data["bio"],
             "race": race,
-            "guild": guild,
-            "created_at": timezone.now()
+            "guild": guild
         }
     )
 
