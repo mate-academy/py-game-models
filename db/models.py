@@ -30,10 +30,17 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE,
-                             related_name="race_players")
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True,
-                              related_name="guild_players")
+    race = models.ForeignKey(
+        Race,
+        on_delete=models.CASCADE,
+        related_name="race_players"
+    )
+    guild = models.ForeignKey(
+        Guild,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="guild_players"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

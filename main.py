@@ -42,7 +42,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    # Race.objects.all().delete()
-    # Player.objects.all().delete()
-    # Guild.objects.all().delete()
-    # Skill.objects.all().delete()
