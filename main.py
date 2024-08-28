@@ -1,6 +1,6 @@
-import init_django_orm  # noqa: F401
 import json
 
+import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
@@ -12,18 +12,17 @@ def main() -> None:
         race = info["race"]
         guild = info["guild"]
 
-        new_race = Race.objects.get_or_create(
+        new_race, _ = Race.objects.get_or_create(
             name=race["name"],
             description=race["description"]
-        )[0]
+        )
 
+        new_guild = None
         if guild:
-            new_guild = Guild.objects.get_or_create(
+            new_guild, _ = Guild.objects.get_or_create(
                 name=guild["name"],
                 description=guild["description"]
-            )[0]
-        else:
-            new_guild = guild
+            )
 
         for skill in race["skills"]:
             Skill.objects.get_or_create(
@@ -43,3 +42,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    # Race.objects.all().delete()
+    # Player.objects.all().delete()
+    # Guild.objects.all().delete()
+    # Skill.objects.all().delete()
