@@ -7,11 +7,12 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json") as file:
         players_dicts: dict[dict] = json.load(file)
+
     for player_name, player_dict in players_dicts.items():
-        race = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=player_dict["race"]["name"],
             description=player_dict["race"]["description"]
-        )[0]
+        )
         for skill in player_dict["race"]["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
@@ -35,4 +36,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    print(Race.objects.get(name="elf").players.all())
