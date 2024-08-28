@@ -11,7 +11,7 @@ def main() -> None:
 
     for nickname, data in players_data.items():
         race_data = data["race"]
-        race, created = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={"description": race_data.get("description", "")}
         )
@@ -23,7 +23,7 @@ def main() -> None:
 
         guild_data = data.get("guild")
         if guild_data:
-            guild, created = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 defaults={"description": guild_data.get("description", "")}
             )
