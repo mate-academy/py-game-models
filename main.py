@@ -36,5 +36,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # main()
-    print(Race.objects.get(name="elf").players.all())
+    main()
