@@ -6,35 +6,31 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json", "r") as f:
-        players_data = json.load(f)
+    with open("players.json", "r") as file_with_payers_data:
+        players_data = json.load(file_with_payers_data)
 
     for nickname, player_data in players_data.items():
-        race_name = player_data["race"]["name"]
-        race_description = player_data["race"].get("description", "")
         race, _ = Race.objects.get_or_create(
-            name=race_name,
-            defaults={"description": race_description}
+            name=player_data["race"]["name"],
+            defaults={
+                "description": player_data["race"].get("description", "")
+            }
         )
 
         for skill_data in player_data["race"].get("skills", []):
-            skill_name = skill_data["name"]
-            skill_bonus = skill_data["bonus"]
             Skill.objects.get_or_create(
-                name=skill_name,
+                name=skill_data["name"],
                 race=race,
-                defaults={"bonus": skill_bonus}
+                defaults={"bonus": skill_data["bonus"]}
             )
-        guild_data = player_data.get("guild")
-        if guild_data:
-            guild_name = guild_data["name"]
-            guild_description = guild_data.get("description", "")
+
+        guild = None
+        if guild_data := player_data.get("guild"):
             guild, _ = Guild.objects.get_or_create(
-                name=guild_name,
-                defaults={"description": guild_description}
+                name=guild_data["name"],
+                defaults={"description": guild_data.get("description", "")}
             )
-        else:
-            guild = None
+
         Player.objects.get_or_create(
             nickname=nickname,
             defaults={

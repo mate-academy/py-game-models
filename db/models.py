@@ -3,13 +3,18 @@ from django.db import models
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(null=True, blank=True)
 
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(
+        Race,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
 
 
 class Guild(models.Model):
@@ -30,6 +35,6 @@ class Player(models.Model):
         Guild,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="members"
+        related_name="players"
     )
     created_at = models.DateTimeField(auto_now_add=True)
