@@ -10,10 +10,10 @@ def main() -> None:
 
     for username, user_data in config.items():
 
-        race = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=user_data["race"]["name"],
             description=user_data["race"]["description"]
-        )[0]
+        )
 
         [
             Skill.objects.get_or_create(
