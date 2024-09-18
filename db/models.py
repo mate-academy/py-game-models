@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import CharField
-import datetime
 
 
 class Race(models.Model):
