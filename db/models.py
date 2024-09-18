@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Race(models.Model):
-    LIST_OF_RACES_CHOICES = [ # !!!!!!!!
+    LIST_OF_RACES_CHOICES = [
         ("elf", "Frail-looking people, usually living deep in the forest."),
         ("dwarf", "They are small and proportionately built creatures."),
         ("human", "Human"),
