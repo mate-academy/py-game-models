@@ -5,7 +5,6 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    # We read the data from the players.json file
     with open("players.json", "r") as file:
         players_data = json.load(file)
     # exit the context manager after reading data from the file
@@ -19,7 +18,7 @@ def main() -> None:
             defaults={"description": race_data.get("description", "")}
         )
         # Get or create a guild
-        guild_data = player_data.get("guild", None)
+        guild_data = player_data.get("guild")
         guild = None
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
