@@ -20,7 +20,8 @@ def main() -> None:
                 race=race,
             )
         if player["guild"]:
-            guild_description = player["guild"]["description"] if player["guild"]["description"] else None
+            guild_description = player["guild"]["description"] \
+                if player["guild"]["description"] else None
             guild, created = Guild.objects.get_or_create(
                 name=player["guild"]["name"],
                 description=guild_description,
@@ -34,7 +35,6 @@ def main() -> None:
             race=race,
             guild=guild,
         )
-
 
 
 if __name__ == "__main__":
