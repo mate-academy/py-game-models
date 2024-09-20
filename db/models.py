@@ -1,13 +1,12 @@
 from django.db import models
-from django.db.models import CharField
 
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True,)
     description = models.TextField(blank=True)
 
-    def __str__(self) -> CharField:
-        return self.name
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 class Skill(models.Model):
@@ -27,8 +26,8 @@ class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True,)
     description = models.TextField(null=True, blank=True)
 
-    def __str__(self) -> CharField:
-        return self.name
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 class Player(models.Model):
@@ -49,5 +48,5 @@ class Player(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> CharField:
-        return self.nickname
+    def __str__(self) -> str:
+        return f"{self.nickname}"
