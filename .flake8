@@ -8,4 +8,3 @@ exclude =
     **migrations
     venv
     tests
-    .venv
