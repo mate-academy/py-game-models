@@ -15,8 +15,7 @@ def main() -> None:
             description=params_race["description"],
         )
 
-        params_skills = params_race["skills"]
-        for skill in params_skills:
+        for skill in params_race["skills"]:
             Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
