@@ -5,16 +5,17 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    data = json.load(open("players.json", "r")).items()
+    with open("players.json") as file:
+        data = json.load(file).items()
 
     for player_name, player_data in data:
         race_data = player_data["race"]
         guild_data = player_data["guild"]
 
-        race = Race.objects.get_or_create(
+        race, created = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={"description": race_data["description"]}
-        )[0]
+        )
 
         for skill_data in player_data["race"]["skills"]:
             Skill.objects.get_or_create(
@@ -24,10 +25,10 @@ def main() -> None:
             )
 
         if guild_data:
-            guild = Guild.objects.get_or_create(
+            guild, created = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 defaults={"description": guild_data["description"]}
-            )[0]
+            )
         else:
             guild = None
 
