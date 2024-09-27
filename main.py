@@ -1,6 +1,8 @@
+import json
+
+
 import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Guild, Player
-import json
 
 
 def main() -> None:
@@ -9,16 +11,20 @@ def main() -> None:
 
         for player_name, player_data in data.items():
             race_data = player_data["race"]
+            race_name = race_data["name"]
+            race_description = race_data["description"]
             race, created = Race.objects.get_or_create(
-                name=race_data["name"],
-                defaults={"description": race_data["description"]},
+                name=race_name,
+                defaults={"description": race_description},
             )
 
             for skill_data in race_data["skills"]:
+                skill_name = skill_data["name"]
+                skill_bonus = skill_data["bonus"]
                 Skill.objects.get_or_create(
-                    name=skill_data["name"],
+                    name=skill_name,
                     race=race,
-                    bonus=skill_data["bonus"],
+                    bonus=skill_bonus
                 )
 
             guild = None
