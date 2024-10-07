@@ -13,7 +13,7 @@ class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
-                             on_delete=models.CASCADE, related_name="skills")
+                             related_name="skills", on_delete=models.CASCADE)
 
     def __str__(self) -> None:
         return self.name
