@@ -41,3 +41,6 @@ def main() -> None:
                 "created_at": now(),
             }
         )
+
+if __name__ == "__main__":
+    main()
