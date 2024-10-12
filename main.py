@@ -1,7 +1,5 @@
 import init_django_orm  # noqa: F401
-
 import json
-from django.utils.timezone import now
 
 from db.models import Race, Skill, Player, Guild
 
@@ -38,7 +36,6 @@ def main() -> None:
                 "bio": player_info["bio"],
                 "race": race,
                 "guild": guild,
-                "created_at": now(),
             }
         )
 
