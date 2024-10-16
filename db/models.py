@@ -3,10 +3,10 @@ from django.db import models
 
 class Race(models.Model):
     PLAYER_CHOICES = (
-        ("Elf",
-         "Dwarf",
-         "Human",
-         "Ork")
+        ("Elf", "Elf"),
+        ("Dwarf", "Dwarf"),
+        ("Human", "Human"),
+        ("Ork", "Ork"),
     )
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -25,8 +25,8 @@ class Guild(models.Model):
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
-    email = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
     bio = models.TextField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.DO_NOTHING)
+    guild = models.ForeignKey(Guild, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
