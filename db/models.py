@@ -1,7 +1,4 @@
-from tkinter.constants import CASCADE
-
 from django.db import models
-from django.db.models import SET_NULL
 
 
 class Race(models.Model):
