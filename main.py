@@ -13,10 +13,10 @@ def main() -> None:
         email = info["email"]
         bio = info["bio"]
         race = info["race"]
-        skills = race["skills"]
         guild = info["guild"]
 
         if race:
+            skills = race["skills"]
             player_race, race_created = Race.objects.get_or_create(
                 name=race["name"],
                 description=race["description"],
