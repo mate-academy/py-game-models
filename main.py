@@ -15,7 +15,7 @@ def main() -> None:
         )
         guild = None
         if guild_ := abilities["guild"]:
-            guild, created = Guild.objects.get_or_create(
+            guild, _ = Guild.objects.get_or_create(
                 name=guild_["name"],
                 description=guild_["description"],
             )
