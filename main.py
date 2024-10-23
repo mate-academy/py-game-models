@@ -10,6 +10,7 @@ def main() -> None:
             players_data = json.load(file)
     except FileNotFoundError:
         print("players.json file not found.")
+        return
 
     for nickname, player_data in players_data.items():
         race_data = player_data["race"]
