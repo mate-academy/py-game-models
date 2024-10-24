@@ -7,9 +7,13 @@ Make sure you don't push db files (files with `.sqlite`, `.db3`, etc. extension)
 
 ## 2. Don't Forget to Add Migrations to your PR
 
-This is a required for the tests to pass.
+This is a required for the tests to pass. You need to recreate migrations after changes in models.
 
-## 3. Don't duplicate yourself
+## 3. Do not forget to add `related_name` to ForeignKey fields
+
+It will allow you to have access to related models on Many side.
+
+## 4. Don't duplicate yourself
 
 Good example:
 ```python
@@ -19,15 +23,14 @@ Model.objects.create(
 )
 ```
 
-Normal example:
+Normal example and works as well:
 ```python
 Model.objects.create(
     field=(data["info"] if data["info"] else None)
 )
 ```
 
-
-Bad example:
+Bad example, don't use it:
 ```python
 Model.objects.create(
     field=None
@@ -36,20 +39,36 @@ Model.objects.create(
 )
 ```
 
-## 4. Improve your Code
+## 5. Use `.get()` method to check whether key defined in dictionary
+
+Good example (`.get()` method returns `None` by default):
+```python
+guild = data.get("guild")
+if guild:
+    ...
+```
+
+Bad example:
+```python
+if "guild" in data:
+    guild = data["guild"]
+```
+
+## 6. Improve your Code
 
 ### 1) Do not overload the context manager.
 
 The context manager is needed to work with the file, in our case, to read data.
-Therefore, after you have read the data from the file, exit the block.
+Therefore, you need to have read file logic under the context manager block only (`json.load()` in our case).
+After that, you need to exit the block and continue working with received data.
 
 Good example:
 
 ```python
 with open("file.json") as file:
     data = json.load(file)
-
-# do something outside of the context manager
+    
+player = data["player"]
 ```
 
 Bad example:
@@ -57,8 +76,7 @@ Bad example:
 ```python
 with open("file.json") as file:
     data = json.load(file)
-    
-    # do something inside of the context manager
+    player = data["player"]
 ```
 
 ### 2) Use everything for its intended purpose

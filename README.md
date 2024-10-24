@@ -20,8 +20,9 @@ Each race has unique skills. Create a model `Skill` for them.
 Each skill has:
 - `name` - a *unique* char field with a maximum length of 255 characters.
 - `bonus` - a char field with a maximum length of 255 characters. 
-This field describes what kind of bonus players can get from it. 
+This field describes what kind of bonus players can get from it. With other words, it is description of bonus.
 - `race` - a foreign key that points to the `Race` model. It shows which race has the corresponding skill.
+**Please note:** skill must be deleted when the race is deleted.
 
 #### 3. Guild
 The player has an opportunity to become a member of a guild. 
@@ -34,11 +35,12 @@ It has:
 And finally, a `Player` model.
 It should have the following fields:
 - `nickname` - a *unique* char field with a maximum length of 255 characters.
-- `email` - an email field with a maximum length of 255 characters.
-- `bio` - a char field with a maximum length of 255 characters. 
+- `email` - an email field with a maximum length of 255 characters. It may not be unique.
+- `bio` - a CharField with a maximum length of 255 characters. 
 It stores a short description provided by a user about himself/herself.
 - `race` - a foreign key that points to the `Race` model and shows 
 the race of the player.
+**Please note:** player must be deleted when the race is deleted.
 - `guild` - a foreign key that points to the `Guild` model and stores
 an id of the guild the player is a member of. 
 **Please note:** player should not be deleted when the guild is deleted.
@@ -47,7 +49,7 @@ an id of the guild the player is a member of.
 
 ## Second Task:
 
-Implement function `main()` in `main.py`:
+Implement function `main()` in `main.py` which will have the following logic:
 
 Read data about players from `players.json` and add the corresponding entries to the database.
 Note, that some guilds, races and skills are used for different players. Create only one
@@ -55,5 +57,7 @@ instance for each guild, race and skill, do not copy them.
 
 **Note**: It would be very useful to use the 
 [get_or_create()](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#get-or-create) method here.
+We don't care about performance for this task, so we should be OK to query database to check whether row already exist.
+It's also no need to use `bulk_create` here to avoid complexity of this task.
 
 ### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
