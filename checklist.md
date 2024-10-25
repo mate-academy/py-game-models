@@ -15,7 +15,8 @@ It will allow you to have access to related models on Many side.
 
 ## 4. Don't duplicate yourself
 
-Good example:
+**Good example:**
+
 ```python
 additional_data = data["info"] if data["info"] else None
 Model.objects.create(
@@ -23,14 +24,15 @@ Model.objects.create(
 )
 ```
 
-Normal example and works as well:
+**Good example and it works well:**
+
 ```python
 Model.objects.create(
     field=(data["info"] if data["info"] else None)
 )
 ```
 
-Bad example, don't use it:
+**Bad example, avoid using it:**
 ```python
 Model.objects.create(
     field=None
@@ -59,8 +61,8 @@ if "guild" in data:
 ### 1) Do not overload the context manager.
 
 The context manager is needed to work with the file, in our case, to read data.
-Therefore, you need to have read file logic under the context manager block only (`json.load()` in our case).
-After that, you need to exit the block and continue working with received data.
+To read a file, you should use the logic within the context manager block only (e.g., `json.load()`).
+After finishing this block, you can continue working with the received data.
 
 Good example:
 
