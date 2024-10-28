@@ -16,14 +16,14 @@ class Guild(models.Model):
 class Skill(models.Model):
     name = CharField(max_length=255, unique=True)
     bonus = CharField(max_length=255)
-    race = ForeignKey(Race, on_delete=models.DO_NOTHING,)
+    race = ForeignKey(Race, on_delete=models.PROTECT,)
 
 
 class Player(models.Model):
     nickname = CharField(max_length=255, unique=True)
     email = EmailField(max_length=255)
     bio = CharField(max_length=255)
-    race = ForeignKey(Race, on_delete=models.DO_NOTHING,
+    race = ForeignKey(Race, on_delete=models.PROTECT,
                       related_name="players")
     guild = ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = DateTimeField(auto_now=True)
