@@ -1,4 +1,3 @@
-import os
 import json
 
 import init_django_orm  # noqa: F401
@@ -26,8 +25,6 @@ def main() -> None:
                 race=race
             )
 
-
-
         guild_data = player_data.get("guild")
         guild = None
         if guild_data:
@@ -35,7 +32,6 @@ def main() -> None:
                 name=guild_data["name"],
                 description=guild_data["description"]
             )
-
 
         Player.objects.get_or_create(
             nickname=player_name,
