@@ -3,7 +3,8 @@ from django.db import models
 RACES_NAME = [
     ("Elf", "Elf"),
     ("Human", "Human"),
-    ("Dwarf", "Dwarf")
+    ("Dwarf", "Dwarf"),
+    ("Orc", "Orc")
 ]
 
 
