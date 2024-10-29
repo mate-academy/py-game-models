@@ -3,6 +3,8 @@ from db.models import Race, Skill, Guild, Player
 from typing import Any, Optional
 
 
+# Some comments
+
 def main() -> None:
     with open("players.json", "r") as file:
         players_data: dict[str, Any] = json.load(file)
