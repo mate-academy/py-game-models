@@ -7,9 +7,8 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    directory = os.path.join("db", "tests", "players.json")
 
-    with open(directory, "r") as data_players:
+    with open("players.json", "r") as data_players:
         players = json.load(data_players)
 
     for nickname, player_data in players.items():
