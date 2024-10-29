@@ -1,4 +1,3 @@
-import os.path
 import json
 
 import init_django_orm  # noqa: F401
