@@ -25,12 +25,12 @@ def main() -> None:
                 race=race
             )
 
-        guild_data = player_data.get("guild")
+        guild_data_ = player_data.get("guild")
         guild = None
-        if guild_data:
+        if guild_data_:
             guild, _ = Guild.objects.get_or_create(
-                name=guild_data["name"],
-                description=guild_data["description"]
+                name=guild_data_["name"],
+                description=guild_data_["description"]
             )
 
         Player.objects.get_or_create(
