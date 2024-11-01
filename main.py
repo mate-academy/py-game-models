@@ -20,7 +20,7 @@ def main() -> None:
                 defaults={"bonus": skill_data["bonus"], "race": race}
             )
             skills.append(skill)
-        if player_data["guild"]:
+        if player_data.get("guild"):
             guild, _ = Guild.objects.get_or_create(
                 name=player_data["guild"]["name"],
                 defaults={"description": player_data["guild"]["description"]}
@@ -35,7 +35,3 @@ def main() -> None:
             guild=guild,
         )
         player.save()
-
-
-if __name__ == "__main__":
-    main()
