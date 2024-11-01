@@ -9,11 +9,6 @@ def main() -> None:
     with open("players.json") as players_file:
         players = json.load(players_file)
 
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Player.objects.all().delete()
-    Guild.objects.all().delete()
-
     for name, value in players.items():
 
         race, _ = Race.objects.get_or_create(
