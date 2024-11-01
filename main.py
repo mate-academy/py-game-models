@@ -1,7 +1,6 @@
 from django.db.models import ForeignKey  # noqa: F401
 import init_django_orm  # noqa: F401
 import json
-import datetime
 from db.models import Race, Skill, Player, Guild
 
 
@@ -40,7 +39,6 @@ def main() -> None:
             bio=value["bio"],
             race=race,
             guild=guild,
-            created_at=datetime.datetime.now(),
         )
 
 
