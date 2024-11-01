@@ -43,11 +43,11 @@ def get_or_create_guild(bio: dict) -> Guild | None:
 
 
 def get_or_create_race(bio: dict) -> Race | None:
-    if guild_bio := bio.get("race"):
+    if race_bio := bio.get("race"):
         try:
             race, _ = Race.objects.get_or_create(
-                name=guild_bio.get("name"),
-                description=guild_bio.get("description"),
+                name=race_bio.get("name"),
+                description=race_bio.get("description"),
             )
             return race
         except Exception as e:
