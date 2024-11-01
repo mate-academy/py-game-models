@@ -2,7 +2,11 @@ from django.db import models
 
 
 class Race(models.Model):
-    name = models.CharField(max_length=255)
+    RACE = [("Elf", "ELF"),
+            ("Dwarf", "DWARF"),
+            ("Human", "HUMAN"),
+            ("Ork", "ORK")]
+    name = models.CharField(max_length=255, unique=True, choices=RACE)
     description = models.TextField(blank=True)
 
 
@@ -19,7 +23,7 @@ class Guild(models.Model):
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(unique=False)
+    email = models.EmailField(max_length=255, unique=False)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)

@@ -21,8 +21,6 @@ def main() -> None:
 
 def create_skills(bio: dict, race: Race) -> None:
     skills_list = bio.get("race").get("skills")
-    # print(skills_list)
-    # print(race)
     for skill in skills_list:
         try:
             Skill.objects.get_or_create(
@@ -48,7 +46,7 @@ def get_or_create_guild(bio: dict) -> Guild | None:
     return None
 
 
-def get_or_create_race(bio: dict) -> Guild | None:
+def get_or_create_race(bio: dict) -> Race | None:
     if guild_bio := bio.get("race"):
         try:
             race, _ = Race.objects.get_or_create(
