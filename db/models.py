@@ -1,8 +1,4 @@
-from random import choices
-from tkinter.constants import CASCADE
-
 from django.db import models
-
 
 
 class Race(models.Model):
@@ -12,7 +8,8 @@ class Race(models.Model):
         ("H", "Human"),
         ("O", "Ork")
     )
-    name = models.CharField(max_length=255, unique=True, choices=RACE_TO_CHOOSE)
+    name = models.CharField(max_length=255, unique=True,
+                            choices=RACE_TO_CHOOSE)
     description = models.TextField(blank=True)
 
 
@@ -32,5 +29,6 @@ class Player(models.Model):
     email = models.EmailField(max_length=255, unique=False)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL,
+                              null=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,5 +1,4 @@
 import json
-from pydoc import describe
 
 import init_django_orm  # noqa: F401
 
@@ -44,6 +43,7 @@ def main() -> None:
                 "guild": guild_obj
             }
         )
+
 
 if __name__ == "__main__":
     main()
