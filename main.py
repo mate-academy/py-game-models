@@ -64,30 +64,5 @@ def file_data(path: str) -> dict:
     return players
 
 
-def show_schem(players):
-    for player, info in players.items():
-        print(player)
-        print("email: ", info.get("email"))
-        print("bio: ", info.get("bio"))
-
-        if race_info := info.get("race"):
-            print("race")
-            print("name:", race_info.get("name"))
-            print("description:", race_info.get("description"))
-
-            if skills_info := race_info.get("skills"):
-                print("skills")
-                for skill in skills_info:
-                    print("name:", skill.get("name"))
-                    print("bonus:", skill.get("bonus"))
-
-        if guild_info := info.get("guild"):
-            print("guild")
-            print("name:", guild_info.get("name"))
-            print("description:", guild_info.get("description"))
-
-        print("-" * 30)
-
-
 if __name__ == "__main__":
     main()
