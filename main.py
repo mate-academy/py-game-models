@@ -2,7 +2,7 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-def read_file() ->object:
+def read_file() -> object:
     with open("players.json", "r") as players_file:
         players = json.load(players_file)
     return players
