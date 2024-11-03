@@ -6,7 +6,6 @@ class Race(models.Model):
     description = models.TextField(blank=True)
 
 
-
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
