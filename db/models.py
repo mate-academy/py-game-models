@@ -3,7 +3,13 @@ from django.db.models import SET_NULL
 
 
 class Race(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    RACE_TYPE = (
+        ("Elf", "Elf race"),
+        ("Dwarf", "Dwarf race"),
+        ("Human", "Human race"),
+        ("Ork", "Ork race"),
+    )
+    name = models.CharField(max_length=255, unique=True, choices=RACE_TYPE)
     description = models.TextField(blank=True)
 
 
