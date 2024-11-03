@@ -47,7 +47,7 @@ def create_db(players: dict) -> None:
         else:
             guild = None
 
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=player,
             email=email_info,
             bio=bio_info,
