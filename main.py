@@ -8,10 +8,10 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     players = file_data("players.json")
+    create_db(players)
 
-    # print(players)
-    # show_schem(players)
 
+def create_db(players: dict) -> None:
     for player, info in players.items():
         email_info = info.get("email")
         bio_info = info.get("bio")
@@ -30,9 +30,11 @@ def main() -> None:
                     skill_name = skill.get("name")
                     skill_bonus = skill.get("bonus")
 
-                    skill, skill_created = Skill.objects.get_or_create(
+                    Skill.objects.get_or_create(
                         name=skill_name, bonus=skill_bonus, race=race
                     )
+        else:
+            race = None
 
         if guild_info := info.get("guild"):
             guild_name = guild_info.get("name")
@@ -54,7 +56,7 @@ def main() -> None:
         )
 
 
-def file_data(path):
+def file_data(path: str) -> dict:
     file_path = os.path.join(path)
     with open(file_path) as f:
         players = json.load(f)
