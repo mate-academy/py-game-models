@@ -2,7 +2,7 @@ import json
 
 import init_django_orm  # noqa: F401
 
-from db.models import Race, Skill, Player, Guild
+from db.models import Race, Guild, Skill, Player # noqa
 
 
 def get_or_create_race(race: dict) -> Race:
@@ -12,6 +12,7 @@ def get_or_create_race(race: dict) -> Race:
     )
     obj.save()
     return obj
+
 
 def get_or_create_guild(guild: dict | None) -> Guild | None:
     if guild is None:
@@ -29,8 +30,8 @@ def add_player(
         nickname: str,
         race: Race,
         guild: Guild
-) -> None:
-    obj, _= race.player_set.get_or_create(
+) -> Player:
+    obj, _ = race.player_set.get_or_create(
         nickname=nickname,
         email=player.get("email"),
         bio=player.get("bio"),
@@ -38,6 +39,7 @@ def add_player(
 
     )
     obj.save()
+    return obj
 
 
 def main() -> None:
@@ -48,7 +50,10 @@ def main() -> None:
         race = get_or_create_race(race_dict)
 
         for skill_dict in race_dict.get("skills", []):
-            race.skill_set.get_or_create(name=skill_dict.get("name"), bonus=skill_dict.get("bonus"))
+            race.skill_set.get_or_create(
+                name=skill_dict.get("name"),
+                bonus=skill_dict.get("bonus")
+            )
 
         guild = get_or_create_guild(value.get("guild"))
         add_player(value, nickname, race, guild)
