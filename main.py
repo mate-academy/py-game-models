@@ -21,13 +21,15 @@ def main() -> None:
                 defaults={"description": player_data["guild"]["description"]}
             )
 
-        Player.objects.create(
+        player, _ = Player.objects.get_or_create(
             nickname=nickname,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=race,
-            guild=guild,
-            created_at=datetime.now(),
+            defaults={
+                "email": player_data["email"],
+                "bio": player_data["bio"],
+                "race": race,
+                "guild": guild,
+                "created_at": datetime.now(),
+            }
         )
 
         for skill_data in player_data["race"]["skills"]:
