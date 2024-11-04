@@ -13,17 +13,6 @@ def get_or_create_race(race: dict) -> Race:
     obj.save()
     return obj
 
-
-def get_or_create_skill(skill: dict, race: Race) -> Skill:
-    obj, _ = Skill.objects.get_or_create(
-        name=skill.get("name"),
-        bonus=skill.get("bonus"),
-        race=race
-    )
-    obj.save()
-    return obj
-
-
 def get_or_create_guild(guild: dict | None) -> Guild | None:
     if guild is None:
         return
@@ -41,11 +30,10 @@ def add_player(
         race: Race,
         guild: Guild
 ) -> None:
-    obj, _ = Player.objects.get_or_create(
+    obj, _= race.player_set.get_or_create(
         nickname=nickname,
         email=player.get("email"),
         bio=player.get("bio"),
-        race=race,
         guild=guild
 
     )
@@ -59,8 +47,8 @@ def main() -> None:
         race_dict = value.get("race")
         race = get_or_create_race(race_dict)
 
-        for skill_dict in race_dict.get("skills"):
-            get_or_create_skill(skill_dict, race)
+        for skill_dict in race_dict.get("skills", []):
+            race.skill_set.get_or_create(name=skill_dict.get("name"), bonus=skill_dict.get("bonus"))
 
         guild = get_or_create_guild(value.get("guild"))
         add_player(value, nickname, race, guild)
