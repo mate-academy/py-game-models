@@ -11,13 +11,13 @@ def main() -> None:
     for player, data in players.items():
         # player data
         nickname = player
-        email = data["email"]
-        biography = data["bio"]
+        email = data.get("email")
+        biography = data.get("bio")
         # race data
-        race_name = data["race"]["name"]
-        race_description = data["race"]["description"]
+        race_name = data.get("race").get("name")
+        race_description = data.get("race").get("description")
         # skill data
-        skills = data["race"]["skills"]
+        skills = data.get("race").get("skills")
         # guild data
         guild_data = data.get("guild")
 
