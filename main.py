@@ -1,6 +1,7 @@
 import json
 from db.models import Race, Skill, Player, Guild
 
+
 def read_file() -> object:
     try:
         with open("players.json", "r") as players_file:
@@ -9,17 +10,20 @@ def read_file() -> object:
         print("Error: The file 'players.json' was not found.")
         return None
     except json.JSONDecodeError:
-        print("Error: Failed to parse 'players.json'. The file may be corrupted.")
+        print("Error: Failed to parse 'players.json'."
+              " The file may be corrupted.")
         return None
     except IOError:
         print("Error: Unable to read 'players.json' due to an I/O issue.")
         return None
 
+
 def main() -> None:
     players_data = read_file()
 
     if not isinstance(players_data, dict):
-        print("Error: The data from 'players.json' is not in the expected dictionary format.")
+        print("Error: The data from 'players.json'"
+              " is not in the expected dictionary format.")
         return
 
     for player_name, player_data in players_data.items():
@@ -55,6 +59,7 @@ def main() -> None:
                 "guild": guild
             }
         )
+
 
 if __name__ == "__main__":
     main()
