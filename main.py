@@ -11,7 +11,7 @@ def main() -> None:
     print(data)
     for player, player_data in data.items():
         race_info = player_data.get("race")
-        race_player, created = Race.objects.get_or_create(
+        race_player, _ = Race.objects.get_or_create(
             name=race_info.get("name"),
             description=race_info.get("description")
         )
@@ -25,7 +25,7 @@ def main() -> None:
 
         guild_info = player_data.get("guild")
         if guild_info:
-            guild_player, created = Guild.objects.get_or_create(
+            guild_player, _ = Guild.objects.get_or_create(
                 name=guild_info.get("name"),
                 description=guild_info.get("description")
             )
