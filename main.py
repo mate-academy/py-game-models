@@ -31,3 +31,7 @@ def main() -> None:
                                              "race": race,
                                              "guild": guild,
                                          })
+            
+
+if __name__ == "__main__":
+    main()
