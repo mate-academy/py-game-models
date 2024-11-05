@@ -40,7 +40,7 @@ def add_player(
 
 
 def main() -> None:
-    with open("players.json", "w") as players_file:
+    with open("players.json", "r") as players_file:
         data = json.load(players_file)
         for nickname, value in data.items():
             race_dict = value.get("race")
