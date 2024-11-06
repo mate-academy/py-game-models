@@ -1,4 +1,4 @@
-from email.policy import default
+from email.policy import default  # noqa: F401
 import json
 import init_django_orm  # noqa: F401
 
@@ -13,7 +13,7 @@ def main() -> None:
         race_data = player["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
-            defaults={"description": race_data["description"],}
+            defaults={"description": race_data["description"], }
         )
 
         guild = None
