@@ -12,8 +12,7 @@ def main() -> None:
     for key in players_data:
         race, created = Race.objects.get_or_create(
             name=players_data[key]["race"]["name"],
-            defaults=
-            {"description": players_data[key]["race"].get("description", "")})
+            defaults={"description": players_data[key]["race"].get("description", "")})
         for elem in players_data[key]["race"]["skills"]:
             skills, created = Skill.objects.get_or_create(
                 name=elem["name"],
@@ -27,7 +26,7 @@ def main() -> None:
             )
         else:
             guild = None
-        player = Player.objects.get_or_create(
+        player, created = Player.objects.get_or_create(
             nickname=key,
             defaults={
                 "email": players_data[key]["email"],
@@ -37,6 +36,9 @@ def main() -> None:
 
             }
         )
+        if player:
+            print("Player is created")
+
 
 
 if __name__ == "__main__":
