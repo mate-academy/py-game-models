@@ -15,14 +15,14 @@ def main() -> None:
                 guild_description = player_dict["guild"].get("description")
                 guild, _ = Guild.objects.get_or_create(
                     name=guild_name,
-                    description=guild_description
+                    defaults={"description": guild_description}
                 )
 
             race_name = player_dict["race"]["name"]
             race_description = player_dict["race"].get("description")
             race, _ = Race.objects.get_or_create(
                 name=race_name,
-                description=race_description
+                defaults={"description": race_description}
             )
 
             Player.objects.create(
