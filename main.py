@@ -29,7 +29,7 @@ def main() -> None:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 defaults={
-                    "description": guild_data.get("description", None)
+                    "description": guild_data.get("description", "")
                 }
             )
 

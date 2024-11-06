@@ -14,16 +14,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='player',
             name='guild',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='players', to='db.guild'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='players', to='Guild'),
         ),
         migrations.AlterField(
             model_name='player',
             name='race',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.race'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Race'),
         ),
         migrations.AlterField(
             model_name='skill',
             name='race',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.race'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Race'),
         ),
     ]
