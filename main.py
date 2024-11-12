@@ -8,7 +8,6 @@ def main() -> None:
         players_data = json.load(f)
 
     for player_name, player_data in players_data.items():
-        # Get or create the race
         race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
