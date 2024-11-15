@@ -9,42 +9,43 @@ def main() -> None:
     with open("players.json", "r") as f:
         players_data = json.load(f)
 
-    # Перевірка структури даних
-    print(players_data)  # Для налагодження можна вивести дані
+    if not players_data:
+        print("Файл JSON порожній або має неправильну структуру.")
+        return
 
-    for player in players_data:
-        if isinstance(player, dict):  # Перевіряємо, чи це словник
-            race_name = player.get("race", {}).get("name")
-            race_desc = player.get("race", {}).get("description")
-            race, created = Race.objects.get_or_create(
-                name=race_name,
-                description=race_desc
+    for player in players_data.values():
+        # Створення/отримання раси
+        race_data = player.get("race", {})
+        race_name = race_data.get("name")
+        race_desc = race_data.get("description", "")
+        race, created = Race.objects.get_or_create(name=race_name, defaults={"description": race_desc})
+
+        # Створення навичок для раси
+        skills_data = race_data.get("skills", [])
+        for skill in skills_data:
+            # Оновлений виклик get_or_create для Skills з додаванням race
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race  # Встановлюємо зв'язок з race
             )
 
-            # Створюємо навички для раси, якщо вони є
-            skills_data = player.get("race", {}).get("skills", [])
-            for skill in skills_data:
-                Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"]
-                )
+        # Створення/отримання гільдії
+        guild_data = player.get("guild", {})
+        guild_name = guild_data.get("name")
+        guild_desc = guild_data.get("description", "")  # Якщо опис гільдії відсутній, встановлюємо порожнє значення
+        guild, created = Guild.objects.get_or_create(name=guild_name, defaults={"description": guild_desc})
 
-            guild_name = player.get("guild", {}).get("name")
-            guild_desc = player.get("guild", {}).get("description")
-            guild, created = Guild.objects.get_or_create(
-                name=guild_name,
-                description=guild_desc
-            )
+        # Створення/оновлення гравця
+        Player.objects.get_or_create(
+            nickname=player["nickname"],
+            email=player.get("email"),
+            bio=player.get("bio"),
+            race=race,
+            guild=guild if guild_name else None,  # Якщо гільдія відсутня, залишаємо None
+            created_at=player.get("created_at")
+        )
 
-            # Створюємо або оновлюємо гравця
-            Player.objects.get_or_create(
-                nickname=player["nickname"],
-                email=player.get("email"),
-                bio=player.get("bio"),
-                race=race,
-                guild=guild,
-                created_at=player.get("created_at")
-            )
 
 if __name__ == "__main__":
     main()
