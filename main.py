@@ -13,7 +13,7 @@ def main() -> None:
         print("The JSON file is empty or has an invalid structure.")
         return
 
-    for player in players_data.values():
+    for nickname, player in players_data.items():
         race_data = player.get("race", {})
         race_name = race_data.get("name")
         race_desc = race_data.get("description", "")
@@ -30,16 +30,18 @@ def main() -> None:
                 race=race
             )
 
+        guild = None
         guild_data = player.get("guild", {})
-        guild_name = guild_data.get("name")
-        guild_desc = guild_data.get("description", "")
-        guild, created = Guild.objects.get_or_create(
-            name=guild_name,
-            defaults={"description": guild_desc}
-        )
+        if guild_data:
+            guild_name = guild_data.get("name")
+            guild_desc = guild_data.get("description", "")
+            guild, created = Guild.objects.get_or_create(
+                name=guild_name,
+                defaults={"description": guild_desc}
+            )
 
         Player.objects.get_or_create(
-            nickname=player["nickname"],
+            nickname=nickname,
             email=player.get("email"),
             bio=player.get("bio"),
             race=race,
