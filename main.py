@@ -11,28 +11,31 @@ def main() -> None:
 
     for user, info_user in players_set.items():
 
-        race = Race.objects.get_or_create(name=info_user["race"]["name"],
-                                          description=info_user["race"]["description"])
+        race, _ = Race.objects.get_or_create(
+            name=info_user["race"]["name"],
+            description=info_user["race"]["description"]
+        )
 
-        for skill in info_user.get("skills", []):
-            skill = Skill.objects.get_or_create(name=skill["name"],
-                                                bonus=skill["bonus"],
-                                                race=race
-                                                )
+        for skill in info_user["race"].get("skills", []):
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
+                race=race
+            )
+
         guild = None
         if info_user.get("guild"):
-            guild = Guild.objects.get_or_create(name=info_user["guild"]["name"],
-                                                description=info_user["guild"]["description"]
-                                                )
+            guild, _ = Guild.objects.get_or_create(
+                name=info_user["guild"]["name"],
+                description=info_user["guild"]["description"]
+            )
 
-        player = Player.objects.get_or_create(nickname=user,
-                                              email=info_user["email"],
-                                              bio=info_user["bio"],
-                                              race=race,
-                                              guild=guild
-                                              )
-
-        # print(player)
+        Player.objects.get_or_create(nickname=user,
+                                     email=info_user["email"],
+                                     bio=info_user["bio"],
+                                     race=race,
+                                     guild=guild
+                                     )
 
 
 if __name__ == "__main__":
