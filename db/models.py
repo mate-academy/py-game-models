@@ -1,7 +1,7 @@
 from typing import ForwardRef
 
 from django.db import models
-from django.db.models import DO_NOTHING, CASCADE
+from django.db.models import SET_NULL, CASCADE
 
 
 class Race(models.Model):
@@ -25,5 +25,5 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=DO_NOTHING)
-    created_at = models.DateTimeField(auto_now=True)
+    guild = models.ForeignKey(Guild, on_delete=SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
