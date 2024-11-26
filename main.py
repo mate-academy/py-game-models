@@ -12,8 +12,11 @@ def main() -> None:
         # Get or create the race
         race, created = Race.objects.get_or_create(name=player_data['race'])
 
-        # Get or create the guild
-        guild, created = Guild.objects.get_or_create(name=player_data['guild'])
+        # Handle the optional guild
+        guild_name = player_data.get('guild')  # Safely fetch guild name, default to None
+        guild = None
+        if guild_name:  # Only create or fetch if guild name is provided
+            guild, created = Guild.objects.get_or_create(name=guild_name)
 
         # Create skills for the race
         for skill_data in player_data['skills']:
