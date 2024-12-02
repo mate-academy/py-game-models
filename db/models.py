@@ -11,7 +11,7 @@ class Skill(models.Model):
 
 class  Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(unique=True, null=True)
+    description = models.TextField(null=True)
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)

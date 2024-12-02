@@ -34,7 +34,7 @@ def main() -> None:
             "bio": player_data["bio"],
             "race": race,
             "guild": guild,
-            "create_at": player_data.get("create_at")
+            "created_at": player_data.get("created_at")
         })
 
 
