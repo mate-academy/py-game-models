@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
@@ -22,8 +23,7 @@ class Player(models.Model):
     bio = models.TextField(max_length=255)
     race = models.ForeignKey(Race,
                              on_delete=models.CASCADE,
-                             related_name="races"
-    )
+                             related_name="races")
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
