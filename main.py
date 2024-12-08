@@ -6,11 +6,6 @@ import json
 
 
 def main() -> None:
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Guild.objects.all().delete()
-    Player.objects.all().delete()
-
     with open("players.json", "r") as file:
         players = json.load(file)
 
