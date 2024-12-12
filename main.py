@@ -8,33 +8,37 @@ import json
 def main() -> None:
     with open("players.json") as f:
         players_info = json.load(f)
-    for pl in players_info.keys():
+    for pl, info in players_info.items():
         race, created = Race.objects.get_or_create(
-            name=players_info[pl]["race"]["name"],
-            description=players_info[pl]["race"]["description"]
+            name=info["race"]["name"],
+            description=info["race"]["description"]
         )
-        if created and players_info[pl]["race"]["skills"]:
-            for skill in players_info[pl]["race"]["skills"]:
+        if created and info["race"]["skills"]:
+            for skill in info["race"]["skills"]:
                 Skill.objects.create(
                     name=skill["name"],
                     bonus=skill["bonus"],
                     race=race
                 )
         guild = None
-        if players_info[pl]["guild"]:
+        if info["guild"]:
             guild, created = Guild.objects.get_or_create(
-                name=players_info[pl]["guild"]["name"],
-                description=players_info[pl]["guild"]["description"]
+                name=info["guild"]["name"],
+                description=info["guild"]["description"]
             )
 
         Player.objects.create(
             nickname=pl,
-            email=players_info[pl]["email"],
-            bio=players_info[pl]["bio"],
+            email=info["email"],
+            bio=info["bio"],
             race=race,
             guild=guild
         )
 
 
 if __name__ == "__main__":
+    Player.objects.all().delete()
+    Race.objects.all().delete()
+    Skill.objects.all().delete()
+    Guild.objects.all().delete()
     main()

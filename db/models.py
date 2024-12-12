@@ -3,10 +3,10 @@ from django.db import models
 
 class Race(models.Model):
     race_to_choose = [
-        ["Elf", "Elf"],
-        ["Dwarf", "Dwarf"],
-        ["Human", "Human"],
-        ["Ork", "Ork"]
+        ("Elf", "Elf"),
+        ("Dwarf", "Dwarf"),
+        ("Human", "Human"),
+        ("Ork", "Ork")
     ]
 
     name = models.CharField(
@@ -43,4 +43,4 @@ class Player(models.Model):
     )
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, null=True, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
