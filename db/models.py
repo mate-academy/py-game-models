@@ -1,1 +1,33 @@
 from django.db import models
+
+
+class Race(models.Model):
+    STATUS_CHOICES = [
+        ("elf", "Elf"),
+        ("dwarf", "Dwarf"),
+        ("human", "Human"),
+        ("ork", "Ork"),
+    ]
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    race = models.CharField(max_length=20, choices=STATUS_CHOICES)
+
+
+class Skill(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    bonus = models.CharField(max_length=255)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+
+
+class Guild(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(null=True, blank=True)
+
+
+class Player(models.Model):
+    nickname = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=False)
+    bio = models.CharField(max_length=255)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
+    create_at = models.DateTimeField(auto_now_add=True)
