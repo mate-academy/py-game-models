@@ -1,10 +1,14 @@
 {
+
+
   "john": {
     "email": "john@gmail.com",
     "bio": "Hello, I'm John, elf ranger",
+
     "race": {
       "name": "elf",
       "description": "The magic race",
+
       "skills": [
         {
           "name": "Teleportation",
@@ -21,6 +25,8 @@
       "description": null
     }
   },
+
+
   "max": {
     "email": "max@gmail.com",
     "bio": "Hello, I'm Max, elf mag",
@@ -43,6 +49,8 @@
       "description": "A community of the elf mags"
     }
   },
+
+
   "arthur": {
     "email": "arthur@gmail.com",
     "bio": "Arthur, elf mag",
@@ -65,6 +73,8 @@
       "description": "A community of the elf mags"
     }
   },
+
+
   "andrew": {
     "email": "andrew@gmail.com",
     "bio": "Hello, I'm Andrew",
