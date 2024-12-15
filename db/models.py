@@ -19,12 +19,12 @@ class Skill(models.Model):
 
 class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
 
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255)
+    email = models.EmailField(max_length=255, default="<EMAIL>")
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
