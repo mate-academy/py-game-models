@@ -24,11 +24,11 @@ class Guild(models.Model):
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
-        related_name="race_set",
+        related_name="players",
         on_delete=models.CASCADE
     )
     guild = models.ForeignKey(
