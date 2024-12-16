@@ -48,9 +48,7 @@ def main() -> None:
             email=email,
             bio=bio,
             race=race_instance,
-            guild=guild_instance
-
-        )
+            guild=guild_instance)
 
 
 if __name__ == "__main__":
