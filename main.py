@@ -50,12 +50,17 @@ def main() -> None:
                             if skill_bonus else {"race": race}
                         )
         # Player
-        email = player.get("email")
-        bio = player.get("bio")
+        email = player.get("email", None)
+        bio = player.get("bio", None)
+
         player_obj, created = Player.objects.get_or_create(
             nickname=player_key,
-            defaults={"email": email, "bio": bio, "race": race, "guild": guild}
-            if bio and email else {"race": race, "guild": guild}
+            defaults={
+                "email": email,
+                "bio": bio,
+                "race": race,
+                "guild": guild
+            }
         )
 
 
