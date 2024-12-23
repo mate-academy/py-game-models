@@ -9,6 +9,7 @@ class Race(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
@@ -28,6 +29,7 @@ class Guild(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)

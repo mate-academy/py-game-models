@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 from db.models import Race, Skill, Guild, Player
 
+
 def main() -> None:
     with open("players.json", "r") as file:
         players_data = json.load(file)
@@ -34,6 +35,7 @@ def main() -> None:
             guild=guild,
             created_at=datetime.now()
         )
+
 
 if __name__ == "__main__":
     main()
