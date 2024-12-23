@@ -4,16 +4,14 @@ import json
 from datetime import datetime
 from db.models import Race, Skill, Guild, Player
 
-
 def main() -> None:
     with open("players.json", "r") as file:
         players_data = json.load(file)
 
-
     for player_data in players_data:
         race, created_race = Race.objects.get_or_create(
             name=player_data["race_name"],
-            defaults={'description': player_data.get("race_description", "")}
+            defaults={"description": player_data.get("race_description", "")}
         )
 
         guild, created_guild = Guild.objects.get_or_create(
@@ -28,7 +26,6 @@ def main() -> None:
                 race=race
             )
 
-
         Player.objects.get_or_create(
             nickname=player_data["nickname"],
             email=player_data["email"],
@@ -37,7 +34,6 @@ def main() -> None:
             guild=guild,
             created_at=datetime.now()
         )
-
 
 if __name__ == "__main__":
     main()
