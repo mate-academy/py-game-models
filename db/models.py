@@ -31,7 +31,7 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="races"
+        related_name="players"
     )
     guild = models.ForeignKey(
         Guild,
