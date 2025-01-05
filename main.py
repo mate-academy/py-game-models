@@ -9,42 +9,48 @@ def main() -> None:
     with open("players.json", "r") as file:
         players_data = json.load(file)
 
-    for player_data in players_data:
-        race = player_data.get("race")
-        description = player_data.get("description")
-        if race:
-            Race.objects.get_or_create(name=race,description=description)
+    for player_name, player_info in players_data.items():
+        race_info = player_info.get("race")
+        if race_info:
+            race_name = race_info.get("name")
+            race_description = race_info.get("description")
+            race, _ = Race.objects.get_or_create(
+                name=race_name,
+                defaults={"description": race_description}
+            )
 
-    for player_data in players_data:
-        race = player_data.get("race")
-        if race:
-            skills = player_data.get("skills")
-            for skill in skills:
-                skill_name = skill.get("name")
-                skill_bonus = skill.get("bonus")
+            skills = race_info.get("skills", [])
+            for skill_info in skills:
+                skill_name = skill_info.get("name")
+                skill_bonus = skill_info.get("bonus")
                 if skill_name and skill_bonus:
                     Skill.objects.get_or_create(
                         name=skill_name,
-                        bonus=skill_bonus
+                        bonus=skill_bonus,
+                        race=race  # Прив'язка до раси
                     )
 
+        guild_info = player_info.get("guild")
+        guild = None
+        if guild_info:
+            guild_name = guild_info.get("name")
+            guild_description = guild_info.get("description")
+            if guild_name:
+                guild, _ = Guild.objects.get_or_create(
+                    name=guild_name,
+                    defaults={"description": guild_description}
+                )
 
-    for player_data in players_data:
-        guild = player_data.get("guild")
-        description = player_data.get("description")
-        if guild:
-            Guild.objects.get_or_create(name=guild, description=description)
+        Player.objects.get_or_create(
+            nickname=player_name,
+            defaults={
+                "email": player_info.get("email"),
+                "bio": player_info.get("bio"),
+                "race": race,
+                "guild": guild
+            }
+        )
 
-    for player_data in players_data:
-        nickname = player_data.get("nickname")
-        if nickname:
-            Player.objects.get_or_create(
-                nickname=nickname,
-                email=player_data.get("email"),
-                bio=player_data.get("bio"),
-                race=player_data.get("race"),
-                guild=player_data.get("guild")
-            )
 
 
 if __name__ == "__main__":
