@@ -3,16 +3,14 @@ import json
 from db.models import Race, Skill, Player, Guild
 
 
-from db.models import Race, Skill, Player, Guild
-
-
 def main() -> None:
     with open("players.json", "r") as plfl:
         players_data = json.load(plfl)
     for player_name in players_data:
         race, _ = Race.objects.get_or_create(
             name=players_data[player_name]["race"]["name"],
-            description=players_data[player_name]["race"]["description"]
+            description=players_data[player_name][
+                "race"]["description"]
         )
         for skill_data in players_data[player_name]["race"]["skills"]:
             Skill.objects.get_or_create(
@@ -25,7 +23,8 @@ def main() -> None:
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
                 name=players_data[player_name]["guild"]["name"],
-                description=players_data[player_name]["guild"]["description"])
+                description=players_data[
+                    player_name]["guild"]["description"])
         else:
             guild = None
         Player.objects.get_or_create(
