@@ -14,7 +14,7 @@ def main() -> None:
                     "race"]["description"]
             )
             for skill_data in players_data[player_name][
-                "race"]["skills"]:
+                    "race"]["skills"]:
                 Skill.objects.get_or_create(
                     name=skill_data["name"],
                     bonus=skill_data["bonus"],
@@ -26,7 +26,7 @@ def main() -> None:
                 guild, _ = Guild.objects.get_or_create(
                     name=players_data[player_name]["guild"]["name"],
                     description=players_data[
-                    player_name]["guild"]["description"])
+                        player_name]["guild"]["description"])
             else:
                 guild = None
             Player.objects.get_or_create(
@@ -36,7 +36,7 @@ def main() -> None:
                 race=race,
                 guild=guild
             )
-    except Exception as Ex:
+    except Exception as Ex: # noqa
         pass
 
 
