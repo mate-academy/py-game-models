@@ -22,7 +22,6 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE
-
     )
 
 
@@ -51,7 +50,6 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE
-
     )
     guild = models.ForeignKey(
         Guild,
