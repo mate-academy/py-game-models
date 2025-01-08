@@ -42,7 +42,7 @@ class Player(models.Model):
     )
     email = models.EmailField(
         max_length=255,
-        unique=False
+        unique=True
     )
     bio = models.CharField(
         max_length=255
