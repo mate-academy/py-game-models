@@ -39,4 +39,4 @@ class Player(models.Model):
         related_name="players",
         null=True
     )
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
