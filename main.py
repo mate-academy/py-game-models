@@ -6,50 +6,44 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("db/data/races.json") as f:
-        players_data = json.load(f)
+    with open('players.json', 'r') as file:
+        players_data = json.load(file)
 
-    for player_data in players_data:
+    # Шаг 2: Итерация по данным и добавление в базу данных
+    for nickname, player_data in players_data.items():
+        # Шаг 2.1: Создать или получить Race
+        race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
-            name=player_data["race"]["name"],
-            defaults={
-                "description": player_data["race"].
-                get("description", "")
-            }
+            name=race_data["name"],
+            defaults={"description": race_data["description"]}
         )
 
+        # Шаг 2.2: Создать или получить Skills для Race
+        for skill_data in race_data.get("skills", []):
+            Skill.objects.get_or_create(
+                name=skill_data["name"],
+                defaults={"bonus": skill_data["bonus"], "race": race}
+            )
+
+        # Шаг 2.3: Создать или получить Guild (если указана)
         guild = None
         if player_data.get("guild"):
+            guild_data = player_data["guild"]
             guild, _ = Guild.objects.get_or_create(
-                name=player_data["guild"]["name"],
-                defaults={
-                    "description": player_data["guild"].
-                    get("description", None)
-                }
+                name=guild_data["name"],
+                defaults={"description": guild_data.get("description")}
             )
 
-        skill_objects = []
-        for skill_data in player_data.get("skills", []):
-            skill, _ = Skill.objects.get_or_create(
-                name=skill_data["name"],
-                defaults={
-                    "bonus": skill_data.get("bonus", ""),
-                    "race": race,
-                }
-            )
-            skill_objects.append(skill)
-
-        player, created = Player.objects.get_or_create(
-            nickname=player_data["nickname"],
+        # Шаг 2.4: Создать Player
+        Player.objects.get_or_create(
+            nickname=nickname,
             defaults={
                 "email": player_data["email"],
-                "bio": player_data.get("bio", ""),
+                "bio": player_data["bio"],
                 "race": race,
                 "guild": guild,
             }
         )
-
-    print("Database population complete!")
 
 
 if __name__ == "__main__":

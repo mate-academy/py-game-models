@@ -22,7 +22,7 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.TextField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE, null=True)
-    guild = models.ForeignKey(Guild, on_delete=models.DO_NOTHING, null=True)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
