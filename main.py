@@ -28,8 +28,12 @@ def main() -> None:
                 defaults={"description": player_info["guild"]["description"]}
             )
         else:
-            guild, _ = Guild.objects.get_or_create(name="default",
-                                                   description="Default guild for players without guild")
+            guild, _ = (
+                Guild.objects.get_or_create(
+                    name="default",
+                    description="Default guild for players without guild"
+                )
+            )
 
         Player.objects.get_or_create(
             nickname=player_name,
