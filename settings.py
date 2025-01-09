@@ -18,4 +18,4 @@ DATABASES = {
 USE_TZ = False
 
 INSTALLED_APPS = ("db",)
-ALLOWED_HOSTS = "*"
+ALLOWED_HOSTS = ["*"]
