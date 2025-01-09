@@ -16,11 +16,13 @@ def main() -> None:
         )
 
         for skil in player_info["race"]["skills"]:
-            Skill.objects.get_or_create(
-                name=skil["name"],
-                bonus=skil["bonus"],
-                race=some_race
-            )
+            if not Skill.objects.get(name=skil["name"]):
+                Skill.objects.get_or_create(
+                    name=skil["name"],
+                    bonus=skil["bonus"],
+                    race=some_race
+                )
+
         if player_info["guild"] is None:
             some_guild = None
 

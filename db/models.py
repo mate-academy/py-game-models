@@ -12,16 +12,14 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="skill_set"
+        related_name="skills"
     )
 
 
 class Guild(models.Model):
     name = models.CharField(
         max_length=255,
-        unique=True,
-        null=True,
-        default=None
+        unique=True
     )
     description = models.TextField(null=True, default=None)
 
