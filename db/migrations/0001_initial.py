@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, unique=True)),
                 ('bonus', models.CharField(max_length=255)),
-                ('race', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.race')),
+                ('race', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='race')),
             ],
         ),
         migrations.CreateModel(
@@ -42,10 +42,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nickname', models.CharField(max_length=255, unique=True)),
                 ('email', models.EmailField(max_length=255)),
-                ('bio', models.CharField(max_length=255, unique=True)),
+                ('bio', models.CharField(max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('guild', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='db.guild')),
-                ('race', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.race')),
+                ('guild', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='guild')),
+                ('race', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='race')),
             ],
         ),
     ]

@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Race(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
@@ -10,8 +10,8 @@ class Race(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=100)
-    bonus = models.TextField(blank=True)
+    name = models.CharField(max_length=255)
+    bonus = models.CharField(blank=True)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -19,7 +19,7 @@ class Skill(models.Model):
 
 
 class Guild(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
@@ -27,9 +27,9 @@ class Guild(models.Model):
 
 
 class Player(models.Model):
-    nickname = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=255)
     email = models.EmailField()
-    bio = models.TextField(blank=True)
+    bio = models.CharField(blank=True)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
