@@ -16,7 +16,9 @@ def main() -> None:
         )
 
         for skil in player_info["race"]["skills"]:
-            if not Skill.objects.get(name=skil["name"]):
+            if Skill.objects.filter(name=skil["name"]).exists():
+                continue
+            else:
                 Skill.objects.get_or_create(
                     name=skil["name"],
                     bonus=skil["bonus"],
