@@ -5,7 +5,7 @@ class Race(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -14,15 +14,15 @@ class Skill(models.Model):
     bonus = models.TextField(blank=True)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return  f"{self.name} ({self.race.name})"
+    def __str__(self) -> str:
+        return f"{self.name} ({self.race.name})"
 
 
 class Guild(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -34,5 +34,6 @@ class Player(models.Model):
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+
+    def __str__(self) -> str:
         return self.nickname

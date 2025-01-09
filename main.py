@@ -5,15 +5,18 @@ import init_django_orm  # noqa: F401
 from db.models import Race, Skill, Player, Guild
 
 
-def main():
-    with open('players.json', 'r') as file:
+def main() -> None:
+    with open("players.json", "r") as file:
         data = json.load(file)
 
     for player_data in data:
         # Process Race
         race_name = player_data["race"]["name"]
         race_description = player_data["race"].get("description", "")
-        race, _ = Race.objects.get_or_create(name=race_name, defaults={"description": race_description})
+        race, _ = Race.objects.get_or_create(name=race_name,
+                                             defaults={
+                                                 "description":
+                                                     race_description})
 
         # Process Skills
         skills = player_data["race"].get("skills", [])
@@ -25,7 +28,8 @@ def main():
 
         # Process Guild
         guild_name = player_data.get("guild", {}).get("name")
-        guild_description = player_data.get("guild", {}).get("description", None)
+        guild_description = player_data.get("guild", {}).get("description",
+                                                             None)
         guild = None
         if guild_name:
             guild, _ = Guild.objects.get_or_create(
