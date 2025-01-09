@@ -8,4 +8,5 @@ venv/
 **__pycache__/
 *.pyc
 **db.sqlite3
-/db.sqlite
+/db.sqlite3
+/identifier.sqlite
