@@ -7,7 +7,7 @@ players. Create only one instance for each guild, race and skill, do not copy
 them.
 
 Note: It would be very useful to use the get_or_create() method here. We don't
-prioritize performance for this task, so querying the database to check 
+prioritize performance for this task, so querying the database to check
 whether a row already exists is acceptable. There’s no need to use bulk_create
 in this case, as it adds unnecessary complexity to the task.
 """
