@@ -8,32 +8,34 @@ def main() -> None:
     with open("players.json", "r") as file:
         players = json.load(file)
 
-    for player_data in players:
+    for key, value in players.items():
         race, _ = Race.objects.get_or_create(
-            name=players[player_data]["race"]["name"], defaults={
-                "description": players[player_data]["race"].get("description", "")
+            name=value["race"]["name"], defaults={
+                "description": value["race"].get("description", "")
             })
 
-        if players[player_data]["guild"]:
+        if value["guild"]:
             guild, _ = Guild.objects.get_or_create(
-                name=players[player_data]["guild"]["name"], defaults={
-                    "description": players[player_data]["guild"].get("description", "")
+                name=value["guild"]["name"], defaults={
+                    "description": value["guild"].get("description", "")
                 })
         else:
             guild = None
 
         skills = []
-        for skill_data in players[player_data]["race"]["skills"]:
-            skill, _ = Skill.objects.get_or_create(name=skill_data["name"], defaults={
-                "bonus": skill_data["bonus"],
-                "race": race
-            })
+        for skill_data in value["race"]["skills"]:
+            skill, _ = Skill.objects.get_or_create(
+                name=skill_data["name"],
+                defaults={
+                    "bonus": skill_data["bonus"],
+                    "race": race
+                })
             skills.append(skill)
 
         Player.objects.get_or_create(
-            nickname=player_data, defaults={
-                "email": players[player_data]["email"],
-                "bio": players[player_data]["bio"],
+            nickname=key, defaults={
+                "email": value["email"],
+                "bio": value["bio"],
                 "race": race,
                 "guild": guild
             }
