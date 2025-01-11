@@ -16,7 +16,7 @@ def main() -> None:
                 description=players[player]["guild"]["description"],
             )
 
-        Race.objects.get_or_create(
+        race_obj = Race.objects.get_or_create(
             name=players[player]["race"]["name"],
             description=players[player]["race"]["description"],
         )
@@ -25,7 +25,7 @@ def main() -> None:
             Skill.objects.get_or_create(
                 name=skills["name"],
                 bonus=skills["bonus"],
-                race=Race.objects.get(name=(players[player]["race"]["name"])),
+                race=race_obj[0],
             )
 
         guild_obj = Guild.objects.get(
@@ -36,7 +36,7 @@ def main() -> None:
             nickname=player,
             email=players[player]["email"],
             bio=players[player]["bio"],
-            race=Race.objects.get(name=(players[player]["race"]["name"])),
+            race=race_obj[0],
             guild=guild_obj,
         )
 
