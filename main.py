@@ -5,10 +5,14 @@ import json
 
 
 def main() -> None:
-    with open("players.json", "r") as file:
-        player_list = json.load(file)
+    # Race.objects.all().delete()
+    # Guild.objects.all().delete()
+    # Player.objects.all().delete()
 
-    for key, value in player_list.items():
+    with open("players.json", "r") as file:
+        players = json.load(file)
+
+    for player_name, value in players.items():
         race = Race.objects.get_or_create(
             name=value["race"]["name"],
             description=value["race"]["description"])[0]
@@ -28,7 +32,7 @@ def main() -> None:
         )[0]
 
         Player.objects.create(
-            nickname=key,
+            nickname=player_name,
             email=value["email"],
             bio=value["bio"],
             race=race,
