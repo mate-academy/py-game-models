@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='player',
             name='guild',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='db.guild'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='Guild'),
         ),
     ]
