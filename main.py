@@ -31,7 +31,7 @@ def main() -> None:
                     description=data["guild"]["description"]
                 )
 
-            Player.objects.create(
+            Player.objects.get_or_create(
                 nickname=name,
                 email=email,
                 bio=bio,
