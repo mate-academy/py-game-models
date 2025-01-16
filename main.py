@@ -11,11 +11,11 @@ def main() -> None:
 
     for name, player_data in data.items():
         race, _ = Race.objects.get_or_create(
-            name=player_data["race"]["name"],
+            name=player_data["race"].get("name", ""),
             description=player_data["race"].get("description", "")
         )
 
-        for skill_data in player_data["race"]["skills"]:
+        for skill_data in player_data["race"].get("skills"):
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 bonus=skill_data["bonus"],
@@ -23,9 +23,9 @@ def main() -> None:
             )
 
         guild = None
-        if player_data["guild"]:
+        if player_data.get("guild"):
             guild, _ = Guild.objects.get_or_create(
-                name=player_data["guild"]["name"],
+                name=player_data["guild"].get("name"),
                 description=player_data["guild"].get("description")
             )
 
