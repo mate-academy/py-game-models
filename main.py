@@ -29,7 +29,9 @@ def main() -> None:
             if guild:
                 Guild.objects.get_or_create(
                     name=guild["name"],
-                    description=guild["description"]
+                    defaults={
+                        "description": guild["description"]
+                    }
                 )
                 Player.objects.create(
                     nickname=nickname,
