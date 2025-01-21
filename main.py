@@ -23,7 +23,7 @@ def main() -> None:
                 name=details["guild"]["name"],
                 defaults={"description": details["guild"]["description"]}
             )
-        player = Player.objects.create(
+        Player.objects.create(
             nickname=nickname,
             email=details["email"],
             bio=details["bio"],
