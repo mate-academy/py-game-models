@@ -25,8 +25,9 @@ class Player(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(
         Guild,
+        related_name="players",
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
