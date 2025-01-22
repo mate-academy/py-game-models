@@ -1,7 +1,6 @@
 import init_django_orm  # noqa: F401
 import json
 
-from django.core.exceptions import ObjectDoesNotExist
 from db.models import Race, Skill, Player, Guild
 
 
