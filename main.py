@@ -1,6 +1,7 @@
 import init_django_orm  # noqa: F401
 import json
 
+from django.core.exceptions import ObjectDoesNotExist
 from db.models import Race, Skill, Player, Guild
 
 
@@ -54,19 +55,26 @@ def main() -> None:
                     name=guild_name,
                     defaults={"description": guild_description}
                 )
-                player_guild = Guild.objects.get(name=guild_name)
+                try:
+                    player_guild = Guild.objects.get(name=guild_name)
+                except Guild.DoesNotExist:
+                    print(f"Guild '{guild_name}' does not exist.")
             else:
                 player_guild = None
 
-            Player.objects.get_or_create(
-                nickname=nickname,
-                defaults={
-                    "email": email_,
-                    "bio": bio,
-                    "race": player_race,
-                    "guild": player_guild,
-                }
-            )
+            try:
+                Player.objects.get_or_create(
+                    nickname=nickname,
+                    defaults={
+                        "email": email_,
+                        "bio": bio,
+                        "race": player_race,
+                        "guild": player_guild,
+                    }
+                )
+            except Race.DoesNotExist:
+                print(f"Race '{race_name}' does not exist in the database.")
+                continue
 
 
 if __name__ == "__main__":
