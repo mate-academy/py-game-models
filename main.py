@@ -12,9 +12,9 @@ def main() -> None:
     Player.objects.all().delete()
 
     with open("players.json", "r") as f:
-        players = json.load(f)
+        data = json.load(f)
 
-
+    players = data
     for player in players:
         race, created = Race.objects.get_or_create(
             name=players[player]["race"]["name"],
@@ -30,7 +30,7 @@ def main() -> None:
             guild, created = Guild.objects.get_or_create(
                 name=players[player]["guild"]["name"],
                 description=players[player]["guild"]["description"]
-                )
+            )
 
         Player.objects.create(
             nickname=player,
@@ -38,8 +38,7 @@ def main() -> None:
             bio=players[player]["bio"],
             race=race,
             guild=guild
-                )
-
+        )
 
 
 if __name__ == "__main__":
