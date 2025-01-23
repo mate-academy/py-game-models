@@ -22,27 +22,25 @@ def main() -> None:
         )
 
         for skill in range(len(players[player]["race"]["skills"])):
-            skills, created = Skill.objects.get_or_create(
+            Skill.objects.get_or_create(
                 name=players[player]["race"]["skills"][skill]["name"],
                 bonus=players[player]["race"]["skills"][skill]["bonus"],
                 race=race
             )
 
-
+        guild = None
         if players[player].get("guild"):
             guild, created = Guild.objects.get_or_create(
                 name=players[player]["guild"]["name"],
                 description=players[player]["guild"]["description"]
             )
 
-
-
-            Player.objects.create(
-                nickname=player,
-                email=players[player]["email"],
-                bio=players[player]["bio"],
-                race=race,
-                guild=guild
+        Player.objects.create(
+            nickname=player,
+            email=players[player]["email"],
+            bio=players[player]["bio"],
+            race=race,
+            guild=guild
         )
 
 
