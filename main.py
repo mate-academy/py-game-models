@@ -9,7 +9,6 @@ def main() -> None:
     for model in (Race, Skill, Player, Guild):
         model.objects.all().delete()
 
-
     with open("players.json", "r") as f:
         data = json.load(f)
 
