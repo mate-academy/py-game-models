@@ -6,39 +6,38 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    Race.objects.all().delete()
-    Skill.objects.all().delete()
-    Guild.objects.all().delete()
-    Player.objects.all().delete()
+    for model in (Race, Skill, Player, Guild):
+        model.objects.all().delete()
+
 
     with open("players.json", "r") as f:
         data = json.load(f)
 
     players = data
-    for player in players:
+    for player_key, player_value in players.items():
         race, created = Race.objects.get_or_create(
-            name=players[player]["race"]["name"],
-            description=players[player]["race"]["description"]
+            name=player_value["race"]["name"],
+            description=player_value["race"]["description"]
         )
 
-        for skill in range(len(players[player]["race"]["skills"])):
+        for skill in range(len(player_value["race"]["skills"])):
             Skill.objects.get_or_create(
-                name=players[player]["race"]["skills"][skill]["name"],
-                bonus=players[player]["race"]["skills"][skill]["bonus"],
+                name=player_value["race"]["skills"][skill]["name"],
+                bonus=player_value["race"]["skills"][skill]["bonus"],
                 race=race
             )
 
         guild = None
-        if players[player].get("guild"):
+        if player_value.get("guild"):
             guild, created = Guild.objects.get_or_create(
-                name=players[player]["guild"]["name"],
-                description=players[player]["guild"]["description"]
+                name=player_value["guild"]["name"],
+                description=player_value["guild"]["description"]
             )
 
         Player.objects.create(
-            nickname=player,
-            email=players[player]["email"],
-            bio=players[player]["bio"],
+            nickname=player_key,
+            email=player_value["email"],
+            bio=player_value["bio"],
             race=race,
             guild=guild
         )
