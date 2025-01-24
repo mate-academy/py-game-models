@@ -10,8 +10,7 @@ class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race,
-                             on_delete=models.CASCADE,
-                             related_name="skills")
+                             on_delete=models.CASCADE)
 
 
 class Guild(models.Model):
@@ -27,7 +26,7 @@ class Player(models.Model):
                              on_delete=models.CASCADE,
                              related_name="players")
     guild = models.ForeignKey(Guild,
-                              on_delete=models.DO_NOTHING,
+                              on_delete=models.SET_NULL,
                               related_name="members",
                               null=True,
                               blank=True)
