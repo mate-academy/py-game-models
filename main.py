@@ -13,7 +13,7 @@ def main() -> None:
             description=(
                 data[name]["race"]["description"]
                 if data[name]["race"].get("description")
-                else ""
+                else None
             )
         )
         if data[name]["guild"]:
