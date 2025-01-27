@@ -1,4 +1,5 @@
 import json
+import uuid
 
 import init_django_orm  # noqa: F401
 
@@ -18,14 +19,16 @@ def main():
             race_description = player_data["race"].get("description", "")
 
             if race_name not in race_cache:
-                race, _ = Race.objects.get_or_create(name=race_name, defaults={"description": race_description})
+                race, _ = Race.objects.get_or_create(
+                    name=race_name, defaults={"description": race_description}
+                )
                 race_cache[race_name] = race
             else:
                 race = race_cache[race_name]
 
             for skill_data in player_data["race"].get("skills", []):
                 skill_name = skill_data["name"]
-                skill_bonus = skill_data.get("bonus", "")
+                skill_bonus = float(skill_data.get("bonus", 0))
 
                 if skill_name not in skill_cache:
                     skill, _ = Skill.objects.get_or_create(
@@ -52,16 +55,17 @@ def main():
         else:
             guild = None
 
+        nickname = player_name or f"Player_{uuid.uuid4().hex[:8]}"
+
         Player.objects.get_or_create(
-            nickname=player_name,
+            nickname=nickname,
             defaults={
-                "email": player_data.get("email", ""),
-                "bio": player_data.get("bio", ""),
+                "email": player_data.get("email", "default_email@example.com"),
+                "bio": player_data.get("bio", "No bio available"),
                 "race": race,
                 "guild": guild,
             }
         )
-
 
 if __name__ == "__main__":
     main()
