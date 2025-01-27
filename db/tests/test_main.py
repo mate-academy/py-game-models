@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models import EmailField
 
 from main import main, Race, Skill, Player, Guild
+from main import main
+from db.models import Race, Skill, Player, Guild
 
 
 @pytest.mark.django_db
@@ -41,7 +43,7 @@ def test_races():
         ("human", "Human race"),
     ]
     assert list(
-        Race.objects.get(name="elf").skill_set.values_list("name")
+        Race.objects.get(name="elf").skills.values_list("name")
     ) == [
         ("Teleportation",),
         ("Reality Warping",),
@@ -49,7 +51,7 @@ def test_races():
     assert (
         list(Race.objects.get(
             name="human"
-        ).skill_set.values_list("name", "bonus")) == []
+        ).skills.values_list("name", "bonus")) == []
     )
 
 
