@@ -1,5 +1,6 @@
-{
-  "john": {
+[
+  {
+    "nickname": "john",
     "email": "john@gmail.com",
     "bio": "Hello, I'm John, elf ranger",
     "race": {
@@ -21,7 +22,8 @@
       "description": null
     }
   },
-  "max": {
+  {
+    "nickname": "max",
     "email": "max@gmail.com",
     "bio": "Hello, I'm Max, elf mag",
     "race": {
@@ -43,7 +45,8 @@
       "description": "A community of the elf mags"
     }
   },
-  "arthur": {
+  {
+    "nickname": "arthur",
     "email": "arthur@gmail.com",
     "bio": "Arthur, elf mag",
     "race": {
@@ -65,7 +68,8 @@
       "description": "A community of the elf mags"
     }
   },
-  "andrew": {
+  {
+    "nickname": "andrew",
     "email": "andrew@gmail.com",
     "bio": "Hello, I'm Andrew",
     "race": {
@@ -78,7 +82,8 @@
       "description": "A community of the blacksmiths"
     }
   },
-  "nick": {
+  {
+    "nickname": "nick",
     "email": "nick@gmail.com",
     "bio": "Hello, I'm Nick",
     "race": {
@@ -88,4 +93,4 @@
     },
     "guild": null
   }
-}
+]
