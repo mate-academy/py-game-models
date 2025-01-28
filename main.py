@@ -6,9 +6,8 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    file_data = open("players.json")
-    data = json.load(file_data)
-    file_data.close()
+    with open("players.json") as file_data:
+        data = json.load(file_data)
 
     for player in data.keys():
         race, _ = Race.objects.get_or_create(
