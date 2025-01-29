@@ -22,6 +22,7 @@ def main() -> None:
                     race=race
                 )
 
+        guild = None
         if data[name].get("guild"):
             guild = Guild.objects.get_or_create(
                 name=data[name]["guild"]["name"],
@@ -39,7 +40,7 @@ def main() -> None:
             race=race,
             guild=guild
         )
-        guild = None
+        # guild = None
 
 
 if __name__ == "__main__":
