@@ -34,9 +34,9 @@ def main() -> None:
                       "guild": guild}
         )
         if created:
-            print(f"Created player {player.nickname}")
+            print(f"Created player: {player.nickname}")
         else:
-            print(f"Already player {player.nickname}")
+            print(f"Player already exists: {player.nickname}")
 
 
 if __name__ == "__main__":
