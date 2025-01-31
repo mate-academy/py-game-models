@@ -40,16 +40,25 @@ def test_races():
         ("elf", "The magic race"),
         ("human", "Human race"),
     ]
+
+    related_field = (
+        Skill._meta.get_field("race").remote_field.related_name or "skill_set"
+    )
+
     assert list(
-        Race.objects.get(name="elf").skill_set.values_list("name")
+        getattr(Race.objects.get(name="elf"), related_field).values_list("name")
     ) == [
         ("Teleportation",),
         ("Reality Warping",),
     ]
+
     assert (
-        list(Race.objects.get(
-            name="human"
-        ).skill_set.values_list("name", "bonus")) == []
+        list(
+            getattr(Race.objects.get(name="human"), related_field).values_list(
+                "name", "bonus"
+            )
+        )
+        == []
     )
 
 
