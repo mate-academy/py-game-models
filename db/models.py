@@ -28,5 +28,10 @@ class Player(models.Model):
         max_length=255
     )
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.CASCADE)
+    guild = models.ForeignKey(
+        Guild,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
     created_at = models.DateField(auto_now_add=True)
