@@ -5,27 +5,40 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json", "r") as json_file:
+    with open("players.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
 
-    for dict_name in data:
-        Player.objects.get_or_create(
-            nickname = dict_name,
-            email = dict_name["email"],
-            bio = dict_name["bio"]
+    for nickname, player_data in data.items():
+        # Создание или получение расы
+        race, _ = Race.objects.get_or_create(
+            name=player_data["race"]["name"],
+            defaults={"description": player_data["race"]["description"]}
         )
-        Race.objects.get_or_create(
-            name = dict_name["race"]["name"],
-            description = dict_name["race"]["description"]
-        )
-        for i in dict_name["race"]["skills"]:
+
+        # Создание умений и их привязка к расе
+        for skill_data in player_data["race"]["skills"]:
             Skill.objects.get_or_create(
-                name = i["name"],
-                bonus = i["bonus"]
+                name=skill_data["name"],
+                defaults={"bonus": skill_data["bonus"], "race": race}
             )
-        Guild.objects.get_or_create(
-            name = dict_name["guild"]["name"],
-            description = dict_name["guild"]["description"]
+
+        # Создание или получение гильдии (если она есть)
+        guild = None
+        if player_data["guild"]:
+            guild, _ = Guild.objects.get_or_create(
+                name=player_data["guild"]["name"],
+                defaults={"description": player_data["guild"]["description"]}
+            )
+
+        # Создание игрока
+        Player.objects.get_or_create(
+            nickname=nickname,
+            defaults={
+                "email": player_data["email"],
+                "bio": player_data["bio"],
+                "race": race,
+                "guild": guild
+            }
         )
 
 
