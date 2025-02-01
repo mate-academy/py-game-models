@@ -30,11 +30,16 @@ def main() -> None:
             guild=guild
         )
 
-        for skill_data in race_data.get("skills", []):  # skills - список, а не словник
+        for skill_data in race_data.get(
+                "skills",
+                []
+        ):
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 bonus=skill_data["bonus"],
                 race=race
             )
+
+
 if __name__ == "__main__":
     main()
