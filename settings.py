@@ -19,4 +19,4 @@ USE_TZ = True
 TIME_ZONE = "Europe/Kiev"
 
 
-INSTALLED_APPS = ["db",]
+INSTALLED_APPS = ["db", ]
