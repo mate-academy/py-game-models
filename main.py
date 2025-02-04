@@ -18,30 +18,24 @@ def main() -> None:
             )
             if values["guild"]:
                 guild, create_guild = Guild.objects.get_or_create(
-                    name=values["guild"]["name"],
-                    description=(
-                        values["guild"]["description"]
-                        if values["guild"]["description"]
-                        else None
-                    )
+                    name=values.get("guild", {}).get("name"),
+                    description=values.get("guild", {}).get("description")
                 )
             else:
                 guild = None
             Player.objects.create(
                 nickname=nickname,
-                email=values["email"],
-                bio=values["bio"],
+                email=values.get("email"),
+                bio=values.get("bio"),
                 race=race,
                 guild=guild
             )
-            if isinstance(values["race"]["skills"], list):
-                if values["race"]["skills"]:
-                    for skill in values["race"]["skills"]:
-                        Skill.objects.get_or_create(
-                            name=skill["name"],
-                            bonus=skill["bonus"],
-                            race=race
-                        )
+            for skill in values.get("race", {}).get("skills", []):
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race
+                )
 
 
 if __name__ == "__main__":
