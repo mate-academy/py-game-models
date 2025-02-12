@@ -21,12 +21,13 @@ def main() -> None:
             )
         else:
             guild = None
-        for skill in data["race"]["skills"]:
-            Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
-                race=race
-            )
+        if data["race"]["skills"]:
+            for skill in data["race"]["skills"]:
+                Skill.objects.get_or_create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race
+                )
         Player.objects.get_or_create(
             nickname=player,
             email=data["email"],
