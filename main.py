@@ -7,31 +7,31 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json", "r") as player_json:
         players = json.load(player_json)
-        for player in players:
-            race = Race.objects.get_or_create(
-                name=players[player]["race"]["name"],
-                description=players[player]["race"]["description"],
+        for player_name, player_data in players.items():
+            race, created = Race.objects.get_or_create(
+                name=player_data["race"]["name"],
+                description=player_data["race"]["description"],
             )
 
-            for skill in players[player]["race"]["skills"]:
+            for skill in player_data["race"]["skills"]:
                 Skill.objects.get_or_create(
                     name=skill["name"],
                     bonus=skill["bonus"],
-                    race=race[0],
+                    race=race,
                 )
             guild = None
 
-            if players[player]["guild"] is not None:
+            if player_data["guild"] is not None:
                 guild = Guild.objects.get_or_create(
-                    name=players[player]["guild"]["name"],
-                    description=players[player]["guild"]["description"],
+                    name=player_data["guild"]["name"],
+                    description=player_data["guild"]["description"],
                 )
 
             Player.objects.create(
-                nickname=player,
-                email=players[player]["email"],
-                bio=players[player]["bio"],
-                race=race[0],
+                nickname=player_name,
+                email=player_data["email"],
+                bio=player_data["bio"],
+                race=race,
                 guild=guild[0] if guild else None,
             )
 
