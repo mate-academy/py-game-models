@@ -19,11 +19,12 @@ def main() -> None:
                 defaults={"bonus": skill["bonus"], "race": race_obj}
             )
 
+        guild_data = value.get("guild")
         guild_obj = None
-        if "guild" in value and value["guild"]:
+        if guild_data:
             guild_obj, _ = Guild.objects.get_or_create(
-                name=value["guild"]["name"],
-                defaults={"description": value["guild"]["description"]}
+                name=guild_data["name"],
+                defaults={"description": guild_data["description"]}
             )
 
         Player.objects.get_or_create(
