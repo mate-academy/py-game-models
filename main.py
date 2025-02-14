@@ -9,7 +9,7 @@ def main() -> None:
 
     for player, data in players.items():
         race_data = data["race"]
-        race, _  = Race.objects.get_or_create(
+        race, _ = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={"description": race_data["description"]}
         )
