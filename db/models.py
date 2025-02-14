@@ -30,5 +30,5 @@ class Player(models.Model):
     email = models.EmailField(max_length=255, unique=False)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name="players")
-    guild = models.ForeignKey(Guild, on_delete=models.DO_NOTHING, null=True, blank=True)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
