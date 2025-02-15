@@ -1,3 +1,5 @@
+from sqlite3 import IntegrityError
+
 import init_django_orm  # noqa: F401
 import json
 
@@ -17,15 +19,23 @@ def main() -> None:
         guild_data = player_data.get("guild")
 
         # CHECK IF RACE EXIST, IF NOT CREATE
-        Race.objects.get_or_create(name=race["name"],
-                                   description=race["description"])
+        try:
+            Race.objects.get_or_create(name=race["name"],
+                                       description=race["description"])
+        except IntegrityError as e:
+            print(f"IntegrityError: {e}"
+                  f" - Skipping race creation for {race["name"]}")
 
         # CHECK IF SKILLS EXIST, IF NOT CREATE AND INSERT WITH RACES KEYS
         for skill in skills:
-            Skill.objects.get_or_create(name=skill["name"],
-                                        defaults={"bonus": skill["bonus"],
-                                        "race": Race.objects.get(
-                                            name=race["name"])})
+            try:
+                Skill.objects.get_or_create(name=skill["name"],
+                                            defaults={"bonus": skill["bonus"],
+                                            "race": Race.objects.get(
+                                                name=race["name"])})
+            except IntegrityError as e:
+                print(f"IntegrityError: {e}"
+                      f" - Skipping skill creation for {skill["name"]}")
 
         # CHECK IF GUILD EXIST, IF NOT CREATE
         guild_obj = None
@@ -35,12 +45,14 @@ def main() -> None:
                 defaults={"description": guild_data.get("description")})
 
         # CREATING PLAYER WITH FULL DATA
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=player_name,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=Race.objects.get(name=race["name"]),
-            guild=guild_obj,
+            defaults={
+                "email": player_data["email"],
+                "bio": player_data["bio"],
+                "race": Race.objects.get(name=race["name"]),
+                "guild": guild_obj
+            }
         )
 
 
