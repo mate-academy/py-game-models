@@ -24,7 +24,7 @@ def main() -> None:
                                        description=race["description"])
         except IntegrityError as e:
             print(f"IntegrityError: {e}"
-                  f" - Skipping race creation for {race["name"]}")
+                  f" - Skipping race creation for {race['name']}")
 
         # CHECK IF SKILLS EXIST, IF NOT CREATE AND INSERT WITH RACES KEYS
         for skill in skills:
@@ -35,7 +35,7 @@ def main() -> None:
                                                 name=race["name"])})
             except IntegrityError as e:
                 print(f"IntegrityError: {e}"
-                      f" - Skipping skill creation for {skill["name"]}")
+                      f" - Skipping skill creation for {skill['name']}")
 
         # CHECK IF GUILD EXIST, IF NOT CREATE
         guild_obj = None
