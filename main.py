@@ -4,7 +4,7 @@ from pathlib import Path
 from db.models import Race, Skill, Guild, Player
 
 
-def main():
+def main() -> None:
     file_path = Path("players.json")
     if not file_path.exists():
         raise FileNotFoundError("Файл players.json не знайдено!")
