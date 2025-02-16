@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from db.models import Race, Skill, Guild, Player
 
+
 def main():
     file_path = Path("players.json")
     if not file_path.exists():
