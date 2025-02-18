@@ -1,56 +1,38 @@
-from sqlite3 import IntegrityError
-
 import init_django_orm  # noqa: F401
 import json
-
 from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
+    with open("players.json", "r") as f:
+        players = json.load(f)
 
-    # Load data from .json
-    with open("players.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
+    for key, value in players.items():
+        race_obj, _ = Race.objects.get_or_create(
+            name=value["race"]["name"],
+            defaults={"description": value["race"]["description"]}
+        )
 
-    # Iterating over data
-    for player_name, player_data in data.items():
-        race = player_data["race"]
-        skills = race["skills"]
-        guild_data = player_data.get("guild")
+        for skill in value["race"]["skills"]:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                defaults={"bonus": skill["bonus"], "race": race_obj}
+            )
 
-        # CHECK IF RACE EXIST, IF NOT CREATE
-        try:
-            Race.objects.get_or_create(name=race["name"],
-                                       description=race["description"])
-        except IntegrityError as e:
-            print(f"IntegrityError: {e}"
-                  f" - Skipping race creation for {race['name']}")
-
-        # CHECK IF SKILLS EXIST, IF NOT CREATE AND INSERT WITH RACES KEYS
-        for skill in skills:
-            try:
-                Skill.objects.get_or_create(name=skill["name"],
-                                            defaults={"bonus": skill["bonus"],
-                                            "race": Race.objects.get(
-                                                name=race["name"])})
-            except IntegrityError as e:
-                print(f"IntegrityError: {e}"
-                      f" - Skipping skill creation for {skill['name']}")
-
-        # CHECK IF GUILD EXIST, IF NOT CREATE
+        guild_data = value.get("guild")
         guild_obj = None
         if guild_data:
             guild_obj, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
-                defaults={"description": guild_data.get("description")})
+                defaults={"description": guild_data["description"]}
+            )
 
-        # CREATING PLAYER WITH FULL DATA
         Player.objects.get_or_create(
-            nickname=player_name,
+            nickname=key,
             defaults={
-                "email": player_data["email"],
-                "bio": player_data["bio"],
-                "race": Race.objects.get(name=race["name"]),
+                "email": value["email"],
+                "bio": value["bio"],
+                "race": race_obj,
                 "guild": guild_obj
             }
         )
