@@ -1,41 +1,42 @@
 import init_django_orm  # noqa: F401
 import json
+
 from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
+    Race.objects.all().delete()
+    Skill.objects.all().delete()
+    Guild.objects.all().delete()
+    Player.objects.all().delete()
     with open("players.json", "r") as f:
-        players = json.load(f)
-
-    for key, value in players.items():
-        race_obj, _ = Race.objects.get_or_create(
-            name=value["race"]["name"],
-            defaults={"description": value["race"]["description"]}
+        json_data = json.load(f)
+    players = json_data.items()
+    for i, (nickname, details) in enumerate(players):
+        race, _ = Race.objects.get_or_create(
+            name=details["race"]["name"],
+            defaults={"description": details["race"]["description"]}
         )
-
-        for skill in value["race"]["skills"]:
+        guild = None
+        if details.get("guild"):
+            guild, _ = Guild.objects.get_or_create(
+                name=details["guild"]["name"],
+                defaults={"description": details["guild"]["description"]}
+            )
+        Player.objects.create(
+            nickname=nickname,
+            email=details["email"],
+            bio=details["bio"],
+            race=race,
+            guild=guild
+        )
+        skills = details["race"].get("skills", [])
+        for skill in skills:
             Skill.objects.get_or_create(
                 name=skill["name"],
-                defaults={"bonus": skill["bonus"], "race": race_obj}
+                bonus=skill["bonus"],
+                race=race
             )
-
-        guild_data = value.get("guild")
-        guild_obj = None
-        if guild_data:
-            guild_obj, _ = Guild.objects.get_or_create(
-                name=guild_data["name"],
-                defaults={"description": guild_data["description"]}
-            )
-
-        Player.objects.get_or_create(
-            nickname=key,
-            defaults={
-                "email": value["email"],
-                "bio": value["bio"],
-                "race": race_obj,
-                "guild": guild_obj
-            }
-        )
 
 
 if __name__ == "__main__":
