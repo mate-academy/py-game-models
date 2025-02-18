@@ -11,10 +11,6 @@ def main() -> None:
         player["nickname"] = nickname
         print(f"Player structure: {player}")
 
-        if not isinstance(player.get("race"), dict):
-            print(f"Error: race is not a dictionary: {player["race"]}")
-            continue
-
         race, _ = Race.objects.get_or_create(
             name=player["race"]["name"],
             defaults={"description": player["race"].get("description", "")}
