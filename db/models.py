@@ -1,9 +1,4 @@
-from enum import unique
-from tkinter.constants import CASCADE
-
 from django.db import models
-from django.db.models import TextField, ForeignKey, DateField
-from django.forms.fields import CharField, EmailField, DateTimeField
 
 
 class Race(models.Model):
@@ -28,4 +23,4 @@ class Player(models.Model):
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -15,11 +15,12 @@ def main() -> None:
         )
 
         for skills in player_data["race"]["skills"]:
-            Skill.objects.get_or_create(
-                name=skills["name"],
-                defaults={
-                    "bonus": skills["bonus"],
-                    "race": race
+            if player_data["race"]["skills"]:
+                Skill.objects.get_or_create(
+                    name=skills["name"],
+                    defaults={
+                        "bonus": skills["bonus"],
+                        "race": race
                 }
             )
 
