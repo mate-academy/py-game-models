@@ -32,13 +32,13 @@ def main() -> None:
         bonus="The ability to move so fast they look like they're "
               "teleporting. Could be considered to technically be "
               "Teleportation.",
-        race_id=elf_race.race_id)
+        race=elf_race)
     Skill.objects.create(
         name="Reality warping",
         bonus="The ability to Warp Reality. Make the impossible become"
               " possible but can't warp anything containing the structure"
               " that holds everything together (Which are many creatures.)",
-        race_id=elf_race.race_id)
+        race=elf_race)
 
     for player_key in players_data.keys():
         player = players_data[player_key]
