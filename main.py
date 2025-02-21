@@ -34,7 +34,7 @@ def main() -> None:
             )
 
         Player.objects.get_or_create(
-            nickname=player_name,  # Используем ключ JSON как nickname
+            nickname=player_name,
             defaults={
                 "email": player_data["email"],
                 "bio": player_data["bio"],
