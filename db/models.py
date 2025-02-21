@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Race(models.Model):
-    id = models.AutoField(primary_key=True)
+    race_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
@@ -14,7 +14,7 @@ class Skill(models.Model):
 
 
 class Guild(models.Model):
-    id = models.AutoField(primary_key=True)
+    guild_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, blank=False)
     description = models.TextField(null=True)
 
