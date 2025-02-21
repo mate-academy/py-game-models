@@ -1,4 +1,5 @@
 import json
+
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
@@ -13,11 +14,11 @@ def get_or_create_race(name: str) -> Race:
     return race
 
 
-def get_or_create_guild(name: str) -> Guild:
+def get_or_create_guild(guild: dict) -> Guild:
     try:
-        guild = Guild.objects.get(name=name)
+        guild = Guild.objects.get(name=guild["name"])
     except Guild.DoesNotExist:
-        guild = Guild.objects.create(name=name)
+        guild = Guild.objects.create(name=guild["name"])
         guild.save()
     return guild
 
@@ -31,22 +32,24 @@ def main() -> None:
         bonus="The ability to move so fast they look like they're "
               "teleporting. Could be considered to technically be "
               "Teleportation.",
-        race_id=elf_race.id)
+        race_id=elf_race.race_id)
     Skill.objects.create(
         name="Reality warping",
         bonus="The ability to Warp Reality. Make the impossible become"
               " possible but can't warp anything containing the structure"
               " that holds everything together (Which are many creatures.)",
-        race_id=elf_race.id)
+        race_id=elf_race.race_id)
 
     for player_key in players_data.keys():
         player = players_data[player_key]
         Player.objects.create(nickname=player_key,
                               email=player["email"],
                               bio=player["bio"],
-                              race=get_or_create_race(player["race"]),
-                              guild=get_or_create_guild(player["guild"]))
-
+                              race=get_or_create_race(player["race"])
+                              )
+        if player["guild"] is not None:
+            guild = get_or_create_guild(player["guild"])
+            Player.objects.filter(guild=guild.guild_id).update(guild=guild)
 
 if __name__ == "__main__":
     main()
