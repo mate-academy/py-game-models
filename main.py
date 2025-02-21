@@ -24,7 +24,8 @@ def get_or_create_guild(guild: dict) -> Guild:
 
 
 def main() -> None:
-    players_data = json.load(open("players.json", "r"))
+    with open("players.json", "r") as file:
+        players_data = json.load(file)
 
     elf_race = Race.objects.create(name="elf", description="The magic race")
     Skill.objects.create(
@@ -50,6 +51,7 @@ def main() -> None:
         if player["guild"] is not None:
             guild = get_or_create_guild(player["guild"])
             Player.objects.filter(guild=guild.guild_id).update(guild=guild)
+
 
 if __name__ == "__main__":
     main()
