@@ -18,7 +18,6 @@ def main() -> None:
                     name=skill["name"], bonus=skill["bonus"], race=race
                 )
 
-
             if value["guild"]:
                 print(name, value["guild"])
                 guild, _ = Guild.objects.get_or_create(
