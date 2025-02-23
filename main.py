@@ -14,20 +14,18 @@ def main() -> None:
                 description=value["race"]["description"],
             )
             for skill in value["race"]["skills"]:
-                get_skill, _ =  Skill.objects.get_or_create(
+                get_skill, _ = Skill.objects.get_or_create(
                     name=skill["name"], bonus=skill["bonus"], race=race
                 )
 
             if value['guild']:
                 print(name, value['guild'])
                 guild, _ = Guild.objects.get_or_create(
-                    name=value['guild']['name']
+                    name=value['guild']['name'],
+                    description=value["guild"]["description"]
                 )
-                if value["guild"]["description"]:
-                    guild.description = value["guild"]["description"]
-                    guild.save()
             else:
-                guild = None;
+                guild = None
 
             Player.objects.get_or_create(
                 nickname=name,
@@ -36,6 +34,7 @@ def main() -> None:
                 race=race,
                 guild=guild,
             )
+
 
 if __name__ == "__main__":
     main()
