@@ -1,5 +1,3 @@
-from tkinter.font import names
-
 from django.db import models
 
 
@@ -7,16 +5,18 @@ class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE, verbose_name="skills")
+    race = models.ForeignKey(
+        Race, on_delete=models.CASCADE, verbose_name="skills"
+    )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -24,7 +24,7 @@ class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -32,9 +32,13 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE, verbose_name="players")
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True, verbose_name="players")
+    race = models.ForeignKey(
+        Race, on_delete=models.CASCADE, verbose_name="players"
+    )
+    guild = models.ForeignKey(
+        Guild, on_delete=models.SET_NULL, null=True, verbose_name="players"
+    )
     create_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.nickname
