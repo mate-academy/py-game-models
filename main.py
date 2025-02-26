@@ -42,7 +42,7 @@ def main() -> None:
                 "bio": value["bio"],
                 "race": race,
                 "guild": guild,
-                "created_at": datetime.now()
+#                "created_at": datetime.now()
             }
         )
 
