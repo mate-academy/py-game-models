@@ -15,7 +15,7 @@ DATABASES = {
     }
 }
 
-USE_TZ = False
+USE_TZ = True
 
 INSTALLED_APPS = ["db", ]
 
