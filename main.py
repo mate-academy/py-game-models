@@ -9,17 +9,25 @@ def main() -> None:
     with open("players.json", "r") as file:
         players = json.load(file)
         for key in players.keys():
-            Player.objects.get_or_create(nickname=players[key],
+            Race.objects.get_or_create(name=players[key]["race"]["name"],
+                                       description=players[key]
+                                       ["race"]["description"])
+            for skill in players[key]["race"]["skills"]:
+                Skill.objects.get_or_create(name=skill["name"],
+                                            bonus=skill["bonus"],
+                                            race=Race.objects.get
+                                            (name=players["race"]["name"]),)
+            Guild.objects.get_or_create(name=players[key]["guild"]["name"],
+                                        description=players
+                                        [key]["guild"]["description"])
+            Player.objects.get_or_create(nickname=key,
                                          email=players[key]["email"],
                                          bio=players[key]["bio"],
-                                         race=Race.objects.get_or_create
-                                         (players[key]["race"]),
-                                         guild_id=Guild.objects.get_or_create
-                                         (id=players[key]["guild"])[0],)
-            for skill in players[key]["skills"]:
-                Skill.objects.get_or_create(name=skill, bonus=skill["bonus"],
-                                            race_id=Race.objects.get_or_create
-                                            (player=players[key]["race"]),)
+                                         race=Race.objects.get
+                                         (name=players[key]["race"]["name"]),
+                                         guild=Guild.objects.get
+                                         (name=players[key]["guild"]["name"]),
+                                         )
 
 
 if __name__ == "__main__":
