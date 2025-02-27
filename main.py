@@ -47,7 +47,3 @@ def main() -> None:
             guild=guild if player["guild"] else None,
             created_at=now()
         )
-
-
-if __name__ == "__main__":
-    main()
