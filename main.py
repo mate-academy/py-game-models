@@ -1,5 +1,3 @@
-from django.db.models.fields import json
-
 import json
 
 import init_django_orm  # noqa: F401
@@ -19,7 +17,6 @@ def main() -> None:
         players = json.load(file)
 
     for key, player in players.items():
-        # print(key, player["race"]["name"])
         race, created = Race.objects.get_or_create(
             name=player["race"]["name"],
             defaults={"description": player["race"].get("description", "")}
@@ -28,7 +25,9 @@ def main() -> None:
         if player["guild"]:
             guild, created = Guild.objects.get_or_create(
                 name=player["guild"]["name"],
-                defaults={"description": player["guild"].get("description", "")}
+                defaults={
+                    "description": player["guild"].get("description", "")
+                }
             )
 
         if player["race"]["skills"]:
@@ -47,7 +46,7 @@ def main() -> None:
             race=race,
             guild=guild if player["guild"] else None,
             created_at=now()
-    )
+        )
 
 
 if __name__ == "__main__":
