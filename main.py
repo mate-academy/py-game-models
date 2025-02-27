@@ -8,10 +8,10 @@ from django.utils.timezone import now
 
 
 def main() -> None:
-    # Race.objects.all().delete()
-    # Skill.objects.all().delete()
-    # Player.objects.all().delete()
-    # Guild.objects.all().delete()
+    Race.objects.all().delete()
+    Skill.objects.all().delete()
+    Player.objects.all().delete()
+    Guild.objects.all().delete()
 
     with open("players.json") as file:
         players = json.load(file)
