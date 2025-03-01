@@ -1,3 +1,5 @@
+import json
+
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
@@ -5,10 +7,9 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     with open("players.json", "r") as f:
-        players = f.read()
+        players = json.load(f)
 
     for player in players:
-        player = eval(player)
 
         race = Race.objects.get_or_create(
             name=player["race"]["name"],
