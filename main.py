@@ -24,9 +24,7 @@ def main() -> None:
         if info.get("guild"):
             guild, created = Guild.objects.get_or_create(
                 name=info["guild"]["name"],
-                description=info["guild"]["description"]
-                if info["guild"].get("description")
-                else None
+                description=info["guild"].get("description")
             )
             player.guild = guild
             player.save()
