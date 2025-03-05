@@ -15,6 +15,7 @@ DATABASES = {
     }
 }
 
-USE_TZ = False
+TIME_ZONE = "Europe/Kiev"
+USE_TZ = True
 
 INSTALLED_APPS = ("db",)
