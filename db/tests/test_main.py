@@ -86,3 +86,4 @@ def test_email_field():
 
 def test_guild_on_delete():
     assert Player._meta.get_field("guild").remote_field.on_delete == models.SET_NULL
+
