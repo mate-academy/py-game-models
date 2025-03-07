@@ -13,15 +13,15 @@ def main() -> None:
 
             race_data = players_data[data]["race"]
             race, _ = Race.objects.get_or_create(
-                name = race_data["name"],
+                name=race_data["name"],
                 defaults={"description": race_data.get("description", "")}
             )
 
             for skill_info in race_data.get("skills", []):
                 Skill.objects.get_or_create(
-                    name = skill_info["name"],
-                    defaults = {"bonus": skill_info["bonus"]},
-                    race = race
+                    name=skill_info["name"],
+                    defaults={"bonus": skill_info["bonus"]},
+                    race=race
                 )
 
             guild = None
