@@ -26,7 +26,7 @@ def main() -> None:
         if guild_data:
             guild, _ = Guild.objects.get_or_create(**guild_data)
 
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=name,
             email=data["email"],
             bio=data["bio"],
