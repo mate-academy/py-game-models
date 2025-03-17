@@ -21,12 +21,13 @@ def main() -> None:
                 race=player_race[0]
             )
 
-        try:
+        guild = player.get("guild")
+        if guild:
             player_guild = Guild.objects.get_or_create(
                 name=player["guild"]["name"],
                 description=player["guild"]["description"]
             )
-        except TypeError:
+        else:
             player_guild = [None]
 
         Player.objects.get_or_create(
