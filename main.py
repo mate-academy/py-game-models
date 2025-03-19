@@ -27,7 +27,8 @@ def main() -> None:
                 description=data_player["race"]["description"],
             )
 
-            if "skills" in data_player["race"] and data_player["race"]["skills"]:
+            if ("skills" in data_player["race"]
+                    and data_player["race"]["skills"]):
                 for data_skill in data_player["race"]["skills"]:
                     Skill.objects.get_or_create(
                         name=data_skill["name"],
