@@ -13,7 +13,7 @@ def main() -> None:
     except FileNotFoundError:
         data_players = {}
 
-    for data_player in data_players.values():
+    for nickname, data_player in data_players.items():
         guild = None
         if data_player.get("guild"):
             guild, _ = Guild.objects.get_or_create(
@@ -27,21 +27,21 @@ def main() -> None:
                 description=data_player["race"]["description"],
             )
 
-        if data_player.get("skills"):
-            Skill.objects.get_or_create(
-                name=data_player["name"],
-                bonus=data_player["bonus"],
-                race=race,
-            )
+            if "skills" in data_player["race"] and data_player["race"]["skills"]:
+                for data_skill in data_player["race"]["skills"]:
+                    Skill.objects.get_or_create(
+                        name=data_skill["name"],
+                        bonus=data_skill["bonus"],
+                        race=race,
+                    )
 
-        if data_player.get("nickname"):
-            player, _ = Player.objects.get_or_create(
-                nickname=data_player["nickname"],
-                email=data_player["email"],
-                bio=data_player["bio"],
-                race=race,
-                guild=guild,
-            )
+        player, _ = Player.objects.get_or_create(
+            nickname=nickname,
+            email=data_player["email"],
+            bio=data_player["bio"],
+            race=race,
+            guild=guild,
+        )
 
 
 if __name__ == "__main__":
