@@ -27,23 +27,20 @@ def main() -> None:
                 description=data_player["race"]["description"],
             )
 
-        for date_skill in data_player["race"].get("skills"):
+        if data_player.get("skills"):
             Skill.objects.get_or_create(
-                name=date_skill["name"],
-                bonus=date_skill["bonus"],
+                name=data_player["name"],
+                bonus=data_player["bonus"],
                 race=race,
             )
 
         if data_player.get("nickname"):
             player, _ = Player.objects.get_or_create(
-                nickname = data_player["nickname"],
-                default={
-                    "email": data_player["email"],
-                    "bio": data_player["bio"],
-                    "race": race,
-                    "guild": guild,
-                    "created_at": data_player["created_at"],
-                },
+                nickname=data_player["nickname"],
+                email=data_player["email"],
+                bio=data_player["bio"],
+                race=race,
+                guild=guild,
             )
 
 
