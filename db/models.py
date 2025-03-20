@@ -9,7 +9,8 @@ class Race(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE,
+                             related_name="skills")
 
 
 class Guild(models.Model):
@@ -21,8 +22,10 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE,
+                             related_name="players")
     guild = models.ForeignKey(Guild,
                               on_delete=models.SET_NULL,
-                              null=True, blank=True)
+                              null=True, blank=True,
+                              related_name="players")
     created_at = models.DateTimeField(auto_now_add=True)
