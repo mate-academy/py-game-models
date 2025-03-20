@@ -36,16 +36,11 @@ def main() -> None:
         email = data[player_key]["email"]
         bio = data[player_key]["bio"]
 
-        race_for_player, _ = Race.objects.get_or_create(
-            name=player_info["race"]["name"],
-            description=player_info["race"]["description"]
-        )
-
         Player.objects.get_or_create(
             nickname=nickname,
             email=email,
             bio=bio,
-            race=race_for_player,
+            race=race,
             guild=guild_1
         )
 
