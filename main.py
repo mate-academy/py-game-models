@@ -7,10 +7,12 @@ from django.db import transaction
 from setup_django import setup_django
 
 
-def get_models() -> Tuple[Type["Race"],  # noqa: F821
-                          Type["Skill"],  # noqa: F821
-                          Type["Guild"],  # noqa: F821
-                          Type["Player"]]:  # noqa: F821
+def get_models() -> Tuple[
+    Type["Race"],  # noqa: F821
+    Type["Skill"],  # noqa: F821
+    Type["Guild"],  # noqa: F821
+    Type["Player"],  # noqa: F821
+]:
     """
     Ленивая загрузка моделей Django.
 
@@ -27,7 +29,8 @@ def get_models() -> Tuple[Type["Race"],  # noqa: F821
 
 def main() -> None:
     """
-    Основная функция для загрузки данных из players.json в базу данных.
+    Основная функция для загрузки
+    данных из players.json в базу данных.
     """
     # Ленивая загрузка моделей
     race_model, skill_model, guild_model, player_model = get_models()
