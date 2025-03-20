@@ -12,7 +12,7 @@ class Skill(models.Model):
         max_length=255,
         help_text="This field describes what kind of bonus players can get from it."
     )
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name="skills")
 
 
 class Guild(models.Model):
@@ -27,6 +27,6 @@ class Player(models.Model):
         max_length=255,
         help_text="Description provided by a user about himself/herself."
     )
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateField(auto_now_add=True)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name="players")
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True, related_name="players")
+    created_at = models.DateTimeField(auto_now_add=True)

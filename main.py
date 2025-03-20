@@ -9,7 +9,7 @@ def main() -> None:
 
     for player, player_info in players_data.items():
         race_name = player_info["race"]
-        player_guild = player_info["guild"]
+        player_guild = player_info.get("guild")
 
         obj_race, _ = Race.objects.get_or_create(
             name=race_name["name"],
