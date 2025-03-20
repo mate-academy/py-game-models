@@ -2,11 +2,15 @@ import json
 from typing import Dict, Any, Optional, Tuple, Type
 from django.db import transaction
 
+
 # Импортируем функцию для настройки Django
 from setup_django import setup_django
 
 
-def get_models() -> Tuple[Type["Race"], Type["Skill"], Type["Guild"], Type["Player"]]:  # noqa: F821
+def get_models() -> Tuple[Type["Race"],  # noqa: F821
+                          Type["Skill"],  # noqa: F821
+                          Type["Guild"],  # noqa: F821
+                          Type["Player"]]:  # noqa: F821
     """
     Ленивая загрузка моделей Django.
 
