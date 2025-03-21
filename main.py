@@ -56,6 +56,5 @@ def fill_skills(skills_json: list[dict], race_obj: Race) -> None:
                                                    race=race_obj)
 
 
-
 if __name__ == "__main__":
     main()
