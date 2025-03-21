@@ -14,7 +14,7 @@ def main() -> None:
             defaults={"description": race_data["description"]}
         )
 
-        for skill_data in race_data["skills"]:
+        for skill_data in race_data.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 bonus=skill_data["bonus"],
