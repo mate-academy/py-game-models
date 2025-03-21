@@ -1,91 +1,34 @@
-{
-  "john": {
-    "email": "john@gmail.com",
-    "bio": "Hello, I'm John, elf ranger",
-    "race": {
-      "name": "elf",
-      "description": "The magic race",
-      "skills": [
-        {
-          "name": "Teleportation",
-          "bonus": "The ability to move so fast they look like they're teleporting. Could be considered to technically be Teleportation."
-        },
-        {
-          "name": "Reality Warping",
-          "bonus": "The ability to Warp Reality. Make the impossible become possible but can't warp anything containing the structure that holds everything together (Which are many creatures.)"
-        }
-      ]
+[
+    {
+        "nickname": "Player1",
+        "email": "player1@example.com",
+        "bio": "I am Player 1.",
+        "race": "Elf",
+        "guild": "Guild1",
+        "skills": ["Archery", "Stealth"]
     },
-    "guild": {
-      "name": "archers",
-      "description": null
+    {
+        "nickname": "Player2",
+        "email": "player2@example.com",
+        "bio": "I am Player 2.",
+        "race": "Dwarf",
+        "guild": "Guild2",
+        "skills": ["Mining", "Smithing"]
+    },
+    {
+        "nickname": "Player3",
+        "email": "player3@example.com",
+        "bio": "I am Player 3.",
+        "race": "Human",
+        "guild": "Guild1",
+        "skills": ["Swordsmanship", "Leadership"]
+    },
+    {
+        "nickname": "Player4",
+        "email": "player4@example.com",
+        "bio": "I am Player 4.",
+        "race": "Ork",
+        "guild": "Guild3",
+        "skills": ["Brutality", "Survival"]
     }
-  },
-  "max": {
-    "email": "max@gmail.com",
-    "bio": "Hello, I'm Max, elf mag",
-    "race": {
-      "name": "elf",
-      "description": "The magic race",
-      "skills": [
-        {
-          "name": "Teleportation",
-          "bonus": "The ability to move so fast they look like they're teleporting. Could be considered to technically be Teleportation."
-        },
-        {
-          "name": "Reality Warping",
-          "bonus": "The ability to Warp Reality. Make the impossible become possible but can't warp anything containing the structure that holds everything together (Which are many creatures.)"
-        }
-      ]
-    },
-    "guild": {
-      "name": "mags",
-      "description": "A community of the elf mags"
-    }
-  },
-  "arthur": {
-    "email": "arthur@gmail.com",
-    "bio": "Arthur, elf mag",
-    "race": {
-      "name": "elf",
-      "description": "The magic race",
-      "skills": [
-        {
-          "name": "Teleportation",
-          "bonus": "The ability to move so fast they look like they're teleporting. Could be considered to technically be Teleportation."
-        },
-        {
-          "name": "Reality Warping",
-          "bonus": "The ability to Warp Reality. Make the impossible become possible but can't warp anything containing the structure that holds everything together (Which are many creatures.)"
-        }
-      ]
-    },
-    "guild": {
-      "name": "mags",
-      "description": "A community of the elf mags"
-    }
-  },
-  "andrew": {
-    "email": "andrew@gmail.com",
-    "bio": "Hello, I'm Andrew",
-    "race": {
-      "name": "human",
-      "description": "Human race",
-      "skills": []
-    },
-    "guild": {
-      "name": "blacksmiths",
-      "description": "A community of the blacksmiths"
-    }
-  },
-  "nick": {
-    "email": "nick@gmail.com",
-    "bio": "Hello, I'm Nick",
-    "race": {
-      "name": "human",
-      "description": "Human race",
-      "skills": []
-    },
-    "guild": null
-  }
-}
+]

@@ -1,8 +1,7 @@
 import pytest
 from django.db import models
 from django.db.models import EmailField
-
-from main import main, Race, Skill, Player, Guild
+from game.models import Race, Skill, Player, Guild
 
 
 @pytest.mark.django_db
@@ -41,6 +40,7 @@ def test_races():
         ("human", "Human race"),
     ]
 
+    # Проверка связанные поля
     related_field = (
         Skill._meta.get_field("race").remote_field.related_name or "skill_set"
     )
@@ -70,19 +70,19 @@ def test_players():
             "nickname", "email", "bio", "race__name", "guild__name"
         )
     ) == [
-        ("john", "john@gmail.com", "Hello, I'm John, elf ranger"
-         , "elf", "archers"),
+        ("john", "john@gmail.com", "Hello, I'm John, elf ranger", "elf", "archers"),
         ("max", "max@gmail.com", "Hello, I'm Max, elf mag", "elf", "mags"),
         ("arthur", "arthur@gmail.com", "Arthur, elf mag", "elf", "mags"),
-        ("andrew", "andrew@gmail.com", "Hello, I'm Andrew",
-         "human", "blacksmiths"),
+        ("andrew", "andrew@gmail.com", "Hello, I'm Andrew", "human", "blacksmiths"),
         ("nick", "nick@gmail.com", "Hello, I'm Nick", "human", None),
     ]
 
 
 def test_email_field():
+    # Проверка, что поле email у модели Player является типом EmailField
     assert isinstance(Player._meta.get_field("email"), EmailField)
 
 
 def test_guild_on_delete():
+    # Проверка on_delete атрибута для поля "guild" у модели Player
     assert Player._meta.get_field("guild").remote_field.on_delete == models.SET_NULL
