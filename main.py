@@ -49,8 +49,6 @@ def main() -> None:
 def fill_skills(skills_json: list[dict], race_obj: Race) -> None:
     for skill in skills_json:
         bonus_prepared = skill.get("bonus")
-        # if not bonus_prepared:
-        #     bonus_prepared = ""
         skill_obj, _ = Skill.objects.get_or_create(name=skill.get("name"),
                                                    bonus=bonus_prepared,
                                                    race=race_obj)
