@@ -10,11 +10,13 @@ def main() -> None:
         data = json.load(file)
 
     for person, info in data.items():
-        guild = info.get("guild")
-        if guild:
+        guild_data = info.get("guild")
+
+        guild = None
+        if guild_data:
             guild, _ = Guild.objects.get_or_create(
-                name=guild["name"],
-                description=guild["description"]
+                name=guild_data["name"],
+                description=guild_data["description"]
             )
 
         race, _ = Race.objects.get_or_create(
