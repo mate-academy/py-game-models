@@ -7,11 +7,12 @@ from setup_django import setup_django
 
 
 def get_models() -> Tuple[
-    Type["Race"],  # noqa: F401
-    Type["Skill"],  # noqa: F401
-    Type["Guild"],  # noqa: F401
-    Type["Player"],  # noqa: F401
+    Type["Race"],  # noqa: F821
+    Type["Skill"],  # noqa: F821
+    Type["Guild"],  # noqa: F821
+    Type["Player"],  # noqa: F821
 ]:
+
     """
     Ленивая загрузка моделей Django.
 
