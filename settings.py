@@ -17,4 +17,7 @@ DATABASES = {
 
 USE_TZ = False
 
-INSTALLED_APPS = ("db",)
+INSTALLED_APPS = [
+    'db',
+    'game',
+]
