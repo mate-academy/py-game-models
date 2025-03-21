@@ -1,64 +1,86 @@
 import json
-import init_django_orm  # noqa: F401
-from db.models import Race, Skill, Player, Guild
+from typing import Dict, Any, Optional, Tuple, Type
+from django.db import transaction
+
+# Импортируем функцию для настройки Django
+from setup_django import setup_django
+
+
+def get_models() -> Tuple[
+    Type["Race"],  # noqa: F401
+    Type["Skill"],  # noqa: F401
+    Type["Guild"],  # noqa: F401
+    Type["Player"],  # noqa: F401
+]:
+    """
+    Ленивая загрузка моделей Django.
+
+    Returns:
+        Кортеж с моделями Race, Skill, Guild, Player.
+    """
+    # Настройка Django перед импортом моделей
+    setup_django()
+
+    # Импортируем модели после настройки Django
+    from db.models import Race, Skill, Guild, Player
+    return Race, Skill, Guild, Player
 
 
 def main() -> None:
+    """
+    Основная функция для загрузки
+    данных из players.json в базу данных.
+    """
+    # Ленивая загрузка моделей
+    race_model, skill_model, guild_model, player_model = get_models()
+
     try:
-        # Load player data from players.json
-        with open("players.json", "r") as file:
-            players_data = json.load(file)
+        # Открываем файл players.json и загружаем данные
+        with open("players.json", "r", encoding="utf-8") as file:
+            players_data: Dict[str, Any] = json.load(file)
 
-        # Ensure players_data is a dictionary
-        if not isinstance(players_data, dict):
-            raise ValueError("players.json must contain"
-                             " a dictionary of players.")
+        # Используем транзакцию для
+        # обеспечения атомарности операций
+        with transaction.atomic():
+            # Проходим по каждому игроку в данных
+            for nickname, player_data in players_data.items():
+                # Получаем данные о расе игрока
+                race_data: Dict[str, Any] = player_data["race"]
 
-        # Iterate over each player in the JSON data
-        for nickname, player_data in players_data.items():
-            # Ensure player_data is a dictionary
-            if not isinstance(player_data, dict):
-                raise ValueError(
-                    f"Player data for '{nickname}' must be a dictionary."
+                # Создаем или получаем расу
+                race, _ = race_model.objects.get_or_create(
+                    name=race_data["name"],
+                    defaults={"description"
+                              : race_data.get("description", "")}
                 )
 
-            # Get or create the Race
-            race, _ = Race.objects.get_or_create(
-                name=player_data["race"]["name"],
-                defaults={
-                    "description"
-                    : player_data["race"].get("description", "")
-                },
-            )
+                # Создаем или получаем навыки для расы
+                for skill_data in race_data["skills"]:
+                    skill_model.objects.get_or_create(
+                        name=skill_data["name"],
+                        defaults={"bonus": skill_data["bonus"], "race": race}
+                    )
 
-            # Get or create the Skills for the Race
-            for skill_data in player_data["race"].get("skills", []):
-                Skill.objects.get_or_create(
-                    name=skill_data["name"],
-                    defaults={"bonus": skill_data["bonus"], "race": race},
-                )
+                # Получаем данные о гильдии игрока (если есть)
+                guild_data: Optional[Dict[str, Any]] = player_data.get("guild")
+                guild: Optional[guild_model] = None
+                if guild_data:
+                    guild, _ = guild_model.objects.get_or_create(
+                        name=guild_data["name"],
+                        defaults={"description"
+                                  : guild_data.get("description", "")}
+                    )
 
-            # Get or create the Guild (if the player is in a guild)
-            guild = None
-            if "guild" in player_data and player_data["guild"] is not None:
-                guild, _ = Guild.objects.get_or_create(
-                    name=player_data["guild"]["name"],
+                # Создаем или получаем игрока
+                player_model.objects.get_or_create(
+                    nickname=nickname,
                     defaults={
-                        "description"
-                        : player_data["guild"].get("description", "")
-                    },
+                        "email": player_data["email"],
+                        "bio": player_data["bio"],
+                        "race": race,
+                        "guild": guild
+                    }
                 )
-
-            # Get or create the Player
-            Player.objects.get_or_create(
-                nickname=nickname,  # Use the key as the nickname
-                defaults={
-                    "email": player_data["email"],
-                    "bio": player_data["bio"],
-                    "race": race,
-                    "guild": guild,
-                },
-            )
 
     except FileNotFoundError:
         print("Error: players.json file not found.")
