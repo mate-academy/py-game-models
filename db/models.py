@@ -15,7 +15,8 @@ class Race(models.Model):
 
 class Skill(models.Model):
     """
-    Модель Skill представляет навыки, которые могут быть у рас.
+    Модель Skill представляет навыки,
+     которые могут быть у рас.
     """
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
