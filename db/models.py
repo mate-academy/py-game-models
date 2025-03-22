@@ -21,10 +21,10 @@ class Skill(models.Model):
 
 class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.name} ({self.description})"
+        return f"{self.name} ({self.description or "No description"})"
 
 
 class Player(models.Model):
