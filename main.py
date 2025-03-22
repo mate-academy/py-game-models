@@ -17,7 +17,6 @@ def main() -> None:
         bio_discord = player.get("bio")
         skill_name = player.get("skill")
 
-
         guild, _ = Guild.objects.get_or_create(name=guild_name)
         race, _ = Race.objects.get_or_create(name=race_name)
         skill, _ = Skill.objects.get_or_create(name=skill_name)
