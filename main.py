@@ -10,7 +10,7 @@ def main() -> None:
     for player, data_player in data_players.items():
         race, _ = Race.objects.get_or_create(
             name=data_player["race"],
-            defaults={"description":data_player["race"]["description"]}
+            defaults={"description": data_player["race"]["description"]}
         )
 
         guild = None
