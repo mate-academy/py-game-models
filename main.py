@@ -9,7 +9,7 @@ def main() -> None:
 
     for player, data_player in data_players.items():
         race, _ = Race.objects.get_or_create(
-            name=data_player["race"],
+            name=data_player["race"]["name"],
             defaults={"description": data_player["race"]["description"]}
         )
 
@@ -21,7 +21,7 @@ def main() -> None:
             )
 
         for skill_data in data_player["race"]["skills"]:
-            skill_data, _ = Skill.objects.get_or_create(
+            Skill.objects.get_or_create(
                 name=skill_data["name"],
                 defaults={"bonus": skill_data["bonus"], "race": race}
             )
