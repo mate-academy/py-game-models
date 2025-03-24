@@ -28,12 +28,12 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="skill"
+        related_name="players_of_race"
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
-        related_name="guild",
+        related_name="players_of_guild",
         null=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
