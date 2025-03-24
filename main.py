@@ -18,7 +18,7 @@ def main() -> None:
                 description=race_dict.get("description"),
             )[0]
 
-            skill_dicts = race_dict.get("skills")
+            skill_dicts = race_dict.get("skills", [])
             for skill_dict in skill_dicts:
                 Skill.objects.get_or_create(
                     name=skill_dict.get("name"),
