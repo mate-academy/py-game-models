@@ -6,7 +6,7 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    with open("players.json") as file:
+    with open("players.json", "r") as file:
         data = json.load(file)
 
     for player_str, player_json in data.items():
