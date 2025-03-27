@@ -15,6 +15,8 @@ DATABASES = {
     }
 }
 
-USE_TZ = False
+DEBUG = True
+
+USE_TZ = "Europe/Kiev"
 
 INSTALLED_APPS = ("db",)
