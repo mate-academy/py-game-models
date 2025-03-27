@@ -3,7 +3,7 @@
 Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before starting.
 
 Imagine you want to create a game using Django. 
-You should create models for it first. 
+You should create models for it first.
 
 
 ## First task:
@@ -52,8 +52,8 @@ an id of the guild the player is a member of.
 Implement function `main()` in `main.py` which will have the following logic:
 
 Read data about players from `players.json` and add the corresponding entries to the database.
-Note, that some guilds, races and skills are used for different players. Create only one
-instance for each guild, race and skill, do not copy them.
+Note, that some  are used for different players. Create only one
+instance for each guild, race and skill,guilds, races and skills do not copy them.
 
 **Note**: It would be very useful to use the 
 [get_or_create()](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#get-or-create) method here.
