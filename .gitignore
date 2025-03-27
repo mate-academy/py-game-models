@@ -8,3 +8,7 @@ venv/
 **__pycache__/
 *.pyc
 **db.sqlite3
+/data_from_players/
+/create_funcs/create_race.py
+/create_funcs/create_skill.py
+/create_funcs/create_guild.py
