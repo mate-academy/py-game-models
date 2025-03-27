@@ -15,6 +15,11 @@ DATABASES = {
     }
 }
 
-USE_TZ = False
+USE_TZ = True
+TIMEZONE = "Europe/Kiev"
+
 
 INSTALLED_APPS = ("db",)
+
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+DEBUG = False
