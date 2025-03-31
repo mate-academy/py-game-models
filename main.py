@@ -10,10 +10,13 @@ def main() -> None:
         players_dict = json.load(json_file)
 
     for nickname, info in players_dict.items():
-        race, created = Race.objects.get_or_create(
-            name=info["race"]["name"],
-            description=info["race"]["description"]
-        )
+        try:
+            race = Race.objects.get(name=info["race"]["name"])
+        except Race.DoesNotExist:
+            race = Race.objects.create(
+                name=info["race"]["name"],
+                description=info["race"]["description"]
+            )
 
         player = Player.objects.create(
             nickname=nickname,
@@ -23,19 +26,25 @@ def main() -> None:
         )
 
         if info.get("guild"):
-            guild, created = Guild.objects.get_or_create(
-                name=info["guild"]["name"],
-                description=info["guild"].get("description")
-            )
+            try:
+                guild = Guild.objects.get(name=info["guild"]["name"])
+            except Guild.DoesNotExist:
+                guild = Guild.objects.create(
+                    name=info["guild"]["name"],
+                    description=info["guild"].get("description")
+                )
             player.guild = guild
             player.save()
 
         for skill in info["race"]["skills"]:
-            Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
-                race=race
-            )
+            try:
+                Skill.objects.get(name=skill["name"], race=race)
+            except Skill.DoesNotExist:
+                Skill.objects.create(
+                    name=skill["name"],
+                    bonus=skill["bonus"],
+                    race=race
+                )
 
 
 if __name__ == "__main__":
