@@ -10,7 +10,9 @@ def main() -> None:
 
     for nickname, info in players_dict.items():
         race_name = info.get("race", {}).get("name")
-        race_description = info.get("race", {}).get("description", "default description")
+        race_description = info.get("race", {}).get(
+            "description", "default description"
+        )
 
         race, created = Race.objects.get_or_create(
             name=race_name,
