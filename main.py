@@ -4,46 +4,46 @@ import json
 
 from db.models import Race, Skill, Player, Guild
 
-from django.utils import timezone
-
 
 def main() -> None:
     with open("players.json", "r") as f:
         players = json.load(f)
+        for player_name, value in players.items():
+            # Get or create the race
+            race, created = Race.objects.get_or_create(
+                name=value["race"]["name"],
+                description=value["race"]["description"]
+            )
 
-    for nickname, data in players.items():
-        # Получаем или создаём расу
-        race, _ = Race.objects.get_or_create(
-            name=data["race"]["name"],
-            defaults={"description": data["race"].get("description", "")}
-        )
+            # Handle multiple skills for the race
+            for skill_data in value["race"]["skills"]:
+                skill, created = Skill.objects.get_or_create(
+                    name=skill_data["name"],
+                    race=race,
+                )
+                if not created and skill.bonus != skill_data["bonus"]:
+                    skill.bonus = skill_data["bonus"]
+                    skill.save()
 
-        # Добавляем все скиллы расы
-        for skill_data in data["race"].get("skills", []):
-            Skill.objects.get_or_create(
-                name=skill_data["name"],
+            # Get or create the guild
+            guild_data = value.get("guild")
+            if guild_data:
+                guild_description = guild_data.get("description", '')
+                guild, created = Guild.objects.get_or_create(
+                    name=guild_data["name"],
+                    description=guild_description
+                )
+            else:
+                guild = None  # Or set to a default guild if needed
+
+            # Get or create the player
+            Player.objects.get_or_create(
+                nickname=player_name,
+                email=value["email"],
+                bio=value["bio"],
                 race=race,
-                defaults={"bonus": skill_data["bonus"]}
+                guild=guild,
             )
-
-        # Обрабатываем гильдию (она может быть None)
-        guild = None
-        if data.get("guild"):
-            guild, _ = Guild.objects.get_or_create(
-                name=data["guild"]["name"],
-                defaults={"description": data["guild"]["description"]}
-            )
-
-        # Создаём игрока
-        Player.objects.get_or_create(
-            nickname=nickname,
-            defaults={
-                "email": data["email"],
-                "bio": data["bio"],
-                "race": race,
-                "guild": guild,
-            }
-        )
 
 if __name__ == "__main__":
     main()
