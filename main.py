@@ -3,9 +3,10 @@ import os
 from db.models import Race, Skill, Guild, Player
 from typing import List, Dict
 
-# Constrói o caminho absoluto para o diretório onde este script (main.py) está
+# Caminho absoluto para este script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# Constrói o caminho para players.json (um nível acima, na raiz do projeto)
+
+# Caminho para players.json (um nível acima)
 PLAYERS_JSON_PATH = os.path.join(SCRIPT_DIR, "..", "players.json")
 
 
@@ -24,8 +25,9 @@ def load_races(race_data: List[Dict]) -> None:
 def load_skills(skill_data: List[Dict]) -> None:
     print(
         f"--- load_skills: Tentando carregar {len(skill_data)} "
-        "habilidades. ---"
+        f"habilidades. ---"
     )
+
     if not Race.objects.exists() and skill_data:
         print(
             "!!! AVISO: Nenhuma raça no BD. Habilidades que dependem de "
@@ -49,15 +51,14 @@ def load_skills(skill_data: List[Dict]) -> None:
             race_name = skill_info["race"]
             skill_name = skill_info["name"]
             msg = (
-                f"!!! ERRO: Raça '{race_name}' não encontrada para a "
-                f"habilidade '{skill_name}'. Pulando habilidade."
+                f'!!! ERRO: Raça "{race_name}" não encontrada para a '
+                f'habilidade "{skill_name}". Pulando habilidade. !!!'
             )
             print(msg)
         except Exception as e:
-            skill_name_safe = skill_info.get('name', 'DESCONHECIDA')
+            skill_name_safe = skill_info.get("name", "DESCONHECIDA")
             print(
-                f"!!! ERRO ao carregar habilidade {skill_name_safe}: "
-                f"{e} !!!"
+                f"!!! ERRO ao carregar habilidade {skill_name_safe}: {e} !!!"
             )
 
     skill_count = Skill.objects.count()
@@ -79,7 +80,7 @@ def load_guilds(guild_data: List[Dict]) -> None:
 def load_players(player_data: List[Dict]) -> None:
     print(
         f"--- load_players: Tentando carregar {len(player_data)} "
-        "jogadores. ---"
+        f"jogadores. ---"
     )
 
     for player_info in player_data:
@@ -103,8 +104,8 @@ def load_players(player_data: List[Dict]) -> None:
             race_name = player_info["race"]
             nickname = player_info["nickname"]
             msg = (
-                f"!!! ERRO: Raça '{race_name}' não encontrada "
-                f"para o jogador '{nickname}'. Pulando jogador. !!!"
+                f'!!! ERRO: Raça "{race_name}" não encontrada '
+                f'para o jogador "{nickname}". Pulando jogador. !!!'
             )
             print(msg)
         except Guild.DoesNotExist:
@@ -112,15 +113,14 @@ def load_players(player_data: List[Dict]) -> None:
                 guild_name = player_info["guild"]
                 nickname = player_info["nickname"]
                 msg = (
-                    f"!!! ERRO: Guilda '{guild_name}' não encontrada "
-                    f"para o jogador '{nickname}'. Pulando jogador. !!!"
+                    f'!!! ERRO: Guilda "{guild_name}" não encontrada '
+                    f'para o jogador "{nickname}". Pulando jogador. !!!'
                 )
                 print(msg)
         except Exception as e:
-            nickname_safe = player_info.get('nickname', 'DESCONHECIDO')
+            nickname_safe = player_info.get("nickname", "DESCONHECIDO")
             print(
-                f"!!! ERRO ao carregar jogador {nickname_safe}: "
-                f"{e} !!!"
+                f"!!! ERRO ao carregar jogador {nickname_safe}: {e} !!!"
             )
 
     player_count = Player.objects.count()
@@ -136,18 +136,16 @@ def main() -> None:
             data = json.load(file)
         print("--- main: players.json carregado com sucesso. ---")
     except FileNotFoundError:
-        # Removido o print aninhado
         print(
             f"!!! ERRO FATAL: ARQUIVO players.json NÃO ENCONTRADO EM "
             f"{PLAYERS_JSON_PATH} !!!"
         )
         cwd_on_fail = os.getcwd()
-        # Corrigida indentação e removido espaço extra no início da f-string
         print(f"Diretório de trabalho atual ao falhar: {cwd_on_fail}")
         return
     except json.JSONDecodeError:
         print(
-            f"!!! ERRO FATAL: ARQUIVO players.json em '{PLAYERS_JSON_PATH}' "
+            f'!!! ERRO FATAL: ARQUIVO players.json em "{PLAYERS_JSON_PATH}" '
             "contém JSON inválido. !!!"
         )
         return
