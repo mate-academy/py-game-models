@@ -1,8 +1,12 @@
 import json
 from myapp.models import Race, Skill, Guild, Player
+from typing import List, Dict
 
 
-def load_races(race_data):
+def load_races(race_data: List[Dict]) -> None:
+    """
+    Carrega as raças no banco de dados.
+    """
     for race in race_data:
         Race.objects.get_or_create(
             name=race["name"],
@@ -10,7 +14,10 @@ def load_races(race_data):
         )
 
 
-def load_skills(skill_data):
+def load_skills(skill_data: List[Dict]) -> None:
+    """
+    Carrega as habilidades associadas às raças no banco de dados.
+    """
     for skill in skill_data:
         race = Race.objects.get(name=skill["race"])
         Skill.objects.get_or_create(
@@ -20,7 +27,10 @@ def load_skills(skill_data):
         )
 
 
-def load_guilds(guild_data):
+def load_guilds(guild_data: List[Dict]) -> None:
+    """
+    Carrega as guildas no banco de dados.
+    """
     for guild in guild_data:
         Guild.objects.get_or_create(
             name=guild["name"],
@@ -28,7 +38,10 @@ def load_guilds(guild_data):
         )
 
 
-def load_players(player_data):
+def load_players(player_data: List[Dict]) -> None:
+    """
+    Carrega os jogadores no banco de dados, associando-os às raças e guildas.
+    """
     for player in player_data:
         race = Race.objects.get(name=player["race"])
         guild = (Guild.objects.get(name=player["guild"])
@@ -43,7 +56,11 @@ def load_players(player_data):
         )
 
 
-def main():
+def main() -> None:
+    """
+    Função principal que carrega os dados de jogadores e associa as entidades
+    relacionadas (raças, habilidades, guildas) ao banco de dados.
+    """
     with open("players.json") as file:
         data = json.load(file)
 
