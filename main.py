@@ -17,7 +17,8 @@ def load_races(race_data: List[Dict]) -> None:
             defaults={"description": race_info.get("description", "")},
         )
         print(f"Raça: {obj.name}, Criada: {created}")
-    print(f"Total de Raças no BD após load_races: {Race.objects.count()}")
+    count = Race.objects.count()
+    print(f"Total de Raças no BD após load_races: {count}")
 
 
 def load_skills(skill_data: List[Dict]) -> None:
@@ -48,14 +49,14 @@ def load_skills(skill_data: List[Dict]) -> None:
             race_name = skill_info["race"]
             skill_name = skill_info["name"]
             msg = (
-                f"!!! ERRO: Raça \"{race_name}\" "
-                f"não encontrada para a habilidade \"{skill_name}\". "
-                "Pulando habilidade. !!!"
+                f"!!! ERRO: Raça '{race_name}' não encontrada para a "
+                f"habilidade '{skill_name}'. Pulando habilidade."
             )
             print(msg)
         except Exception as e:
+            skill_name_safe = skill_info.get('name', 'DESCONHECIDA')
             print(
-                f"!!! ERRO ao carregar habilidade {skill_info.get('name')}: "
+                f"!!! ERRO ao carregar habilidade {skill_name_safe}: "
                 f"{e} !!!"
             )
 
@@ -71,7 +72,8 @@ def load_guilds(guild_data: List[Dict]) -> None:
             defaults={"description": guild_info.get("description")},
         )
         print(f"Guilda: {obj.name}, Criada: {created}")
-    print(f"Total de Guildas no BD após load_guilds: {Guild.objects.count()}")
+    count = Guild.objects.count()
+    print(f"Total de Guildas no BD após load_guilds: {count}")
 
 
 def load_players(player_data: List[Dict]) -> None:
@@ -101,8 +103,8 @@ def load_players(player_data: List[Dict]) -> None:
             race_name = player_info["race"]
             nickname = player_info["nickname"]
             msg = (
-                f"!!! ERRO: Raça \"{race_name}\" não encontrada "
-                f"para o jogador \"{nickname}\". Pulando jogador. !!!"
+                f"!!! ERRO: Raça '{race_name}' não encontrada "
+                f"para o jogador '{nickname}'. Pulando jogador. !!!"
             )
             print(msg)
         except Guild.DoesNotExist:
@@ -110,18 +112,19 @@ def load_players(player_data: List[Dict]) -> None:
                 guild_name = player_info["guild"]
                 nickname = player_info["nickname"]
                 msg = (
-                    f"!!! ERRO: Guilda \"{guild_name}\" não encontrada "
-                    f"para o jogador \"{nickname}\". Pulando jogador. !!!"
+                    f"!!! ERRO: Guilda '{guild_name}' não encontrada "
+                    f"para o jogador '{nickname}'. Pulando jogador. !!!"
                 )
                 print(msg)
         except Exception as e:
+            nickname_safe = player_info.get('nickname', 'DESCONHECIDO')
             print(
-                f"!!! ERRO ao carregar jogador {player_info.get('nickname')}: "
+                f"!!! ERRO ao carregar jogador {nickname_safe}: "
                 f"{e} !!!"
             )
 
-        player_count = Player.objects.count()
-        print(f"Total de Jogadores no BD após load_players: {player_count}")
+    player_count = Player.objects.count()
+    print(f"Total de Jogadores no BD após load_players: {player_count}")
 
 
 def main() -> None:
@@ -133,16 +136,18 @@ def main() -> None:
             data = json.load(file)
         print("--- main: players.json carregado com sucesso. ---")
     except FileNotFoundError:
+        # Removido o print aninhado
         print(
             f"!!! ERRO FATAL: ARQUIVO players.json NÃO ENCONTRADO EM "
-            f"\"{PLAYERS_JSON_PATH}\" !!!"
+            f"{PLAYERS_JSON_PATH} !!!"
         )
         cwd_on_fail = os.getcwd()
-        print(f"    Diretório de trabalho atual ao falhar: {cwd_on_fail}")
+        # Corrigida indentação e removido espaço extra no início da f-string
+        print(f"Diretório de trabalho atual ao falhar: {cwd_on_fail}")
         return
     except json.JSONDecodeError:
         print(
-            f"!!! ERRO FATAL: ARQUIVO players.json em \"{PLAYERS_JSON_PATH}\" "
+            f"!!! ERRO FATAL: ARQUIVO players.json em '{PLAYERS_JSON_PATH}' "
             "contém JSON inválido. !!!"
         )
         return
