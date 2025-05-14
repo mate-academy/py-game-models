@@ -20,19 +20,19 @@ def main() -> None:
         is_guild = False
         for i in data[key]["race"]["skills"]:
             try:
-                Skill.objects.get(name=i.name)
+                Skill.objects.get(name=i["name"])
             except:
                 number_of_skill += 1
         try:
-            Race.objects.get(name=data[key]["race"])
+            Race.objects.get(name=data[key]["race"]["name"])
         except:
             is_race = True
         try:
-            Guild.objects.get(name=data[key]["guild"])
+            Guild.objects.get(name=data[key]["guild"]["name"])
         except:
-            is_guild
+            is_guild = True
 
-        if is_race and is_guild and len(data[key]["race"]["skills"]) - 1 == number_of_skill:
+        if is_race and is_guild and len(data[key]["race"]["skills"]) == number_of_skill:
             race = Race.objects.create(name=data[key]["race"]["name"], description=data[key]["race"]["description"])
             for skill in data[key]["race"]["skills"]:
                 Skill.objects.create(name=skill["name"], bonus=skill["bonus"],race=race)
