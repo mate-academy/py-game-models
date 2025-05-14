@@ -9,7 +9,6 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
 
-
     for key, value in data.items():
         number_of_skill = 0
         is_race = False
