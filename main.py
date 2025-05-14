@@ -9,57 +9,60 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
 
+    dictionary ={
+        "skills": [],
+        "guild": [],
+        "race": []
+    }
     for key, value in data.items():
         number_of_skill = 0
         is_race = False
         is_guild = False
 
+        try:
+            Race.objects.get(name=data[key]["race"]["name"])
+        except ObjectDoesNotExist:
+            race = Race.objects.create(
+                name=data[key]["race"]["name"],
+                description=data[key]["race"]["description"]
+            )
+
+        race = Race.objects.get(name=data[key]["race"]["name"])
+
         for i in data[key]["race"]["skills"]:
             try:
                 Skill.objects.get(name=i["name"])
             except ObjectDoesNotExist:
-                number_of_skill += 1
+                skill = Skill.objects.create(
+                    name=i["name"],
+                    bonus=i["bonus"],
+                    race=race
+                )
 
-        try:
-            Race.objects.get(name=data[key]["race"]["name"])
-        except ObjectDoesNotExist:
-            is_race = True
 
         guild_data = data[key]["guild"]
         if guild_data is not None:
             try:
                 Guild.objects.get(name=guild_data["name"])
             except ObjectDoesNotExist:
-                is_guild = True
-        else:
-            is_guild = False  # bo nie tworzysz gildii
-
-        if (is_race and is_guild and len(data[key]["race"]["skills"])
-                == number_of_skill):
-            race = Race.objects.create(
-                name=data[key]["race"]["name"],
-                description=data[key]["race"]["description"]
-            )
-
-            for skill in data[key]["race"]["skills"]:
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race
+                guild = Guild.objects.create(
+                    name=data[key]["guild"]["name"],
+                    description=data[key]["guild"]["description"]
                 )
+        else:
+            is_guild = False
+        if guild_data is not None:
+            guild = Guild.objects.get(name=guild_data["name"])
+        else:
+            guild = guild_data
 
-            guild = Guild.objects.create(
-                name=data[key]["guild"]["name"],
-                description=data[key]["guild"]["description"]
-            )
-
-            Player.objects.create(
-                nickname=key,
-                email=data[key]["email"],
-                bio=data[key]["bio"],
-                race=race,
-                guild=guild
-            )
+        Player.objects.create(
+            nickname=key,
+            email=data[key]["email"],
+            bio=data[key]["bio"],
+            race=race,
+            guild=guild
+        )
 
 
 if __name__ == "__main__":
