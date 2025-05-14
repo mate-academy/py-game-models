@@ -9,6 +9,7 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
 
+
     for key, value in data.items():
         number_of_skill = 0
         is_race = False
@@ -25,10 +26,14 @@ def main() -> None:
         except ObjectDoesNotExist:
             is_race = True
 
-        try:
-            Guild.objects.get(name=data[key]["guild"]["name"])
-        except ObjectDoesNotExist:
-            is_guild = True
+        guild_data = data[key]["guild"]
+        if guild_data is not None:
+            try:
+                Guild.objects.get(name=guild_data["name"])
+            except ObjectDoesNotExist:
+                is_guild = True
+        else:
+            is_guild = False  # bo nie tworzysz gildii
 
         if (is_race and is_guild and len(data[key]["race"]["skills"])
                 == number_of_skill):
