@@ -30,7 +30,8 @@ def main() -> None:
         except ObjectDoesNotExist:
             is_guild = True
 
-        if is_race and is_guild and len(data[key]["race"]["skills"]) == number_of_skill:
+        if (is_race and is_guild and len(data[key]["race"]["skills"])
+                == number_of_skill):
             race = Race.objects.create(
                 name=data[key]["race"]["name"],
                 description=data[key]["race"]["description"]
