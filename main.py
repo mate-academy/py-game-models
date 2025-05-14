@@ -81,7 +81,7 @@ def process_player(
     if not nickname:
         return None
 
-    Player.objects.get_or_create(
+    player, created = Player.objects.get_or_create(
         nickname=nickname,
         defaults={
             "email": player_data.get("email", ""),
@@ -90,6 +90,13 @@ def process_player(
             "guild": guild
         }
     )
+
+    if not created:
+        player.email = player_data.get("email", player.email)
+        player.bio = player_data.get("bio", player.bio)
+        player.race = race if race else player.race
+        player.guild = guild if guild else player.guild
+        player.save()
 
 
 if __name__ == "__main__":
