@@ -1,5 +1,5 @@
 import json
-from myapp.models import Race, Skill, Guild, Player
+from db.models import Race, Skill, Guild, Player
 from typing import List, Dict
 
 
