@@ -10,8 +10,8 @@ def main() -> None:
     with open("players.json", "r") as f:
         players = json.load(f)
 
-    for k, p in players.items():
-        race_data = p["race"]
+    for nickname, player_data in players.items():
+        race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={"description": race_data.get("description", "")}
@@ -25,17 +25,17 @@ def main() -> None:
             )
 
         guild = None
-        if p["guild"]:
-            guild_data = p["guild"]
+        if player_data["guild"]:
+            guild_data = player_data["guild"]
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 defaults={"description": guild_data.get("description")}
             )
 
         Player.objects.create(
-            nickname=k,
-            email=p["email"],
-            bio=p["bio"],
+            nickname=nickname,
+            email=player_data["email"],
+            bio=player_data["bio"],
             race=race,
             guild=guild
         )
