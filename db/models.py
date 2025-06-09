@@ -4,7 +4,7 @@ from django.db.models import ForeignKey
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(null=True, blank=True)
 
 
 class Skill(models.Model):
