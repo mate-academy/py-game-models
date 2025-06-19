@@ -2,14 +2,16 @@ import pytest
 from django.db import models
 from django.db.models import EmailField
 
-from main import main, Race, Skill, Player, Guild
+from main import main
+from db.models import Race, Skill, Player, Guild
+
 
 
 @pytest.mark.django_db
 def test_guilds():
     main()
     assert list(Guild.objects.values_list("name", "description")) == [
-        ("archers", None),
+        ("archers", ""),
         ("mags", "A community of the elf mags"),
         ("blacksmiths", "A community of the blacksmiths"),
     ]
