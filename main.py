@@ -1,7 +1,5 @@
 import json
-
 from db.models import Race, Skill, Guild, Player
-
 
 def main() -> None:
     with open("players.json", encoding="utf-8") as file:
@@ -28,7 +26,7 @@ def main() -> None:
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data["name"],
-                defaults={"description": guild_data.get("description")},
+                defaults={"description": guild_data.get("description") or ""},
             )
 
         Player.objects.get_or_create(
