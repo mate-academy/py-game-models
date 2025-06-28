@@ -22,8 +22,8 @@ def main() -> None:
                 )
             if guild is not None:
                 guild, _ = Guild.objects.get_or_create(
-                    name=player["guild"]["name"],
-                    description=player["guild"]["description"],
+                    name=guild["name"],
+                    description=guild["description"],
                 )
             if guild is None:
                 guild = None
