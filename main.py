@@ -1,5 +1,4 @@
 import json
-from email.policy import default
 
 import init_django_orm  # noqa: F401
 
