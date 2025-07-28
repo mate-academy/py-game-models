@@ -12,7 +12,12 @@ def main() -> None:
     for nickname, entry in data.items():
         race_name = entry["race"]["name"]
         race_desc = entry["race"].get("description", "")
-        race, _ = Race.objects.get_or_create(name=race_name, defaults={"description": race_desc})
+        race, _ = Race.objects.get_or_create(
+            name=race_name,
+            defaults={
+                "description": race_desc
+            }
+        )
 
         for skill_data in entry["race"].get("skills", []):
             Skill.objects.get_or_create(
@@ -27,7 +32,12 @@ def main() -> None:
         if "guild" in entry and entry["guild"] is not None:
             guild_name = entry["guild"]["name"]
             guild_desc = entry["guild"].get("description")
-            guild, _ = Guild.objects.get_or_create(name=guild_name, defaults={"description": guild_desc})
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_name,
+                defaults={
+                    "description": guild_desc
+                }
+            )
 
         Player.objects.get_or_create(
             nickname=nickname,
