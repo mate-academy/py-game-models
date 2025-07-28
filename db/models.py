@@ -12,7 +12,7 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="race"
+        related_name="skills"
     )
 
 
@@ -28,12 +28,12 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="races"
+        related_name="players"
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="guilds"
+        related_name="players"
     )
     created_at = models.DateTimeField(auto_now_add=True)
