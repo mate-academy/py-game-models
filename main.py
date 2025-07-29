@@ -29,8 +29,8 @@ def main() -> None:
                 )
 
             player, _ = Player.objects.get_or_create(
-                nickname = key,
-                defaults = {
+                nickname=key,
+                defaults={
                     "email": value["email"],
                     "bio": value.get("bio", ""),
                     "race": race,
