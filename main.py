@@ -37,12 +37,13 @@ def main() -> None:
                     "guild": guild
                 }
             )
-            for skill_data in race_data.get("skills", []):
-                Skill.objects.get_or_create(
-                    name=skill_data["name"],
-                    race=race,
-                    defaults={"bonus": skill_data["bonus"]}
-                )
+            if race_data:
+                for skill_data in race_data.get("skills", []):
+                    Skill.objects.get_or_create(
+                        name=skill_data["name"],
+                        race=race,
+                        defaults={"bonus": skill_data["bonus"]}
+                    )
 
 
 if __name__ == "__main__":
