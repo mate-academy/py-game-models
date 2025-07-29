@@ -10,8 +10,8 @@ def main() -> None:
     Race.objects.all().delete()
     Guild.objects.all().delete()
 
-    with open("players.json", "r") as input_file:
-        players = json.load(input_file)
+    with open("players.json", "r") as file:
+        players = json.load(file)
 
     for player in players:
         race, _ = Race.objects.get_or_create(
