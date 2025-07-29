@@ -39,7 +39,7 @@ def main() -> None:
                 }
             )
 
-        Player.objects.get_or_create(
+        player, created = Player.objects.get_or_create(
             nickname=name,
             defaults={
                 "email": player_data.get("email"),
@@ -48,6 +48,13 @@ def main() -> None:
                 "guild": guild
             }
         )
+
+        if not created:
+            player.email = player_data.get("email")
+            player.bio = player_data.get("bio")
+            player.race = race
+            player.guild = guild
+            player.save()
 
 
 if __name__ == "__main__":
