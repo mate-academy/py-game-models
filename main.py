@@ -17,16 +17,16 @@ def main() -> None:
                 Skill.objects.get_or_create(
                     name=power["name"],
                     race=player,
-                    defaults = {"bonus": power["bonus"]}
-
+                    defaults={"bonus": power["bonus"]}
                 )
 
             guild_info = player_info.get("guild")
-
             if guild_info:
                 guild, _ = Guild.objects.get_or_create(
                     name=player_info["guild"]["name"],
-                    defaults={"description": player_info["guild"]["description"]}
+                    defaults={
+                        "description": player_info["guild"]["description"]
+                    }
                 )
             else:
                 guild = None
@@ -40,6 +40,7 @@ def main() -> None:
                     "guild": guild
                 }
             )
+
 
 if __name__ == "__main__":
     main()
