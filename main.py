@@ -47,6 +47,5 @@ def main() -> None:
     print(f"Total amount of guilds: {Guild.objects.count()}")
 
 
-
 if __name__ == "__main__":
     main()
