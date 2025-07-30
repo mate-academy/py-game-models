@@ -41,6 +41,12 @@ def main() -> None:
                 }
             )
 
+    print(f"Total amount of players: {Player.objects.count()}")
+    print(f"Total amount of skills: {Skill.objects.count()}")
+    print(f"Total amount of races: {Race.objects.count()}")
+    print(f"Total amount of guilds: {Guild.objects.count()}")
+
+
 
 if __name__ == "__main__":
     main()
