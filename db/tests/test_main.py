@@ -6,7 +6,7 @@ from main import main, Race, Skill, Player, Guild
 
 
 @pytest.mark.django_db
-def test_guilds():
+def test_guilds() -> None:
     main()
     assert list(Guild.objects.values_list("name", "description")) == [
         ("archers", None),
@@ -16,7 +16,7 @@ def test_guilds():
 
 
 @pytest.mark.django_db
-def test_skills():
+def test_skills() -> None:
     main()
     assert list(Skill.objects.values_list("name", "bonus")) == [
         (
@@ -34,7 +34,7 @@ def test_skills():
 
 
 @pytest.mark.django_db
-def test_races():
+def test_races() -> None:
     main()
     assert list(Race.objects.values_list("name", "description")) == [
         ("elf", "The magic race"),
@@ -42,11 +42,14 @@ def test_races():
     ]
 
     related_field = (
-        Skill._meta.get_field("race").remote_field.related_name or "skill_set"
+        Skill._meta.get_field("race").remote_field.related_name
+        or "skill_set"
     )
 
     assert list(
-        getattr(Race.objects.get(name="elf"), related_field).values_list("name")
+        getattr(Race.objects.get(name="elf"), related_field).values_list(
+            "name"
+        )
     ) == [
         ("Teleportation",),
         ("Reality Warping",),
@@ -63,15 +66,15 @@ def test_races():
 
 
 @pytest.mark.django_db
-def test_players():
+def test_players() -> None:
     main()
     assert list(
         Player.objects.values_list(
             "nickname", "email", "bio", "race__name", "guild__name"
         )
     ) == [
-        ("john", "john@gmail.com", "Hello, I'm John, elf ranger"
-         , "elf", "archers"),
+        ("john", "john@gmail.com", "Hello, I'm John, elf ranger",
+         "elf", "archers"),
         ("max", "max@gmail.com", "Hello, I'm Max, elf mag", "elf", "mags"),
         ("arthur", "arthur@gmail.com", "Arthur, elf mag", "elf", "mags"),
         ("andrew", "andrew@gmail.com", "Hello, I'm Andrew",
@@ -80,9 +83,10 @@ def test_players():
     ]
 
 
-def test_email_field():
+def test_email_field() -> None:
     assert isinstance(Player._meta.get_field("email"), EmailField)
 
 
-def test_guild_on_delete():
-    assert Player._meta.get_field("guild").remote_field.on_delete == models.SET_NULL
+def test_guild_on_delete() -> None:
+    field = Player._meta.get_field("guild")
+    assert field.remote_field.on_delete == models.SET_NULL
