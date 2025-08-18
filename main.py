@@ -15,11 +15,20 @@ def main() -> None:
             race=Race.objects.get_or_create(
                 name=player.get("race").get("name"),
                 defaults={"description":player.get("race").get("description")}
-            ),
+            )[0],
+            skills = [Skill.objects.get_or_create(
+                name = skill.get("name"),
+                defaults={
+                    "bonus": skill.get("bonus"),
+                    "race": Race.objects.get(
+                        name=player.get("race").get("name")
+                    )
+                }
+            )[0] for skill in player.get("skills")],
             guild=Guild.objects.get_or_create(
                 name=player.get("guild").get("name", None),
                 defaults={"description":player.get("guild").get("description")}
-            )
+            )[0]
         )
 
 
