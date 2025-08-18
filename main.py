@@ -10,15 +10,15 @@ def main() -> None:
     for player in players:
         Player.objects.create(
             nickname=player,
-            email=player["email"],
-            bio=player["bio"],
+            email=player.get("email"),
+            bio=player.get("bio"),
             race=Race.objects.get_or_create(
-                name=player["race"]["name"],
-                description=player["race"]["description"]
+                name=player.get("race").get("name"),
+                defaults={"description":player.get("race").get("description")}
             ),
             guild=Guild.objects.get_or_create(
-                name=player["guild"]["name"],
-                description=player["guild"]["description"]
+                name=player.get("guild").get("name", None),
+                defaults={"description":player.get("guild").get("description")}
             )
         )
 
