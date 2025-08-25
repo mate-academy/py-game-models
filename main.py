@@ -10,7 +10,6 @@ def main() -> None:
         players_dict = json.load(file)
 
     for nickname, info in players_dict.items():
-        print(nickname)
         cur_race, _ = (Race.objects.get_or_create
                        (name=info["race"]["name"],
                         description=info["race"]["description"]))
@@ -32,8 +31,7 @@ def main() -> None:
                               email=info["email"],
                               bio=info["bio"],
                               race=cur_race,
-                              guild=cur_guild
-                              )
+                              guild=cur_guild)
 
 
 if __name__ == "__main__":
