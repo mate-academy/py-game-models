@@ -29,10 +29,10 @@ def main() -> None:
             )
 
         # ---- Skills ----
-        for s in race_info.get("skills", []) or []:
+        for skill in race_info.get("skills", []) or []:
             Skill.objects.get_or_create(
-                name=s["name"],
-                defaults={"bonus": s.get("bonus", ""), "race": race},
+                name=skill["name"],
+                defaults={"bonus": skill.get("bonus", ""), "race": race},
             )
 
         # ---- Player ----
