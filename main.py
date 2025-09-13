@@ -9,18 +9,23 @@ def main() -> None:
         players = json.load(f)
 
     for player_name, player_data in players.items():
-        race_result = Race.objects.get_or_create(
-            name=player_data["race"]["name"],
-            description=player_data["race"]["description"]
-        )
-        if player_data["guild"]:
+        race_data = player_data.get("race", {})
+        if race_data:
+            race_result = Race.objects.get_or_create(
+                name=race_data["name"],
+                defaults={"description": race_data["description"]}
+            )
+        guild_data = player_data.get("guild")
+        if guild_data:
             guild_result = Guild.objects.get_or_create(
-                name=player_data["guild"]["name"],
-                description=player_data["guild"]["description"]
+                name=guild_data["name"],
+                defaults={"description": guild_data["description"]}
             )
             guild = guild_result[0]
         else:
             guild = None
+        skills = race_data.get("skills", [])
+
         player = Player.objects.create(
             nickname=player_name,
             email=player_data["email"],
@@ -28,11 +33,13 @@ def main() -> None:
             race=race_result[0],
             guild=guild
         )
-        for skill in player_data["race"]["skills"]:
+        for skill in skills:
             Skill.objects.get_or_create(
                 name=skill["name"],
-                bonus=skill["bonus"],
-                race=player.race
+                defaults={
+                    "bonus": skill["bonus"],
+                    "race": player.race
+                }
             )
 
 
