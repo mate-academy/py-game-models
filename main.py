@@ -11,7 +11,7 @@ def main() -> None:
         email = pdata.get("email")
         bio = pdata.get("bio")
 
-        race_info = pdata.get("race")
+        race_info = pdata.get("race", {})
         race_name = race_info.get("name")
         race_desc = race_info.get("description")
         skills = race_info.get("skills", [])
@@ -61,10 +61,7 @@ def main() -> None:
 
         player, player_created = Player.objects.get_or_create(
             nickname=nickname,
-            email=email,
-            bio=bio,
-            race=race,
-            guild=guild
+            defaults={"email": email, "bio": bio, "race": race, "guild": guild}
         )
 
         if not player_created:
@@ -78,7 +75,7 @@ def main() -> None:
             if player.bio != bio:
                 player.bio = bio
                 changed = True
-            if player.guild_id != guild.id:
+            if guild is not None and player.guild_id != guild.id:
                 player.guild = guild
                 changed = True
             if changed:
