@@ -84,5 +84,6 @@ def main() -> None:
             if changed:
                 player.save()
 
+
 if __name__ == "__main__":
     main()
