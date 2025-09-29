@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class Race(models.Model):
@@ -33,11 +32,13 @@ class Player(models.Model):
     nickname: str = models.CharField(max_length=255, unique=True)
     email: str = models.EmailField(max_length=255)
     bio: str = models.CharField(max_length=255)
-    race: Race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild: Guild = models.ForeignKey(
-        Guild, on_delete=models.SET_NULL, null=True, blank=True
+    race: Race = models.ForeignKey(
+        Race, on_delete=models.CASCADE, related_name="players"
     )
-    created_at: timezone.datetime = models.DateTimeField(default=timezone.now)
+    guild: Guild = models.ForeignKey(
+        Guild, on_delete=models.SET_NULL, null=True, blank=True, related_name="players"
+    )
+    created_at: models.DateTimeField = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.nickname
