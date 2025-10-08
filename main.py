@@ -1,4 +1,3 @@
-import init_django_orm
 import json
 from db.models import Race, Skill, Player, Guild
 
@@ -10,7 +9,9 @@ def main() -> None:
     for nickname, player_data in players.items():
         race, _ = Race.objects.get_or_create(
             name=player_data["race"]["name"],
-            defaults={"description": player_data["race"].get("description", "")},
+            defaults={
+                "description": player_data["race"].get("description", ""),
+            },
         )
 
         for skill in player_data["race"].get("skills", []):
@@ -26,7 +27,9 @@ def main() -> None:
         if "guild" in player_data and player_data["guild"]:
             guild, _ = Guild.objects.get_or_create(
                 name=player_data["guild"]["name"],
-                defaults={"description": player_data["guild"].get("description")},
+                defaults={
+                    "description": player_data["guild"].get("description"),
+                },
             )
 
         Player.objects.get_or_create(
