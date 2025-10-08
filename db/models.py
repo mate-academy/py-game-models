@@ -34,7 +34,8 @@ class Player(models.Model):
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(
         "Race",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="players"
     )
     guild = models.ForeignKey(
         "Guild",
