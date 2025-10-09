@@ -45,7 +45,7 @@ class Player(models.Model):
         related_name="members"
     )
     created_at = models.DateTimeField(
-        default=timezone.now,
+        auto_now_add=True,
         editable=False
     )
 
