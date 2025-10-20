@@ -9,7 +9,7 @@ class Race(models.Model):
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    bonus = models.CharField(max_length=255, unique=True)
+    bonus = models.CharField(max_length=255)
     race = ForeignKey(Race, on_delete=models.CASCADE, related_name="skills")
 
 
@@ -31,4 +31,4 @@ class Player(models.Model):
                        null=True,
                        related_name="players"
                        )
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)

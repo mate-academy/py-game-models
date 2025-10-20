@@ -14,10 +14,11 @@ def main() -> None:
             description=value.get("race", {}).get("description")
         )
 
-        for skills in value.get("race", {}).get("skills"):
+        race_data = value.get("race", {})
+        for skill in race_data.get("skills", []):
             Skill.objects.get_or_create(
-                name=skills.get("name"),
-                bonus=skills.get("bonus"),
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
                 race=obj_race
             )
 
