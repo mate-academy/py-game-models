@@ -9,12 +9,12 @@ def main() -> None:
         data = json.load(file)
 
     for nickname, value in data.items():
+        race_data = value.get("race", {})
         obj_race, _ = Race.objects.get_or_create(
-            name=value.get("race", {}).get("name"),
-            description=value.get("race", {}).get("description")
+            name=race_data.get("name"),
+            description=race_data.get("description")
         )
 
-        race_data = value.get("race", {})
         for skill in race_data.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill.get("name"),
@@ -31,13 +31,13 @@ def main() -> None:
         else:
             obj_guild = None
 
-        Player(
+        obj_player, _ = Player.objects.get_or_create(
             nickname=nickname,
             email=value.get("email"),
             bio=value.get("bio"),
             race=obj_race,
             guild=obj_guild,
-        ).save()
+        )
 
 
 if __name__ == "__main__":
