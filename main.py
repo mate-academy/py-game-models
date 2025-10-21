@@ -32,16 +32,24 @@ def main() -> None:
             skill_name = skill_data.get("name")
             bonus = skill_data.get("bonus", "")
 
+            if not skill_name:
+                continue  # Defensive check for missing skill name
+
             skill, created = Skill.objects.get_or_create(
                 name=skill_name,
-                race=race,
-                defaults={"bonus": bonus}
+                defaults={"bonus": bonus, "race": race}
             )
 
-            if not created and skill.race != race:
-                skill.race = race
-                skill.bonus = bonus
-                skill.save()
+            if not created:
+                updated = False
+                if skill.race != race:
+                    skill.race = race
+                    updated = True
+                if skill.bonus != bonus:
+                    skill.bonus = bonus
+                    updated = True
+                if updated:
+                    skill.save()
 
         guild = None
         guild_data = details.get("guild")
