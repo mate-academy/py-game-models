@@ -14,25 +14,28 @@ def main() -> None:
         bio = pdata.get("bio")
 
         race_info = pdata.get("race")
-        race_name = race_info.get("name")
-        race_desc = race_info.get("description")
-        skills = race_info.get("skills")
+        if race_info:
+            race_name = race_info.get("name")
+            race_desc = race_info.get("description")
+            skills = race_info.get("skills", [])
 
-        race, race_created = Race.objects.get_or_create(
-            name=race_name,
-            defaults={"description": race_desc}
-        )
-
-        for skill_info in skills:
-            skill_name = skill_info.get("name")
-            skill_bonus = skill_info.get("bonus")
-
-            skill, skill_created = Skill.objects.get_or_create(
-                name=skill_name,
-                defaults={
-                    "bonus": skill_bonus,
-                    "race": race}
+            race, _ = Race.objects.get_or_create(
+                name=race_name,
+                defaults={"description": race_desc},
             )
+
+            for skill_info in skills:
+                skill_name = skill_info.get("name")
+                skill_bonus = skill_info.get("bonus")
+
+                if skill_name:
+                    Skill.objects.get_or_create(
+                        name=skill_name,
+                        defaults={
+                            "bonus": skill_bonus,
+                            "race": race,
+                        },
+                    )
 
         guild = None
         guild_info = pdata.get("guild")
