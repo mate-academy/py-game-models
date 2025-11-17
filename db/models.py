@@ -15,8 +15,8 @@ class Skill(models.Model):
 
 
 class Guild(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(null=True)
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(null=True, blank=True)
 
 
 class Player(models.Model):
@@ -26,5 +26,5 @@ class Player(models.Model):
         "It stores a short description provided by a user about him/herself.",
         max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.DO_NOTHING)
+    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
