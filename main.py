@@ -15,77 +15,48 @@ def get_data() -> dict[str, Any]:
         raise SystemExit(f"File not found: {e}")
 
 
-def create_guild(name: str,
-                 description: str | None) -> Guild:
-    guild, _ = Guild.objects.get_or_create(
-        name=name,
-        defaults={"description": description}
-    )
-    return guild
-
-
-def create_race(name: str,
-                description: str | None) -> Race:
-    race, _ = Race.objects.get_or_create(
-        name=name,
-        description=description
-    )
-    return race
-
-
-def create_skill(name: str,
-                 bonus: str,
-                 race: Race) -> Skill:
-    skill, _ = Skill.objects.get_or_create(
-        name=name,
-        race=race,
-        bonus=bonus
-    )
-    return skill
-
-
-def create_player(name: str,
-                  email: str,
-                  bio: str,
-                  race: Race,
-                  guild: Guild) -> Player:
-    player, _ = Player.objects.get_or_create(
-        nickname=name,
-        email=email,
-        bio=bio,
-        race=race,
-        guild=guild
-    )
-    return player
-
-
 def main() -> None:
     data = get_data()
 
-    for name, value in data.items():
-        nickname = name
+    for nickname, value in data.items():
         email = value["email"]
         bio = value["bio"]
-        guild = value["guild"] if value["guild"] else None
-        race = value["race"]
-        skills = race["skills"] if race["skills"] else None
 
-        if guild:
-            guild = create_guild(
-                guild["name"],
-                guild["description"]
+        # Guild
+        guild_data = value.get("guild")
+        guild = None
+        if guild_data:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_data["name"],
+                defaults={"description": guild_data["description"]}
             )
 
-        race = create_race(
-            race["name"],
-            race["description"]
+        # Race
+        race_data = value["race"]
+        race, _ = Race.objects.get_or_create(
+            name=race_data["name"],
+            defaults={"description": race_data["description"]}
         )
 
-        if skills:
-            for skill in skills:
-                create_skill(skill["name"], skill["bonus"], race)
+        # Skills
+        skills = race_data.get("skills", [])
+        for skill in skills:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                race=race,
+                defaults={"bonus": skill["bonus"]}
+            )
 
-        create_player(nickname, email, bio, race, guild)
+        # Player
+        Player.objects.get_or_create(
+            nickname=nickname,
+            defaults={
+                "email": email,
+                "bio": bio,
+                "race": race,
+                "guild": guild
+            }
+        )
 
 
 if __name__ == "__main__":
