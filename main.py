@@ -14,15 +14,11 @@ def main() -> None:
             description=value["race"]["description"])
 
         guild_obj = None
-        if value["guild"] is not None:
+        guild = value.get("guild")
+        if guild is not None:
             guild_obj, _ = Guild.objects.get_or_create(
-                name=value["guild"]["name"],
-                description=value["guild"]["description"])
-
-        race_obj, _ = Race.objects.get_or_create(
-            name=value["race"]["name"],
-            description=value["race"]["description"]
-        )
+                name=guild["name"],
+                description=guild["description"])
 
         for skill in value["race"]["skills"]:
             Skill.objects.get_or_create(name=skill["name"],
