@@ -8,8 +8,17 @@ def main() -> None:
         data = json.load(file)
 
     for nickname, player_data in data.items():
-        race_info = player_data.get("race")
+        guild_obj = None
+        guild_info = player_data.get("guild")
 
+        if guild_info:
+            description_value = guild_info.get("description")
+            guild_obj, _ = Guild.objects.get_or_create(
+                name=guild_info.get("name"),
+                defaults={"description": description_value}
+            )
+
+        race_info = player_data.get("race")
         if race_info:
             race_obj, _ = Race.objects.get_or_create(
                 name=race_info.get("name"),
@@ -25,24 +34,12 @@ def main() -> None:
                         "race": race_obj
                     }
                 )
-
-        guild_obj = None
-        guild_info = player_data.get("guild")
-
-        if guild_info:
-            description_value = guild_info.get("description")
-
-            guild_obj, _ = Guild.objects.get_or_create(
-                name=guild_info.get("name"),
-                defaults={"description": description_value}  # Q000
+            Player.objects.create(
+                nickname=nickname,
+                email=player_data.get("email"),
+                bio=player_data.get("bio", ""),
+                race=race_obj,
+                guild=guild_obj
             )
-
-        Player.objects.create(
-            nickname=nickname,
-            email=player_data["email"],
-            bio=player_data.get("bio", ""),
-            race=race_obj,
-            guild=guild_obj
-        )
 
     return Player.objects.all()
