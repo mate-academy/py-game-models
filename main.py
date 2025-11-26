@@ -13,12 +13,14 @@ def main() -> None:
 
         if guild_info:
             description_value = guild_info.get("description")
+
             guild_obj, _ = Guild.objects.get_or_create(
                 name=guild_info.get("name"),
                 defaults={"description": description_value}
             )
 
         race_info = player_data.get("race")
+
         if race_info:
             race_obj, _ = Race.objects.get_or_create(
                 name=race_info.get("name"),
@@ -34,12 +36,21 @@ def main() -> None:
                         "race": race_obj
                     }
                 )
-            Player.objects.create(
-                nickname=nickname,
-                email=player_data.get("email"),
-                bio=player_data.get("bio", ""),
-                race=race_obj,
-                guild=guild_obj
-            )
+
+            email_value = player_data.get("email")
+            bio_value = player_data.get("bio")
+
+            if email_value and bio_value:
+                Player.objects.create(
+                    nickname=nickname,
+                    email=email_value,
+                    bio=bio_value,
+                    race=race_obj,
+                    guild=guild_obj
+                )
 
     return Player.objects.all()
+
+
+if __name__ == "__main__":
+    main()
