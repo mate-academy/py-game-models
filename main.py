@@ -15,7 +15,7 @@ def main() -> None:
         race_object, created = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={
-                "description": race_data["description"],
+                "description": race_data.get("description"),
             }
         )
 
@@ -26,7 +26,7 @@ def main() -> None:
             guild_object, created = Guild.objects.get_or_create(
                 name=guild_data["name"],
                 defaults={
-                    "description": guild_data["description"],
+                    "description": guild_data.get("description"),
                 }
             )
 
@@ -34,7 +34,7 @@ def main() -> None:
             Skill.objects.get_or_create(
                 name=skill_item["name"],
                 defaults={
-                    "bonus": skill_item["bonus"],
+                    "bonus": skill_item.get("bonus"),
                     "race": race_object,
                 }
             )
