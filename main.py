@@ -36,16 +36,17 @@ def main() -> None:
         else:
             guild = None
 
-        # 4️⃣ Player
-        Player.objects.get_or_create(
-            nickname=nickname,  # <--- використовуємо ключ словника
-            defaults={
-                "email": pdata.get("email", ""),
-                "bio": pdata.get("bio", ""),
-                "race": race,
-                "guild": guild
-            }
-        )
+        if pdata:
+            # 4️⃣ Player
+            Player.objects.get_or_create(
+                nickname=nickname,  # <--- використовуємо ключ словника
+                defaults={
+                    "email": pdata.get("email", ""),
+                    "bio": pdata.get("bio", ""),
+                    "race": race,
+                    "guild": guild
+                }
+            )
 
 
 if __name__ == "__main__":
