@@ -15,13 +15,10 @@ def main() -> None:
         email = pdata.get("email", "")[:255]
         raw_bio = pdata.get("bio")
         bio = (raw_bio or "")[:255]
-        race_data = pdata.get("race")
-        if race_data:
-            race_name = race_data.get("name")
-            race_description = race_data.get("description")
-        else:
-            race_name = ""
-            race_description = ""
+        race_data = pdata.get("race", {})
+        race_name = (race_data.get("name") or "")[:255]
+        race_description = (race_data.get("description" or ""))[:255]
+
         race, _ = (Race.objects.
                    get_or_create(name=race_name,
                                  defaults={
@@ -37,7 +34,7 @@ def main() -> None:
                             defaults={"bonus": skill_bonus}))
         guild_data = pdata.get("guild")
         if guild_data:
-            guild_name = guild_data.get("name")[:255]
+            guild_name = (guild_data.get("name") or "")[:255]
             guild_description = guild_data.get("description")
             guild, _ = (Guild.objects.
                         get_or_create(
