@@ -17,7 +17,7 @@ def main() -> None:
                 "description": player_race.get("description"),
             }
         )
-        for skill_data in player_race.get("skills", {}):
+        for skill_data in player_race.get("skills", []):
             skill, created = Skill.objects.get_or_create(
                 name=skill_data.get("name"),
                 race=race,
