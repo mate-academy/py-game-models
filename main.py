@@ -10,14 +10,14 @@ def main() -> None:
         players = json.load(script)
 
     for player, player_info in players.items():
-        player_race = player_info.get("race")
+        player_race = player_info.get("race", {})
         race, created = Race.objects.get_or_create(
             name=player_race.get("name"),
             defaults={
                 "description": player_race.get("description"),
             }
         )
-        for skill_data in player_race.get("skills"):
+        for skill_data in player_race.get("skills", {}):
             skill, created = Skill.objects.get_or_create(
                 name=skill_data.get("name"),
                 race=race,
