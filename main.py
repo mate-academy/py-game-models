@@ -1,11 +1,46 @@
+import json
+
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
 
 
+def load_json_data() -> dict:
+    with open("players.json", "r") as content_file:
+        return json.load(content_file)
+
+
 def main() -> None:
-    pass
+    players_data = load_json_data()
 
+    for player, data in players_data.items():
 
-if __name__ == "__main__":
-    main()
+        email, bio, race, guild = data.values()
+        name, description, skills = race.values()
+        player_race, is_player_race_created = Race.objects.get_or_create(
+            name=name,
+            description=description,
+        )
+
+        if is_player_race_created:
+            for skill in skills:
+                player_skill, _ = Skill.objects.get_or_create(
+                    **skill,
+                    race=player_race
+                )
+
+        player_guild = None
+
+        if guild:
+            player_guild, _ = Guild.objects.get_or_create(
+                name=guild["name"],
+                description=guild["description"]
+            )
+
+        Player.objects.get_or_create(
+            nickname=player,
+            email=email,
+            bio=bio,
+            race=player_race,
+            guild=player_guild
+        )
