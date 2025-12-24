@@ -8,7 +8,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 
 
-def main():
+def main() -> None:
     # Чтение players.json
     with open("players.json", "r", encoding="utf-8") as f:
         players_data = json.load(f)
