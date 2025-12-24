@@ -11,7 +11,7 @@ class Race(models.Model):
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    bonus = models.CharField(max_length=255)
+    bonus = models.CharField(max_length=255)  # CharField, поэтому default должен быть строкой
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
@@ -37,14 +37,14 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="players"
+        related_name="players"  # для обратного поиска игроков по расе
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="players"
+        related_name="players"  # для обратного поиска игроков по гильдии
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
