@@ -11,7 +11,7 @@ class Race(models.Model):
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    bonus = models.CharField(max_length=255)  # CharField, поэтому default должен быть строкой
+    bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
