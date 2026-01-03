@@ -15,18 +15,20 @@ def main() -> None:
     for username, pdata in data.items():
 
         race_data = pdata.get("race")
-        race_obj, _ = Race.objects.get_or_create(
-            name=race_data.get("name", None),
-            defaults={"description": race_data.get("description", None)}
-        )
-
-        skill_objs = []
-        for skill in race_data.get("skills", []):
-            skill_obj, _ = Skill.objects.get_or_create(
-                name=skill.get("name", None),
-                defaults={"bonus": skill.get("bonus", None), "race": race_obj}
+        if race_data:
+            race_obj, _ = Race.objects.get_or_create(
+                name=race_data.get("name", None),
+                defaults={"description": race_data.get("description", None)}
             )
-            skill_objs.append(skill_obj)
+
+            skill_objs = []
+            for skill in race_data.get("skills", []):
+                skill_obj, _ = Skill.objects.get_or_create(
+                    name=skill.get("name", None),
+                    defaults={"bonus": skill.get("bonus", None),
+                              "race": race_obj}
+                )
+                skill_objs.append(skill_obj)
 
         guild_data = pdata.get("guild")
         guild_obj = None
