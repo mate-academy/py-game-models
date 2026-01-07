@@ -14,8 +14,10 @@ def main() -> None:
         race_data = player.get("race")
         race_name = race_data.get("name")
         description = race_data.get("description")
-        race, created = Race.objects.get_or_create(name=race_name,
-                                                   description=description)
+        race, created = Race.objects.get_or_create(
+            name=race_name,
+            defaults={"description": description}
+        )
 
         guild = None
         guild_data = player.get("guild")
@@ -31,10 +33,12 @@ def main() -> None:
         for skill in skills:
             name, bonus = skill["name"], skill["bonus"]
 
-            Skill.objects.get_or_create(name=name, bonus=bonus, race=race)
+            Skill.objects.get_or_create(name=name,
+                                        defaults={"bonus": bonus},
+                                        race=race)
 
         Player.objects.get_or_create(nickname=nickname,
-                                     email=player["email"], guild=guild,
+                                     email=player.get("email"), guild=guild,
                                      bio=player["bio"], race=race)
 
 
