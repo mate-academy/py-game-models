@@ -31,7 +31,7 @@ def main() -> None:
 
         skills = race_data.get("skills")
         for skill in skills:
-            name, bonus = skill["name"], skill["bonus"]
+            name, bonus = skill.get("name"), skill.get("bonus")
 
             Skill.objects.get_or_create(name=name,
                                         defaults={"bonus": bonus},
@@ -39,7 +39,7 @@ def main() -> None:
 
         Player.objects.get_or_create(nickname=nickname,
                                      email=player.get("email"), guild=guild,
-                                     bio=player["bio"], race=race)
+                                     bio=player.get("bio"), race=race)
 
 
 if __name__ == "__main__":
