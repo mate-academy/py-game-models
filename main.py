@@ -22,8 +22,10 @@ def main() -> None:
         if guild_data:
             guild_name = guild_data.get("name")
             guild_description = guild_data.get("description")
-            guild, created = Guild.objects.get_or_create(name=guild_name,
-                                                         defaults={"description": guild_description})
+            guild, created = Guild.objects.get_or_create(
+                name=guild_name,
+                defaults={"description": guild_description}
+            )
 
         skills = race_data.get("skills")
         for skill in skills:
