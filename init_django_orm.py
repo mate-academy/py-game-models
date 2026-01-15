@@ -1,7 +1,9 @@
-import sys
 import os
+import sys
 import django
 
-sys.dont_write_bytecode = True
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
-django.setup()
+
+def setup_django() -> None:
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+    django.setup()
