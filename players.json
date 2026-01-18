@@ -17,8 +17,7 @@
       ]
     },
     "guild": {
-      "name": "archers",
-      "description": null
+      "name": "archers", "description": null
     }
   },
   "max": {
