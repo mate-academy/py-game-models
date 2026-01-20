@@ -14,7 +14,7 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
+ALLOWED_HOSTS = ["*"]
 USE_TZ = False
 
 INSTALLED_APPS = ("db",)
