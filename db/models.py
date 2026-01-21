@@ -47,7 +47,7 @@ class Player(models.Model):
         blank=True,
         related_name="members",
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.nickname
