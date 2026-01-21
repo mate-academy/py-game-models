@@ -31,7 +31,7 @@ def main() -> None:
                     defaults={"bonus": skill_bonus},
                 )
 
-        guild_data = data["guild"]
+        guild_data = data.get("guild")
         guild_obj = None
         if guild_data is not None:
             guild_name = guild_data["name"]
