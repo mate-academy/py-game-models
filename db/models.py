@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import CharField
 
 
 class Race(models.Model):
@@ -9,7 +8,7 @@ class Race(models.Model):
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    bonus = CharField(max_length=255)
+    bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
 
@@ -18,10 +17,10 @@ class Guild(models.Model):
     description = models.TextField(null=True)
 
 
-class Player_model(models.Model):
+class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.DO_NOTHING)
+    guild = models.ForeignKey(Guild, null=True, on_delete=models.SET_NULL)
     crated_at = models.DateTimeField(auto_now_add=True)
