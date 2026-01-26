@@ -14,18 +14,18 @@ def main() -> None:
         current_player.bio = player_data.get("bio")
         current_player.race = Race.objects.get_or_create(
             name=player_data.get("race").get("name"),
-            description=player_data.get("race").get("description")
+            description=player_data.get("race").get("description"),
         )[0]
         for skill in player_data.get("race").get("skills"):
             Skill.objects.get_or_create(
                 name=skill.get("name"),
                 bonus=skill.get("bonus"),
-                race=current_player.race
+                race=current_player.race,
             )
         if player_data.get("guild"):
             current_player.guild = Guild.objects.get_or_create(
                 name=player_data.get("guild").get("name"),
-                description=player_data.get("guild").get("description")
+                description=player_data.get("guild").get("description"),
             )[0]
         current_player.save()
 
