@@ -11,15 +11,15 @@ def main() -> None:
         data = json.load(source)
     for key, value in data.items():
         race_data = value["race"]
-        guild_data = value["guild"]
+        guild_data = value.get("guild")
         race, created = Race.objects.get_or_create(
             name=race_data["name"],
-            description=race_data["description"]
+            description=race_data.get("description", "")
         )
         if guild_data:
             guild, created = Guild.objects.get_or_create(
                 name=guild_data["name"],
-                description=guild_data["description"]
+                description=guild_data.get("description")
             )
         else:
             guild = None
@@ -36,8 +36,6 @@ def main() -> None:
             race = race,
             guild = guild
         )
-
-
 
 
 if __name__ == "__main__":

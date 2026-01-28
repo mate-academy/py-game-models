@@ -3,7 +3,7 @@ from django.db import models
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return f"Race: {self.name}"
@@ -38,5 +38,4 @@ class Player(models.Model):
     def __str__(self):
         return (f"Player: {self.nickname}, "
                 f"race: {self.race.name}, "
-                f"guild: {self.guild.name}, "
                 f"skills: {self.race.skills.all()}")
