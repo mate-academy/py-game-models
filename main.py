@@ -11,14 +11,16 @@ def main() -> None:
     for nick, info in data.items():
         player = Player.objects.get_or_create(
             nickname=nick,
-            email=info["email"],
-            bio=info["bio"],
-            race=Race.objects.get_or_create(
-                name=info["race"]["name"],
-                defaults={
-                    "description": info["race"].get("description")
-                }
-            )[0]
+            defaults={
+                "email": info["email"],
+                "bio": info["bio"],
+                "race": Race.objects.get_or_create(
+                    name=info["race"]["name"],
+                    defaults={
+                        "description": info["race"].get("description")
+                    }
+                )[0]
+            }
         )[0]
 
         if info["race"].get("skills"):
