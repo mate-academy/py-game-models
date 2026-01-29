@@ -8,7 +8,7 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
 
-    for nick, info in data:
+    for nick, info in data.items():
         player = Player(
             nickname=nick,
             email=info["email"],
