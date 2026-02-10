@@ -30,16 +30,16 @@ def main() -> None:
                     name=skill_data["name"],
                     defaults={"bonus": skill_data["bonus"], "race": race}
                 )
-
-        Player.objects.get_or_create(
-            nickname=nickname,
-            defaults={
-                "email": player_data["email"],
-                "bio": player_data.get("bio", ""),
-                "race": race,
-                "guild": guild,
-            }
-        )
+        if race:
+            Player.objects.get_or_create(
+                nickname=nickname,
+                defaults={
+                    "email": player_data["email"],
+                    "bio": player_data.get("bio", ""),
+                    "race": race,
+                    "guild": guild,
+                }
+            )
 
 
 if __name__ == "__main__":
