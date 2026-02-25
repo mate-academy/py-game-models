@@ -15,7 +15,6 @@ def main() -> None:
         race = player_info.get("race")
 
         guild_obj = None
-        race_obj = None
 
         if guild:
             guild_obj, _ = Guild.objects.get_or_create(
@@ -35,13 +34,13 @@ def main() -> None:
                     name=skill_name, bonus=skill_bonus, race=race_obj
                 )
 
-        Player.objects.get_or_create(
-            email=email,
-            bio=bio,
-            guild=guild_obj,
-            race=race_obj,
-            nickname=player
-        )
+            Player.objects.get_or_create(
+                email=email,
+                bio=bio,
+                guild=guild_obj,
+                race=race_obj,
+                nickname=player
+            )
 
 
 if __name__ == "__main__":
