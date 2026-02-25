@@ -22,7 +22,7 @@ def main() -> None:
                 name=guild.get("name"), description=guild.get("description")
             )
         if race:
-            race_skills = race.get("skills")
+            race_skills = race.get("skills", [])
             race_name = race.get("name")
             race_description = race.get("description")
             race_obj, _ = Race.objects.get_or_create(
