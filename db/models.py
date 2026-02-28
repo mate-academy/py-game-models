@@ -1,5 +1,4 @@
 from django.db import models
-from datetime import datetime
 
 
 class Race(models.Model):
@@ -10,7 +9,9 @@ class Race(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race,
+                             on_delete=models.CASCADE,
+                             related_name="skills")
 
 
 class Guild(models.Model):
@@ -22,6 +23,10 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, null=True, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(default=datetime.now())
+    race = models.ForeignKey(Race,
+                             on_delete=models.CASCADE,
+                             related_name="players")
+    guild = models.ForeignKey(Guild, null=True,
+                              on_delete=models.SET_NULL,
+                              related_name="members")
+    created_at = models.DateTimeField(auto_now_add=True)
