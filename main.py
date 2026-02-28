@@ -9,11 +9,11 @@ def main() -> None:
 
     for key, value in players.items():
         name = key
-        email = value["email"]
-        bio = value["bio"]
-        race = value["race"]
-        skills = race["skills"]
-        guild = value["guild"]
+        email = value.get("email")
+        bio = value.get("bio")
+        race = value.get("race")
+        skills = race.get("skills")
+        guild = value.get("guild")
 
         race_obj = Race.objects.get_or_create(
             name=race.get("name"),
@@ -38,8 +38,8 @@ def main() -> None:
         # Skills creation
         for skill in skills:
             Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
                 race=race_obj,
             )
 
