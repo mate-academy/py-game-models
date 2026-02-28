@@ -12,7 +12,10 @@ def main() -> None:
         email = value.get("email")
         bio = value.get("bio")
         race = value.get("race")
-        skills = race.get("skills")
+        if race:
+            skills = race.get("skills")
+        else:
+            skills = None
         guild = value.get("guild")
 
         race_obj = Race.objects.get_or_create(
@@ -36,12 +39,13 @@ def main() -> None:
             guild=guild_obj,
         )
         # Skills creation
-        for skill in skills:
-            Skill.objects.get_or_create(
-                name=skill.get("name"),
-                bonus=skill.get("bonus"),
-                race=race_obj,
-            )
+        if skills:
+            for skill in skills:
+                Skill.objects.get_or_create(
+                    name=skill.get("name"),
+                    bonus=skill.get("bonus"),
+                    race=race_obj,
+                )
 
 
 if __name__ == "__main__":
