@@ -11,7 +11,7 @@ def main() -> None:
     for nickname, pdata in players.items():
         race_data = pdata.get("race", {})
         race_obj, _ = Race.objects.get_or_create(
-            name=race_data["name"],
+            name=race_data.get("name"),
             defaults={"description": race_data.get("description", "")}
         )
 
@@ -21,7 +21,7 @@ def main() -> None:
             guild_obj = None
         else:
             guild_obj, _ = Guild.objects.get_or_create(
-                name=guild_data["name"],
+                name=guild_data.get("name"),
                 defaults={"description": guild_data.get("description")}
             )
 
@@ -34,7 +34,7 @@ def main() -> None:
         )
 
         for sk in race_data.get("skills", []):
-            skill_obj, _ = Skill.objects.get_or_create(name=sk["name"],
+            skill_obj, _ = Skill.objects.get_or_create(name=sk.get("name"),
                                                        defaults={"bonus": sk.get("bonus", ""),
                                                                  "race": race_obj}
                                                                 )
