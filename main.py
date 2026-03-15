@@ -1,8 +1,5 @@
 import init_django_orm  # noqa: F401
 
-ffrom django.db import models
-
-
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -33,7 +30,9 @@ class Player(models.Model):
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name="players")
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True, blank=True, related_name="members")
+    guild = models.ForeignKey(
+        Guild, on_delete=models.SET_NULL, null=True, blank=True, related_name="members"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
