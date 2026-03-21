@@ -1,21 +1,23 @@
 import django
 import json
 import os
-from db.models import Race, Skill, Guild, Player
 
 
 def main() -> None:
     django.setup()
+    from db.models import Race, Skill, Guild, Player
 
     json_path = os.path.join(os.path.dirname(__file__), "players.json")
     if not os.path.exists(json_path):
-        return
+        raise FileNotFoundError(f"File not found: {json_path}")
 
     with open(json_path, "r", encoding="utf-8") as f:
         players_data = json.load(f)
 
+    if not isinstance(players_data, list):
+        raise TypeError("players.json must contain a list of objects")
+
     for data in players_data:
-        # Пропускаем элементы, которые не являются словарями
         if not isinstance(data, dict):
             continue
 
@@ -26,32 +28,43 @@ def main() -> None:
             guild, _ = Guild.objects.get_or_create(name=guild_name)
 
         # Раса
-        race_data = data["race"]
-        # Если раса — строка, создаём расу с пустым описанием
+        race_data = data.get("race")
+        if not race_data:
+            continue
+
         if isinstance(race_data, str):
             race, _ = Race.objects.get_or_create(
                 name=race_data,
                 defaults={"description": ""}
             )
         else:
+            race_name = race_data.get("name")
+            if not race_name:
+                continue
             race, _ = Race.objects.get_or_create(
-                name=race_data["name"],
+                name=race_name,
                 defaults={"description": race_data.get("description", "")}
             )
             # Навыки
             for skill_data in race_data.get("skills", []):
+                skill_name = skill_data.get("name")
+                if not skill_name:
+                    continue
                 Skill.objects.get_or_create(
-                    name=skill_data["name"],
+                    name=skill_name,
                     race=race,
                     defaults={"bonus": skill_data.get("bonus", "")}
                 )
 
         # Игрок
+        nickname = data.get("nickname")
+        if not nickname:
+            continue
         Player.objects.get_or_create(
-            nickname=data["nickname"],
+            nickname=nickname,
             defaults={
-                "email": data["email"],
-                "bio": data["bio"],
+                "email": data.get("email", ""),
+                "bio": data.get("bio", ""),
                 "race": race,
                 "guild": guild,
             }
