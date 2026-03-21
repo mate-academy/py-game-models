@@ -12,6 +12,9 @@ def main() -> None:
             data = data.get("players", [])
 
     for player_data in data:
+        if isinstance(player_data, str):
+            player_data = json.loads(player_data)
+            
         race_data = player_data.get("race")
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
