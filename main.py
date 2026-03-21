@@ -3,7 +3,8 @@ import json
 import os
 from db.models import Race, Skill, Guild, Player
 
-def main():
+
+def main() -> None:
     django.setup()
 
     json_path = os.path.join(os.path.dirname(__file__), "players.json")
