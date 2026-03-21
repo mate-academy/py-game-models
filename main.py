@@ -1,11 +1,11 @@
 import django
 import json
 import os
+from db.models import Race, Skill, Guild, Player
 
 
 def main() -> None:
     django.setup()
-    from db.models import Race, Skill, Guild, Player
 
     json_path = os.path.join(os.path.dirname(__file__), "players.json")
     if not os.path.exists(json_path):
@@ -14,20 +14,17 @@ def main() -> None:
     with open(json_path, "r", encoding="utf-8") as f:
         players_data = json.load(f)
 
-    if not isinstance(players_data, list):
-        raise TypeError("players.json must contain a list of objects")
-
     for data in players_data:
         if not isinstance(data, dict):
             continue
 
-        # Гильдия
+        # Guild
         guild_name = data.get("guild")
         guild = None
         if guild_name:
             guild, _ = Guild.objects.get_or_create(name=guild_name)
 
-        # Раса
+        # Race
         race_data = data.get("race")
         if not race_data:
             continue
@@ -45,7 +42,7 @@ def main() -> None:
                 name=race_name,
                 defaults={"description": race_data.get("description", "")}
             )
-            # Навыки
+            # Skills
             for skill_data in race_data.get("skills", []):
                 skill_name = skill_data.get("name")
                 if not skill_name:
@@ -56,7 +53,7 @@ def main() -> None:
                     defaults={"bonus": skill_data.get("bonus", "")}
                 )
 
-        # Игрок
+        # Player
         nickname = data.get("nickname")
         if not nickname:
             continue
