@@ -7,7 +7,7 @@ from db.models import Race, Skill, Player, Guild
 
 def main() -> None:
     file_path = Path(__file__).resolve().parent / "players.json"
-    
+
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
