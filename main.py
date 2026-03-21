@@ -14,6 +14,12 @@ def main() -> None:
     with open(json_path, "r", encoding="utf-8") as f:
         players_data = json.load(f)
 
+    if isinstance(players_data, dict) and "players" in players_data:
+        players_data = players_data["players"]
+
+    if not isinstance(players_data, list):
+        raise TypeError("players.json must contain a list of objects")
+
     for data in players_data:
         if not isinstance(data, dict):
             continue
