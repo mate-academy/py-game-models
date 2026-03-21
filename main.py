@@ -3,6 +3,9 @@ import init_django_orm  # noqa: F401
 from pathlib import Path
 import json
 from db.models import Race, Skill, Guild, Player
+import django
+
+django.setup()
 
 
 def main() -> None:
