@@ -1,31 +1,27 @@
 import init_django_orm  # noqa: F401
 
-import json
 from pathlib import Path
-from db.models import Race, Skill, Player, Guild
+import json
+from db.models import Race, Skill, Guild, Player
 
 
-def main() -> None:
+def main():
     file_path = Path(__file__).resolve().parent / "players.json"
 
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
-        if isinstance(data, dict):
-            data = data.get("players", [])
+    if isinstance(data, dict):
+        data = data.get("players", [])
 
     for player_data in data:
-        if isinstance(player_data, str):
-            player_data = json.loads(player_data)
-
-        race_data = player_data.get("race")
+        race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
             defaults={"description": race_data.get("description", "")},
         )
 
-        skills_data = race_data.get("skills", [])
-        for skill_data in skills_data:
+        for skill_data in race_data.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 defaults={"bonus": skill_data["bonus"], "race": race},
@@ -48,7 +44,6 @@ def main() -> None:
                 "guild": guild,
             },
         )
-
-
+        
 if __name__ == "__main__":
     main()
