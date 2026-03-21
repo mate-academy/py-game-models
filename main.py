@@ -5,7 +5,7 @@ import json
 from db.models import Race, Skill, Guild, Player
 
 
-def main():
+def main() -> None:
     file_path = Path(__file__).resolve().parent / "players.json"
 
     with open(file_path, "r", encoding="utf-8") as file:
@@ -44,6 +44,7 @@ def main():
                 "guild": guild,
             },
         )
-        
+
+
 if __name__ == "__main__":
     main()
