@@ -1,6 +1,6 @@
 import init_django_orm  # noqa: F401
 
-from pathlib import Path
+import os
 import json
 from db.models import Race, Skill, Guild, Player
 import django
@@ -9,7 +9,7 @@ django.setup()
 
 
 def main() -> None:
-    file_path = Path(__file__).resolve().parent / "players.json"
+    file_path = os.path.join(os.path.dirname(__file__), "players.json")
 
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
