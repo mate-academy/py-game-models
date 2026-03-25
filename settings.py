@@ -19,5 +19,5 @@ USE_TZ = False
 
 INSTALLED_APPS = ("db",)
 
-ALLOWED_HOSTS = ["False"]
 
+ALLOWED_HOSTS = ["*"]
