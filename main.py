@@ -12,7 +12,7 @@ def main() -> None:
             name=data["race"]["name"],
             defaults={"description": data["race"]["description"]}
         )
-        if data["guild"]:
+        if data.get("guild"):
             guild, _ = Guild.objects.get_or_create(
                 name=data["guild"]["name"],
                 defaults={"description": data["guild"]["description"]}
