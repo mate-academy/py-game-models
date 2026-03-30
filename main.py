@@ -11,6 +11,8 @@ def main() -> None:
 
     for player, data in players.items():
         race_data = data.get("race")
+        if not race_data:
+            continue
         race, _ = Race.objects.get_or_create(
             name=race_data.get("name"),
             defaults={"description": race_data.get("description")}
