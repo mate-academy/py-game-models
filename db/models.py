@@ -4,6 +4,7 @@ from django.db import models
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
+    related_name = "players"
 
     def __str__(self) -> str:
         return self.name
@@ -25,6 +26,7 @@ class Skill(models.Model):
 class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(null=True)
+    related_name = "players"
 
     def __str__(self) -> str:
         return self.name
