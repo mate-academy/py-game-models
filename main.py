@@ -28,7 +28,7 @@ def main() -> None:
                 description=players[player]["guild"]["description"]
             )
 
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=player,
             email=players[player]["email"],
             bio=players[player]["bio"],
