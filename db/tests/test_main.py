@@ -1,8 +1,11 @@
+# test_main.py
 import pytest
 from django.db import models
 from django.db.models import EmailField
 
-from main import main, Race, Skill, Player, Guild
+from main import main
+# <- IMPORTAR MODELOS DIRETO DO MODELS
+from db.models import Player, Race, Skill, Guild
 
 
 @pytest.mark.django_db
@@ -46,7 +49,8 @@ def test_races():
     )
 
     assert list(
-        getattr(Race.objects.get(name="elf"), related_field).values_list("name")
+        getattr(Race.objects.get(name="elf"),
+                related_field).values_list("name")
     ) == [
         ("Teleportation",),
         ("Reality Warping",),
@@ -70,8 +74,7 @@ def test_players():
             "nickname", "email", "bio", "race__name", "guild__name"
         )
     ) == [
-        ("john", "john@gmail.com", "Hello, I'm John, elf ranger"
-         , "elf", "archers"),
+        ("john", "john@gmail.com", "Hello, I'm John, elf ranger", "elf", "archers"),
         ("max", "max@gmail.com", "Hello, I'm Max, elf mag", "elf", "mags"),
         ("arthur", "arthur@gmail.com", "Arthur, elf mag", "elf", "mags"),
         ("andrew", "andrew@gmail.com", "Hello, I'm Andrew",
@@ -85,4 +88,5 @@ def test_email_field():
 
 
 def test_guild_on_delete():
-    assert Player._meta.get_field("guild").remote_field.on_delete == models.SET_NULL
+    assert Player._meta.get_field(
+        "guild").remote_field.on_delete == models.SET_NULL
