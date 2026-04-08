@@ -8,7 +8,7 @@ def main() -> None:
     with open("players.json", "r") as file:
         data = json.load(file)
 
-    for player_data in data.values():
+    for nickname, player_data in data.items():
         race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
@@ -32,7 +32,6 @@ def main() -> None:
                 defaults={"description": guild_data.get("description")},
             )
 
-        nickname = next((k for k, v in data.items() if v == player_data), None)
         Player.objects.get_or_create(
             nickname=nickname,
             defaults={
