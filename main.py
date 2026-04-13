@@ -23,7 +23,6 @@ def main() -> None:
                 defaults={"description": race_info.get("description")}
             )
 
-
             skills_data = info.get("skills") or []
             if isinstance(info.get("race"), dict):
                 skills_data += info["race"].get("skills") or []
