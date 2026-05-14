@@ -1,10 +1,30 @@
+# IDEs
 .idea/
 .vscode/
 *.iml
+
+# Ambiente
 .env
-.DS_Store
+.env.*
 venv/
-.pytest_cache/
-**__pycache__/
+.venv/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
 *.pyc
-**db.sqlite3
+*.pyo
+*.pyd
+
+# Testes
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Banco de dados
+*.sqlite3
+*.db3
+*.db
