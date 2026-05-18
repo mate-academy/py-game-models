@@ -13,7 +13,7 @@ def main() -> None:
                 name=race_data.get("name"),
                 description=race_data.get("description"),
             )
-            for skill_data in player_data.get("skills", []):
+            for skill_data in race_data.get("skills", []):
                 Skill.objects.get_or_create(
                     name=skill_data.get("name"),
                     bonus=skill_data.get("bonus"),
@@ -30,8 +30,8 @@ def main() -> None:
 
             Player.objects.create(
                 nickname=nickname,
-                email=player_data["email"],
-                bio=player_data["bio"],
+                email=player_data.get("email"),
+                bio=player_data.get("bio"),
                 race=race,
                 guild=guild
             )
