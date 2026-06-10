@@ -17,7 +17,6 @@ def main() -> None:
                 name=guild_dict.get("name"),
                 description=guild_dict.get("description")
             )
-            guild.save()
         else:
             guild = None
 
@@ -26,7 +25,6 @@ def main() -> None:
             name=race_dict["name"],
             description=race_dict.get("description", "")
         )
-        race.save()
 
         for skill_dict in race_dict.get("skills", []):
             skill, _ = Skill.objects.get_or_create(
@@ -34,7 +32,6 @@ def main() -> None:
                 bonus=skill_dict["bonus"],
                 race=race
             )
-            skill.save()
 
         player = Player.objects.create(
             nickname=name,
