@@ -8,37 +8,48 @@ def main() -> None:
         players = json.load(file)
 
     for nickname, player_data in players.items():
-        guild_obj = None
-        if player_data["guild"] is not None:
-            if Guild.objects.filter(name=player_data["guild"]["name"]).exists():
-                guild_obj = Guild.objects.get(name=player_data["guild"]["name"])
-            else:
-                guild_obj = Guild.objects.create(
-                    name=player_data["guild"]["name"],
-                    description=player_data["guild"]["description"])
 
-        if Race.objects.filter(name=player_data["race"]["name"]).exists():
-            race_obj = Race.objects.get(name=player_data["race"]["name"])
+        guild_name = player_data.get("guild")
+
+        if guild_name:
+            guild_obj, _ = Guild.objects.get_or_create(
+                name=guild_name.get("name"),
+                defaults={
+                    "description": guild_name.get("description")
+                }
+            )
         else:
-            race_obj = Race.objects.create(
-                name=player_data["race"]["name"],
-                description=player_data["race"]["description"])
+            guild_obj = None
 
-        for skill in player_data["race"]["skills"]:
-            if Skill.objects.filter(name=skill["name"]).exists():
-                Skill.objects.get(name=skill["name"])
-            else:
-                Skill.objects.create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=race_obj)
+        race_name = player_data.get("race")
 
-        Player.objects.create(
+        if race_name:
+            race_obj, _ = Race.objects.get_or_create(
+                name=race_name.get("name"),
+                defaults={
+                    "description": race_name.get("description")
+                }
+            )
+        else:
+            race_obj = None
+
+        skill_list = race_name.get("skills", []) if race_name else []
+        for skill in skill_list:
+            skill_obj, _ = Skill.objects.get_or_create(
+                name=skill.get("name"),
+                race=race_obj,
+                defaults={
+                    "bonus": skill.get("bonus"),
+                }
+            )
+
+        Player.objects.get_or_create(
             nickname=nickname,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=race_obj,
-            guild=guild_obj,
+            defaults={
+                "email": player_data.get("email"),
+                "bio": player_data.get("bio"),
+                "race": race_obj,
+                "guild": guild_obj}
         )
 
 
