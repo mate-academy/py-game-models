@@ -40,7 +40,7 @@ class Player(models.Model):
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
-        related_name="players",
+        related_name="members",
         null=True
     )
     created_at = models.DateTimeField(
