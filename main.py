@@ -1,52 +1,47 @@
-import init_django_orm  # noqa: F401
 import json
-from pathlib import Path
-from db.models import Race, Skill, Player, Guild
+
+import init_django_orm  # noqa: F401
+
+from db.models import Guild, Player, Race, Skill
 
 
 def main() -> None:
-    players_path = Path(__file__).parent / "players.json"
-    with open(players_path, "r") as f:
-        players_data = json.load(f)
+    with open("players.json") as file:
+        data = json.load(file)
 
-    for nickname, player_info in players_data.items():
+    for nickname, player_data in data.items():
+        race_data = player_data.get("race")
 
-        race_obj, _ = Race.objects.get_or_create(
-            name=player_info["race"]["name"],
-            defaults={"description": player_info["race"].get("description")}
+        race, _ = Race.objects.get_or_create(
+            name=race_data.get("name"),
+            description=race_data.get("description"),
         )
 
-        guild_obj = None
-        if player_info.get("guild"):
-            guild_obj, _ = Guild.objects.get_or_create(
-                name=player_info["guild"]["name"],
-                defaults={"description": player_info["guild"].get(
-                    "description")}
+        guild = None
+        guild_data = player_data.get("guild")
+
+        if guild_data:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_data.get("name"),
+                description=guild_data.get("description"),
             )
 
-        player_obj, created = Player.objects.get_or_create(
-            nickname=nickname,
-            defaults={
-                "email": player_info["email"],
-                "bio": player_info["bio"],
-                "race": race_obj,
-                "guild": guild_obj,
-            }
-        )
+        skills = race_data.get("skills")
 
-        if not created:
-            player_obj.email = player_info["email"]
-            player_obj.bio = player_info["bio"]
-            player_obj.race = race_obj
-            player_obj.guild = guild_obj
-            player_obj.save()
-
-        for skill_data in player_info["race"].get("skills", []):
+        for skill_data in skills:
             Skill.objects.get_or_create(
-                name=skill_data["name"],
-                race=race_obj,
-                defaults={"bonus": skill_data["bonus"]}
+                name=skill_data.get("name"),
+                bonus=skill_data.get("bonus"),
+                race=race,
             )
+
+        Player.objects.get_or_create(
+            nickname=nickname,
+            email=player_data.get("email"),
+            bio=player_data.get("bio"),
+            race=race,
+            guild=guild,
+        )
 
 
 if __name__ == "__main__":
