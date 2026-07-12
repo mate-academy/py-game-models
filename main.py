@@ -32,7 +32,7 @@ def main() -> None:
         else:
             guild_obj = None
 
-        player_obj, _ = Player.objects.get_or_create(
+        _, _ = Player.objects.get_or_create(
             nickname=player,
             defaults={
                 "email": player_value["email"],
