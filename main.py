@@ -1,5 +1,4 @@
 import json
-import init_django  # noqa: F401
 from db.models import Guild, Player, Race, Skill
 
 
