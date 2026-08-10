@@ -16,7 +16,7 @@ def main() -> None:
             description=pdata["race"]["description"],
         )
 
-        if pdata["guild"]:
+        if pdata.get("guild"):
             guild, _ = Guild.objects.get_or_create(
                 name=pdata["guild"]["name"],
                 description=pdata["guild"]["description"],
