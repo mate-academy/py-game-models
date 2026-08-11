@@ -8,33 +8,33 @@ def main() -> None:
     with open("players.json", "r") as f:
         players = json.load(f)
 
-        for player in players:
-            player_race, created = Race.objects.get_or_create(
-                name=players[player]["race"]["name"],
-                description=players[player]["race"]["description"],
-            )
+    for player in players:
+        player_race, created = Race.objects.get_or_create(
+            name=players.get(player)["race"]["name"],
+            description=players.get(player)["race"]["description"],
+        )
 
-            for skill in players[player]["race"]["skills"]:
-                Skill.objects.get_or_create(
-                    name=skill["name"],
-                    bonus=skill["bonus"],
-                    race=player_race,
-                )
-            if players[player]["guild"]:
-                player_guild, created = Guild.objects.get_or_create(
-                    name=players[player]["guild"]["name"],
-                    description=players[player]["guild"]["description"]
-                )
-            else:
-                player_guild = None
-
-            Player.objects.get_or_create(
-                nickname=player,
-                email=players[player]["email"],
-                bio=players[player]["bio"],
+        for skill in players.get(player)["race"]["skills"]:
+            Skill.objects.get_or_create(
+                name=skill["name"],
+                bonus=skill["bonus"],
                 race=player_race,
-                guild=player_guild
             )
+        if players.get(player)["guild"]:
+            player_guild, created = Guild.objects.get_or_create(
+                name=players.get(player)["guild"]["name"],
+                description=players.get(player)["guild"]["description"]
+            )
+        else:
+            player_guild = None
+
+        Player.objects.get_or_create(
+            nickname=player,
+            email=players.get(player)["email"],
+            bio=players.get(player)["bio"],
+            race=player_race,
+            guild=player_guild
+        )
 
 
 if __name__ == "__main__":
