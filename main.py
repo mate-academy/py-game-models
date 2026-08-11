@@ -29,12 +29,15 @@ def main() -> None:
 
         guild_data = player_data["guild"]
 
-        guild, _ = Guild.objects.get_or_create(
-            name=guild_data["name"],
-            defaults={
-                "description": guild_data["description"],
-            },
-        )
+        if guild_data is not None:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_data["name"],
+                defaults={
+                    "description": guild_data["description"],
+                },
+            )
+        else:
+            guild = None
 
         Player.objects.get_or_create(
             nickname=nickname,
