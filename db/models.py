@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class Race(models.Model):
@@ -13,7 +12,6 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="skills",
     )
 
 
@@ -29,12 +27,10 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="players",
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="players",
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
