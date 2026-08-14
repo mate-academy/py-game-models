@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import SET_NULL
+
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
