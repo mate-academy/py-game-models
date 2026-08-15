@@ -9,39 +9,28 @@ def main() -> None:
         data = json.load(file)
 
     if isinstance(data, dict):
-        players_data = data.get("players", data)
-    else:
-        players_data = data
-
-    for player_data in players_data:
-        race_info = player_data.get("race", {})
-        if isinstance(race_info, dict):
-            race_name = race_info.get("name")
-            race_desc = race_info.get("description", "")
-            skills_list = race_info.get("skills", [])
+        players = data.get("players", data)
+        if isinstance(players, dict):
+            players_list = players.values()
         else:
-            race_name = race_info
-            race_desc = ""
-            skills_list = []
+            players_list = players
+    else:
+        players_list = data
 
+    for player_data in players_list:
+        # 1. Race
+        race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
-            name=race_name,
-            defaults={"description": race_desc},
+            name=race_data["name"],
+            defaults={"description": race_data.get("description", "")},
         )
 
         guild = None
-        guild_info = player_data.get("guild")
-        if guild_info:
-            if isinstance(guild_info, dict):
-                guild_name = guild_info.get("name")
-                guild_desc = guild_info.get("description")
-            else:
-                guild_name = guild_info
-                guild_desc = None
-
+        guild_data = player_data.get("guild")
+        if guild_data:
             guild, _ = Guild.objects.get_or_create(
-                name=guild_name,
-                defaults={"description": guild_desc},
+                name=guild_data["name"],
+                defaults={"description": guild_data.get("description")},
             )
 
         Player.objects.get_or_create(
@@ -55,7 +44,7 @@ def main() -> None:
             },
         )
 
-        for skill_data in skills_list:
+        for skill_data in race_data.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 defaults={
