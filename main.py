@@ -1,4 +1,4 @@
-import init_django_orm
+import init_django_orm  # noqa: F401
 import json
 from django.utils import timezone
 from db.models import Race, Skill, Guild, Player
