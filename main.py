@@ -21,7 +21,8 @@ def main() -> None:
 
     for key, player_info in items:
         if isinstance(player_info, dict):
-            nickname = player_info.get("nickname", key if isinstance(key, str) else None)
+            fallback_name = key if isinstance(key, str) else None
+            nickname = player_info.get("nickname", fallback_name)
         else:
             nickname = key if isinstance(key, str) else None
             player_info = {}
@@ -75,8 +76,10 @@ def main() -> None:
         )
 
         for skill_data in skills_list:
-            skill_name = skill_data.get("name") if isinstance(skill_data, dict) else None
-            skill_bonus = skill_data.get("bonus") if isinstance(skill_data, dict) else None
+            is_dict = isinstance(skill_data, dict)
+            skill_name = skill_data.get("name") if is_dict else None
+            skill_bonus = skill_data.get("bonus") if is_dict else None
+
             if skill_name and skill_bonus:
                 Skill.objects.get_or_create(
                     name=skill_name,
