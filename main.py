@@ -6,28 +6,30 @@ from db.models import Race, Skill, Guild, Player
 
 def main() -> None:
     with open("players.json", "r") as file:
-        data = json.load(file)
+        raw_data = json.load(file)
 
-    if isinstance(data, dict):
-        players = data.get("players", data)
-        if isinstance(players, dict):
-            players_list = players.values()
-        else:
-            players_list = players
+    if isinstance(raw_data, dict):
+        players_data = raw_data.get("players", raw_data)
     else:
-        players_list = data
+        players_data = raw_data
 
-    for player_data in players_list:
-        nickname = player_data.get("nickname")
-        email = player_data.get("email")
+    items = (
+        players_data.items()
+        if isinstance(players_data, dict)
+        else enumerate(players_data)
+    )
 
-        if not nickname or not email:
+    for key, player_info in items:
+        if isinstance(player_info, dict):
+            nickname = player_info.get("nickname", key if isinstance(key, str) else None)
+        else:
+            nickname = key if isinstance(key, str) else None
+            player_info = {}
+
+        if not nickname:
             continue
 
-        race_data = player_data.get("race")
-        if not race_data:
-            continue
-
+        race_data = player_info.get("race", {})
         if isinstance(race_data, dict):
             race_name = race_data.get("name")
             race_desc = race_data.get("description", "")
@@ -46,7 +48,7 @@ def main() -> None:
         )
 
         guild = None
-        guild_data = player_data.get("guild")
+        guild_data = player_info.get("guild")
         if guild_data:
             if isinstance(guild_data, dict):
                 guild_name = guild_data.get("name")
@@ -64,8 +66,8 @@ def main() -> None:
         Player.objects.get_or_create(
             nickname=nickname,
             defaults={
-                "email": email,
-                "bio": player_data.get("bio", ""),
+                "email": player_info.get("email"),
+                "bio": player_info.get("bio", ""),
                 "race": race,
                 "guild": guild,
                 "created_at": timezone.now(),
@@ -73,8 +75,8 @@ def main() -> None:
         )
 
         for skill_data in skills_list:
-            skill_name = skill_data.get("name")
-            skill_bonus = skill_data.get("bonus")
+            skill_name = skill_data.get("name") if isinstance(skill_data, dict) else None
+            skill_bonus = skill_data.get("bonus") if isinstance(skill_data, dict) else None
             if skill_name and skill_bonus:
                 Skill.objects.get_or_create(
                     name=skill_name,
