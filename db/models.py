@@ -6,7 +6,7 @@ class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -19,7 +19,7 @@ class Skill(models.Model):
         related_name="skills"
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -27,7 +27,7 @@ class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(null=True, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -48,5 +48,5 @@ class Player(models.Model):
     )
     created_at = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.nickname
