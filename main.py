@@ -31,7 +31,7 @@ def main() -> None:
                 nickname=key,
                 email=race["email"],
                 bio=race["bio"],
-                race=Race.objects.get(name=race["race"]["name"]),
+                race=race_obj,
                 guild=guild_obj
             )
 
