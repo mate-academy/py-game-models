@@ -36,5 +36,4 @@ class Player(models.Model):
         null=True,
         related_name="players"
     )
-    skills = models.ManyToManyField(Skill, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
