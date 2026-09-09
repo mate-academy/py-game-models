@@ -11,23 +11,25 @@ def main() -> None:
 
     for key, player in players.items():
         nickname = key
-        email = player["email"]
-        bio = player["bio"]
+        email = player.get("email")
+        bio = player.get("bio")
         race, _ = Race.objects.get_or_create(
-            name=player["race"]["name"],
-            defaults={"description": player["race"]["description"]},
+            name=player.get("race").get("name"),
+            defaults={"description": player.get("race").get("description")},
         )
-        for skill in player["race"]["skills"]:
+        for skill in player.get("race").get("skills"):
             Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
                 race=race,
             )
         guild = None
-        if player["guild"] is not None:
+        if player.get("guild"):
             guild, _ = Guild.objects.get_or_create(
-                name=player["guild"]["name"],
-                defaults={"description": player["guild"]["description"]},
+                name=player.get("guild").get("name"),
+                defaults={
+                    "description": player.get("guild").get("description")
+                },
             )
         Player.objects.get_or_create(
             nickname=nickname,
