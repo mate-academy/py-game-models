@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Race(models.Model):
@@ -36,4 +37,4 @@ class Player(models.Model):
         related_name="players",
         null=True
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
