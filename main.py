@@ -22,6 +22,7 @@ def main() -> None:
                 race=race
             )
         guild_dict = p_data.get("guild")
+        guild = None
         if guild_dict:
             name, descript = guild_dict.values()
             guild, created = Guild.objects.get_or_create(
@@ -33,7 +34,7 @@ def main() -> None:
             email=p_data.get("email"),
             bio=p_data.get("bio"),
             race=race,
-            guild=None if not guild_dict else guild
+            guild=guild
         )
 
 
