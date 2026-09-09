@@ -7,14 +7,13 @@ from db.models import Race, Skill, Player, Guild
 def main() -> None:
     with open("players.json") as file:
         players_data = json.load(file)
-    for player in players_data:
-        p_data: dict[str, dict] = players_data[player]
-        race_dict: dict[str, list] = p_data.get("race")
+    for player, p_data in players_data.items():
+        race_dict = p_data.get("race")
         race, created = Race.objects.get_or_create(
-            name=race_dict["name"],
-            description=race_dict["description"]
+            name=race_dict.get("name"),
+            description=race_dict.get("description")
         )
-        skill_list: list[dict] = race_dict.get("skills")
+        skill_list = race_dict.get("skills")
         for skill in skill_list:
             name, bonus = skill.values()
             Skill.objects.get_or_create(
@@ -22,7 +21,7 @@ def main() -> None:
                 bonus=bonus,
                 race=race
             )
-        guild_dict: dict = p_data.get("guild")
+        guild_dict = p_data.get("guild")
         if guild_dict:
             name, descript = guild_dict.values()
             guild, created = Guild.objects.get_or_create(
