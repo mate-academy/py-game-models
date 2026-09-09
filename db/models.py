@@ -2,13 +2,7 @@ from django.db import models
 
 
 class Race(models.Model):
-    RACES = (
-        ("elf", "Elf"),
-        ("dwarf", "Dwarf"),
-        ("human", "Human"),
-        ("orc", "Orc"),
-    )
-    name = models.CharField(max_length=255, choices=RACES, unique=True)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
 
 
@@ -35,7 +29,7 @@ class Player(models.Model):
         Race,
         on_delete=models.CASCADE,
         related_name="race_players",
-        default="human"
+        default=None
     )
     guild = models.ForeignKey(
         Guild,
