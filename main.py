@@ -29,7 +29,7 @@ def main() -> None:
                 name=name,
                 description=descript
             )
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=player,
             email=p_data.get("email"),
             bio=p_data.get("bio"),
