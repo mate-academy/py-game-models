@@ -11,27 +11,27 @@ def main() -> None:
 
     for player_name, player_data in report.items():
 
-        race = player_data["race"]
-        skills = race["skills"]
-        guild = player_data["guild"]
+        race = player_data.get("race")
+        skills = race.get("skills")
+        guild = player_data.get("guild")
 
         race_obj, _ = Race.objects.get_or_create(
-            name=race["name"],
-            description=race["description"],
+            name=race.get("name"),
+            description=race.get("description"),
         )
 
         for skill in skills:
             skill_obj, _ = Skill.objects.get_or_create(
-                name=skill["name"],
-                bonus=skill["bonus"],
+                name=skill.get("name"),
+                bonus=skill.get("bonus"),
                 race=race_obj
             )
 
         if guild:
 
             guild_obj, _ = Guild.objects.get_or_create(
-                name=guild["name"],
-                description=guild["description"]
+                name=guild.get("name"),
+                description=guild.get("description")
             )
 
         else:
@@ -39,8 +39,8 @@ def main() -> None:
 
         Player.objects.create(
             nickname=player_name,
-            email=player_data["email"],
-            bio=player_data["bio"],
+            email=player_data.get("email"),
+            bio=player_data.get("bio"),
             race=race_obj,
             guild=guild_obj
         )
