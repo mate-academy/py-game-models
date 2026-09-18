@@ -6,16 +6,20 @@ class Race(models.Model):
     description = models.TextField(blank=True)
 
     class Meta:
-        db_table = "db_race"
+        db_table = "races"
 
 
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(
+        Race,
+        on_delete=models.CASCADE,
+        related_name="skills"
+    )
 
     class Meta:
-        db_table = "db_skill"
+        db_table = "skills"
 
 
 class Guild(models.Model):
@@ -23,16 +27,25 @@ class Guild(models.Model):
     description = models.TextField(null=True)
 
     class Meta:
-        db_table = "db_guild"
+        db_table = "guilds"
 
 
 class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, null=True)
+    race = models.ForeignKey(
+        Race,
+        on_delete=models.CASCADE,
+        related_name="players"
+    )
+    guild = models.ForeignKey(
+        Guild,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="players"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = "db_player"
+        db_table = "players"
