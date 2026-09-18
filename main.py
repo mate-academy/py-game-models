@@ -10,7 +10,6 @@ def main() -> None:
         players: dict[str, dict] = json.load(file)
 
     for name, player in players.items():
-        print(player)
         race, _ = Race.objects.get_or_create(
             name=player["race"]["name"],
             description=player["race"]["description"]
@@ -20,7 +19,7 @@ def main() -> None:
             for skill in player["race"]["skills"]
         ]
         guild = None
-        if player["guild"] is not None:
+        if player.get("guild") is not None:
             guild, _ = Guild.objects.get_or_create(
                 name=player["guild"]["name"],
                 description=player["guild"]["description"],
