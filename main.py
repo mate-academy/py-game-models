@@ -3,7 +3,8 @@ import json
 
 from db.models import Race, Skill, Player, Guild
 
-def main() -> None:
+
+ def main() -> None:
     with open("players.json", "r") as file:
         players_data = json.load(file)
 
