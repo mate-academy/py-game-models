@@ -24,7 +24,7 @@ def main() -> None:
             )
 
         guild = None
-        if "guild" in pdata and pdata["guild"]:
+        if pdata.get("guild"):
             guild, _ = Guild.objects.get_or_create(
                 name=pdata["guild"]["name"],
                 defaults={
@@ -42,6 +42,7 @@ def main() -> None:
                 "guild": guild
             }
         )
+
 
 if __name__ == "__main__":
     main()
