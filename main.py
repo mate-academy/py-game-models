@@ -10,7 +10,8 @@ def main() -> None:
     for nickname, pdata in players_data.items():
         race, _ = Race.objects.get_or_create(
             name=pdata["race"]["name"],
-            defaults={"description": pdata["race"].get("description", "")}
+            defaults={"description": pdata["race"].get(
+                "description", "")}
         )
 
         for skill_data in pdata["race"].get("skills", []):
@@ -27,7 +28,8 @@ def main() -> None:
             guild, _ = Guild.objects.get_or_create(
                 name=pdata["guild"]["name"],
                 defaults={
-                    "description": pdata["guild"].get("description", "")
+                    "description": pdata["guild"].get(
+                        "description", "")
                 }
             )
 
