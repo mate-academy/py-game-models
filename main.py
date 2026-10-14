@@ -26,7 +26,7 @@ def main() -> None:
                 },
             )
 
-        guild_data = player_data["guild"]
+        guild_data = player_data.get("guild")
         guild = None
 
         if guild_data is not None:
