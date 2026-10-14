@@ -24,7 +24,7 @@ def main() -> None:
         guild = None
         if player_data.get("guild"):
             guild, _ = Guild.objects.get_or_create(name=player_data["guild"])
-        
+
         # criar o player
         Player.objects.create(
             nickname=player_data["nickname"],
@@ -33,9 +33,7 @@ def main() -> None:
             race=race,
             guild=guild
         )    
-        
 
 
 if __name__ == "__main__":
     main()
-    
