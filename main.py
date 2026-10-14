@@ -7,7 +7,8 @@ def main() -> None:
     with open("players.json", "r") as f:
         players_data = json.load(f)
 
-    for player_data in players_data:
+    for nickname, player_data in players_data.items():
+        player_data["nickname"] = nickname
         race_data = player_data.pop("race")
         guild_data = player_data.pop("guild", None)
         skills_data = player_data.pop("skills", [])
