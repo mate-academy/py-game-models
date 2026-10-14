@@ -17,11 +17,12 @@ def main() -> None:
             guild, _ = Guild.objects.get_or_create(name=guild_data)
         Player.objects.create(race=race, guild=guild, **player_data)
         for skill_data in skills_data:
-            Skill.objects.create(
+            Skill.objects.get_or_create(
                 name=skill_data["name"],
                 bonus=skill_data["bonus"],
                 race=race
             )
+
 
 
 if __name__ == "__main__":
