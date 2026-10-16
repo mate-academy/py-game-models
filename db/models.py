@@ -12,7 +12,7 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="Skills",
+        related_name="skills",
     )
 
 
