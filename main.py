@@ -10,7 +10,7 @@ def main() -> None:
 
     for nickname, player_data in data.items():
         race_data = player_data.get("race")
-        guild_data = player_data.get("guild")       
+        guild_data = player_data.get("guild")
 
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
