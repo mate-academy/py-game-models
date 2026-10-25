@@ -70,12 +70,10 @@ def test_players():
             "nickname", "email", "bio", "race__name", "guild__name"
         )
     ) == [
-        ("john", "john@gmail.com", "Hello, I'm John, elf ranger"
-         , "elf", "archers"),
+        ("john", "john@gmail.com", "Hello, I'm John, elf ranger", "elf", "archers"),
         ("max", "max@gmail.com", "Hello, I'm Max, elf mag", "elf", "mags"),
         ("arthur", "arthur@gmail.com", "Arthur, elf mag", "elf", "mags"),
-        ("andrew", "andrew@gmail.com", "Hello, I'm Andrew",
-         "human", "blacksmiths"),
+        ("andrew", "andrew@gmail.com", "Hello, I'm Andrew", "human", "blacksmiths"),
         ("nick", "nick@gmail.com", "Hello, I'm Nick", "human", None),
     ]
 
