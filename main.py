@@ -28,9 +28,9 @@ def main() -> None:
                 }
             )
 
-        guild = None
+        guild = data.get("guild")
 
-        if data["guild"] is not None:
+        if guild:
             guild_data = data["guild"]
 
             guild, created = Guild.objects.get_or_create(
