@@ -1,4 +1,7 @@
 import json
+
+import init_django_orm  # noqa: F401
+
 from db.models import Guild, Player, Race, Skill
 
 
@@ -16,8 +19,10 @@ def main() -> None:
         for skill_data in race_data.get("skills", []):
             Skill.objects.get_or_create(
                 name=skill_data.get("name", ""),
-                race=race,
-                defaults={"bonus": skill_data.get("bonus", "")},
+                defaults={
+                    "bonus": skill_data.get("bonus", ""),
+                    "race": race,
+                },
             )
 
         guild = None
@@ -25,7 +30,7 @@ def main() -> None:
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
                 name=guild_data.get("name", ""),
-                defaults={"description": guild_data.get("description", "")},
+                defaults={"description": guild_data.get("description")},
             )
 
         Player.objects.get_or_create(
@@ -37,7 +42,3 @@ def main() -> None:
                 "guild": guild,
             },
         )
-
-
-if __name__ == "__main__":
-    main()
