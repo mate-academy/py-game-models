@@ -9,44 +9,39 @@ import json
 def main() -> None:
     with open("players.json", "r") as file:
         players = json.load(file)
-        for player in players:
-            race = player["race"]["name"]
-            player_race, created = Race.objects.get_or_create(name=race)
-            skills = player["race"]["skills"]["name"]
+        for name, player in players.items():
+            race_name = player["race"]["name"]
+            race_description = player["race"]["description"]
+            player_race, created = Race.objects.get_or_create(
+                name=race_name,
+                defaults={"description": race_description}
+            )
+
+            skills = player["race"]["skills"]
             for skill in skills:
-                player_skill = skill["name"]
-                player_skill, created = Skill.objects.get_or_create(name=skill)
+                skill_name = skill["name"]
+                skill_bonus = skill["bonus"]
+                player_skill, created = Skill.objects.get_or_create(
+                    name=skill_name,
+                    defaults={"bonus": skill_bonus, "race": player_race}
+                )
 
-            player_skills, created = Skill.objects.get_or_create(name=skills)
-            guild = player["guild"]["name"]
-            player_guild, created = Guild.objects.get_or_create(name=guild)
+            player_guild = None
+            if player["guild"] is not None:
+                guild_name = player["guild"]["name"]
+                guild_description = player["guild"]["description"]
+                player_guild, created = Guild.objects.get_or_create(
+                    name=guild_name,
+                    defaults={"description": guild_description}
+                )
 
-
-
-
-
-# "arthur": {
-#     "email": "arthur@gmail.com",
-#     "bio": "Arthur, elf mag",
-#     "race": {
-#       "name": "elf",
-#       "description": "The magic race",
-#       "skills": [
-#         {
-#           "name": "Teleportation",
-#           "bonus": "The ability to move so fast they look like they're teleporting. Could be considered to technically be Teleportation."
-#         },
-#         {
-#           "name": "Reality Warping",
-#           "bonus": "The ability to Warp Reality. Make the impossible become possible but can't warp anything containing the structure that holds everything together (Which are many creatures.)"
-#         }
-#       ]
-#     },
-#     "guild": {
-#       "name": "mags",
-#       "description": "A community of the elf mags"
-#     }
-#   },
+            Player.objects.create(
+                nickname=name,
+                email=player["email"],
+                bio=player["bio"],
+                race=player_race,
+                guild=player_guild,
+            )
 
 
 if __name__ == "__main__":
