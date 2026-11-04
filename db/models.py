@@ -1,6 +1,5 @@
-from time import timezone
-
 from django.db import models
+
 
 class Race(models.Model):
     name = models.CharField(max_length=255)
@@ -23,5 +22,9 @@ class Player(models.Model):
     email = models.EmailField(max_length=255, unique=True)
     bio = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, blank=True, null=True)
+    guild = models.ForeignKey(
+        Guild, on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)

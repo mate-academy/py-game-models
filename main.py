@@ -1,7 +1,5 @@
 import json
 
-from pygments.styles import default
-
 import init_django_orm  # noqa: F401
 
 from db.models import Race, Skill, Player, Guild
@@ -20,7 +18,7 @@ def main() -> None:
 
         for skill_data in race_data.get("skills", []):
             Skill.objects.get_or_create(
-                name = skill_data["name"],
+                name=skill_data["name"],
                 defaults={"bonus": skill_data["bonus"], "race": race},
             )
 
@@ -28,7 +26,7 @@ def main() -> None:
         guild_data = data.get("guild")
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
-                name = guild_data["name"],
+                name=guild_data["name"],
                 defaults={"description": guild_data["description"]},
             )
 
