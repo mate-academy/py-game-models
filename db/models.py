@@ -43,6 +43,7 @@ class Player(models.Model):
         Guild,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,  # <--- Додайте ось це
         related_name="players",
     )
     created_at = models.DateTimeField(auto_now_add=True)
