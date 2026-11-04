@@ -20,8 +20,10 @@ Each race has unique skills. Create a model `Skill` for them.
 Each skill has:
 - `name` - a *unique* char field with a maximum length of 255 characters.
 - `bonus` - a char field with a maximum length of 255 characters. 
-This field describes what kind of bonus players can get from it. In other words, this is a description of the bonus.
-- `race` - a foreign key that points to the `Race` model. It shows which race has the corresponding skill.
+This field describes what kind of bonus players can get from it.
+- In other words, this is a description of the bonus.
+- `race` - a foreign key that points to the `Race` model.
+- It shows which race has the corresponding skill.
 **Important Note:** The skill must be deleted when the race is deleted.
 
 #### 3. Guild
@@ -57,7 +59,9 @@ instance for each guild, race and skill, do not copy them.
 
 **Note**: It would be very useful to use the 
 [get_or_create()](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#get-or-create) method here.
-We don't prioritize performance for this task, so querying the database to check whether a row already exists is acceptable.
-There’s no need to use `bulk_create` in this case, as it adds unnecessary complexity to the task.
+We don't prioritize performance for this task, so querying the
+database to check whether a row already exists is acceptable.
+There’s no need to use `bulk_create` in this case, as it adds
+unnecessary complexity to the task.
 
 ### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
