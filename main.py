@@ -13,7 +13,7 @@ def main() -> None:
         race_data = data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
-            defaults={"description": race_data.get("description" or "")},
+            defaults={"description": race_data.get("description", "")},
         )
 
         for skill_data in race_data.get("skills", []):
