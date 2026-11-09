@@ -3,7 +3,10 @@ from django.db import models
 
 class Race(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    description = models.CharField(max_length=255, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Skill(models.Model):
@@ -15,10 +18,16 @@ class Skill(models.Model):
         related_name="skills",
     )
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Guild(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Player(models.Model):
