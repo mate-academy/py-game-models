@@ -34,6 +34,7 @@ class Player(models.Model):
         Guild,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="members",
     )
     created_at = models.DateTimeField(auto_now_add=True)
