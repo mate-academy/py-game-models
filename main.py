@@ -10,7 +10,7 @@ def main() -> None:
 
     for name, player in players.items():
         guild = None
-        if player["guild"] is not None:
+        if player.get("guild"):
             guild, _ = Guild.objects.get_or_create(
                 name=player["guild"]["name"],
                 defaults={
@@ -35,7 +35,7 @@ def main() -> None:
                     }
                 )
 
-        player = Player.objects.get_or_create(
+        player, _ = Player.objects.get_or_create(
             nickname=name,
             defaults={
                 "email": player["email"],
