@@ -31,7 +31,7 @@ def main() -> None:
         )[0]
 
     def create_players() -> None:
-        with open('players.json', 'r', encoding='utf-8') as file:
+        with open("players.json", "r", encoding="utf-8") as file:
             players_data = json.load(file)
 
         for nickname, player_data in players_data.items():
