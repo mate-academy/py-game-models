@@ -9,7 +9,7 @@ class Race(models.Model):
     )
     description = models.TextField(blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -17,11 +17,11 @@ class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(
-        to='db.Race',
+        to="db.Race",
         on_delete=models.CASCADE,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -32,7 +32,7 @@ class Guild(models.Model):
     )
     description = models.TextField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
