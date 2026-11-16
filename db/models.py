@@ -14,3 +14,7 @@ class Skill(models.Model):
         can get from it. In other words, this is a description of the bonus"""
     )
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
+
+class Guild(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(null=True)
