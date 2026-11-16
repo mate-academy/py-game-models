@@ -19,6 +19,7 @@ class Skill(models.Model):
     race = models.ForeignKey(
         to="db.Race",
         on_delete=models.CASCADE,
+        related_name="skills"
     )
 
     def __str__(self) -> str:
@@ -53,17 +54,19 @@ class Player(models.Model):
     race = models.ForeignKey(
         to="db.Race",
         on_delete=models.CASCADE,
+        related_name="players"
     )
 
     guild = models.ForeignKey(
         to="db.Guild",
         on_delete=models.SET_NULL,
         null=True,
-    )
-
-    skills = models.ManyToManyField(
-        to="db.Skill",
         related_name="players"
     )
 
+    skills = models.ManyToManyField(
+        "db.Skill",
+        related_name="players"
+
+    )
     created_at = models.DateTimeField(default=timezone.now)
