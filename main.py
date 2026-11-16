@@ -43,7 +43,7 @@ def main() -> None:
             guild = None
             skills_data = player_data["race"]["skills"]
 
-            if player_data["guild"] is not None:
+            if player_data.get("guild") is not None:
                 guild = get_or_create_by_name_with_description(
                     player_data, Guild, "guild", "description"
                 )
@@ -52,7 +52,7 @@ def main() -> None:
                 for skill in skills_data:
                     get_or_create_skill_with_bonus_and_race(skill, race)
 
-            Player.get_or_create(
+            Player.objects.get_or_create(
                 nickname=nickname,
                 defaults={
                     "email": email,
