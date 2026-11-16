@@ -4,7 +4,16 @@ from db.models import Race, Skill, Player, Guild
 
 
 def main() -> None:
-    def create_guild():
+    def get_or_create_by_name_with_description(
+        class_searched: type[Guild] | type [Race],
+         attr_name: str
+    ) -> Guild | Race:
+        class_searched.objects.get_or_create(
+                name=player_data[attr_name]["name"],
+                defaults={
+                    "description": player_data[attr_name]["description"]
+                }
+            )[0]
 
 
     def create_players():
@@ -14,20 +23,11 @@ def main() -> None:
         for nickname, player_data in players_data.items():
             email = player_data["email"]
             bio = player_data["bio"]
-            race_data = player_data["race"]
-            guild_data = player_data["guild"]
-        
-        if guild_data is None:
+            race = get_or_create_by_name_with_description(Race, "race")
             guild = None
-        else:
-            guild = Guild.objects.get_or_create(
-                name=player_data["guild"]["name"],
-                defaults={
-                    "description": player_data["guild"]["description"]
-                }
-            )[0]
 
-        
+            if player_data["guild"] is not None:
+                guild = get_or_create_by_name_with_description(Guild, "guild")
 
 
 
