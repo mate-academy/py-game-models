@@ -13,8 +13,7 @@ def get_race(race_data: dict) -> Race:
     for skill in race_data.get("skills", []):
         Skill.objects.get_or_create(
             name=skill["name"],
-            race=race,
-            defaults={"bonus": skill["bonus"]},
+            defaults={"bonus": skill["bonus"], "race": race},
         )
     return race
 
