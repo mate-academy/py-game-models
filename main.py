@@ -30,7 +30,7 @@ def main() -> None:
             }
         )[0]
 
-    def create_players():
+    def create_players() -> None:
         with open('players.json', 'r', encoding='utf-8') as file:
             players_data = json.load(file)
 
