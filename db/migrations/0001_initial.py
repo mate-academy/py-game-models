@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("name", models.CharField(max_length=255, unique=True)),
-                ("description", models.CharField(blank=True)),
+                ("description", models.TextField(blank=True)),
             ],
         ),
         migrations.CreateModel(
